@@ -11,6 +11,13 @@ try{
  okBackup('Isolated restore validates jobs data',Backups::isolatedRestoreDrill($root)===['jobs.json']);
  file_put_contents($root.'/jobs.json','{"jobs":[{"id":"new"}]}');
  okBackup('Live data untouched by drill',(string)file_get_contents($root.'/jobs.json')==='{"jobs":[{"id":"new"}]}');
+ file_put_contents($root.'/report_rate.json','{"hour":"2026112300","total":1,"per_client":{}}');
+ file_put_contents($root.'/analytics_daily.json','{"2026-11-23":{"page_home":1}}');
+ $extra=Backups::create($root);
+ okBackup('Private moderation and analytics state included in file snapshots',
+    count(array_filter($extra,static fn($m)=>in_array($m['source'],['report_rate.json','analytics_daily.json'],true)))===2);
+ okBackup('Isolated recovery verifies newly added private state',
+    count(array_intersect(['report_rate.json','analytics_daily.json'],Backups::isolatedRestoreDrill($root)))===2);
  Backups::create($root);Backups::create($root);
  okBackup('Only two most recent restore points retained',count(glob($root.'/backups/jobs.json.*.bak'))===2);
  $latest=glob($root.'/backups/jobs.json.*.bak');rsort($latest);file_put_contents($latest[0],'tampered backup');
