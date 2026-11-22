@@ -1,6 +1,8 @@
-# OverseasJob.in — Code Development v0.8.0
+# OverseasJob.in — Code Development v0.9.1 (provider compatibility patch)
 
-**State: working local application and future-gated contract foundation; NOT deployed, NOT public-launch ready.**  
+**State: working local application and future-gated contract foundation; NOT deployed, NOT public-launch ready.**
+
+**v0.9.1 provider compatibility patch (fresh CI pending):** Himalayas browse now uses official opaque `nextCursor` instead of deprecated offset; a capped or incomplete traversal preserves last healthy cache; JSON `pubDate` maps to source-updated time, never an invented original publication date. See `docs/PROVIDER_CURSOR_AND_DATE_CORRECTION_v091.md`. Himalayas remains disabled by default; no actual live listing is claimed.  
 **Canonical product Source of Truth:** `SOURCE_OF_TRUTH_REFERENCE/OverseasJob_v1.3.3_Source_of_Truth_Project_Pack.zip` (unchanged business requirements).
 
 **Verified CI evidence (23 Nov 2026):** [GitHub Actions run 45069896338](https://github.com/mohdazizshaikh/overseasjob/actions/runs/45069896338) passed both the deterministic regression job (610 local checks) and an isolated **MySQL 8** integration job (37 assertions). The MySQL run used a disposable `oj_test` container and injected test-only email delivery; real Hostinger, real inbox delivery and public launch have NOT been verified.
