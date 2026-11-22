@@ -1,0 +1,432 @@
+PASS Jobicy fixture maps stable source ID
+PASS Jobicy source and apply URL preserved
+PASS Jobicy Anywhere not claimed as India-eligible
+PASS US-only not India eligible
+PASS Unknown visa sponsorship
+PASS No imported JobPosting schema
+PASS No external resyndication
+PASS Salary shown with original units and no invented net pay
+PASS Salary omitted when currency is missing
+PASS Jobicy pubDate mapped source published
+PASS Worldwide + all timezones confirmed IN
+PASS Himalayas raw geographic restrictions retained as evidence
+PASS Himalayas raw time restrictions retained as evidence
+PASS Himalayas non-provider apply host rejected
+PASS Himalayas applyLink preserved
+PASS Himalayas pubDate follows current official publication-date docs
+PASS Himalayas US-only not eligible
+PASS Himalayas timezone mismatch not eligible
+PASS Himalayas missing restrictions unknown
+PASS Invalid timezone offset stays unknown
+PASS Current upstream string[] location restrictions support India
+PASS Current upstream numeric timezone excludes India
+PASS Himalayas country full name India recognized
+PASS Himalayas full name US excluded
+PASS Himalayas mixed country names and codes
+PASS Himalayas name-only object accepted
+PASS Himalayas conflicting code/name unknown
+PASS Himalayas fabricated country unknown not restricted
+PASS ISO country unknown code rejected
+PASS ISO country alias resolves India
+PASS Unknown remote India eligibility not fully confirmed
+PASS India UTC+05:30 allowed
+PASS Himalayas documented offset next page 20
+PASS Himalayas documented final page stops
+PASS Himalayas short final page stops
+PASS Himalayas same jobs at changed offset share a repeated-page signature
+PASS Himalayas different jobs yield different page signatures
+PASS Himalayas offset mismatch fails closed
+PASS Himalayas suspicious premature short page fails closed
+PASS Unsafe JS URL rejected
+PASS HTTP URL rejected
+PASS IP target URL rejected
+PASS Wrong Jobicy source host rejected
+PASS Fresh active visible
+PASS Closed hidden
+PASS Stale after 72h hidden
+PASS Expired job hidden
+PASS IN confirmed filter excludes unknown and US-only
+PASS Onsite abroad not faked by remote jobs
+PASS Fixture jobicy import exits successfully
+PASS Imported two fixture jobs only in isolated temp
+PASS Idempotent re-import: two jobs
+PASS First seen preserved
+PASS Zero-job sync fails safely
+PASS Last healthy fixture cache preserved on bad sync
+PASS Fixture import never populates public job cache
+
+56 PHP checks passed.
+PASS Exactly five substantive guide drafts
+PASS Guide remote-worldwide-vs-us-only has source and draft status
+PASS Guide remote-worldwide-vs-us-only contains substantive original narrative
+PASS Guide compare-overseas-job-offers has source and draft status
+PASS Guide compare-overseas-job-offers contains substantive original narrative
+PASS Guide recognise-overseas-job-scams has source and draft status
+PASS Guide recognise-overseas-job-scams contains substantive original narrative
+PASS Guide uae-relocation-budget has source and draft status
+PASS Guide uae-relocation-budget contains substantive original narrative
+PASS Guide germany-career-research has source and draft status
+PASS Guide germany-career-research contains substantive original narrative
+PASS Test job initially visible in isolated storage
+PASS A report ID and one pending item created
+PASS Manual decision quarantines job immediately
+PASS Quarantine is stored outside provider cache
+PASS Provider data update cannot resurrect quarantine
+PASS Cannot silently re-decide already reviewed report
+PASS Explicit reopen restores job after reason recorded
+PASS Audit trace records both state transitions
+PASS Corrupt quarantine hides all rather than ignoring holds
+PASS Invalid report category rejected
+
+21 operational and guide checks passed.
+PASS Backup snapshot created
+PASS Hash evidence recorded
+PASS Isolated restore validates jobs data
+PASS Live data untouched by drill
+PASS Only two most recent restore points retained
+PASS Backup tampering causes restore failure
+
+6 backup and restore checks passed.
+PASS private sibling bootstraps T04 route
+PASS unverified release wrapper still noindex
+PASS no private source/data files copied into webroot
+
+3 shared-host layout checks passed (simulated local filesystem only).
+PASS Anonymous events allowlisted
+PASS Unknown analytics event rejected
+PASS Structured tracker payload refused
+PASS Missing analytics record starts empty
+PASS First anonymous counter succeeds
+PASS Repeated requests aggregate only
+PASS Event categories independent
+PASS No IP or agent stored
+PASS Only date+event object stored
+PASS Private analytics file permissions
+PASS Analytics rejects personal event name
+PASS Analytics rejects malformed day
+PASS Analytics rejects invalid month
+PASS Analytics rejects malformed row storage
+PASS A later day has its own counter
+PASS No cookies or personal identifiers in analytics JSON
+
+16 anonymous metrics PHP checks passed.
+PASS Owner panel only with explicit configuration
+PASS Owner password hash verifies correct secret
+PASS Owner password mismatch denied
+PASS Owner rejects overlong submitted secret
+PASS Owner requests HTTPS
+PASS Owner denies unencrypted HTTP
+PASS Owner refuses spoofed forwarded-proto without TLS
+PASS Owner anonymous session not privileged
+PASS Owner session with valid expiry privileged
+PASS Owner expired session denied
+PASS Owner failure hash has no raw IP
+PASS Owner initial auth attempt allowed
+PASS Owner 5 failed attempts lock requester
+PASS Owner different address independent
+PASS Owner blocked IP recovered after window
+PASS Owner rate file chmod private
+PASS Owner rate file lacks raw client IP
+PASS Owner global feature switch disables panel
+PASS Owner missing adequate rate secret fails closed
+
+19 M10 owner security checks passed.
+PASS Approved employer identity required
+PASS New owned job always pending review
+PASS Direct posting origin is not third-party source
+PASS Owned job has server-controlled org ID
+PASS Server consent includes terms version and time
+PASS No redistribution by default
+PASS No sponsorship inferred
+PASS No hiring country inferred for remote job
+PASS Unverified org blocked
+PASS Suspended org blocked
+PASS Unverified email blocked
+PASS Self-approval field blocked
+PASS Self-assign tenant blocked
+PASS Self-publish blocked
+PASS Publication consent cannot be false
+PASS Host outside employer domain rejected
+PASS Host suffix impersonation rejected
+PASS Unsafe HTTP link rejected
+PASS Onsite requires physical country
+PASS Hybrid requires physical country
+PASS Onsite with ISO country accepted
+PASS Invalid country not accepted
+PASS Unknown applicant countries not treated as worldwide
+PASS Duplicate country codes rejected
+PASS Invalid eligibility country rejected
+PASS Premature expiry rejected
+PASS Long-lived vacancy renewal blocked
+PASS Salary minimum greater than maximum rejected
+PASS Salary requires disclosed currency/period
+PASS String sponsorship enum not boolean
+PASS Payment or passport field mass assignment blocked
+PASS Candidate personal documents not in record
+PASS Wrong tenant cannot modify job
+PASS Provider imports cannot be queried as owned jobs
+PASS Read-side rejects unapproved org
+PASS Material editing returns to review
+PASS Material editing increments revision
+PASS Stale If-Match rejected
+PASS Patch cannot edit publication status
+PASS Patch cannot edit external_id
+PASS PATCH validates rebuilt on-site job
+PASS API idempotency key length validated
+PASS API rejects short idempotency key
+PASS Opaque token has >=256 bits entropy
+PASS Token hash is keyed and not clear token
+PASS Token fingerprint deterministic
+PASS Token fingerprint rejects short server secret
+
+47 M12/M13/M14 gated domain contract checks passed.
+PASS HTTPS enforced
+PASS Unknown route never enumerates service
+PASS No anonymous API access
+PASS Wrong bearer rejected
+PASS Unexpected token format rejected
+PASS Unapproved org cannot use valid token
+PASS Missing write scope rejected
+PASS Payload size cap
+PASS Content type check
+PASS Reject malformed JSON
+PASS Reject empty body
+PASS Invalid idempotency key
+PASS Reject unverified arbitrary apply URL
+PASS Reject mass-assigned publish status
+PASS Create returns 201 pending_review
+PASS No public URL on unreviewed job
+PASS Unreviewed job lacks fake certification
+PASS Job revision ETag
+PASS Idempotency replay responds 200
+PASS Canonical hash ignores JSON object field ordering
+PASS Same idempotency key different body conflicts
+PASS New key cannot reuse external_id
+PASS GET own listing
+PASS List only own direct jobs
+PASS Exact external ID search
+PASS Unknown external ID returns empty
+PASS Unknown job returns 404
+PASS Malformed list cursor denied
+PASS Malformed limit denied
+PASS Unexpected filter denied
+PASS Cross-tenant GET stays 404
+PASS Cross-tenant list returns no jobs
+PASS Cross-tenant PATCH stays 404
+PASS Cross-tenant CLOSE stays 404
+PASS PATCH requires If-Match
+PASS PATCH rejects protected fields
+PASS PATCH stays pending review
+PASS PATCH increments revision
+PASS Old revision rejected
+PASS Usage counters do not reveal tenant data
+PASS Close works without JSON body
+PASS Close is idempotent
+PASS Closed job cannot be edited
+PASS Revoked token rejected
+PASS Expired token rejected
+PASS Rate limit returns 429
+PASS Invalid crypto secret fails closed
+PASS Public fields whitelist prevents internal leak
+PASS MySQL DDL tenant ownership
+PASS MySQL DDL hashed-only token
+PASS MySQL DDL supports transactional idempotency
+PASS No public token issuance route
+PASS Public API feature remains OFF by default
+
+53 partner API / tenant / security checks passed (in-memory contract; MySQL staging unverified).
+PASS T01 gross 120000 less 10% + 50000 expenses gives 58000
+PASS T01 53.7037% savings rate
+PASS T01 negative savings allowed
+PASS T01 net deductions rejected
+PASS T01 annual salary normalised monthly
+PASS T01 first-year after move deducted once
+PASS T01 NaN rejected
+PASS T02 example A and B
+PASS T02 conditional bonus excluded
+PASS T02 currency mismatch without FX cannot rank
+PASS T02 currency mismatch with user FX converted
+PASS T05 winter London vs India
+PASS T05 summer London DST
+PASS T05 overlap from India to UK has slots
+PASS T05 no overlap reveals empty results
+PASS T05 invalid timezone rejected
+
+16 JavaScript checks passed.
+PASS Canonical tracker statuses
+PASS Valid manual record normalises
+PASS HTTPS URLs allowed
+PASS JS URLs rejected
+PASS HTTP URLs rejected
+PASS IP destinations rejected
+PASS Invalid status rejected
+PASS Missing company rejected
+PASS Invalid Feb 30 date rejected
+PASS Malformed JSON rejected
+PASS JSON export/import lossless
+PASS Invalid JSON schema rejected
+PASS Duplicate record IDs rejected
+PASS Records limit enforced
+PASS Stored tracker read/write roundtrip
+PASS CSV handles quotes/commas/newlines
+PASS CSV formula injection escaped
+PASS CSV own export can reimport safely
+PASS Malformed CSV header rejected
+PASS ICS is a valid all-day event, not email
+PASS ICS without date refused
+PASS Save from source is manual and idempotent
+PASS CSV malicious formula exports inert
+PASS JSON import rejects non-HTTPS source
+
+24 Application Tracker JavaScript checks passed.
+PASS T04 deterministic 60k one-time + 120k reserve + 18k contingency
+PASS T04 zero values are valid
+PASS T04 negative flight rejected
+PASS T04 NaN rejected
+PASS T04 invalid reserve months rejected
+PASS T04 contingency over 100 percent rejected
+PASS T04 reserve not double counted
+PASS T04 private export carries user-input note
+PASS T04 currency validation
+PASS T03 validates basic resume
+PASS T03 no auto invented experience
+PASS T03 experience first in chronological template
+PASS T03 skills before experience in skills-based template
+PASS T03 fresher projects before work experience
+PASS T03 required name rejected
+PASS T03 invalid email rejected
+PASS T03 removes scripts from executable HTML
+PASS T03 safe evidence URL only
+PASS T03 HTML is standalone with print stylesheet, no ads
+PASS T03 cover letter requires evidence paragraphs
+PASS T03 cover letter from entered evidence only
+PASS T03 HTML escaping covers entities and quotes
+
+22 new career-tool checks passed.
+PASS Gate2 Interview roles all populated
+PASS Gate2 T07 it_support question bank
+PASS Gate2 T07 customer_support question bank
+PASS Gate2 T07 administration question bank
+PASS Gate2 T07 unique question ids
+PASS Gate2 T07 unknown role rejected
+PASS Gate2 T07 invalid question bank rejected
+PASS Gate2 T07 duplicate same-role question rejected
+PASS Gate2 T07 self review counts correctly
+PASS Gate2 T07 review requires exact boolean answers
+PASS Gate2 T07 rubric contains no employer scoring claim
+PASS Gate2 T08 generic checklist parses
+PASS Gate2 T08 official resource URLs HTTPS
+PASS Gate2 T08 generic only; no mandatory visa claim
+PASS Gate2 T08 expired review flags update required
+PASS Gate2 T08 review current until due
+PASS Gate2 T08 checklist import succeeds
+PASS Gate2 T08 duplicate ids merged
+PASS Gate2 T08 unknown country rejected
+PASS Gate2 T08 cross-country import rejected
+PASS Gate2 T08 invalid import extra item rejected
+PASS Gate2 T08 unsupported import version rejected
+PASS Gate2 T08 country-specific local storage keys never collide
+PASS Gate2 T08 invalid storage key rejected
+PASS Gate2 T08 no passport upload fields
+PASS Gate2 T09 generator creates standalone HTML
+PASS Gate2 T09 markup escape script injection
+PASS Gate2 T09 HTML attributes escape quotes
+PASS Gate2 T09 javascript URL rejected
+PASS Gate2 T09 HTTP URL rejected
+PASS Gate2 T09 embedded credentials rejected
+PASS Gate2 T09 localhost URL rejected
+PASS Gate2 T09 empty project rejected
+PASS Gate2 T09 more than 10 projects rejected
+PASS Gate2 T09 exactly 10 projects accepted
+PASS Gate2 T09 no remote JS or images
+PASS Gate2 T09 exported links safe and noreferrer
+PASS Gate2 T09 self-reported work clearly disclosed
+PASS Gate2 T10 3 curated tracks available
+PASS Gate2 T10 it_support generated milestones
+PASS Gate2 T10 customer_support generated milestones
+PASS Gate2 T10 junior_web_dev generated milestones
+PASS Gate2 T10 3 hours/week =12 hours each 4 week block
+PASS Gate2 T10 1 hour/week accepted
+PASS Gate2 T10 40 hours/week accepted
+PASS Gate2 T10 0 hours/week rejected
+PASS Gate2 T10 41 hours/week rejected
+PASS Gate2 T10 decimal hours rejected
+PASS Gate2 T10 arbitrary role rejected
+PASS Gate2 T10 free official-resource HTTPS
+PASS Gate2 T10 editable notes carried over
+PASS Gate2 T10 script input in custom note not executed/HTML generated
+PASS Gate2 T10 roadmap has evidence deliverables
+PASS Gate2 Shared HTML escape handles all 5 special chars
+PASS Gate2 Shared HTTPS URL only
+
+55 new Gate 2 deterministic checks passed.
+PASS Daily has all three independent career tracks
+PASS Daily original bank has >=7 per track
+PASS Daily bank has unique mission IDs
+PASS Daily date valid
+PASS Daily rejects impossible calendar dates
+PASS Daily accepts leap February date
+PASS Daily rejects non-leap February date
+PASS Daily uses UTC not browser locale
+PASS Daily deterministic for same date and role
+PASS Daily rotates for consecutive dates
+PASS Daily never silently infers other track question
+PASS Daily requires known track
+PASS Daily requires valid date
+PASS Daily errors on empty role bank
+PASS Daily refuses duplicate mission IDs
+PASS Daily initial streak zero
+PASS Daily completion records precise chosen mission
+PASS Daily today completion creates streak one
+PASS Daily same day completion idempotent
+PASS Daily adjacent days produce streak two
+PASS Daily yesterday completion keeps streak visible today
+PASS Daily missed day breaks streak
+PASS Daily streak excludes future completions
+PASS Daily track streaks independent
+PASS Daily rejects unsupported import schema
+PASS Daily rejects invalid enum in backup
+PASS Daily rejects duplicate history days
+PASS Daily reject oversized history
+PASS Daily refuses mismatched role completion
+PASS Radar default privacy-safe profile
+PASS Radar no fabricated eligibility override
+PASS Radar role filter accepts case-insensitive title
+PASS Radar remote_other filters confirmed India roles
+PASS Radar on-site does not relabel remote jobs
+PASS Radar first observation is new-to-you only
+PASS Radar records observed listing version
+PASS Radar unchanged version is recognised
+PASS Radar changed content version distinguished
+PASS Radar legacy seen without version is not called new
+PASS Radar import v1 retained without version guessing
+PASS Radar backup v2 round trip
+PASS Radar imported unsupported schema rejected
+PASS Radar malicious saved ID rejected
+PASS Radar malicious version map rejected
+PASS Radar external link in embedded job rejected
+PASS Radar unsupported country eligibility rejected
+PASS Radar overly large feed rejected
+PASS Radar multiple jobs retains observed IDs
+PASS Privacy default requires explicit yes
+PASS Privacy opt-in permits events in absence of signals
+PASS Privacy GPC overrides opt-in
+PASS Privacy DNT overrides opt-in
+PASS Privacy only fixed event enums
+PASS Privacy home event categorised without URL
+PASS Privacy tools are one aggregate type
+PASS Privacy job details are one aggregate type
+PASS Privacy personal profile not counted
+PASS Privacy explicit preference read
+PASS Privacy delete all only project-prefixed keys
+PASS Privacy delete all protects other site data
+PASS Privacy after deletion returns opt-out
+
+61 M07/M08/M09/M15 deterministic JS checks passed.
+PASS 39 HTTP smoke/preview safety checks
+PASS 23 staging PREVIEW HTTP/security probes
+Note: this tests HTTP response safety only; browser E2E, Hostinger plan, real feeds, copyright/licence, DB backup encryption and production release remain unverified.
+PASS 30 v0.6.0 HTTP, privacy and feature-gate checks
+PASS 16 partner pilot HTTP safe-default checks
+PASS local Gate0 environment preflight truth check
+PASS observed coverage metadata (no fabricated days)

@@ -1,6 +1,6 @@
 {
   "spec_version": "v1.3.3",
-  "release": "gate1+gate2+gate3-local-v0.6.0",
+  "release": "gate1+gate2+gate3-local-v0.7.0-gated-partner-api",
   "development_state": "LOCAL_PREVIEW_NOT_DEPLOYED_NOT_LAUNCH_READY",
   "evidence": [
     "tests/php_tests.php",
@@ -41,7 +41,16 @@
     "content/daily_missions.json",
     ".github/workflows/ci.yml",
     "docs/GATE3_AND_FUTURE_CONTRACTS_v060.md",
-    "docs/LOCAL_TEST_OUTPUT_2026-11-23_v060.txt"
+    "docs/LOCAL_TEST_OUTPUT_2026-11-23_v060.txt",
+    "src/PartnerApi.php",
+    "src/PartnerMysqlStore.php",
+    "src/PartnerTokenAdmin.php",
+    "database/001_partner_pilot.mysql.sql",
+    "scripts/partner_tokens.php",
+    "scripts/partner_preflight.php",
+    "tests/partner_api_tests.php",
+    "tests/http_partner_pilot_smoke.sh",
+    "docs/PARTNER_PILOT_STAGING_v070.md"
   ],
   "modules": [
     {
@@ -203,10 +212,15 @@
     },
     {
       "module_id": "M12",
-      "implementation_status": "specified",
-      "blocker_reason": "Validated employer trust-state and domain-scoped posting foundation only; NO registration, email/domain proof, database or human auth service.",
+      "implementation_status": "blocked_with_reason",
+      "blocker_reason": "v0.7.0 adds gated MySQL/inbound API code and deterministic tenant/security tests. True employer email/domain verification, approved recruiter onboarding, MySQL staging integration, owner publication review, public direct-job rendering and deployed production security are NOT implemented or independently tested.",
       "implemented_subset": [
-        "Gated offline domain validation foundation: src/EmployerContracts.php"
+        "Gated offline domain validation foundation: src/EmployerContracts.php",
+        "Partner API interface and disabled HTTP routing",
+        "MySQL-specific pilot adapter and isolated unrun staging migration",
+        "tenant-scoped idempotent create/read/list/edit/close domain implementation",
+        "hashed token lookup, CLI-only gated issuance/revocation",
+        "pending-review-only creates and rate limit"
       ],
       "tests": [
         "47 future employer/partner domain contract tests"
@@ -214,10 +228,15 @@
     },
     {
       "module_id": "M13",
-      "implementation_status": "specified",
-      "blocker_reason": "Validated employer job-create/PATCH data contract with always-pending-review and tenant-scoping; NO persistence, dashboard or live public direct jobs.",
+      "implementation_status": "blocked_with_reason",
+      "blocker_reason": "v0.7.0 adds gated MySQL/inbound API code and deterministic tenant/security tests. True employer email/domain verification, approved recruiter onboarding, MySQL staging integration, owner publication review, public direct-job rendering and deployed production security are NOT implemented or independently tested.",
       "implemented_subset": [
-        "Gated offline domain validation foundation: src/EmployerContracts.php"
+        "Gated offline domain validation foundation: src/EmployerContracts.php",
+        "Partner API interface and disabled HTTP routing",
+        "MySQL-specific pilot adapter and isolated unrun staging migration",
+        "tenant-scoped idempotent create/read/list/edit/close domain implementation",
+        "hashed token lookup, CLI-only gated issuance/revocation",
+        "pending-review-only creates and rate limit"
       ],
       "tests": [
         "47 future employer/partner domain contract tests"
@@ -225,10 +244,15 @@
     },
     {
       "module_id": "M14",
-      "implementation_status": "specified",
-      "blocker_reason": "Validated future partner idempotency key and opaque token fingerprint routines; NO API endpoint, token issuance lifecycle, quotas or MySQL tenancy integration.",
+      "implementation_status": "blocked_with_reason",
+      "blocker_reason": "v0.7.0 adds gated MySQL/inbound API code and deterministic tenant/security tests. True employer email/domain verification, approved recruiter onboarding, MySQL staging integration, owner publication review, public direct-job rendering and deployed production security are NOT implemented or independently tested.",
       "implemented_subset": [
-        "Gated offline domain validation foundation: src/EmployerContracts.php"
+        "Gated offline domain validation foundation: src/EmployerContracts.php",
+        "Partner API interface and disabled HTTP routing",
+        "MySQL-specific pilot adapter and isolated unrun staging migration",
+        "tenant-scoped idempotent create/read/list/edit/close domain implementation",
+        "hashed token lookup, CLI-only gated issuance/revocation",
+        "pending-review-only creates and rate limit"
       ],
       "tests": [
         "47 future employer/partner domain contract tests"
@@ -266,5 +290,8 @@
   "browser_e2e_status": "BLOCKED: Chromium localhost administrator policy; E2E authored but not executed",
   "live_feed_verified": false,
   "hostinger_verified": false,
-  "public_launch_ready": false
+  "public_launch_ready": false,
+  "local_automated_checks": 509,
+  "hosting_db_integration_tested": false,
+  "partner_api_deployed": false
 }

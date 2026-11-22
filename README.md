@@ -30,3 +30,9 @@ All new code runs without paid AI or additional subscriptions. The deterministic
 **Unresolved external gates:** live Hostinger PHP/SSL/cron/database/storage/backup verification, licensed live Jobicy/Himalayas APIs and 14-day coverage, five reviewed original guides, independent privacy/legal review, human recruiter verification and operational moderation, real browser/accessibility/print/mobile tests, and staged disaster recovery. Public launch stays blocked.
 
 See `START_HERE_FOUNDER.md`, `docs/GATE3_AND_FUTURE_CONTRACTS_v060.md`, `module_status.json`, `deploy/shared_host/DEPLOY_STAGING_README.md` and the bundled v1.3.3 authority register.
+
+## v0.7.0 — inbound partner pilot implementation (GATED)
+
+The invite-only API application layer, isolated MySQL pilot repository and schema, token issuance/revocation CLI, strict scopes and ownership, idempotency, optimistic revisions, rate limits and pending-review lifecycle have been implemented **without enabling the public API**. This is *not* a finished employer onboarding/dashboard or a production-tested database feature.
+
+Run `php tests/partner_api_tests.php`, `sh tests/http_partner_pilot_smoke.sh`, `php scripts/partner_preflight.php` (expected `pilot_http_configured: false`, exit 2). See `docs/PARTNER_PILOT_STAGING_v070.md` for real hosting blockers. Existing career tools and third-party provider jobs are unchanged. The canonical v1.3.3 specifications are unchanged.

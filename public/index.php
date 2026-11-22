@@ -13,6 +13,7 @@ require OJ_PROJECT_ROOT.'/src/Reports.php';
 require OJ_PROJECT_ROOT.'/src/Launch.php';
 require OJ_PROJECT_ROOT.'/src/Analytics.php';
 require OJ_PROJECT_ROOT.'/src/OwnerAuth.php';
+require OJ_PROJECT_ROOT.'/src/PartnerMysqlStore.php';
 header('X-Content-Type-Options: nosniff');
 header('Referrer-Policy: strict-origin-when-cross-origin');
 header('X-Frame-Options: DENY');
@@ -70,6 +71,23 @@ $jobs=Jobs::listPublic($root.'/storage/jobs.json');
 $config=json_decode((string)file_get_contents($root.'/config/provider_policy.json'),true)?:[];
 $jobs=array_values(array_filter($jobs,static fn($j)=>($config[$j['provider']]['enabled']??false)===true));
 
+if($path==='/api/v1/partner'||str_starts_with($path,'/api/v1/partner/')){
+    header('Cache-Control: private, no-store');header('X-Robots-Tag: noindex, nofollow');
+    if(!PartnerApi::gateReady()){http_response_code(404);header('Content-Type: application/json');echo '{"error":{"code":"disabled","message":"Partner programme not enabled"}}';exit;}
+    try{
+        $headers=[];
+        foreach(getallheaders() ?: [] as $k=>$v)if(is_string($v))$headers[strtolower($k)]=$v;
+        // Avoid unlimited upload memory; cap at the documented 32 KiB request maximum.
+        $raw=file_get_contents('php://input',false,null,0,PartnerApi::MAX_JSON_BYTES+1);
+        $store=PartnerMysqlStore::fromEnvironment();
+        $result=PartnerApi::dispatch($_SERVER['REQUEST_METHOD']??'GET',$path,$headers,(string)$raw,$_GET,$_SERVER,
+            $store,time(),(string)getenv('PARTNER_TOKEN_HMAC_SECRET'),(string)getenv('PARTNER_TERMS_VERSION'));
+        http_response_code($result['status']);
+        foreach($result['headers'] as $key=>$value)header($key.': '.$value);
+        echo json_encode($result['body'],JSON_THROW_ON_ERROR|JSON_UNESCAPED_SLASHES);
+    }catch(Throwable){http_response_code(503);header('Content-Type: application/json');echo '{"error":{"code":"unavailable","message":"Partner service unavailable"}}';}
+    exit;
+}
 if($path==='/owner'){
   header('Cache-Control: no-store, private');header('X-Robots-Tag: noindex, nofollow');
   if(!OwnerAuth::configured()||!OwnerAuth::secureRequest($_SERVER)){

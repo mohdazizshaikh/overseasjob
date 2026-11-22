@@ -1,30 +1,27 @@
-# OverseasJob.in — Founder Status (23 November 2026, v0.6.0)
+# OverseasJob.in v0.7.0 — Founder Status (23 Nov 2026)
 
-## What is actually working?
+**Code added to the working GitHub project, not a launched recruitment business.** The 10 career tools, Career Radar and Daily Career Mission remain locally implemented from v0.6.0.
 
-The project has runnable **PHP and JavaScript website code**, with all ten free career utilities (T01–T10), honest job source/eligibility logic, and a protected empty listing view until live licensed sources are connected. Recent development added a version-aware Career Radar, a 21-question Daily Career Mission, user-controlled privacy settings, anonymous-counting infrastructure (turned off), an owner-only moderation panel (turned off), and tested future employer/API validation rules (NOT a live API).
+### What's new
 
-## What has been tested?
+A genuine code foundation for **invite-only employer/partner posting**: a structured REST endpoint, permission checks so each company sees only its own jobs, private hashed API keys, duplicate-request protection, update/close with revision checks, abuse throttling, and a MySQL staging migration. A new submission is ALWAYS sent to `pending_review`; the partner cannot make it live by itself. Admin token issuance is CLI-only and disabled unless the organisation has independent identity/email/domain approval.
 
-**440 local checks passed**: existing 267 checks + 61 additional daily/Radar/privacy JS + 16 PHP anonymous metrics + 19 owner authentication + 47 employer/partner validation + 30 new HTTP/feature-flag probes. Canonical v1.3.3 specification validation: **71/71 passed**. CI configuration was authored for GitHub, but its remote execution must be verified separately.
+### What has been tested
 
-These are **code/unit/HTTP checks**, not evidence of live job inventory, employer verification, security certification, actual browser interactions, Hostinger deployment, privacy-law compliance or real income.
+- **509 local checks** (440 previous + 53 new partner security/domain + 16 HTTP feature-gate checks) on this code tree. Full `sh tests/run.sh` passed in the local PHP/Node runtime.
+- The proposed API remains disabled (`PARTNER_POSTING_API_ENABLED=0`); no employer or candidate accounts or personal files were created.
+- This environment has **no installed MySQL PDO driver**. **The actual MySQL migration, SQL queries, transactions, API HTTP when enabled, token issuance against real employer records and production hosting remain UNTESTED.** These need independent staging evidence.
+- External live job-source API availability, full-browser E2E and Hostinger deployment remain pending. Public release gate stays `ready:false`.
 
-## Important things NOT complete
+### Still incomplete
 
-- **No authorised real job-feed sample or 14-day job coverage evidence.** The published jobs cache is intentionally empty.
-- **No Hostinger staging or production deployment**, verified SSL, real cron, MySQL migration, restore/rollback rehearsal or server logging review.
-- **No successful Chromium browser end-to-end run** due to sandbox administrator restriction. A scripted browser acceptance suite exists for a staging environment.
-- **Five original guide drafts and mission content still need human editorial/legal review** before public indexing; no visa/tax/employer claims are approved.
-- **Recruiter registration, email/domain verification, employer database/dashboard, partner API and AdSense are NOT operating.** Future-domain validation code is only a safe foundation.
-- **Owner panel defaults disabled** until a verified HTTPS host and securely managed owner credentials are available.
+Actual verified employer onboarding, email/domain verification, real applicant-facing direct job publication, reviewer workflow, recruiter web dashboard, deployed MySQL setup, real API integration and security testing, and content/legal signoff. Recruiter and partner API features should **NOT** be enabled or advertised as available.
 
-## Where is the code?
+### Important links
 
-GitHub repository: `https://github.com/mohdazizshaikh/overseasjob` (source pushed separately, not deployed). Project code and tests can also be run from the v0.6.0 ZIP.
+- Canonical specification: `SOURCE_OF_TRUTH_REFERENCE/OverseasJob_v1.3.3_Source_of_Truth_Project_Pack.zip`
+- New staging implementation + blockers: `docs/PARTNER_PILOT_STAGING_v070.md`
+- Run code tests: `sh tests/run.sh`
+- Development repository: https://github.com/mohdazizshaikh/overseasjob
 
-## What needs a verified external environment?
-
-Provision isolated staging on the existing authorised Hostinger plan, import and validate genuine permitted jobs, confirm privacy/HTTPS/secrets/backups, run staged browser tests, and review original guides before considering public release. Do not spend money, infer job supply or bypass trust gates. **No new recurring paid services were added.**
-
-**Current status: LOCAL DEVELOPMENT v0.6.0; public launch blocked.**
+**Recommended continuation:** Stage MySQL safely, build verifiable email/domain onboarding and manual reviewer publication controls, then test end to end on Hostinger staging; do not turn on public posting until gates pass.

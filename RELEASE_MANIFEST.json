@@ -1,20 +1,20 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.6.0",
+  "release": "0.7.0-gated-partner-pilot",
   "source_of_truth": "v1.3.3",
   "release_date": "2026-11-23",
   "deploy_status": "NOT_DEPLOYED",
   "public_launch_ready": false,
-  "local_tests": "440 passed",
-  "canonical_doc_tests": "71 passed",
-  "browser_e2e": "BLOCKED by localhost admin policy; NOT PASS",
+  "local_tests": "509 passed (in-memory partner contracts; real MySQL untested)",
+  "canonical_doc_tests": "71 passed (unchanged v1.3.3 canonical pack)",
+  "browser_e2e": "BLOCKED by localhost administrator policy; NOT PASS",
   "live_sources": "NOT VERIFIED",
-  "ci": "WORKFLOW CONFIGURATION ADDED; REMOTE RUN NOT YET VERIFIED",
+  "ci": "GitHub Actions pending this v0.7.0 push; prior v0.6.0 CI passed",
   "contents": [
     {
       "path": ".env.example",
-      "size_bytes": 473,
-      "sha256": "42cc52c6017a4c1f44f030f6c7fe55ddb71e887af48842cf78d69a1042dbc2d2"
+      "size_bytes": 817,
+      "sha256": "9f6b9e4252805ac7d9c952af06a80a23e3b56ebd203d12a2749cfed4209279e9"
     },
     {
       "path": ".github/workflows/ci.yml",
@@ -23,13 +23,13 @@
     },
     {
       "path": ".gitignore",
-      "size_bytes": 401,
-      "sha256": "eb1f0eddbc412b9846b01877a42ee3564fd5f0f019008f4ebbc919644328ebe4"
+      "size_bytes": 457,
+      "sha256": "364ba20bd1b2c73b4adfce3d4a29a1e8c19fc7daa0312c5398269c0c9ef3a62c"
     },
     {
       "path": "README.md",
-      "size_bytes": 3812,
-      "sha256": "cf6f9de41a738b8176d34c4014cc20f887c3843c761c4e0dee4e5e97719fc76b"
+      "size_bytes": 4600,
+      "sha256": "8c469c1772f7190fea85823dba372e96462c7c2cc5cbdf661192c611a5d4413c"
     },
     {
       "path": "SOURCE_OF_TRUTH_REFERENCE/OverseasJob_v1.3.3_Source_of_Truth_Project_Pack.zip",
@@ -38,8 +38,8 @@
     },
     {
       "path": "START_HERE_FOUNDER.md",
-      "size_bytes": 2800,
-      "sha256": "589d1e5779260212c9f8c18b456ad7cf34e0d3b9f5b1c52bf5a81c42aeac1351"
+      "size_bytes": 2421,
+      "sha256": "bb7774309eb13e610536cc41dc09d7cfa16a5bdf5c800ed2910a7b0c1ac42c16"
     },
     {
       "path": "config/provider_policy.json",
@@ -75,6 +75,11 @@
       "path": "content/roadmap_tracks.json",
       "size_bytes": 5385,
       "sha256": "97cfdab6c57beb4362fe8b9dbf17e1e5d6f9554bd9d9b1ed27fbc5228b84d960"
+    },
+    {
+      "path": "database/001_partner_pilot.mysql.sql",
+      "size_bytes": 3302,
+      "sha256": "df13a5e6adfaba2e40cd8893c8b8163f39882ab634e8831f5e7248a9d6564cfe"
     },
     {
       "path": "deploy/shared_host/DEPLOY_STAGING_README.md",
@@ -117,6 +122,16 @@
       "sha256": "9632885b4f23db824f21e0446ff594a5bab6a7aee18cdc4ad8df517ab5d37b7d"
     },
     {
+      "path": "docs/LOCAL_TEST_OUTPUT_2026-11-23_v070.txt",
+      "size_bytes": 17772,
+      "sha256": "8d29088b53f2b2a7f22a8a53b64b731acf161097e1c1a5c33c1fbcde824909c1"
+    },
+    {
+      "path": "docs/PARTNER_PILOT_STAGING_v070.md",
+      "size_bytes": 6132,
+      "sha256": "d46be48d9111750e4f31b1c88d96115b4bf1e909bd3630cd5257f51f2b3d5e60"
+    },
+    {
       "path": "docs/RC_IMPLEMENTATION_CHANGELOG.md",
       "size_bytes": 2262,
       "sha256": "b6045f56d844efa49d8b01c54fc949a2a829d2a96b50b62803af63e678911af5"
@@ -153,8 +168,8 @@
     },
     {
       "path": "module_status.json",
-      "size_bytes": 10886,
-      "sha256": "660945fa00e39bf775ef6d783b92a8f7657ece0dd4e49ca12a2780e14dd7831d"
+      "size_bytes": 12881,
+      "sha256": "2253c3d4f0239689680e505819b1adb69bbcf8ef3139d02a5ca63498daa2509f"
     },
     {
       "path": "public/.htaccess",
@@ -253,8 +268,8 @@
     },
     {
       "path": "public/index.php",
-      "size_bytes": 69439,
-      "sha256": "8ba85eddf7e18deba8a5ccdef68aa5e244bb5564fb0a0f95f87a9182a5e413a9"
+      "size_bytes": 70813,
+      "sha256": "639f06d4016d2c3196b68326b971c1f548c3d12b7350cff4fe09e57a582f57b9"
     },
     {
       "path": "public/router.php",
@@ -290,6 +305,16 @@
       "path": "scripts/launch_preflight.php",
       "size_bytes": 270,
       "sha256": "43c049f1f846c999cda25703a89f21d4e929f26777b25e293c6cb02d203a8624"
+    },
+    {
+      "path": "scripts/partner_preflight.php",
+      "size_bytes": 1122,
+      "sha256": "30d32d1e90ae19cc3083fe141d03c549858877a89e7d696e7d5c04094582da49"
+    },
+    {
+      "path": "scripts/partner_tokens.php",
+      "size_bytes": 1677,
+      "sha256": "07ebab0a7e837347773db630b084bc8dd3e47216c8c78eaffb56d73ed017a9bc"
     },
     {
       "path": "scripts/restore_drill.php",
@@ -352,6 +377,21 @@
       "sha256": "0c6b45bfb3a7039b02b172176b81cc6a4b26cab7abc5fe816302a1692cdec69a"
     },
     {
+      "path": "src/PartnerApi.php",
+      "size_bytes": 10597,
+      "sha256": "1ff60d31055161dbc015d00ea0befd5039b576598de8bb9d190f6328c11d8b93"
+    },
+    {
+      "path": "src/PartnerMysqlStore.php",
+      "size_bytes": 10984,
+      "sha256": "73e920fe08f2196556dcf87143891db0d771db9623936f6c42a32a5e2e90f80f"
+    },
+    {
+      "path": "src/PartnerTokenAdmin.php",
+      "size_bytes": 3064,
+      "sha256": "8825bb72764516d96970cc493707db130c28c6b1b14fb838c012dbb0d10a8a5d"
+    },
+    {
       "path": "src/Reports.php",
       "size_bytes": 5636,
       "sha256": "999d28a6ae0adff13c7bce38ddd73e0387500d92e549b72572880664709e99ca"
@@ -362,9 +402,9 @@
       "sha256": "0ec147e4b2275b5b689c10c147b7ed385fc3a6d779d1e33a17c1f81993d4ea51"
     },
     {
-      "path": "storage/jobs.json",
-      "size_bytes": 44,
-      "sha256": "eda9ef873bbed6349c441524af0099e1c3c7698da47e00afab99349a4763b5dc"
+      "path": "storage/.gitkeep",
+      "size_bytes": 106,
+      "sha256": "15fc5c9ef0142fa722cbefc53b8073d3e03a84bff0fb1b3b96339e6505ddfac5"
     },
     {
       "path": "tests/advanced_tools_tests.mjs",
@@ -412,6 +452,11 @@
       "sha256": "7928b2c8102ca1c421968a8b7ddd4a7df0125a06bf9bcbee31003df714f584eb"
     },
     {
+      "path": "tests/http_partner_pilot_smoke.sh",
+      "size_bytes": 1257,
+      "sha256": "c052d72352f245286fa1bd0b69988758649a619f5fc77c4593896963b5db22bd"
+    },
+    {
       "path": "tests/http_smoke.sh",
       "size_bytes": 2880,
       "sha256": "1fa2895eb7e42448201d93497a95447564f0e7a61b6c569c246fbf436fe82620"
@@ -442,14 +487,19 @@
       "sha256": "9d77d8bc61d3c5ef324315ca66d5ec30b607290da77e88981216037f0752a736"
     },
     {
+      "path": "tests/partner_api_tests.php",
+      "size_bytes": 13033,
+      "sha256": "8199d6d2caee9a59e6883a652b8edf539c93935f5dfb90f60a17712e4d879b31"
+    },
+    {
       "path": "tests/php_tests.php",
-      "size_bytes": 8610,
-      "sha256": "8116d2c2dfa3991c5ad4e06c2972f236bf77034ea61a1be6c659228ecf2a03f6"
+      "size_bytes": 8824,
+      "sha256": "a0143dcce38548f2312b8c75132622b51628512b974136d3c87f85f16b4ead18"
     },
     {
       "path": "tests/run.sh",
-      "size_bytes": 1400,
-      "sha256": "9fa7785b48775d4c203bfff1456200e7a6a52d3ea480d5a30e50fa75abfb6560"
+      "size_bytes": 1485,
+      "sha256": "e1b11a153cbec826bc9ad6da216b5c85865a96b2b3267861eef51ab6fdfa0fa9"
     },
     {
       "path": "tests/shared_host_layout_tests.php",
@@ -461,5 +511,7 @@
       "size_bytes": 4297,
       "sha256": "58d32118d1a028aefa16cb68129e344a8901f9ee55a92484628cf841480972bb"
     }
-  ]
+  ],
+  "partner_http": "DISABLED by default; verification/identity/hosting/DB gates not met",
+  "mysql_staging": "NOT RUN: no pdo_mysql driver available in local environment"
 }

@@ -19,3 +19,6 @@
 /storage/rate-*
 /.env.*
 !/.env.example
+/storage/partner*
+/storage/partner-*
+/storage/partner_*
