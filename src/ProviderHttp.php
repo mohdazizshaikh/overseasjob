@@ -63,7 +63,12 @@ final class ProviderHttp
         $sleeper??=static function(int $seconds):void{sleep($seconds);};
         $spent=0;
         for($attempt=0;$attempt<self::MAX_ATTEMPTS;$attempt++){
-            $r=$transport($url,$maxBytes);
+            try{$r=$transport($url,$maxBytes);}catch(RuntimeException $e){
+                // Connection/timeout failures are transient, but retries remain bounded.
+                $delay=self::retryDelay(503,[],$attempt,$spent);
+                if($delay===null)throw new RuntimeException('Provider connection unavailable; healthy cache preserved',0,$e);
+                $sleeper($delay);$spent+=$delay;continue;
+            }
             if(!is_array($r)||!is_int($r['status']??null)||!is_array($r['headers']??null)
                 ||!is_string($r['body']??null)||strlen($r['body'])>$maxBytes)
                 throw new RuntimeException('Malformed provider transport result');
