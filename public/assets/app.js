@@ -1,5 +1,6 @@
 import {salarySavings,offerCompare,overlapSlots} from './calculators.mjs';
-import {saveFromJob,TRACKER_KEY} from './tracker.mjs';
+import {saveFromJob} from './tracker.mjs';
+import {getProfile,writeProfile,initRadar} from './radar_ui.mjs';
 const $=(sel,root=document)=>root.querySelector(sel);
 const format=(n,curr='INR')=>new Intl.NumberFormat('en-IN',{style:'currency',currency:curr,maximumFractionDigits:2}).format(n);
 const number=(name,root=document)=>{const f=$(`[name="${name}"]`,root);return f?f.value:'0'};
@@ -44,9 +45,6 @@ if(tzForm)tzForm.addEventListener('submit',e=>{
   say('#tz-total',`${res.overlapMinutes} available overlapping minutes (across the selected working windows)`);
  }catch(err){say('#tz-feedback',err.message,true);$('#tz-result').hidden=true;}
 });
-const PROFILE_KEY='overseasjob_mycareer_v1';
-function getProfile(){try{const raw=localStorage.getItem(PROFILE_KEY);const v=raw?JSON.parse(raw):{};return v&&typeof v==='object'?v:{};}catch{return {};}}
-function writeProfile(p){try{localStorage.setItem(PROFILE_KEY,JSON.stringify(p));return true;}catch{say('#career-message','Browser storage unavailable. Preferences will not survive a reload.',true);return false;}}
 function saveJob(button){const id=button.dataset.jobId; if(!id||id.length>160)return;
  const p=getProfile();const saves=Array.isArray(p.saved)?p.saved:[];
  const next=saves.includes(id)?saves.filter(x=>x!==id):[...saves,id].slice(0,2000);
@@ -62,42 +60,4 @@ document.querySelectorAll('[data-job-id]').forEach(b=>{
  b.textContent=saved.includes(id)?'Saved ✓':'Save job';b.setAttribute('aria-pressed',String(saved.includes(id)));
  b.addEventListener('click',()=>saveJob(b));
 });
-const career=$('#career-form');
-if(career){
- const profile=getProfile();for(const key of ['role','workPath']){if(profile[key]&&$(`[name="${key}"]`,career))$(`[name="${key}"]`,career).value=profile[key];}
- const jobsNode=$('#career-data');let jobs=[];
- try{jobs=JSON.parse(jobsNode?.textContent||'[]');if(!Array.isArray(jobs))jobs=[];}catch{}
- const display=()=>{
-  const p=getProfile(),root=$('#career-results');root.replaceChildren();
-  const role=(p.role||'').toLowerCase().trim(),path=p.workPath||'remote_from_india';
-  const matching=jobs.filter(j=>{
-   if(path==='remote_from_india'&&j.eligibility!=='allowed')return false;
-   if(path==='remote_other'&&j.eligibility==='allowed')return false;
-   if(path==='onsite_abroad'&&j.workMode!=='onsite')return false;
-   return !role||j.title.toLowerCase().includes(role);
-  });
-  if(!matching.length){root.textContent='No confirmed matches from currently refreshed sources. Explore tools or broaden your preferences.';return;}
-  const seen=new Set(Array.isArray(p.seen)?p.seen:[]);
-  for(const j of matching.slice(0,30)){
-   const row=document.createElement('p');const a=document.createElement('a');a.href=j.url;a.textContent=j.title;
-   row.append(a,document.createTextNode(seen.has(j.id)?' · Viewed in Radar':' · New to your Radar (not necessarily newly published)'));root.append(row);
-  }
-  p.seen=[...new Set([...seen,...matching.map(j=>j.id)])].slice(-2000);p.lastViewAt=new Date().toISOString();writeProfile(p);
- };
- career.addEventListener('submit',e=>{e.preventDefault();const p=getProfile();p.role=number('role',career).slice(0,100);p.workPath=number('workPath',career);writeProfile(p);display();say('#career-message','Preferences saved on this device only. No offline alert service is active.');});
- display();
- const exp=$('#profile-export');if(exp)exp.addEventListener('click',()=>{
-  const raw=JSON.stringify({schema_version:1,profile:getProfile()},null,2);
-  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([raw],{type:'application/json'}));a.download='overseasjob-career-profile.json';a.click();URL.revokeObjectURL(a.href);
- });
- const del=$('#profile-delete');if(del)del.addEventListener('click',()=>{if(confirm('Delete all saved OverseasJob data on this device?')){try{localStorage.removeItem(PROFILE_KEY);localStorage.removeItem(TRACKER_KEY);}catch{}location.reload();}});
- const importer=$('#profile-import');if(importer)importer.addEventListener('change',async()=>{
-  const file=importer.files?.[0];if(!file||file.size>1024*1024){say('#career-message','JSON import must be under 1 MiB.',true);return;}
-  try{const value=JSON.parse(await file.text());if(value.schema_version!==1||typeof value.profile!=='object'||Array.isArray(value.profile))throw new Error('Incompatible profile version');
-    const clean={role:String(value.profile.role||'').slice(0,100),workPath:['remote_from_india','remote_other','onsite_abroad'].includes(value.profile.workPath)?value.profile.workPath:'remote_from_india',
-    saved:Array.isArray(value.profile.saved)?value.profile.saved.filter(x=>typeof x==='string'&&x.length<160).slice(0,2000):[],
-    seen:Array.isArray(value.profile.seen)?value.profile.seen.filter(x=>typeof x==='string'&&x.length<160).slice(0,2000):[]};
-    writeProfile(clean);location.reload();
-  }catch(err){say('#career-message',`Import rejected: ${err.message}`,true);}
- });
-}
+initRadar();

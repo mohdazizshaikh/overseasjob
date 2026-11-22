@@ -1,6 +1,6 @@
 {
   "spec_version": "v1.3.3",
-  "release": "gate1-plus-gate2-tools-local-v0.5.0",
+  "release": "gate1+gate2+gate3-local-v0.6.0",
   "development_state": "LOCAL_PREVIEW_NOT_DEPLOYED_NOT_LAUNCH_READY",
   "evidence": [
     "tests/php_tests.php",
@@ -23,7 +23,25 @@
     "public/assets/advanced_tools.mjs",
     "public/assets/advanced_tools_ui.mjs",
     "docs/GATE2_TOOLS_V050_CHANGELOG.md",
-    "docs/LOCAL_TEST_OUTPUT_2026-11-23_v050.txt"
+    "docs/LOCAL_TEST_OUTPUT_2026-11-23_v050.txt",
+    "tests/daily_radar_privacy_tests.mjs",
+    "tests/analytics_tests.php",
+    "tests/owner_auth_tests.php",
+    "tests/employer_contract_tests.php",
+    "tests/http_v060_smoke.sh",
+    "public/assets/daily.mjs",
+    "public/assets/daily_ui.mjs",
+    "public/assets/radar.mjs",
+    "public/assets/radar_ui.mjs",
+    "public/assets/privacy.mjs",
+    "public/assets/privacy_ui.mjs",
+    "src/Analytics.php",
+    "src/OwnerAuth.php",
+    "src/EmployerContracts.php",
+    "content/daily_missions.json",
+    ".github/workflows/ci.yml",
+    "docs/GATE3_AND_FUTURE_CONTRACTS_v060.md",
+    "docs/LOCAL_TEST_OUTPUT_2026-11-23_v060.txt"
   ],
   "modules": [
     {
@@ -108,34 +126,66 @@
     },
     {
       "module_id": "M07",
-      "implementation_status": "blocked_with_reason",
-      "blocker_reason": "Manual local tracker and basic Radar working in local preview; full matching version change, multi-device behaviour, comprehensive browser E2E and real live feed integration not verified.",
+      "implementation_status": "implemented",
+      "blocker_reason": "Local snapshot comparison implemented; live provider version change, real browser click-through, multi-device sync and actual feed coverage NOT verified. No offline notifications or automatic application status.",
       "implemented_subset": [
         "local profile",
         "save job",
         "preference filter",
         "export/import"
+      ],
+      "tests": [
+        "Local saved profile and manual tracker",
+        "version-aware Radar: first seen/unchanged/details changed",
+        "v1 to v2 JSON backup migration, strict import and deletion"
       ]
     },
     {
       "module_id": "M08",
-      "implementation_status": "specified",
-      "blocker_reason": "Future optional daily mission not built"
+      "implementation_status": "implemented",
+      "blocker_reason": "Original question-bank editorial review and real-browser/mobile accessibility testing remain pending; route noindex before launch.",
+      "implemented_subset": [
+        "21 original offline missions across 3 roles",
+        "deterministic UTC daily rotation",
+        "on-device streak per track",
+        "strict import/export, reset, no-JS practice fallback"
+      ],
+      "tests": [
+        "61 combined deterministic M07/M08/M09/M15 JavaScript checks",
+        "30 v0.6 HTTP/safety checks"
+      ]
     },
     {
       "module_id": "M09",
-      "implementation_status": "specified",
-      "blocker_reason": "Privacy-safe events and AdSense readiness not integrated; ads off"
+      "implementation_status": "implemented",
+      "blocker_reason": "ANALYTICS_ENABLED remains OFF until privacy notice, consent review and public release gate pass; no AdSense approval, ads OFF, no revenue/traffic claims; anti-bot trust not verified.",
+      "implemented_subset": [
+        "explicit opt-in consent controls",
+        "GPC and DNT enforced",
+        "daily aggregate-only first-party event counting",
+        "no third-party tracker, cross-site ID or ad slot"
+      ],
+      "tests": [
+        "16 anonymous count PHP contract checks",
+        "JS consent/clear-local-data tests",
+        "HTTP analytics default disabled"
+      ]
     },
     {
       "module_id": "M10",
-      "implementation_status": "blocked_with_reason",
-      "blocker_reason": "Working private CLI queue, suppression and audit; production moderator authentication/capacity and retention unresolved",
+      "implementation_status": "implemented",
+      "blocker_reason": "Owner panel intentionally OFF; actual HTTPS proxy, host secret storage, moderator workflow, backups and legal retention approval NOT verified. Login/action browser E2E pending.",
       "implemented_subset": [
-        "bounded job report queue",
-        "trusted CLI moderation",
-        "persistent provider-independent quarantine",
-        "audit and reopen"
+        "HTTPS-only optional owner moderation UI",
+        "password-hash auth and secure session",
+        "CSRF and 5-attempt 15-minute rate lock",
+        "report decision/quarantine/reopen UI and audit",
+        "existing CLI moderation"
+      ],
+      "tests": [
+        "19 owner-auth PHP checks",
+        "existing moderation isolation/queue tests",
+        "default disabled owner route HTTP"
       ]
     },
     {
@@ -147,33 +197,62 @@
         "source coverage report",
         "isolated file backup and restoration drill",
         "hash tamper detection",
-        "conditional shared-host preflight"
+        "conditional shared-host preflight",
+        "CLI read-only anonymous daily usage report"
       ]
     },
     {
       "module_id": "M12",
       "implementation_status": "specified",
-      "blocker_reason": "Gated verified recruiter identity phase 2B"
+      "blocker_reason": "Validated employer trust-state and domain-scoped posting foundation only; NO registration, email/domain proof, database or human auth service.",
+      "implemented_subset": [
+        "Gated offline domain validation foundation: src/EmployerContracts.php"
+      ],
+      "tests": [
+        "47 future employer/partner domain contract tests"
+      ]
     },
     {
       "module_id": "M13",
       "implementation_status": "specified",
-      "blocker_reason": "Gated direct employer job posting phase 2B"
+      "blocker_reason": "Validated employer job-create/PATCH data contract with always-pending-review and tenant-scoping; NO persistence, dashboard or live public direct jobs.",
+      "implemented_subset": [
+        "Gated offline domain validation foundation: src/EmployerContracts.php"
+      ],
+      "tests": [
+        "47 future employer/partner domain contract tests"
+      ]
     },
     {
       "module_id": "M14",
       "implementation_status": "specified",
-      "blocker_reason": "Gated inbound partner API phase 3B"
+      "blocker_reason": "Validated future partner idempotency key and opaque token fingerprint routines; NO API endpoint, token issuance lifecycle, quotas or MySQL tenancy integration.",
+      "implemented_subset": [
+        "Gated offline domain validation foundation: src/EmployerContracts.php"
+      ],
+      "tests": [
+        "47 future employer/partner domain contract tests"
+      ]
     },
     {
       "module_id": "M15",
       "implementation_status": "implemented",
-      "blocker_reason": "Private calculations/interview/portfolio/roadmap run locally and checklist ticks store per-country; live analytics/privacy/cookie compliance, legal policy and browser privacy QA not verified."
+      "blocker_reason": "Local privacy controls tested; external hosting access logs, legal notice/consent approval, submitted-report deletion schedule and browser privacy QA pending.",
+      "implemented_subset": [
+        "privacy settings page",
+        "GPC/DNT local explicit consent",
+        "site-local data deletion across project prefixes"
+      ]
     },
     {
       "module_id": "M16",
       "implementation_status": "implemented",
-      "blocker_reason": "267 offline checks passed (PHP/Node/HTTP/backup/preview); Chromium localhost ERR_BLOCKED_BY_ADMINISTRATOR; staging E2E, WCAG audit and PDF/print proof NOT completed."
+      "blocker_reason": "440 deterministic local checks passed; GitHub Actions CI authored, not externally run/verified; Chromium localhost navigation blocked, physical browser/mobile/print audit, staging security and real performance budget not verified.",
+      "implemented_subset": [
+        "CI workflow, read-only token",
+        "all previous tools regression",
+        "new privacy/owner/gated-contract negative checks"
+      ]
     },
     {
       "module_id": "M17",
@@ -182,9 +261,9 @@
     }
   ],
   "last_tested_on": "2026-11-23",
-  "source_of_truth_version": "v1.3.3 (product scope unchanged)",
-  "local_check_count": 267,
-  "browser_e2e_status": "BLOCKED_BY_SANDBOX_ADMIN_POLICY; staging E2E NOT RUN",
+  "source_of_truth_version": "v1.3.3 (normative product scope unchanged)",
+  "local_check_count": 440,
+  "browser_e2e_status": "BLOCKED: Chromium localhost administrator policy; E2E authored but not executed",
   "live_feed_verified": false,
   "hostinger_verified": false,
   "public_launch_ready": false

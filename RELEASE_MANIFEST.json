@@ -1,23 +1,35 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.5.0",
+  "release": "0.6.0",
   "source_of_truth": "v1.3.3",
   "release_date": "2026-11-23",
   "deploy_status": "NOT_DEPLOYED",
   "public_launch_ready": false,
-  "local_tests": "267 passed",
-  "browser_e2e": "BLOCKED by localhost admin policy",
+  "local_tests": "440 passed",
+  "canonical_doc_tests": "71 passed",
+  "browser_e2e": "BLOCKED by localhost admin policy; NOT PASS",
   "live_sources": "NOT VERIFIED",
+  "ci": "WORKFLOW CONFIGURATION ADDED; REMOTE RUN NOT YET VERIFIED",
   "contents": [
     {
+      "path": ".env.example",
+      "size_bytes": 473,
+      "sha256": "42cc52c6017a4c1f44f030f6c7fe55ddb71e887af48842cf78d69a1042dbc2d2"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "size_bytes": 1300,
+      "sha256": "3d42b661c3993f1644d92440a45088dc3c431459fc35e8cb4da4ff084863ca42"
+    },
+    {
       "path": ".gitignore",
-      "size_bytes": 156,
-      "sha256": "8d64ce445507d98be655158972d2cd54fc49b88103e045e73f4a4ad442e7156c"
+      "size_bytes": 401,
+      "sha256": "eb1f0eddbc412b9846b01877a42ee3564fd5f0f019008f4ebbc919644328ebe4"
     },
     {
       "path": "README.md",
-      "size_bytes": 3103,
-      "sha256": "dabfaa1cfcf8872affcbc2583e6538fa1ce4182c8c7951120c342b7089a711f9"
+      "size_bytes": 3812,
+      "sha256": "cf6f9de41a738b8176d34c4014cc20f887c3843c761c4e0dee4e5e97719fc76b"
     },
     {
       "path": "SOURCE_OF_TRUTH_REFERENCE/OverseasJob_v1.3.3_Source_of_Truth_Project_Pack.zip",
@@ -26,8 +38,8 @@
     },
     {
       "path": "START_HERE_FOUNDER.md",
-      "size_bytes": 2372,
-      "sha256": "28622c457a67077b11b68cda3f2a45219ffe0d77300848b59c69d0eb611c4f54"
+      "size_bytes": 2800,
+      "sha256": "589d1e5779260212c9f8c18b456ad7cf34e0d3b9f5b1c52bf5a81c42aeac1351"
     },
     {
       "path": "config/provider_policy.json",
@@ -43,6 +55,11 @@
       "path": "content/country_checklists.json",
       "size_bytes": 3524,
       "sha256": "928632d1ab07866d2f5d35276970c7a5b94afeda3bbd1ee30973247ce3e0faec"
+    },
+    {
+      "path": "content/daily_missions.json",
+      "size_bytes": 7937,
+      "sha256": "4b9ce07aa7dbc16d74e7ea1040d37deb378ee499225fe4880d9380aca11c6003"
     },
     {
       "path": "content/guides.json",
@@ -85,9 +102,19 @@
       "sha256": "f58615b8d27f4ff2c98a8510f94549802d1526e8fc18e142c47642c1ca481db2"
     },
     {
+      "path": "docs/GATE3_AND_FUTURE_CONTRACTS_v060.md",
+      "size_bytes": 3897,
+      "sha256": "6d34db7069256db43457810b92a2be18b2d7587e7f04e70605f01f6392f45e1a"
+    },
+    {
       "path": "docs/LOCAL_TEST_OUTPUT_2026-11-23_v050.txt",
       "size_bytes": 9599,
       "sha256": "9e646c8d5c770e71a38ee446d1829c213ab92e741fc46b40170e369db71d3bc4"
+    },
+    {
+      "path": "docs/LOCAL_TEST_OUTPUT_2026-11-23_v060.txt",
+      "size_bytes": 15809,
+      "sha256": "9632885b4f23db824f21e0446ff594a5bab6a7aee18cdc4ad8df517ab5d37b7d"
     },
     {
       "path": "docs/RC_IMPLEMENTATION_CHANGELOG.md",
@@ -126,8 +153,8 @@
     },
     {
       "path": "module_status.json",
-      "size_bytes": 7332,
-      "sha256": "e21cc9d12c674bbb4599a8a282306658c2d799f8dda0e86ca906218fdb46d1c1"
+      "size_bytes": 10886,
+      "sha256": "660945fa00e39bf775ef6d783b92a8f7657ece0dd4e49ca12a2780e14dd7831d"
     },
     {
       "path": "public/.htaccess",
@@ -146,8 +173,8 @@
     },
     {
       "path": "public/assets/app.js",
-      "size_bytes": 8529,
-      "sha256": "a3b89368fdec4a5bf3e82b18daab0ebbe9c1f646931053467e3c25c4dd01cc31"
+      "size_bytes": 4811,
+      "sha256": "122c5d8c71d0002fb1c85f6869f28ffe9124279025898e2a0b8b04a9dbc45f8f"
     },
     {
       "path": "public/assets/calculators.mjs",
@@ -155,9 +182,39 @@
       "sha256": "ec724d2ed1e4653510e89a6e85470898f4ab6394163055217be32b4d83b5d13c"
     },
     {
+      "path": "public/assets/daily.mjs",
+      "size_bytes": 3800,
+      "sha256": "0a9f5224745313daa9ed764455bfb845d3bf451693cc08e6643bf4733b9e0673"
+    },
+    {
+      "path": "public/assets/daily_ui.mjs",
+      "size_bytes": 3339,
+      "sha256": "6de554124912c0e20635598886007a4f05ef6bf3a793521e0b1a309284709357"
+    },
+    {
       "path": "public/assets/overseasjob-logo.png",
       "size_bytes": 148817,
       "sha256": "8a66e50210dcab7af99a7b70598f3fb1998050e2bee37f84b34d3c43f0e8d2a2"
+    },
+    {
+      "path": "public/assets/privacy.mjs",
+      "size_bytes": 1228,
+      "sha256": "41186272113d0ea241005ad59c29846f8ce3c99d4339a85d05a7645f16f70498"
+    },
+    {
+      "path": "public/assets/privacy_ui.mjs",
+      "size_bytes": 2430,
+      "sha256": "13e3f194c4e6ad66ff83625bc771ca4a96e682c85470d38457ccf780c4045870"
+    },
+    {
+      "path": "public/assets/radar.mjs",
+      "size_bytes": 4034,
+      "sha256": "788745d1542331b8579ae8695b78aab7d0ba595d19bf1f5031c513315a27492d"
+    },
+    {
+      "path": "public/assets/radar_ui.mjs",
+      "size_bytes": 3698,
+      "sha256": "ba57f848c81690c9e9c13a2da751fd8d30dd29424acb8d2a3592f50c372225a0"
     },
     {
       "path": "public/assets/relocation.mjs",
@@ -181,8 +238,8 @@
     },
     {
       "path": "public/assets/style.css",
-      "size_bytes": 13237,
-      "sha256": "950733aaa3dbde3790b7e67b95805e0b05065693898dd073390c0e329267e191"
+      "size_bytes": 14035,
+      "sha256": "4a6c7b5f8ea5b84eb2067de8c7fafa2d6172b8db4dd7796afd4d87447e653450"
     },
     {
       "path": "public/assets/tracker.mjs",
@@ -196,13 +253,18 @@
     },
     {
       "path": "public/index.php",
-      "size_bytes": 53972,
-      "sha256": "4a39fe5672b3f1d7540f42d0b8e6a3518c13e5df4a9bcceae778a5c55c4bc8b7"
+      "size_bytes": 69439,
+      "sha256": "8ba85eddf7e18deba8a5ccdef68aa5e244bb5564fb0a0f95f87a9182a5e413a9"
     },
     {
       "path": "public/router.php",
       "size_bytes": 791,
       "sha256": "49cbe2ae5c82d7819ab5fb712452836ced63d342a1a4fa034e61f32aab8ab93f"
+    },
+    {
+      "path": "scripts/analytics_report.php",
+      "size_bytes": 524,
+      "sha256": "e4a04cd321bfbd1201a555972743134840bacae56ff18a36e7acca62dafbedd2"
     },
     {
       "path": "scripts/backup.php",
@@ -250,6 +312,11 @@
       "sha256": "34de5fce50d513e06a4bdd22f10ba868ea0bdc0b83657e2b616b7d98b6166898"
     },
     {
+      "path": "src/Analytics.php",
+      "size_bytes": 3158,
+      "sha256": "76c542d41181a8c477fcbd396676aee5c318304b156bd1a6366007e17057b188"
+    },
+    {
       "path": "src/Backups.php",
       "size_bytes": 4304,
       "sha256": "1d89734ab41a79231004e5c9fb964789dc6aac129d137e3711d2f942f57a94f2"
@@ -258,6 +325,11 @@
       "path": "src/Countries.php",
       "size_bytes": 1522,
       "sha256": "7a6aefb5eb2d3dfd937b7f7431913cc8a77ecbf637d3eff27c3dc025c2edf8f1"
+    },
+    {
+      "path": "src/EmployerContracts.php",
+      "size_bytes": 11894,
+      "sha256": "e3f613937221ce46b8a7ce35745843c39a896586192755c80b76c38d7b88ac55"
     },
     {
       "path": "src/Guides.php",
@@ -273,6 +345,11 @@
       "path": "src/Launch.php",
       "size_bytes": 2100,
       "sha256": "fefb87b71bc56d3346a3988c107fa18e07e51e04ab234217ebe15c5adf6dc87c"
+    },
+    {
+      "path": "src/OwnerAuth.php",
+      "size_bytes": 4157,
+      "sha256": "0c6b45bfb3a7039b02b172176b81cc6a4b26cab7abc5fe816302a1692cdec69a"
     },
     {
       "path": "src/Reports.php",
@@ -295,14 +372,29 @@
       "sha256": "2a9969b0dab7e17ddb3632c38fb7a9997d16a94797e28a358941f1542da93315"
     },
     {
+      "path": "tests/analytics_tests.php",
+      "size_bytes": 2584,
+      "sha256": "dffe3bc6473c8026ceb924ee13c51b040794fa1ed1ecefcb5f426d185924d26a"
+    },
+    {
       "path": "tests/backup_tests.php",
       "size_bytes": 1653,
       "sha256": "a95937237d7829cb9543cead3cc6ae380cb6a46d5f2fef5ae7a009cf8760128b"
     },
     {
       "path": "tests/browser_e2e.py",
-      "size_bytes": 6150,
-      "sha256": "09f0240ecce9f0a1cf3059fdc9a8183f235de481187f30f23930a3235334537f"
+      "size_bytes": 7251,
+      "sha256": "c398842b2e831dc1e22fbe5436ca16c352292474d0702dffde10587f3de55b96"
+    },
+    {
+      "path": "tests/daily_radar_privacy_tests.mjs",
+      "size_bytes": 9174,
+      "sha256": "f90472b54860c4b4a84a693ee49470d3c286966b91a87d9cd4bbaf9c6e158d1b"
+    },
+    {
+      "path": "tests/employer_contract_tests.php",
+      "size_bytes": 7975,
+      "sha256": "869b0f51be203bf4efdc1cc2a9e45d3d0cc9a72c646f3027fb0ac95251d1e41e"
     },
     {
       "path": "tests/fixtures/empty.json",
@@ -325,6 +417,11 @@
       "sha256": "1fa2895eb7e42448201d93497a95447564f0e7a61b6c569c246fbf436fe82620"
     },
     {
+      "path": "tests/http_v060_smoke.sh",
+      "size_bytes": 2110,
+      "sha256": "e5495fcb76ddd3ebe23f701baef8e893a735d02ab07844f5168e38ab6e07cc8a"
+    },
+    {
       "path": "tests/js_tests.mjs",
       "size_bytes": 3310,
       "sha256": "47f453459546cffeaee1fef6efbd6eefb5fab8473466a83a4c7590e1b5788aa7"
@@ -340,14 +437,19 @@
       "sha256": "8bc2e1a4dc2bd514a55c7d0847a53d78842ceb1d6db42278367f6d901be5ac11"
     },
     {
+      "path": "tests/owner_auth_tests.php",
+      "size_bytes": 2549,
+      "sha256": "9d77d8bc61d3c5ef324315ca66d5ec30b607290da77e88981216037f0752a736"
+    },
+    {
       "path": "tests/php_tests.php",
       "size_bytes": 8610,
       "sha256": "8116d2c2dfa3991c5ad4e06c2972f236bf77034ea61a1be6c659228ecf2a03f6"
     },
     {
       "path": "tests/run.sh",
-      "size_bytes": 1192,
-      "sha256": "6cc2a861367941b1c9ed82b36425598ddf190b34b7800b1140f866b3b5af6b30"
+      "size_bytes": 1400,
+      "sha256": "9fa7785b48775d4c203bfff1456200e7a6a52d3ea480d5a30e50fa75abfb6560"
     },
     {
       "path": "tests/shared_host_layout_tests.php",

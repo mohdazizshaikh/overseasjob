@@ -7,3 +7,15 @@
 /node_modules/
 /storage/server.*
 /public/*test_snapshot*
+/storage/analytics_daily.json
+/storage/owner_rate.json
+/storage/fixture_jobs.json
+/storage/quarantine.json
+/storage/moderation_audit.ndjson
+/storage/.htaccess
+/storage/*.tmp
+/storage/count-*
+/storage/mod-*
+/storage/rate-*
+/.env.*
+!/.env.example

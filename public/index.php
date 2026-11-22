@@ -11,6 +11,8 @@ require OJ_PROJECT_ROOT.'/src/Jobs.php';
 require OJ_PROJECT_ROOT.'/src/Guides.php';
 require OJ_PROJECT_ROOT.'/src/Reports.php';
 require OJ_PROJECT_ROOT.'/src/Launch.php';
+require OJ_PROJECT_ROOT.'/src/Analytics.php';
+require OJ_PROJECT_ROOT.'/src/OwnerAuth.php';
 header('X-Content-Type-Options: nosniff');
 header('Referrer-Policy: strict-origin-when-cross-origin');
 header('X-Frame-Options: DENY');
@@ -31,16 +33,16 @@ function frameStart(string $pageTitle, bool $noindex=false):void{
     $robots=($noindex || !Launch::allowed(OJ_PROJECT_ROOT))?'noindex,nofollow':'index,follow';
     echo '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">';
     echo '<meta name="robots" content="'.$robots.'"><meta name="description" content="Compare overseas career opportunities with honest eligibility labels and free practical tools.">';
-    echo '<title>'.$canonicalTitle.'</title><link rel="icon" href="/assets/overseasjob-logo.png"><link rel="stylesheet" href="/assets/style.css"></head><body>';
+    echo '<title>'.$canonicalTitle.'</title><link rel="icon" href="/assets/overseasjob-logo.png"><link rel="stylesheet" href="/assets/style.css"></head><body data-analytics-enabled="'.(getenv('ANALYTICS_ENABLED')==='1' && Launch::allowed(OJ_PROJECT_ROOT)?'1':'0').'">';
     echo '<a class="skip-link" href="#main">Skip to content</a>';
     if(!Launch::allowed(OJ_PROJECT_ROOT))echo '<div class="preview-banner">LOCAL RELEASE CANDIDATE — not a deployed or verified job service</div>';
     echo '<header class="site-header"><div class="container header-inner"><a class="brand" href="/" aria-label="OverseasJob home"><img src="/assets/overseasjob-logo.png" alt="OverseasJob"></a>';
-    echo '<nav aria-label="Main navigation"><a href="/jobs">Find jobs</a><a href="/tools">Free tools</a><a href="/my-career">My career</a><a href="/guides">Guides</a><a href="/safety">Safety</a></nav><a class="nav-action" href="/jobs?path=remote_from_india">Explore opportunities</a></div></header>';
+    echo '<nav aria-label="Main navigation"><a href="/jobs">Find jobs</a><a href="/tools">Free tools</a><a href="/my-career">My career</a><a href="/daily">Daily mission</a><a href="/guides">Guides</a><a href="/safety">Safety</a></nav><a class="nav-action" href="/jobs?path=remote_from_india">Explore opportunities</a></div></header>';
     echo '<main id="main">';
 }
 function frameEnd():void{
-    echo '</main><footer class="footer"><div class="container footer-grid"><div><strong>OverseasJob.in</strong><p>Discover, compare, prepare. No guaranteed jobs or visas.</p></div><div><a href="/sources">Job sources</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/report-job">Report a job</a></div><div><a href="/about">About</a><a href="/safety">Safety</a><a href="/guides">Guides</a><a href="/tools">Tools</a></div></div><div class="container tiny">Development preview. Current live source availability, hosting and legal compliance are not certified. © 2026 OverseasJob.in</div></footer>';
-    echo '<script type="module" src="/assets/app.js"></script></body></html>';
+    echo '</main><footer class="footer"><div class="container footer-grid"><div><strong>OverseasJob.in</strong><p>Discover, compare, prepare. No guaranteed jobs or visas.</p></div><div><a href="/sources">Job sources</a><a href="/privacy">Privacy & data controls</a><a href="/terms">Terms</a><a href="/report-job">Report a job</a></div><div><a href="/about">About</a><a href="/contact">Contact</a><a href="/safety">Safety</a><a href="/daily">Daily mission</a></div></div><div class="container tiny">Development preview. Current live source availability, hosting and legal compliance are not certified. © 2026 OverseasJob.in</div></footer>';
+    echo '<script type="module" src="/assets/app.js"></script><script type="module" src="/assets/privacy_ui.mjs"></script></body></html>';
 }
 function heading(string $eyebrow,string $title,string $text=''):void{
     echo '<section class="page-head"><div class="container"><span class="eyebrow">'.h($eyebrow).'</span><h1>'.h($title).'</h1>';
@@ -68,6 +70,80 @@ $jobs=Jobs::listPublic($root.'/storage/jobs.json');
 $config=json_decode((string)file_get_contents($root.'/config/provider_policy.json'),true)?:[];
 $jobs=array_values(array_filter($jobs,static fn($j)=>($config[$j['provider']]['enabled']??false)===true));
 
+if($path==='/owner'){
+  header('Cache-Control: no-store, private');header('X-Robots-Tag: noindex, nofollow');
+  if(!OwnerAuth::configured()||!OwnerAuth::secureRequest($_SERVER)){
+      http_response_code(404);exit('Not found');
+  }
+  session_name('oj_owner');ini_set('session.use_strict_mode','1');
+  session_set_cookie_params(['lifetime'=>0,'path'=>'/owner','secure'=>true,'httponly'=>true,'samesite'=>'Strict']);
+  session_start();
+  if(!isset($_SESSION['csrf']))$_SESSION['csrf']=bin2hex(random_bytes(24));
+  $error='';$notice='';$now=time();
+  if(($_SERVER['REQUEST_METHOD']??'GET')==='POST'){
+      $token=(string)($_POST['csrf']??'');
+      if(!hash_equals((string)$_SESSION['csrf'],$token)){$error='Invalid session token. Reload the page.';http_response_code(400);}
+      else{
+          $action=(string)($_POST['action']??'');
+          if($action==='login'&&!OwnerAuth::active($_SESSION,$now)){
+              $pass=(string)($_POST['password']??'');
+              try{
+                  if(!OwnerAuth::mayAttempt($root.'/storage',(string)($_SERVER['REMOTE_ADDR']??''),$now)){$error='Too many attempts; try again later.';http_response_code(429);}
+                  elseif(!OwnerAuth::verifyPassword($pass)){
+                      OwnerAuth::failedAttempt($root.'/storage',(string)($_SERVER['REMOTE_ADDR']??''),$now);
+                      $error='Sign-in unsuccessful.';http_response_code(401);
+                  }else{
+                      session_regenerate_id(true);$_SESSION['csrf']=bin2hex(random_bytes(24));
+                      $_SESSION['owner_logged_in']=true;$_SESSION['owner_until']=$now+1200;$notice='Authenticated owner session.';
+                  }
+              }catch(Throwable){$error='Owner login temporarily unavailable.';http_response_code(503);}
+          }elseif($action==='logout'&&OwnerAuth::active($_SESSION,$now)){
+              $_SESSION=[];session_regenerate_id(true);$_SESSION['csrf']=bin2hex(random_bytes(24));$notice='Signed out.';
+          }elseif(OwnerAuth::active($_SESSION,$now)){
+              $note=trim((string)($_POST['note']??''));
+              if(strlen($note)>280)$error='Review reason exceeds 280 characters.';
+              else{
+                  try{
+                      if($action==='decide'){
+                         $decision=(string)($_POST['decision']??'');
+                         Reports::decide($root.'/storage',(string)($_POST['report_id']??''),$decision,$note);
+                         $notice='Review action recorded with audit trail.';
+                      }elseif($action==='reopen'){
+                         Reports::reopen($root.'/storage',(string)($_POST['job_id']??''),$note);
+                         $notice='Quarantine removed with audit trail.';
+                      }else{$error='Unsupported action.';http_response_code(400);}
+                  }catch(Throwable){$error='Review action could not be completed. Check the private audit and queue.';http_response_code(422);}
+              }
+          }else{$error='Session expired. Sign in again.';http_response_code(401);}
+      }
+  }
+  frameStart('Owner moderation',true);heading('Private owner access','Moderation and health','HTTPS-only administrator panel. Applicant information, job posts and provider terms are never verified automatically.');
+  echo '<section class="section section-tight"><div class="container reading surface">';
+  if($error)echo '<p role="alert" class="notice error">'.h($error).'</p>';
+  if($notice)echo '<p role="status" class="notice success">'.h($notice).'</p>';
+  if(!OwnerAuth::active($_SESSION,$now)){
+     echo '<form method="post" action="/owner"><input type="hidden" name="csrf" value="'.h($_SESSION['csrf']).'"><input type="hidden" name="action" value="login"><label>Owner password<input type="password" name="password" autocomplete="current-password" required maxlength="1024"></label><button class="button button-primary" type="submit">Sign in</button></form>';
+  }else{
+     $_SESSION['owner_until']=$now+1200;
+     $pending=[];$holds=[];
+     try{$pending=array_values(array_filter(Reports::read($root.'/storage'),static fn($r)=>($r['state']??'')==='pending_review'));$holds=Reports::quarantine($root.'/storage');}
+     catch(Throwable){echo '<p class="notice error">Moderation store unavailable; do not assume reports have disappeared.</p>';}
+     echo '<h2>Private operational snapshot</h2><p>Published-cache eligible listings: '.count($jobs).'. Pending reports: '.count($pending).'. Quarantined listings: '.count($holds).'.</p><p class="tiny">Real provider coverage, employer verification, SSL evidence, backup restore and legal approval still require separate checks. This is not a public job inventory or launch approval.</p>';
+     echo '<h2>Pending job reports</h2>';
+     if(!$pending)echo '<p>No pending reports in the private queue.</p>';
+     foreach(array_slice($pending,0,200) as $r){
+         echo '<article class="owner-report"><p><strong>'.h($r['job_id']??'Unknown').'</strong> · '.h($r['reason']??'').'<br><small>'.h($r['at']??'').'</small></p><p>'.h($r['details']??'').'</p>';
+         echo '<form method="post" action="/owner"><input type="hidden" name="csrf" value="'.h($_SESSION['csrf']).'"><input type="hidden" name="action" value="decide"><input type="hidden" name="report_id" value="'.h($r['id']??'').'"><label>Decision<select name="decision"><option value="quarantine">Quarantine listing</option><option value="dismiss">Dismiss report</option><option value="resolve">Resolve</option></select></label><label>Review reason<input name="note" maxlength="280" required></label><button type="submit" class="button button-secondary">Record decision</button></form></article>';
+     }
+     echo '<h2>Held job listings</h2>';
+     if(!$holds)echo '<p>No listings currently held.</p>';
+     foreach(array_slice($holds,0,200,true) as $jobId=>$hold){
+         echo '<article class="owner-report"><strong>'.h($jobId).'</strong><p>'.h($hold['reason']??'').'</p><form method="post" action="/owner"><input type="hidden" name="csrf" value="'.h($_SESSION['csrf']).'"><input type="hidden" name="action" value="reopen"><input type="hidden" name="job_id" value="'.h($jobId).'"><label>Reason for reinstatement<input name="note" maxlength="280" required></label><button type="submit" class="button button-secondary">Reopen after review</button></form></article>';
+     }
+     echo '<form method="post" action="/owner"><input type="hidden" name="csrf" value="'.h($_SESSION['csrf']).'"><input type="hidden" name="action" value="logout"><button type="submit" class="button button-text">Sign out</button></form>';
+  }
+  echo '</div></section>';frameEnd();exit;
+}
 if($path==='/'){
  frameStart('Home');
  echo '<section class="hero"><div class="container hero-grid"><div><span class="eyebrow">Your global career, made clearer</span><h1>Find opportunities.<br><span>Make better decisions.</span></h1><p class="lead">Source-linked remote jobs, honest India eligibility labels and free salary, offer and timezone tools—without a candidate account.</p><div class="hero-actions"><a class="button button-primary button-lg" href="/jobs?path=remote_from_india">Find India-eligible jobs</a><a class="button button-light button-lg" href="/tools">Explore free tools</a></div><div class="trust-notes"><span>✓ No candidate login</span><span>✓ Real source links only</span><span>✓ No invented salaries</span></div></div><div class="hero-panel"><div class="panel-label">HOW OVERSEASJOB HELPS</div><h2>Know what matters before applying</h2><div class="step"><b>01</b><span>Choose a role and remote-work preference</span></div><div class="step"><b>02</b><span>Check eligibility evidence and source freshness</span></div><div class="step"><b>03</b><span>Estimate salary, savings and next steps</span></div><div class="panel-foot">Clear evidence over misleading match scores</div></div></div></section>';
@@ -104,7 +180,7 @@ if(preg_match('#^/jobs/(jobicy|himalayas)/([^/]+)(?:/[^/]*)?$#',$path,$m)){
  foreach($facts as $f)echo '<div><dt>'.h($f[0]).'</dt><dd>'.h($f[1]).'</dd></div>';
  echo '</dl><h3>Why it may match</h3><p>It is a remote role in a currently accepted source record. Eligibility is derived only from the provider’s recorded location/timezone data. This is not employment authorisation or a guaranteed opening.</p><h3>Source evidence</h3><ul>';
  foreach($match['eligibility_evidence'] as $e)echo '<li>'.h($e['provider_field']).': '.h($e['fact']).'</li>';
- echo '</ul><h3>Role summary</h3><p>'.h($match['description']?:'Please read full details at the original source.').'</p></article><aside class="surface apply-box"><div class="eyebrow">YOUR NEXT ACTION</div><h3>Apply only on the source website</h3><p>Review the full posting and hiring location restrictions before sharing personal data.</p><a class="button button-primary full" target="_blank" rel="noopener noreferrer nofollow" href="'.h($match['apply_url']).'">Open '.h($match['source_name']).' apply link ↗</a><p class="tiny">External destination: '.h(parse_url($match['apply_url'],PHP_URL_HOST)).'</p><a class="button button-secondary full" href="/tools/salary-savings">Estimate potential savings</a><a class="button button-secondary full" href="/report-job?id='.rawurlencode($match['id']).'">Report suspicious listing</a><p class="tiny">Clicking Apply does not mean an application was submitted. No CV is collected here.</p></aside></div></section>';frameEnd();exit;
+ echo '</ul><h3>Role summary</h3><p>'.h($match['description']?:'Please read full details at the original source.').'</p></article><aside class="surface apply-box"><div class="eyebrow">YOUR NEXT ACTION</div><h3>Apply only on the source website</h3><p>Review the full posting and hiring location restrictions before sharing personal data.</p><a class="button button-primary full" target="_blank" rel="noopener noreferrer nofollow" data-offsite-apply="true" href="'.h($match['apply_url']).'">Open '.h($match['source_name']).' apply link ↗</a><p class="tiny">External destination: '.h(parse_url($match['apply_url'],PHP_URL_HOST)).'</p><a class="button button-secondary full" href="/tools/salary-savings">Estimate potential savings</a><a class="button button-secondary full" href="/report-job?id='.rawurlencode($match['id']).'">Report suspicious listing</a><p class="tiny">Clicking Apply does not mean an application was submitted. No CV is collected here.</p></aside></div></section>';frameEnd();exit;
 }
 if($path==='/tools'){
  frameStart('Free career tools');heading('Free, private, practical','Useful career tools','Calculations use your own inputs. No paid AI, invented live taxes or forced accounts.');
@@ -220,11 +296,57 @@ if($path==='/tools/career-roadmap'){
 }
 
 if($path==='/my-career'){
- frameStart('My career — on-device',true);heading('Private career workspace','Your Career Radar','Save role preferences and track recently seen jobs on this device. No sign-up or offline monitoring.');
+ frameStart('My career — on-device',true);heading('Private career workspace','Your Career Radar','Save role preferences and compare listing details between your visits on this device. No sign-up or background monitoring.');
  $payload=[];
- foreach(array_slice($jobs,0,80) as $j)$payload[]=['id'=>$j['id'],'title'=>$j['title'],'eligibility'=>Jobs::indiaFullyEligible($j)?'allowed':($j['eligible_from_in']==='not_allowed'?'not_allowed':'unknown'),'workMode'=>$j['work_mode'],'url'=>'/jobs/'.$j['provider'].'/'.$j['provider_job_id'].'/view'];
- echo '<section class="section section-tight"><div class="container tool-layout"><form class="surface form-card" id="career-form" method="dialog" data-local-only="true"><h2>Saved preferences</h2><label>Target role<input name="role" maxlength="100" placeholder="e.g. Software Engineer"></label><label>Work path<select name="workPath"><option value="remote_from_india">India location + timezone confirmed</option><option value="remote_other">Remote: unknown/restricted</option><option value="onsite_abroad">On-site abroad (verified evidence)</option></select></label><button class="button button-primary" type="submit">Save & check matches</button><div class="small-controls"><button type="button" class="button button-secondary" id="profile-export">Export JSON</button><label class="file-upload">Import JSON<input type="file" id="profile-import" accept="application/json,.json"></label><button type="button" class="button button-text" id="profile-delete">Delete all local data</button></div><p id="career-message" role="status" aria-live="polite"></p></form><div class="surface result-card"><h2>Radar results</h2><div id="career-results" aria-live="polite"></div><p class="tiny">“New to your Radar” means not previously seen on this device, not necessarily a newly posted job. Clearing browser data can erase saved preferences. No background email alerts or automatic application-status tracking is active. <a href="/tools/application-tracker">Open manual application tracker</a>.</p></div></div></section><script type="application/json" id="career-data">'.json_encode($payload,JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT).'</script>';
+ foreach(array_slice($jobs,0,80) as $j){
+    // Fingerprint is our cache comparison, not a provider-published update timestamp.
+    $fingerprint=substr(hash('sha256',json_encode([$j['title'],$j['company_name'],$j['description'],$j['source_updated_at'],$j['eligible_from_in'],$j['location_eligibility'],$j['time_zone_eligibility'],$j['salary_min'],$j['salary_max']],JSON_UNESCAPED_UNICODE|JSON_INVALID_UTF8_SUBSTITUTE)),0,24);
+    $payload[]=['id'=>$j['id'],'title'=>$j['title'],'version'=>$fingerprint,'eligibility'=>Jobs::indiaFullyEligible($j)?'allowed':($j['eligible_from_in']==='not_allowed'?'not_allowed':'unknown'),'workMode'=>$j['work_mode'],'url'=>'/jobs/'.$j['provider'].'/'.rawurlencode($j['provider_job_id']).'/view'];
+   }
+ echo '<section class="section section-tight"><div class="container tool-layout"><form class="surface form-card" id="career-form" method="dialog" data-local-only="true"><h2>Saved preferences</h2><label>Target role<input name="role" maxlength="100" placeholder="e.g. Software Engineer"></label><label>Work path<select name="workPath"><option value="remote_from_india">India location + timezone confirmed</option><option value="remote_other">Remote: unknown/restricted</option><option value="onsite_abroad">On-site abroad (verified evidence)</option></select></label><button class="button button-primary" type="submit">Save & check matches</button><div class="small-controls"><button type="button" class="button button-secondary" id="profile-export">Export JSON</button><label class="file-upload">Import JSON<input type="file" id="profile-import" accept="application/json,.json"></label><button type="button" class="button button-text" id="profile-delete">Delete all local data</button></div><p id="career-message" role="status" aria-live="polite"></p></form><div class="surface result-card"><h2>Radar results</h2><div id="career-results" aria-live="polite"></div><p class="tiny">“New to your Radar” means not seen on this device; “details changed” is a local listing comparison, not a confirmed employer update. Clearing browser data can erase saved preferences. No background email alerts or automatic application-status tracking is active. <a href="/tools/application-tracker">Open manual application tracker</a>.</p></div></div></section><script type="application/json" id="career-data">'.json_encode($payload,JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT).'</script>';
  frameEnd();exit;
+}
+if($path==='/daily'){
+    $daily=json_decode((string)file_get_contents($root.'/content/daily_missions.json'),true);
+    if(!is_array($daily)||!is_array($daily['missions']??null)){http_response_code(503);exit('Daily practice unavailable');}
+    frameStart('Daily Career Mission',true);
+    heading('Private daily practice','Daily Career Mission','A short original offline exercise for your chosen career track. Practice is self-reported and stays on this device.');
+    echo '<section class="section section-tight"><div class="container tool-layout"><form id="daily-form" class="surface form-card" data-local-only="true" method="dialog"><h2>Today’s practice</h2><label>Career track<select name="role"><option value="it_support">IT Support</option><option value="customer_support">Customer Support</option><option value="web_development">Junior Web Development</option></select></label><p id="daily-date" class="tiny"></p><h3 id="daily-prompt">Select a role to read today’s question.</h3><ul id="daily-steps"></ul><p id="daily-deliverable"></p><button class="button button-primary" id="daily-complete" type="submit">Mark today completed</button><noscript><p class="notice error">Saving completion and streaks requires browser JavaScript; this example still works as a writing exercise:</p><p>Explain how you would safely troubleshoot a user&#39;s internet connection without collecting passwords. Write a short six-step plan on paper.</p></noscript></form><aside class="surface result-card"><span class="eyebrow">Your device only</span><h2 id="daily-streak">0 day streak</h2><p id="daily-feedback" role="status" aria-live="polite">Progress is not synced across devices. Export a backup if it matters to you.</p><div class="small-controls"><button id="daily-export" type="button" class="button button-secondary">Export progress</button><label class="file-upload">Import backup<input id="daily-import" type="file" accept="application/json,.json"></label><button id="daily-delete" type="button" class="button button-text">Delete progress</button></div><p class="tiny">Original question bank is editorial draft. No employer certification, hiring probability, reminders or paid AI.</p></aside></div></section>';
+    echo '<script type="application/json" id="daily-data">'.json_encode($daily,JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT|JSON_INVALID_UTF8_SUBSTITUTE).'</script><script type="module" src="/assets/daily_ui.mjs"></script>';
+    frameEnd();exit;
+}
+if($path==='/api/privacy-event'){
+    header('Content-Type: application/json; charset=utf-8');header('Cache-Control: no-store');
+    if(getenv('ANALYTICS_ENABLED')!=='1'||!Launch::allowed($root)){http_response_code(404);echo '{"error":"disabled"}';exit;}
+    if(($_SERVER['REQUEST_METHOD']??'GET')!=='POST'||stripos((string)($_SERVER['CONTENT_TYPE']??''),'application/json')!==0){http_response_code(405);echo '{"error":"method"}';exit;}
+    // Explicit same-origin requests only. The app does not collect or persist IPs or cookies.
+    $origin=(string)($_SERVER['HTTP_ORIGIN']??'');
+    $host=strtolower((string)($_SERVER['HTTP_HOST']??''));
+    $originHost=strtolower((string)(parse_url($origin,PHP_URL_HOST)??''));
+    if(!$origin||!$originHost||$originHost!==preg_replace('/:\d+$/','',$host)||strtolower((string)parse_url($origin,PHP_URL_SCHEME))!=='https'){
+        http_response_code(403);echo '{"error":"origin"}';exit;
+    }
+    $bytes=(int)($_SERVER['CONTENT_LENGTH']??0);
+    if($bytes<1||$bytes>256){http_response_code(413);echo '{"error":"size"}';exit;}
+    $raw=file_get_contents('php://input',false,null,0,257);
+    $item=json_decode((string)$raw,true);
+    if(!is_array($item)||array_is_list($item)||count($item)!==1||!Analytics::validEvent($item['event']??null)){
+       http_response_code(422);echo '{"error":"event"}';exit;
+    }
+    try{Analytics::record($root.'/storage',$item['event']);http_response_code(204);}catch(Throwable){http_response_code(503);echo '{"error":"unavailable"}';}
+    exit;
+}
+if($path==='/contact'){
+    frameStart('Contact and support',true);heading('Support and safety','Contact OverseasJob.in','This development preview does not operate a live support desk or employment placement service.');
+    echo '<section class="section"><div class="container reading"><p>For a suspicious imported job, use the <a href="/report-job">private report form</a> with the listing ID. Do not submit passports, CVs, passwords or payment details.</p><p>For immediate suspected overseas recruitment fraud, consult appropriate law enforcement and official government reporting resources. This site cannot respond to emergencies.</p><p>Support mailbox verification and a staffed contact process are required before public launch; no response-time guarantee is provided in this preview.</p></div></section>';frameEnd();exit;
+}
+if($path==='/employers'||str_starts_with($path,'/employers/')){
+    http_response_code(503);frameStart('Employer features unavailable',true);heading('Invite-only future feature','Employer posting is not open','Employer accounts, identity checks and API posting remain disabled until verified hosting, security, email confirmation and owner review are operating.');
+    echo '<section class="section"><div class="container reading"><p>This site does not currently accept paid placements, recruitment agency registrations or direct job submissions. <a href="/jobs">Browse approved-source listings</a>.</p></div></section>';frameEnd();exit;
+}
+if($path==='/developers'){
+    frameStart('Developer API (gated)',true);heading('Developer programme','Inbound employer API is not available','Partner job posting is a future invite-only integration and cannot be used without verified employer accounts and a technical security review.');
+    echo '<section class="section"><div class="container reading"><p>There is no anonymous job feed API, and restricted third-party provider listings are not offered for redistribution.</p></div></section>';frameEnd();exit;
 }
 if($path==='/sources'){
  frameStart('Sources and attribution');heading('Transparency','Where listings come from','Every imported listing retains its original provider attribution and approved Apply link.');
@@ -276,7 +398,11 @@ if($path==='/report-job'){
  elseif($error)echo '<p role="alert" class="notice error">'.h($error).'</p>';
  echo '<form method="post" class="report-form"><input type="hidden" name="csrf" value="'.h($_SESSION['csrf']).'"><label>Job ID<input name="job_id" maxlength="160" required value="'.h($_GET['id']??'').'"></label><label>Reason<select name="reason"><option value="scam">Possible scam or fee demand</option><option value="wrong_eligibility">Eligibility/location incorrect</option><option value="broken_apply">Apply link broken</option><option value="expired">Expired or removed</option><option value="other">Other issue</option></select></label><label>Brief details (optional, no personal documents)<textarea name="details" maxlength="600" rows="4"></textarea></label><label class="hidden-honeypot">Leave blank<input name="website" autocomplete="off"></label><button type="submit" class="button button-primary">Submit report</button></form><p class="tiny">No email or CV is required. A technical administrator must review and act on reports before production launch.</p></div></section>';frameEnd();exit;
 }
-if($path==='/about'||$path==='/privacy'||$path==='/terms'){
+if($path==='/privacy'){
+ frameStart('Privacy and device data',true);heading('Privacy and consent','Your data stays under your control','Ten career tools work without a candidate login. Optional anonymous usage counts are off unless you choose to allow them.');
+ echo '<section class="section section-tight"><div class="container reading surface"><h2>What is stored?</h2><p>Career preferences, applications, country checklist progress, practice completions, portfolio drafts and roadmap edits may be stored in your own browser. Use export controls in the individual tools for backups. Clearing browser site data deletes locally saved progress.</p><p>Job reports are separately retained in a private moderation queue without requiring an email. Do not submit personal documents or sensitive details. The public server may still process standard operational access logs; hosting-specific retention policies require confirmation before release.</p><div id="privacy-controls"><h2>Optional anonymous site counts</h2><label class="checklist-item"><input type="checkbox" id="privacy-count-optin"> Allow anonymous aggregate page/tool usage counts</label><p class="tiny">No third-party analytics, advertising cookies, cross-site identifiers, profile matching or individual visitor tracking. Counts are only submitted if production analytics are separately enabled after launch review. Browser GPC/Do Not Track disables this option.</p><p id="privacy-feedback" role="status" aria-live="polite"></p><button id="privacy-delete-all" type="button" class="button button-secondary">Delete all OverseasJob local data</button></div><p class="tiny">Deleting browser data does not retract earlier aggregate counts, files you downloaded, server audit records or submitted job reports. An approved production privacy notice and report-deletion procedure are still pending.</p></div></section>';frameEnd();exit;
+}
+if($path==='/about'||$path==='/terms'){
  $data=[
   '/about'=>['About OverseasJob','An independent information and career utility project, not a licensed recruitment or visa placement agency. This is an unfinished local release candidate. Our goal is to help people evaluate global careers with honest source labels, financial tools and safety information.'],
   '/privacy'=>['Privacy and local storage','Our calculators run in your browser. My Career preferences and saved job IDs are stored locally in your device browser and can be exported or deleted. This local release candidate has no advertising analytics enabled. A report form stores job IDs and issue descriptions server-side for review; avoid submitting personal information. Production privacy/cookie policy, retention and lawful-basis review are pending.'],
@@ -284,6 +410,6 @@ if($path==='/about'||$path==='/privacy'||$path==='/terms'){
  ];
  frameStart($data[$path][0]);heading('Platform information',$data[$path][0],$data[$path][1]);echo '<section class="section"><div class="container reading"><p><a href="/safety">Review our safety advice</a> and <a href="/sources">source attribution rules</a>.</p></div></section>';frameEnd();exit;
 }
-if($path==='/robots.txt'){header('Content-Type: text/plain');if(!Launch::allowed(OJ_PROJECT_ROOT)){echo "User-agent: *\nDisallow: /\n";}else{echo "User-agent: *\nDisallow: /my-career\nDisallow: /report-job\nDisallow: /jobs/\n";}exit;}
-if($path==='/sitemap.xml'){if(!Launch::allowed(OJ_PROJECT_ROOT)){http_response_code(404);exit('Sitemap unavailable until release readiness');}header('Content-Type: application/xml');echo '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';foreach(['/','/jobs','/tools','/tools/salary-savings','/tools/offer-compare','/tools/time-zone-overlap','/tools/resume-kit','/tools/relocation-budget','/tools/application-tracker','/guides','/safety','/sources','/about'] as $p)echo '<url><loc>https://overseasjob.in'.h($p).'</loc></url>';echo '</urlset>';exit;}
+if($path==='/robots.txt'){header('Content-Type: text/plain');if(!Launch::allowed(OJ_PROJECT_ROOT)){echo "User-agent: *\nDisallow: /\n";}else{echo "User-agent: *\nDisallow: /my-career\nDisallow: /report-job\nDisallow: /daily\nDisallow: /employers\nDisallow: /jobs/\n";}exit;}
+if($path==='/sitemap.xml'){if(!Launch::allowed(OJ_PROJECT_ROOT)){http_response_code(404);exit('Sitemap unavailable until release readiness');}header('Content-Type: application/xml');echo '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';foreach(['/','/jobs','/tools','/tools/salary-savings','/tools/offer-compare','/tools/time-zone-overlap','/tools/resume-kit','/tools/relocation-budget','/tools/application-tracker','/tools/interview-practice','/tools/country-checklist','/tools/workproof','/tools/career-roadmap','/daily','/guides','/safety','/sources','/about'] as $p)echo '<url><loc>https://overseasjob.in'.h($p).'</loc></url>';echo '</urlset>';exit;}
 http_response_code(404);frameStart('Page not found',true);heading('404','Page not found','This page does not exist or the feature is not available yet.');echo '<section class="section"><div class="container"><a class="button button-primary" href="/">Return home</a></div></section>';frameEnd();

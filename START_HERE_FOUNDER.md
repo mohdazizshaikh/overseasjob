@@ -1,25 +1,30 @@
-# OverseasJob.in — Simple Founder Progress Report (v0.5.0)
+# OverseasJob.in — Founder Status (23 November 2026, v0.6.0)
 
-**Date:** 23 November 2026  
-**Truth:** A working **local development preview**, NOT a deployed public website.
+## What is actually working?
 
-## What improved
+The project has runnable **PHP and JavaScript website code**, with all ten free career utilities (T01–T10), honest job source/eligibility logic, and a protected empty listing view until live licensed sources are connected. Recent development added a version-aware Career Radar, a 21-question Daily Career Mission, user-controlled privacy settings, anonymous-counting infrastructure (turned off), an owner-only moderation panel (turned off), and tested future employer/API validation rules (NOT a live API).
 
-**All ten free career tools now have local working interfaces and tested rules.** The four newly added features are interview practice without AI or microphone, a private UAE/Germany planning checklist with official starting links, a self-reported WorkProof portfolio with printable HTML export, and a customisable 30/60/90-day career roadmap. This adds to the six tools built in earlier releases.
+## What has been tested?
 
-**No applicant login or new paid subscription is required.** The new tools keep answers/projects/progress on-device or downloadable; they do not send CV/passport files to a server. No imaginary interviews, fake certifications, visa approvals or jobs are shown.
+**440 local checks passed**: existing 267 checks + 61 additional daily/Radar/privacy JS + 16 PHP anonymous metrics + 19 owner authentication + 47 employer/partner validation + 30 new HTTP/feature-flag probes. Canonical v1.3.3 specification validation: **71/71 passed**. CI configuration was authored for GitHub, but its remote execution must be verified separately.
 
-## Evidence and remaining gaps
+These are **code/unit/HTTP checks**, not evidence of live job inventory, employer verification, security certification, actual browser interactions, Hostinger deployment, privacy-law compliance or real income.
 
-- **267 of 267 local PHP/JavaScript/HTTP/backup/preflight checks passed.** The canonical v1.3.3 Source of Truth still passes separate documentation checks; the scope is unchanged.
-- **Browser click-through proof is still missing.** Chromium is blocked in this environment with `ERR_BLOCKED_BY_ADMINISTRATOR`. New E2E scripts are included for staging.
-- **No Hostinger deployment**, real cron/SSL check, live Jobicy/Himalayas API inventory, 14-day supply measurement, database migration or full disaster recovery has been verified.
-- Five guide drafts and the new tool content are not independently approved; official references and actual immigration rules must be reviewed before any public launch.
-- Recruiter Lite / partner job posting API remain gated and disabled, as planned.
-- `scripts/launch_preflight.php` still intentionally returns `ready:false`; this is not a fully approved release.
+## Important things NOT complete
 
-## Your next action (no coding needed)
+- **No authorised real job-feed sample or 14-day job coverage evidence.** The published jobs cache is intentionally empty.
+- **No Hostinger staging or production deployment**, verified SSL, real cron, MySQL migration, restore/rollback rehearsal or server logging review.
+- **No successful Chromium browser end-to-end run** due to sandbox administrator restriction. A scripted browser acceptance suite exists for a staging environment.
+- **Five original guide drafts and mission content still need human editorial/legal review** before public indexing; no visa/tax/employer claims are approved.
+- **Recruiter registration, email/domain verification, employer database/dashboard, partner API and AdSense are NOT operating.** Future-domain validation code is only a safe foundation.
+- **Owner panel defaults disabled** until a verified HTTPS host and securely managed owner credentials are available.
 
-The next AI development agent should take this ZIP, inspect the **real Hostinger account and domain**, and create an isolated staging environment. It must run real source/hosting tests, then browser E2E and content/privacy/security review. Do not replace the older paid-SaaS GitHub repository or the current live website without a backup and reconciliation plan. Keep production public launch blocked until the real gates are evidenced.
+## Where is the code?
 
-**This package is an increment to v1.3.3 Source of Truth, not a new business strategy or a deployed release.**
+GitHub repository: `https://github.com/mohdazizshaikh/overseasjob` (source pushed separately, not deployed). Project code and tests can also be run from the v0.6.0 ZIP.
+
+## What needs a verified external environment?
+
+Provision isolated staging on the existing authorised Hostinger plan, import and validate genuine permitted jobs, confirm privacy/HTTPS/secrets/backups, run staged browser tests, and review original guides before considering public release. Do not spend money, infer job supply or bypass trust gates. **No new recurring paid services were added.**
+
+**Current status: LOCAL DEVELOPMENT v0.6.0; public launch blocked.**

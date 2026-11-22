@@ -28,3 +28,13 @@
 .roadmap-milestone textarea{width:100%;padding:10px;border:1px solid #cad9e7;border-radius:8px;min-height:80px}
 .roadmap-preview{max-height:650px;overflow-y:auto}
 @media print{body:has(#roadmap-result) #roadmap-form,body:has(#roadmap-result) .header-inner,body:has(#roadmap-result) .footer,body:has(#roadmap-result) .page-head{display:none!important}body:has(#roadmap-result) .tool-layout{display:block}.roadmap-preview{max-height:none;overflow:visible}.roadmap-milestone{break-inside:avoid}}
+
+/* Version-aware Career Radar, private daily mission, owner moderation */
+.owner-report{border-top:1px solid #dae6f0;margin:1.2rem 0;padding:1.2rem 0;overflow-wrap:anywhere}
+.owner-report label{display:block;margin:12px 0;font-size:13px;font-weight:700}
+.owner-report input,.owner-report select{display:block;width:100%;max-width:500px;min-height:43px;padding:10px;border:1px solid #bdd0de;border-radius:8px}
+#daily-steps li{padding:5px 0;line-height:1.6}
+#daily-prompt{font-size:20px;line-height:1.5}
+#privacy-controls{margin-top:25px;padding:18px;border:1px solid #d8e5ef;border-radius:12px}
+#privacy-controls input[type="checkbox"]{width:19px;height:19px;margin-right:8px;vertical-align:middle}
+@media(max-width:760px){.site-header nav{flex-wrap:wrap;justify-content:flex-start;gap:10px 16px}}
