@@ -72,3 +72,47 @@ jobs:
           PARTNER_TOKEN_HMAC_SECRET: ci-only-partner-api-token-hmac-key-no-live-secrets-123
           RECRUITER_AUTH_HMAC_SECRET: ci-only-recruiter-auth-hmac-key-no-live-secrets-123
         run: php tests/mysql_integration_tests.php
+
+  real-browser-e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      RELEASE_READY: '0'
+      ANALYTICS_ENABLED: '0'
+      ADS_ENABLED: '0'
+      OWNER_PANEL_ENABLED: '0'
+      RECRUITER_LITE_ENABLED: '0'
+      PARTNER_POSTING_API_ENABLED: '0'
+      OJ_E2E_BASE: 'http://127.0.0.1:8809'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install free headless browser testing runtime
+        run: |
+          python3 -m pip install --disable-pip-version-check playwright==1.56.0
+          python3 -m playwright install --with-deps chromium
+      - name: Start isolated PHP preview and execute actual Chromium journeys
+        shell: bash
+        run: |
+          set -euo pipefail
+          php -S 127.0.0.1:8809 -t public public/router.php > /tmp/oj-browser-preview.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for i in $(seq 1 45); do
+            if curl --silent --fail -o /dev/null "$OJ_E2E_BASE/"; then break; fi
+            sleep 1
+          done
+          curl --silent --fail -o /dev/null "$OJ_E2E_BASE/"
+          python3 tests/browser_e2e.py
+      - name: Upload local-only browser failure evidence
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: local-browser-e2e-failure
+          path: |
+            /tmp/oj-browser-preview.log
+            artifacts/browser-e2e/
+          if-no-files-found: ignore
+          retention-days: 3
