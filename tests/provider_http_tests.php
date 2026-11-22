@@ -42,4 +42,14 @@ $bad=static fn(string $url,int $bytes):array=>['status'=>200,'headers'=>[],'body
 $fail=false;try{ProviderHttp::fetchJson('https://himalayas.app/jobs/api',1000,$bad,$sleep);}
 catch(RuntimeException){$fail=true;}
 checkTransport('Provider transport rejects oversized responses',$fail);
+$attempts=0;$connectionWaits=[];
+$network=static function(string $url,int $maxBytes)use(&$attempts):array{
+    $attempts++;
+    if($attempts===1)throw new RuntimeException('Simulated connection drop');
+    return ['status'=>200,'headers'=>[],'body'=>'{"jobs":[]}'];
+};
+$wait=static function(int $seconds)use(&$connectionWaits):void{$connectionWaits[]=$seconds;};
+$recovered=ProviderHttp::fetchJson('https://jobicy.com/api/v2/remote-jobs?count=100',5000,$network,$wait);
+checkTransport('Bounded retry recovers from one transient network failure',
+    $attempts===2&&$connectionWaits===[1]&&isset($recovered['jobs']));
 echo "\n$count provider HTTP isolation checks passed.\n";
