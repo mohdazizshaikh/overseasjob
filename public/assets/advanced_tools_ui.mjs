@@ -28,7 +28,7 @@ if(interview){
   $('#interview-answer').value='';status('#interview-message',`Question ${position+1} of ${questions.length}. Your answer stays in this browser session.`);
  };
  const choose=()=>{try{questions=interviewQuestions(bank,input(interview,'role'));position=0;show();}catch(err){status('#interview-message',err.message);}};
- interview.addEventListener('change',choose);
+ interview.addEventListener('change',e=>{if(e.target===interview.elements.namedItem('role'))choose();});
  $('#interview-next').addEventListener('click',()=>{if(questions.length){position=(position+1)%questions.length;show();}});
  $('#interview-review').addEventListener('click',()=>{if(!selected)return;try{const checks=[...rubric.querySelectorAll('input')].map(x=>x.checked);const result=selfReview(selected,checks);status('#interview-message',`Self-review: covered ${result.covered} of ${result.total} rubric points. ${result.uncovered.length?'Consider: '+result.uncovered.join('; '):'All rubric prompts reviewed.'} This is NOT a hiring score.`);}catch(err){status('#interview-message',err.message);}});
  $('#interview-timer-start').addEventListener('click',()=>{if(!startAt){startAt=Date.now();timer=setInterval(redrawTime,1000);}});
@@ -51,7 +51,7 @@ if(checklist){
  };
  const progress=()=>status('#checklist-message',`${checked.size}/${data.items.length} generic planning tasks ticked. This does not establish any visa or employment eligibility.`);
  const change=()=>{country=input(checklist,'country');checked=new Set();const stored=safeLocalGet(keyFor(country));if(stored){try{const v=cleanProgress(JSON.parse(stored),data,country);checked=new Set(v.checked);}catch{}}paint();};
- try{data=parseChecklist(raw);checklist.addEventListener('change',change);change();}catch(err){status('#checklist-message',err.message);}
+ try{data=parseChecklist(raw);checklist.addEventListener('change',e=>{if(e.target===checklist.elements.namedItem('country'))change();});change();}catch(err){status('#checklist-message',err.message);}
  $('#checklist-export').addEventListener('click',()=>download('overseasjob-checklist-'+country+'.json',JSON.stringify({schema_version:1,country,checked:[...checked]},null,2)));
  $('#checklist-import').addEventListener('change',async e=>{
   const file=e.target.files?.[0];if(!file)return;
