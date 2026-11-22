@@ -87,5 +87,17 @@ with sync_playwright() as p:
     page.locator('#privacy-delete-all').click()
     ok('M15 all local OverseasJob data deletion',page.evaluate('!Object.keys(localStorage).some(k=>k.startsWith("overseasjob_"))'))
     ok('No browser JavaScript errors',not errs)
+    # Real narrow-screen responsive checks. Offscreen content must not create
+    # horizontal scrolling that hides critical actions on a typical phone.
+    mobile_context=browser.new_context(viewport={'width':390,'height':844},is_mobile=True,has_touch=True,device_scale_factor=1)
+    mobile=mobile_context.new_page()
+    mobile_errs=[]
+    mobile.on('pageerror',lambda e: mobile_errs.append(str(e)))
+    for route in ['/', '/jobs', '/tools', '/tools/application-tracker', '/tools/interview-practice', '/daily', '/privacy']:
+        mobile.goto(BASE+route,wait_until='networkidle')
+        dims=mobile.evaluate('''() => ({viewport: window.innerWidth, content: document.documentElement.scrollWidth})''')
+        ok('Mobile 390px no horizontal overflow '+route,dims['content']<=dims['viewport']+3)
+    ok('Mobile pages have no uncaught JS errors',not mobile_errs)
+    mobile_context.close()
     context.close();browser.close()
 print(f'\n{len(passes)} actual Chromium browser checks passed')
