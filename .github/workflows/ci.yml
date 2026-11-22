@@ -74,7 +74,7 @@ jobs:
         run: php tests/mysql_integration_tests.php
 
   real-browser-e2e:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     env:
       RELEASE_READY: '0'
