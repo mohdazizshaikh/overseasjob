@@ -51,7 +51,7 @@ $cursorRejected=false;try{Jobs::himalayasNextCursor(['jobs'=>[['guid'=>'x']],'ne
 test('Empty Himalayas cursor fails closed',$cursorRejected);
 $cursorRejected=false;try{Jobs::himalayasNextCursor(['jobs'=>[],'nextCursor'=>'next']);}catch(InvalidArgumentException){$cursorRejected=true;}
 test('Next cursor with zero jobs fails closed',$cursorRejected);
-$cursorRejected=false;try{Jobs::himalayasBrowseUrl("a\\nb");}catch(InvalidArgumentException){$cursorRejected=true;}
+$cursorRejected=false;try{Jobs::himalayasBrowseUrl("a\nb");}catch(InvalidArgumentException){$cursorRejected=true;}
 test('Control bytes in cursor rejected',$cursorRejected);
 $cursorRejected=false;try{Jobs::himalayasNextCursor(['jobs'=>array_fill(0,21,[]),'nextCursor'=>'next']);}catch(InvalidArgumentException){$cursorRejected=true;}
 test('Himalayas oversized page rejected',$cursorRejected);
