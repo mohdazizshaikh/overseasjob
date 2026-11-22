@@ -26,6 +26,22 @@ final class RecruiterPortal
         if($memberId<1||!preg_match('/^[0-9]{8}$/D',$code)||strlen($secret)<32)throw new InvalidArgumentException('Invalid email challenge');
         return hash_hmac('sha256',$memberId.':'.$code,$secret);
     }
+    /** Separate reset purpose from invitation codes even for the same member/secret. */
+    public static function resetCodeHash(int $memberId,string $code,string $secret):string
+    {
+        if($memberId<1||!preg_match('/^[0-9]{8}$/D',$code)||strlen($secret)<32)
+            throw new InvalidArgumentException('Invalid password reset challenge');
+        return hash_hmac('sha256','reset:'.$memberId.':'.$code,$secret);
+    }
+    /** Session must be bound to the currently stored credential epoch, not merely member ID. */
+    public static function sessionIsCurrent(array $session,?array $member,int $now):bool
+    {
+        return $member!==null && is_int($session['recruiter_member']??null)
+            && ($session['recruiter_member']??0)===$member['id']
+            && is_int($session['recruiter_auth_version']??null)
+            && $session['recruiter_auth_version']===$member['auth_version']
+            && is_int($session['recruiter_until']??null) && $session['recruiter_until']>$now;
+    }
     public static function validateNewPassword(string $password):void
     {
         if(strlen($password)<12||strlen($password)>256||!preg_match('/[A-Z]/',$password)
@@ -121,6 +137,68 @@ final class RecruiterMysql
             $this->db->commit();return true;
         }catch(Throwable $e){if($this->db->inTransaction())$this->db->rollBack();throw $e;}
     }
+    /** The UI always shows a generic response, including for unknown/revoked accounts. */
+    public function requestPasswordReset(string $email,string $ip,callable $deliver,int $now):bool
+    {
+        $email=strtolower(trim($email));
+        if(!RecruiterPortal::validEmail($email))return false;
+        $secret=(string)getenv('RECRUITER_AUTH_HMAC_SECRET');
+        if(strlen($secret)<32)throw new RuntimeException('Auth secret unavailable');
+        if(!filter_var($ip,FILTER_VALIDATE_IP))$ip='0.0.0.0';
+        // Hourly per-mailbox and per-IP caps also apply to unknown addresses.
+        $hour=gmdate('Y-m-d H:00:00',$now);
+        foreach([['mail:'.$email,3],['ip:'.$ip,30]] as [$identity,$limit]){
+            $fingerprint=hash_hmac('sha256','reset:'.$identity,$secret);
+            $q=$this->db->prepare('INSERT INTO oj_recruiter_auth_rate(identity_hash,minute_bucket,attempts) VALUES (:key,:bucket,1) ON DUPLICATE KEY UPDATE attempts=attempts+1');
+            $q->execute(['key'=>$fingerprint,'bucket'=>$hour]);
+            $count=(int)$this->rows('SELECT attempts FROM oj_recruiter_auth_rate WHERE identity_hash=:key AND minute_bucket=:bucket',
+                ['key'=>$fingerprint,'bucket'=>$hour])[0]['attempts'];
+            if($count>$limit)return false;
+        }
+        $member=$this->memberByEmail($email);
+        if($member===null||$member['status']!=='active'||$member['email_verified_at']===null
+            ||$this->current((int)$member['id'])===null)return false;
+        $code=RecruiterPortal::newInviteCode();
+        $digest=RecruiterPortal::resetCodeHash((int)$member['id'],$code,$secret);
+        $this->db->beginTransaction();
+        try{
+            $q=$this->db->prepare('INSERT INTO oj_employer_password_resets(member_id,code_digest,expires_at,attempts,created_at) VALUES(:id,:digest,:expires,0,:created) ON DUPLICATE KEY UPDATE code_digest=VALUES(code_digest),expires_at=VALUES(expires_at),attempts=0,created_at=VALUES(created_at)');
+            $q->execute(['id'=>$member['id'],'digest'=>$digest,
+                'expires'=>gmdate('Y-m-d H:i:s',$now+900),'created'=>gmdate('Y-m-d H:i:s',$now)]);
+            if($deliver($email,$code)!==true)throw new RuntimeException('Mail submission failed');
+            $this->db->commit();return true;
+        }catch(Throwable $e){if($this->db->inTransaction())$this->db->rollBack();throw $e;}
+    }
+    /** Single-use password reset, with invalid-code lockout and global session revocation. */
+    public function confirmPasswordReset(string $email,string $code,string $password,int $now):bool
+    {
+        $email=strtolower(trim($email));
+        if(!RecruiterPortal::validEmail($email)||!preg_match('/^[0-9]{8}$/D',$code))return false;
+        RecruiterPortal::validateNewPassword($password);
+        $secret=(string)getenv('RECRUITER_AUTH_HMAC_SECRET');
+        if(strlen($secret)<32)throw new RuntimeException('Auth secret unavailable');
+        $this->db->beginTransaction();
+        try{
+            $member=$this->memberByEmail($email,true);
+            if($member===null||$member['status']!=='active'||$member['email_verified_at']===null
+                ||$this->current((int)$member['id'])===null){$this->db->commit();return false;}
+            $rows=$this->rows('SELECT * FROM oj_employer_password_resets WHERE member_id=:id FOR UPDATE',['id'=>$member['id']]);
+            $challenge=$rows[0]??null;
+            if($challenge===null||strtotime($challenge['expires_at'].' UTC')<=$now
+                ||(int)$challenge['attempts']>=5){$this->db->commit();return false;}
+            $matches=hash_equals($challenge['code_digest'],
+                RecruiterPortal::resetCodeHash((int)$member['id'],$code,$secret));
+            if(!$matches){
+                $q=$this->db->prepare('UPDATE oj_employer_password_resets SET attempts=attempts+1 WHERE member_id=:id');
+                $q->execute(['id'=>$member['id']]);$this->db->commit();return false;
+            }
+            $q=$this->db->prepare("UPDATE oj_employer_members SET password_hash=:hash,auth_version=auth_version+1 WHERE id=:id AND status='active'");
+            $q->execute(['hash'=>password_hash($password,PASSWORD_DEFAULT),'id'=>$member['id']]);
+            if($q->rowCount()!==1)throw new RuntimeException('Password reset transaction failed');
+            $q=$this->db->prepare('DELETE FROM oj_employer_password_resets WHERE member_id=:id');
+            $q->execute(['id'=>$member['id']]);$this->db->commit();return true;
+        }catch(Throwable $e){if($this->db->inTransaction())$this->db->rollBack();throw $e;}
+    }
     /** Attempts are bounded, hashed (email+IP), and do not divulge whether an account exists. */
     public function authenticate(string $email,string $password,string $ip,int $now):?array
     {
@@ -145,7 +223,8 @@ final class RecruiterMysql
         $member=$this->memberById($memberId);
         if($member===null||$member['status']!=='active'||$member['email_verified_at']===null)return null;
         $org=$this->org($member['org_id']);if($org===null||!EmployerReview::validOrg($org))return null;
-        return ['id'=>(int)$member['id'],'email'=>$member['email'],'status'=>$member['status'],
+        return ['id'=>(int)$member['id'],'auth_version'=>(int)$member['auth_version'],
+            'email'=>$member['email'],'status'=>$member['status'],
             'role'=>$member['role'],'email_verified_at'=>$member['email_verified_at'],
             'org'=>['id'=>$org['id'],'approved'=>true,'suspended'=>false,'email_verified'=>true,
               'domain_verified'=>true,'verified_domains'=>json_decode($org['verified_domains_json'],true),

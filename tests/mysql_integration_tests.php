@@ -33,7 +33,7 @@ $pdo=new PDO($dsn,(string)getenv('PARTNER_DB_USER'),(string)getenv('PARTNER_DB_P
 $pdo->exec("SET time_zone='+00:00'");
 $n=0;
 function checkDb(bool $v,string $message):void{global $n;if(!$v)throw new RuntimeException('FAIL '.$message);$n++;echo 'PASS '.$message."\n";}
-foreach(['001_partner_pilot.mysql.sql','002_employer_review.mysql.sql','003_recruiter_accounts.mysql.sql','004_employer_domain_proof.mysql.sql'] as $name){
+foreach(['001_partner_pilot.mysql.sql','002_employer_review.mysql.sql','003_recruiter_accounts.mysql.sql','004_employer_domain_proof.mysql.sql','005_recruiter_password_recovery.mysql.sql'] as $name){
     $raw=(string)file_get_contents(dirname(__DIR__).'/database/'.$name);
     // Drop full-line SQL comments before splitting: some comments contain semicolons.
     // The checked-in migrations contain no semicolons in string literals or procedures.
@@ -73,6 +73,37 @@ checkDb($portal->authenticate('manager@example.org','WrongPassword12','203.0.113
 $member=$portal->authenticate('manager@example.org','CorrectPassword123','203.0.113.11',$now);
 checkDb(is_array($member)&&RecruiterPortal::mayManage($member),'Verified member signs in after email confirmation');
 checkDb($portal->jobs($member)===[],'New employer dashboard starts empty');
+checkDb(RecruiterPortal::sessionIsCurrent([
+ 'recruiter_member'=>$member['id'],'recruiter_auth_version'=>$member['auth_version'],'recruiter_until'=>$now+600
+],$member,$now),'Newly verified member login uses current credential epoch');
+$resetCaptured=null;
+checkDb($portal->requestPasswordReset('unknown@example.org','203.0.113.12',
+ static function($email,$code)use (&$resetCaptured){$resetCaptured=[$email,$code];return true;},$now)===false
+ && $resetCaptured===null,'Unknown email password reset does not issue a message');
+checkDb($portal->requestPasswordReset('manager@example.org','203.0.113.12',
+ static function($email,$code)use (&$resetCaptured){$resetCaptured=[$email,$code];return true;},$now)===true
+ && is_array($resetCaptured),'Active employer receives password recovery through test-only callback');
+checkDb($portal->confirmPasswordReset('manager@example.org','00000000','RevisedStrongPassword123',$now)===false,
+ 'Incorrect reset code rejected');
+checkDb($portal->confirmPasswordReset('manager@example.org',$resetCaptured[1],'RevisedStrongPassword123',$now)===true,
+ 'Valid reset code changes the credential in a transaction');
+checkDb($portal->confirmPasswordReset('manager@example.org',$resetCaptured[1],'RevisedStrongPassword123',$now)===false,
+ 'Reset code is single use');
+checkDb($portal->authenticate('manager@example.org','CorrectPassword123','203.0.113.13',$now)===null,
+ 'Old password stops authenticating immediately after reset');
+$newMember=$portal->authenticate('manager@example.org','RevisedStrongPassword123','203.0.113.13',$now);
+checkDb(is_array($newMember)&&$newMember['auth_version']===$member['auth_version']+1,
+ 'New password authenticates with a new session credential epoch');
+checkDb(!RecruiterPortal::sessionIsCurrent([
+ 'recruiter_member'=>$member['id'],'recruiter_auth_version'=>$member['auth_version'],'recruiter_until'=>$now+600
+],$newMember,$now),'Earlier browser session is invalid after password reset');
+$member=$newMember;
+$expired=null;
+checkDb($portal->requestPasswordReset('manager@example.org','203.0.113.14',
+ static function($email,$code)use (&$expired){$expired=$code;return true;},$now+3600)===true,
+ 'A later recovery request creates a separate expiring code');
+checkDb($portal->confirmPasswordReset('manager@example.org',(string)$expired,'CannotReuseOldCode123',$now+3600+901)===false,
+ 'Expired recovery code fails closed');
 $form=['external_id'=>'ref-1001','title'=>'Customer Support Specialist',
  'description'=>'Support users with troubleshooting across official employer support channels.','employment_type'=>'full_time',
  'work_mode'=>'remote','location_text'=>'Remote from India','candidate_eligible_countries'=>['IN'],

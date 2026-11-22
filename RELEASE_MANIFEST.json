@@ -1,49 +1,42 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.8.0-gated-employer-review-and-portal",
+  "release": "0.9.0-recruiter-recovery-and-theme-preservation",
   "source_of_truth": "v1.3.3",
   "release_date": "2026-11-23",
-  "state": "LOCAL_DEVELOPMENT_NOT_DEPLOYED_NOT_PRODUCTION_READY",
+  "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
-    "passed": 610,
+    "passed": 652,
     "failed": 0,
-    "type": "PHP_JS_HTTP_fixture_and_security"
+    "type": "PHP_JS_HTTP_fixture_and_security_including_manifest"
   },
   "canonical_documentation": {
     "passed": 71,
     "failed": 0
   },
   "mysql_disposable_integration": {
-    "status": "PASSED_GITHUB_ACTIONS",
-    "assertions": 37,
-    "github_run_id": 45069896338,
-    "run_url": "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45069896338",
-    "environment": "disposable MySQL 8 oj_test only, test-only email",
-    "does_not_prove": [
-      "Hostinger deployment",
-      "real email delivery",
-      "real employer verification",
-      "production security",
-      "browser E2E"
-    ]
+    "status": "PENDING_NEW_CI_VERIFICATION",
+    "assertions": null,
+    "previous_v080_success_run": "45070112534",
+    "disclaimer": "Previous 37 assertions pass; new v0.9 reset and fifth migration have not yet passed remote MySQL until verified."
   },
-  "browser_e2e": "NOT VERIFIED - localhost navigation blocked in sandbox",
-  "live_provider_imports": "NOT VERIFIED - intentional empty cache",
-  "hostinger": "NOT_INSPECTED_OR_DEPLOYED",
-  "recruiter_and_public_partner_features": "ALL_DISABLED_BY_DEFAULT",
-  "ci": {
-    "deterministic_job": "passed",
-    "mysql_job": "passed",
-    "run_id": 45069896338,
-    "url": "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45069896338"
+  "current_theme": {
+    "approved_for_overwrite": false,
+    "visual_parity_verified": false,
+    "original_static_site_backup_received": false,
+    "audit_script": "scripts/theme_collision_audit.php"
   },
-  "file_count_excluding_manifest": 115,
+  "real_inbox_delivery_verified": false,
+  "hostinger_staging_verified": false,
+  "browser_e2e_verified": false,
+  "real_job_feed_verified": false,
+  "developer_notes": "Manifest files are SHA-256 verified; source-only documentation tests do not imply production security or launch approval.",
+  "file_count_excluding_manifest": 125,
   "files": [
     {
       "path": ".env.example",
-      "bytes": 1504,
-      "sha256": "edc26afff331b14864b1cca5aa4c15bac1421bdf135d675e478086e27fee53b6"
+      "bytes": 1525,
+      "sha256": "7c2970f89f5a69632f12214a2850de78cbb8d2c10b20aeab2f83ac80a88730f2"
     },
     {
       "path": ".github/workflows/ci.yml",
@@ -57,8 +50,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 6387,
-      "sha256": "00477e060cb40bd7d95e2084e34db2dc8fce845dac865b107567c0a1f6c0ad27"
+      "bytes": 7642,
+      "sha256": "fe8f9a3da2a72c8bd8388b5c7ec2a951b0d23b6d5896322fc12ae2849c9ffd1f"
     },
     {
       "path": "SOURCE_OF_TRUTH_REFERENCE/OverseasJob_v1.3.3_Source_of_Truth_Project_Pack.zip",
@@ -67,8 +60,8 @@
     },
     {
       "path": "START_HERE_FOUNDER.md",
-      "bytes": 2776,
-      "sha256": "27d3f3630ce76a249a27e2ea7324d6b6475edb15f11c13e36d9c909b873faee4"
+      "bytes": 2426,
+      "sha256": "97eac903a83bfc36595814329fe4e5493dfd8647bf0f620e251ae8ff8141335f"
     },
     {
       "path": "config/provider_policy.json",
@@ -126,6 +119,11 @@
       "sha256": "309559d5af426fd833ca3da4d059681b0a186e2e8be6bb7e7b4f37d52bb2ffa9"
     },
     {
+      "path": "database/005_recruiter_password_recovery.mysql.sql",
+      "bytes": 616,
+      "sha256": "072e2f26c2b9ffecf8b876098edfa4291cab34ffd09fb180a53a65f8df709da5"
+    },
+    {
       "path": "deploy/shared_host/DEPLOY_STAGING_README.md",
       "bytes": 4402,
       "sha256": "8884181618e06c69d23ae3ad7a5051f104846c9240b7147a75966298ed0ce90d"
@@ -181,6 +179,11 @@
       "sha256": "3af07d8dcd8c13528efddb339b503396038386ceda88300379e0005fd7c90dd6"
     },
     {
+      "path": "docs/LOCAL_TEST_OUTPUT_2026-11-23_v090.txt",
+      "bytes": 23561,
+      "sha256": "b4fddd4e4e9c5204a14da8a412c5db802239a7a736031f80dc5ab2c33aa6b8f6"
+    },
+    {
       "path": "docs/PARTNER_PILOT_STAGING_v070.md",
       "bytes": 6132,
       "sha256": "d46be48d9111750e4f31b1c88d96115b4bf1e909bd3630cd5257f51f2b3d5e60"
@@ -194,6 +197,11 @@
       "path": "docs/RC_PLUS_IMPLEMENTATION_CHANGELOG.md",
       "bytes": 2197,
       "sha256": "c83214683eae709d62110f4e0d042e910b6044efb8d8ad76ec84a2f6cb8eda10"
+    },
+    {
+      "path": "docs/RELEASE_V090_SECURITY_AND_THEME_HANDOFF.md",
+      "bytes": 5074,
+      "sha256": "e6df1ed84b03bb1fe452e28238f4bb4400e5ef94fec12d7edf7d8f8033a5bcda"
     },
     {
       "path": "docs/TEST_OUTPUT_2026-11-22.txt",
@@ -222,8 +230,8 @@
     },
     {
       "path": "module_status.json",
-      "bytes": 13956,
-      "sha256": "a932714b2768e9c53efe8e625ab6a19ff319974eb357390d6f1ae72a65f98b05"
+      "bytes": 15338,
+      "sha256": "0da8b8384a93bd17e2bbbab7531826c09ce51b935546d4e5da853dddd733db45"
     },
     {
       "path": "public/.htaccess",
@@ -322,8 +330,8 @@
     },
     {
       "path": "public/index.php",
-      "bytes": 91033,
-      "sha256": "ccf8d13cab3c2ac772b77f587636294dff75b901865327f954e52fd48353ecb8"
+      "bytes": 94750,
+      "sha256": "221d9f60d2212f810f74aeccb44aa5f4d210cd2b697eaa111875aa58bcc31a01"
     },
     {
       "path": "public/router.php",
@@ -362,8 +370,8 @@
     },
     {
       "path": "scripts/health.php",
-      "bytes": 1060,
-      "sha256": "98b56fd91eed04ecfcdae9d116ceb9ceedb0b0ccdc0515f29ae4bd48f82de860"
+      "bytes": 338,
+      "sha256": "3c984f9aee8a50ceb53ca729d070596d6012610d884426d6073f77e15e0acc98"
     },
     {
       "path": "scripts/launch_preflight.php",
@@ -382,8 +390,8 @@
     },
     {
       "path": "scripts/recruiter_invites.php",
-      "bytes": 1703,
-      "sha256": "20c15b8fbd58425c4ce1b31c269a691f959242fed223ae95898b2020f539643a"
+      "bytes": 992,
+      "sha256": "d4642937e29e7e342ab6aeba4e8d08fee4f85fda6d5382d94066a585dc490b36"
     },
     {
       "path": "scripts/restore_drill.php",
@@ -404,6 +412,16 @@
       "path": "scripts/sync_jobs.php",
       "bytes": 7270,
       "sha256": "34de5fce50d513e06a4bdd22f10ba868ea0bdc0b83657e2b616b7d98b6166898"
+    },
+    {
+      "path": "scripts/theme_collision_audit.php",
+      "bytes": 708,
+      "sha256": "c8286cd79d23eaaf76d10f0d7e1195ae8723fcf58dcbeb6e7c2b7695c73c236c"
+    },
+    {
+      "path": "scripts/verify_release_manifest.php",
+      "bytes": 1275,
+      "sha256": "954367f776109c0d6aad1598439c627d5876a75b4e526be7ddc86326744b8b8e"
     },
     {
       "path": "src/Analytics.php",
@@ -456,6 +474,11 @@
       "sha256": "fefb87b71bc56d3346a3988c107fa18e07e51e04ab234217ebe15c5adf6dc87c"
     },
     {
+      "path": "src/OpsSnapshot.php",
+      "bytes": 3540,
+      "sha256": "f3a8be296b8ba5f25161014523b444e7846f1e4fc8a4021277433cacd4edabcd"
+    },
+    {
       "path": "src/OwnerAuth.php",
       "bytes": 4157,
       "sha256": "0c6b45bfb3a7039b02b172176b81cc6a4b26cab7abc5fe816302a1692cdec69a"
@@ -476,14 +499,24 @@
       "sha256": "50d08f75d9c1ac216e066dce754ad6be3bff25e32c09010763d6c4c31d1b2909"
     },
     {
+      "path": "src/RecruiterMailer.php",
+      "bytes": 2438,
+      "sha256": "3353e19a5396e97054d8e0d3e0031e11cab93166e0ecd2fcf36b2b3ae9a532e9"
+    },
+    {
       "path": "src/RecruiterPortal.php",
-      "bytes": 11840,
-      "sha256": "81f85362a2596b52598072e608634dc991820cb2cb47bea666233e94171f5009"
+      "bytes": 17469,
+      "sha256": "5884fe1a3397f1b6a51f9f9d67040960fb6b5822ae20aa8e846579b5191be75d"
     },
     {
       "path": "src/Reports.php",
       "bytes": 5636,
       "sha256": "999d28a6ae0adff13c7bce38ddd73e0387500d92e549b72572880664709e99ca"
+    },
+    {
+      "path": "src/ThemeSafety.php",
+      "bytes": 3456,
+      "sha256": "084b1f10b1dd2e88be454885d787b525602d407d2d85cf2942bd0066990de895"
     },
     {
       "path": "src/country_aliases.json",
@@ -572,8 +605,8 @@
     },
     {
       "path": "tests/mysql_integration_tests.php",
-      "bytes": 9736,
-      "sha256": "9c3894a5b9ba8f42478cb468f05e20ee1feeffc340389b59464a312041dd7fd9"
+      "bytes": 12166,
+      "sha256": "06aef529f7ee56c36bf55a55853d33725b64c112ec354c0593659c9d0d0e8141"
     },
     {
       "path": "tests/new_tools_tests.mjs",
@@ -584,6 +617,11 @@
       "path": "tests/operational_tests.php",
       "bytes": 3069,
       "sha256": "8bc2e1a4dc2bd514a55c7d0847a53d78842ceb1d6db42278367f6d901be5ac11"
+    },
+    {
+      "path": "tests/ops_snapshot_tests.php",
+      "bytes": 2421,
+      "sha256": "18d814d758636bab3d3b908c7ce03819042cb8a8252f06609530f1dfdb1d9568"
     },
     {
       "path": "tests/owner_auth_tests.php",
@@ -601,9 +639,14 @@
       "sha256": "a0143dcce38548f2312b8c75132622b51628512b974136d3c87f85f16b4ead18"
     },
     {
+      "path": "tests/recruiter_recovery_tests.php",
+      "bytes": 6102,
+      "sha256": "e25c760266e72dd643d6a190904f963b46a2ce631c7fa9e75e27b0d56667f1a2"
+    },
+    {
       "path": "tests/run.sh",
-      "bytes": 1583,
-      "sha256": "d52cf914c3e8c98d50e7f512e9704517d8f595b366fd4bede5001a20d4acff09"
+      "bytes": 1720,
+      "sha256": "3b814f2fea53915b7b09e1fc9ff8fc35295b0cce68fcfe49f03f609fdd518dc7"
     },
     {
       "path": "tests/shared_host_layout_tests.php",

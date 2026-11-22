@@ -16,6 +16,7 @@ require OJ_PROJECT_ROOT.'/src/OwnerAuth.php';
 require OJ_PROJECT_ROOT.'/src/PartnerMysqlStore.php';
 require OJ_PROJECT_ROOT.'/src/EmployerReview.php';
 require OJ_PROJECT_ROOT.'/src/RecruiterPortal.php';
+require OJ_PROJECT_ROOT.'/src/RecruiterMailer.php';
 header('X-Content-Type-Options: nosniff');
 header('Referrer-Policy: strict-origin-when-cross-origin');
 header('X-Frame-Options: DENY');
@@ -442,7 +443,9 @@ if(RecruiterPortal::enabled() && ($path==='/employers'||str_starts_with($path,'/
   try{$svc=RecruiterMysql::fromEnvironment();
       if(is_int($_SESSION['recruiter_member']??null) && ($_SESSION['recruiter_until']??0)>$now){
           $member=$svc->current($_SESSION['recruiter_member']);
-          if(!$member){unset($_SESSION['recruiter_member'],$_SESSION['recruiter_until']);}
+          if(!RecruiterPortal::sessionIsCurrent($_SESSION,$member,$now)){
+              $member=null;unset($_SESSION['recruiter_member'],$_SESSION['recruiter_until'],$_SESSION['recruiter_auth_version']);
+          }
       }
   }catch(Throwable){http_response_code(503);exit('Employer portal temporarily unavailable');}
   if(($_SERVER['REQUEST_METHOD']??'GET')==='POST'){
@@ -453,12 +456,32 @@ if(RecruiterPortal::enabled() && ($path==='/employers'||str_starts_with($path,'/
                   $verified=$svc->confirm(strtolower(trim((string)($_POST['email']??''))),
                       (string)($_POST['code']??''),(string)($_POST['password']??''),$now);
                   $notice=$verified?'Email verified; sign in with your password.':'Verification failed or expired. Contact the pilot owner.';
+              }elseif($path==='/employers/reset'){
+                  if(($_POST['mode']??'')==='request'){
+                      // Never disclose whether this address exists, is active or is rate-limited.
+                      try{$svc->requestPasswordReset((string)($_POST['email']??''),
+                          (string)($_SERVER['REMOTE_ADDR']??''),
+                          static fn(string $email,string $code):bool=>RecruiterMailer::send($email,$code,'reset'),$now);
+                      }catch(Throwable){}
+                      $notice='If an eligible employer account exists, a reset code may have been sent. Check your mailbox.';
+                  }elseif(($_POST['mode']??'')==='confirm'){
+                      $reset=$svc->confirmPasswordReset((string)($_POST['email']??''),
+                          (string)($_POST['code']??''),(string)($_POST['password']??''),$now);
+                      if($reset){
+                          $_SESSION=[];session_regenerate_id(true);
+                          $_SESSION['recruiter_csrf']=bin2hex(random_bytes(24));
+                      }
+                      $notice=$reset?'Password updated. All earlier employer sessions are revoked. Please sign in.':
+                          'Reset could not be completed. Request a fresh code if needed.';
+                  }else{http_response_code(400);$err='Unsupported reset action';}
               }elseif($path==='/employers/login'){
                   $authenticated=$svc->authenticate((string)($_POST['email']??''),(string)($_POST['password']??''),
                     (string)($_SERVER['REMOTE_ADDR']??''),$now);
                   if(!$authenticated){$err='Sign-in failed. Check credentials or verification status.';http_response_code(401);}
                   else{session_regenerate_id(true);$_SESSION['recruiter_csrf']=bin2hex(random_bytes(24));
-                      $_SESSION['recruiter_member']=$authenticated['id'];$_SESSION['recruiter_until']=$now+1200;
+                      $_SESSION['recruiter_member']=$authenticated['id'];
+                      $_SESSION['recruiter_auth_version']=$authenticated['auth_version'];
+                      $_SESSION['recruiter_until']=$now+1200;
                       header('Location: /employers/dashboard',true,303);exit;}
               }elseif($path==='/employers/logout'){
                   $_SESSION=[];session_regenerate_id(true);$_SESSION['recruiter_csrf']=bin2hex(random_bytes(24));
@@ -495,7 +518,26 @@ if(RecruiterPortal::enabled() && ($path==='/employers'||str_starts_with($path,'/
   frameStart('Employer pilot',true);
   if($path==='/employers'){
       heading('Invite-only employer pilot','Employer submissions','Only independently approved organisations with verified member emails may create pending-review jobs.');
-      echo '<section class="section"><div class="container reading"><p>No guarantee of publication, applicants, visas or approval. <a href="/employers/login">Employer member sign-in</a> · <a href="/employers/verify">Confirm email invitation</a>.</p></div></section>';
+      echo '<section class="section"><div class="container reading"><p>No guarantee of publication, applicants, visas or approval. <a href="/employers/login">Employer member sign-in</a> · <a href="/employers/verify">Confirm email invitation</a> · <a href="/employers/reset">Reset password</a>.</p></div></section>';
+  }elseif($path==='/employers/reset'){
+      heading('Employer account recovery','Reset your password','For independently approved employer accounts only. This is not a candidate login.');
+      echo '<section class="section"><div class="container reading surface">';
+      if($err)echo '<p role="alert" class="notice error">'.h($err).'</p>';
+      if($notice)echo '<p role="status">'.h($notice).'</p>';
+      echo '<h2>Request a private reset code</h2><form method="post" action="/employers/reset">';
+      echo '<input type="hidden" name="csrf" value="'.h($_SESSION['recruiter_csrf']).'">';
+      echo '<input type="hidden" name="mode" value="request">';
+      echo '<label>Invited employer email<input type="email" name="email" maxlength="254" required autocomplete="email"></label>';
+      echo '<button class="button button-secondary" type="submit">Request reset code</button></form>';
+      echo '<h2>Confirm code and choose new password</h2><form method="post" action="/employers/reset">';
+      echo '<input type="hidden" name="csrf" value="'.h($_SESSION['recruiter_csrf']).'">';
+      echo '<input type="hidden" name="mode" value="confirm">';
+      echo '<label>Employer email<input type="email" name="email" maxlength="254" required autocomplete="username"></label>';
+      echo '<label>8-digit code<input name="code" inputmode="numeric" pattern="[0-9]{8}" maxlength="8" required></label>';
+      echo '<label>New strong password<input name="password" type="password" minlength="12" maxlength="256" required autocomplete="new-password"></label>';
+      echo '<button class="button button-primary" type="submit">Reset password</button></form>';
+      echo '<p class="tiny">Codes expire in 15 minutes. Multiple failed attempts lock the code. Password reset invalidates earlier employer sessions. Mailbox delivery must be checked in staging.</p>';
+      echo '</div></section>';
   }elseif($path==='/employers/login'||$path==='/employers/verify'){
       heading('Secure employer sign-in',$path==='/employers/login'?'Member login':'Confirm invited email','Employer access only after genuine email and organisation verification.');
       echo '<section class="section"><div class="container reading surface">';
@@ -506,6 +548,7 @@ if(RecruiterPortal::enabled() && ($path==='/employers'||str_starts_with($path,'/
       if($path==='/employers/verify')echo '<label>8-digit email code<input name="code" inputmode="numeric" pattern="[0-9]{8}" maxlength="8" required></label>';
       echo '<label>Strong password<input type="password" name="password" maxlength="256" minlength="12" required autocomplete="'.($path==='/employers/login'?'current-password':'new-password').'"></label>';
       echo '<button class="button button-primary" type="submit">'.($path==='/employers/login'?'Sign in':'Confirm email and set password').'</button></form>';
+      if($path==='/employers/login')echo '<p><a href="/employers/reset">Forgot employer password?</a></p>';
       echo '</div></section>';
   }elseif($path==='/employers/dashboard'||$path==='/employers/jobs/new'||preg_match('#^/employers/jobs/(job_[a-f0-9]{24})/edit$#',$path)){
       if(!$member){http_response_code(401);heading('Sign-in required','No active verified member session');echo '<section class="section"><div class="container"><a href="/employers/login">Sign in</a></div></section>';}

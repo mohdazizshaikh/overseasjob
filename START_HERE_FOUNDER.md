@@ -1,22 +1,20 @@
-# OverseasJob.in v0.8.0 — Founder Report (23 November 2026)
+# OverseasJob.in v0.9.0 — Founder status (23 November 2026)
 
-**Status: meaningful new code implemented; public launch remains BLOCKED.** The live overseasjob.in site and hosting have not been modified.
+**Current position: code development ongoing; PUBLIC DEPLOYMENT IS NOT APPROVED.** The existing overseasjob.in theme and website are untouched. User prefers that current theme; it will be preserved and separately compared, not overwritten by this project's newer CSS.
 
-### What was actually implemented
+## Implemented and tested locally
 
-The 10 career tools, job discovery, Radar, Daily Mission, privacy controls and partner API core remain intact. This update adds genuine first-party job publication plumbing and an employer dashboard foundation: **invite-only emailed one-time confirmation**, strong password and login throttling, organisation-scoped job creation/edit/close, review-required job changes and separate owner-controlled job approval with a permanent audit trail. An independent DNS TXT checker can record domain control; the founder still must approve company legitimacy, representative authority and applicable recruiting rules using real evidence.
+- Core search/Job Decision Cards, all ten free tools, Career Radar, Daily Mission, privacy controls, moderation and owner panel code from earlier releases are preserved.
+- Invite-only employer/partner API, DNS proof, first-party publication approval, recruiter dashboard and MySQL schema from v0.8.0 are preserved behind default-OFF feature gates.
+- New **recruiter forgot-password flow**: time-limited one-time mailbox code, bounded attempts, password hashing and forced invalidation of previous browser sessions. Email configuration is required and actual Hostinger inbox delivery is **not** verified.
+- New **theme collision audit** is strictly read-only, detects static HTML and PHP/CSS collisions on a **local backup**, and intentionally cannot approve any replacement of live website files. Current static site files/screenshots have not been supplied for visual parity checking.
+- New **operational snapshot** gives owner-safe counts and honest missing-cache/backup warnings without leaking report contents.
+- Full source ZIP manifest with SHA-256 verification. Unit and HTTP checks run in the local toolchain; the new disposable MySQL tests must be judged by the actual GitHub Actions result.
 
-Public direct employer cards are separate from feed listings, require a human `publish` audit for the *current revision*, valid company evidence, a controlled HTTPS application link and future expiry. Suspended/closed/edited/unapproved jobs are hidden. The code never turns provider jobs into first-party inventory.
+## Required real-world gates
 
-### Tests and deployment honesty
+The current website's original static HTML/CSS and visual screenshots, Hostinger plan and private staging environment, actual emailed confirmation, MySQL migration/rollback on staging, live Jobicy/Himalayas providers, 14 observed days of job inventory, accessibility/mobile browser E2E, editorial/legal approvals and production backup restore are **not independently verified**. The release preflight stays `ready:false`. Real employers and their application data must not be activated until these checks pass.
 
-- Local PHP/JavaScript/HTTP deterministic test suite is run from `sh tests/run.sh`; see `docs/LOCAL_TEST_OUTPUT_2026-11-23_v080.txt` for **measured** check count.
-- **Verified GitHub CI SUCCESS:** [run #45069896338](https://github.com/mohdazizshaikh/overseasjob/actions/runs/45069896338) passed deterministic checks and **37 MySQL 8 integration assertions** in a disposable `oj_test` database: migrations, test-only email challenge, recruiter login, owner review, audit, edit/close, idempotence and token revocation. This is NOT evidence of Hostinger staging readiness or real email delivery.
-- MySQL PDO is absent in this local container. Real Hostinger MySQL, DNS, outbound email, SSL, migration rollback and full browser tests are **not** verified. No actual employer has been approved or invited, and the jobs cache is still deliberately empty.
-- New employer features, Partner Posting API, analytics, advertising and `RELEASE_READY` are all OFF by default. The v1.3.3 canonical specifications remain unchanged. No extra paid APIs or recurring subscriptions have been introduced.
+**Next safe handoff:** obtain a sanitized archive of current `public_html`, deploy this separate new backend to an isolated staging site, compare and port the preferred theme before any public cutover. No need to change current production site now.
 
-**Next substantive work:** On authorised Hostinger staging, inspect actual PHP/MySQL/mail/DNS and verified backups; test private MySQL migration, member email delivery, original browser E2E, accessibility, legal/editorial review and real source feeds. Do not activate real employers or public jobs until those facts are observed.
-
-Repository: https://github.com/mohdazizshaikh/overseasjob
-
-Technical staging runbook: `docs/EMPLOYER_VERIFICATION_AND_MODERATION_v080.md`.
+GitHub repository: https://github.com/mohdazizshaikh/overseasjob
