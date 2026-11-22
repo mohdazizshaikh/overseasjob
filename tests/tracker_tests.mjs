@@ -1,0 +1,31 @@
+import {strict as assert} from 'node:assert';
+import {STATUSES, normaliseRecord,readTracker,writeTracker,importTrackerJSON,exportTrackerJSON,exportTrackerCSV,parseTrackerCSV,followupIcs,saveFromJob,safeExternalUrl,MAX_RECORDS} from '../public/assets/tracker.mjs';
+let pass=0;function check(name,fn){try{fn();console.log('PASS '+name);pass++;}catch(error){console.error('FAIL '+name,error);process.exit(1);}}
+function stub(){let x=new Map();return {getItem:k=>x.get(k)??null,setItem:(k,v)=>x.set(k,v),removeItem:k=>x.delete(k)}}
+const a={id:'manual-a',company:'Example, Ltd',role:'Cloud Engineer',url:'https://example.org/jobs/123',work_location:'Remote',status:'applied',applied_at:'2026-11-15',followup_date:'2026-12-01',notes:'Step 1: call, Step 2: write\nKeep questions',created_at:'2026-11-15T10:00:00Z',updated_at:'2026-11-22T08:15:00Z'};
+const b={...a,id:'manual-b',company:'=SUM(1+1) Team',role:'Helpdesk + Support',notes:'@risk formula',followup_date:'',status:'saved',applied_at:''};
+check('Canonical tracker statuses',()=>assert.equal(STATUSES.length,6));
+check('Valid manual record normalises',()=>assert.equal(normaliseRecord(a).company,'Example, Ltd'));
+check('HTTPS URLs allowed',()=>assert.equal(safeExternalUrl('https://example.org/jobs/123'),a.url));
+check('JS URLs rejected',()=>assert.throws(()=>safeExternalUrl('javascript:alert(1)')));
+check('HTTP URLs rejected',()=>assert.throws(()=>safeExternalUrl('http://example.org/')));
+check('IP destinations rejected',()=>assert.throws(()=>safeExternalUrl('https://127.0.0.1/jobs')));
+check('Invalid status rejected',()=>assert.throws(()=>normaliseRecord({...a,status:'auto-applied'})));
+check('Missing company rejected',()=>assert.throws(()=>normaliseRecord({...a,company:''})));
+check('Invalid Feb 30 date rejected',()=>assert.throws(()=>normaliseRecord({...a,followup_date:'2026-02-30'})));
+check('Malformed JSON rejected',()=>assert.throws(()=>importTrackerJSON('not-json')));
+check('JSON export/import lossless',()=>assert.deepEqual(importTrackerJSON(exportTrackerJSON([a,b])),[normaliseRecord(a),normaliseRecord(b)]));
+check('Invalid JSON schema rejected',()=>assert.throws(()=>importTrackerJSON('{"schema_version":2,"records":[]}')));
+check('Duplicate record IDs rejected',()=>assert.throws(()=>importTrackerJSON(exportTrackerJSON([a,a]))));
+check('Records limit enforced',()=>assert.throws(()=>writeTracker(Array.from({length:MAX_RECORDS+1},(_,i)=>({...a,id:'manual-'+i})),stub())));
+check('Stored tracker read/write roundtrip',()=>{const s=stub();writeTracker([a,b],s);assert.equal(readTracker(s).length,2)});
+check('CSV handles quotes/commas/newlines',()=>{const txt=exportTrackerCSV([{...a,notes:'Comma, double "quote"\nnext'}]);const imported=parseTrackerCSV(txt);assert.equal(imported[0].notes,'Comma, double "quote"\nnext');});
+check('CSV formula injection escaped',()=>{const txt=exportTrackerCSV([b]);assert.match(txt,/"'=SUM/);assert.match(txt,/"'@risk/);});
+check('CSV own export can reimport safely',()=>{const txt=exportTrackerCSV([b]);const out=parseTrackerCSV(txt);assert.equal(out[0].company,'=SUM(1+1) Team');assert.equal(out[0].notes,'@risk formula');});
+check('Malformed CSV header rejected',()=>assert.throws(()=>parseTrackerCSV('random,columns\na,b')));
+check('ICS is a valid all-day event, not email',()=>{const ics=followupIcs(a);assert.match(ics,/BEGIN:VCALENDAR/);assert.match(ics,/DTSTART;VALUE=DATE:20261201/);assert.match(ics,/END:VEVENT/);});
+check('ICS without date refused',()=>assert.throws(()=>followupIcs(b)));
+check('Save from source is manual and idempotent',()=>{const store=stub();saveFromJob({jobId:'provider:jobicy:123',title:'Cloud engineer',company:'Example',url:'https://jobicy.com/jobs/example'},store);saveFromJob({jobId:'provider:jobicy:123',title:'Cloud engineer',company:'Example',url:'https://jobicy.com/jobs/example'},store);assert.equal(readTracker(store).length,1);assert.equal(readTracker(store)[0].status,'saved');});
+check('CSV malicious formula exports inert',()=>assert.match(exportTrackerCSV([{...a,role:'-cmd'}]),/"'-cmd"/));
+check('JSON import rejects non-HTTPS source',()=>assert.throws(()=>importTrackerJSON(exportTrackerJSON([a]).replace('https://example.org','javascript://example.org'))));
+console.log(`\n${pass} Application Tracker JavaScript checks passed.`);

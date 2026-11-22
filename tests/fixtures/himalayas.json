@@ -1,0 +1,8 @@
+{
+  "jobs": [
+    {"title":"Cloud Engineer","guid":"https://himalayas.app/companies/sample/jobs/test-cloud","applicationLink":"https://himalayas.app/companies/sample/jobs/test-cloud","companyName":"Fixture Co","locationRestrictions":[],"timezoneRestrictions":[],"pubDate":1795258800,"expiryDate":1924905600,"minSalary":80000,"maxSalary":100000,"currency":"USD","salaryPeriod":"annual","excerpt":"Worldwide remote fixture"},
+    {"title":"US Analyst","guid":"https://himalayas.app/companies/sample/jobs/test-us","applicationLink":"https://himalayas.app/companies/sample/jobs/test-us","companyName":"Fixture Co","locationRestrictions":["US"],"timezoneRestrictions":[],"excerpt":"US restricted fixture"},
+    {"title":"Time-restricted Analyst","guid":"https://himalayas.app/companies/sample/jobs/test-time","applicationLink":"https://himalayas.app/companies/sample/jobs/test-time","companyName":"Fixture Co","locationRestrictions":[],"timezoneRestrictions":[-4],"excerpt":"Timezone restricted fixture"},
+    {"title":"Unknown eligibility role","guid":"https://himalayas.app/companies/sample/jobs/test-unknown","applicationLink":"https://himalayas.app/companies/sample/jobs/test-unknown","companyName":"Fixture Co","excerpt":"Unknown country and timezone fixture"}
+  ]
+}

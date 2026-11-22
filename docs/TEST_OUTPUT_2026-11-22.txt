@@ -1,0 +1,53 @@
+PASS Jobicy fixture maps stable source ID
+PASS Jobicy source and apply URL preserved
+PASS Explicit Anywhere allowed from IN (location only)
+PASS US-only not India eligible
+PASS Unknown visa sponsorship
+PASS No imported JobPosting schema
+PASS No external resyndication
+PASS Jobicy pubDate mapped source published
+PASS Worldwide + all timezones confirmed IN
+PASS Himalayas applyLink preserved
+PASS Himalayas pubDate is update, not publication
+PASS Himalayas US-only not eligible
+PASS Himalayas timezone mismatch not eligible
+PASS Himalayas missing restrictions unknown
+PASS Invalid timezone offset stays unknown
+PASS India UTC+05:30 allowed
+PASS Unsafe JS URL rejected
+PASS HTTP URL rejected
+PASS IP target URL rejected
+PASS Wrong Jobicy source host rejected
+PASS Fresh active visible
+PASS Closed hidden
+PASS Stale after 72h hidden
+PASS Expired job hidden
+PASS IN filter excludes US-only
+PASS Onsite abroad not faked by remote jobs
+PASS Fixture jobicy import exits successfully
+PASS Imported two fixture jobs only in isolated temp
+PASS Idempotent re-import: two jobs
+PASS First seen preserved
+PASS Zero-job sync fails safely
+PASS Last healthy cache preserved on bad sync
+
+32 PHP checks passed.
+PASS T01 gross 120000 less 10% + 50000 expenses gives 58000
+PASS T01 53.7037% savings rate
+PASS T01 negative savings allowed
+PASS T01 net deductions rejected
+PASS T01 annual salary normalised monthly
+PASS T01 first-year after move deducted once
+PASS T01 NaN rejected
+PASS T02 example A and B
+PASS T02 conditional bonus excluded
+PASS T02 currency mismatch without FX cannot rank
+PASS T02 currency mismatch with user FX converted
+PASS T05 winter London vs India
+PASS T05 summer London DST
+PASS T05 overlap from India to UK has slots
+PASS T05 no overlap reveals empty results
+PASS T05 invalid timezone rejected
+
+16 JavaScript checks passed.
+PASS 18 HTTP smoke/preview safety checks

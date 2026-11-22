@@ -1,0 +1,179 @@
+{
+  "version": 1,
+  "editorial_status": "original_exercises_not_employer_verified",
+  "roles": [
+    "it_support",
+    "customer_support",
+    "administration"
+  ],
+  "questions": [
+    {
+      "id": "it-01",
+      "role": "it_support",
+      "prompt": "A colleague says the laptop has internet but their work website does not load. What steps do you take?",
+      "objective": "Isolate scope and use evidence before changing settings.",
+      "rubric": [
+        "Clarifies one website versus all websites",
+        "Checks DNS, browser, network and service status in order",
+        "Records the result and escalates without unnecessary risky changes"
+      ],
+      "sample_structure": "Clarify impact → reproduce safely → isolate device/network/service → try minimal reversible steps → communicate next action.",
+      "source": "Original OverseasJob.in editorial exercise; not an employer assessment",
+      "reviewed_at": "2026-11-23"
+    },
+    {
+      "id": "it-02",
+      "role": "it_support",
+      "prompt": "How would you handle a suspicious email reported by a colleague?",
+      "objective": "Explain safe incident handling and communication.",
+      "rubric": [
+        "Does not click suspect links or download attachments",
+        "Uses organisation reporting/security process",
+        "Guides colleague without blame and limits further exposure"
+      ],
+      "sample_structure": "Contain → report using approved channel → collect safe metadata → advise user → follow up.",
+      "source": "Original OverseasJob.in editorial exercise; not an employer assessment",
+      "reviewed_at": "2026-11-23"
+    },
+    {
+      "id": "it-03",
+      "role": "it_support",
+      "prompt": "Two support tickets arrive: one printer failure and one company-wide sign-in outage. How do you prioritise?",
+      "objective": "Describe impact/urgency triage.",
+      "rubric": [
+        "Assesses breadth and criticality",
+        "Communicates status to affected users",
+        "Documents prioritisation and follows escalation policy"
+      ],
+      "sample_structure": "Assess severity → respond to widespread outage → update ticket owners → return to lower-impact ticket.",
+      "source": "Original OverseasJob.in editorial exercise; not an employer assessment",
+      "reviewed_at": "2026-11-23"
+    },
+    {
+      "id": "it-04",
+      "role": "it_support",
+      "prompt": "Describe a time you had to learn an unfamiliar tool to solve an issue.",
+      "objective": "Use truthful structured example and reflection.",
+      "rubric": [
+        "States the genuine initial problem",
+        "Explains verification and learning steps",
+        "Describes result or lessons without exaggerating"
+      ],
+      "sample_structure": "Situation → task → action → actual result or learning.",
+      "source": "Original OverseasJob.in editorial exercise; not an employer assessment",
+      "reviewed_at": "2026-11-23"
+    },
+    {
+      "id": "customer-01",
+      "role": "customer_support",
+      "prompt": "A customer says the issue has been reported three times and is still unresolved. What would you say?",
+      "objective": "Show ownership, empathy and concrete follow-through.",
+      "rubric": [
+        "Acknowledges the previous attempts",
+        "Avoids an unsupported resolution promise",
+        "Explains next step and follow-up time"
+      ],
+      "sample_structure": "Acknowledge frustration → summarise issue → check case history → offer realistic escalation/follow-up.",
+      "source": "Original OverseasJob.in editorial exercise; not an employer assessment",
+      "reviewed_at": "2026-11-23"
+    },
+    {
+      "id": "customer-02",
+      "role": "customer_support",
+      "prompt": "You do not know the answer to a customer’s product question. What do you do?",
+      "objective": "Demonstrate honesty and information retrieval.",
+      "rubric": [
+        "Avoids inventing an answer",
+        "Checks trusted product documentation",
+        "Communicates when and how a verified response will be provided"
+      ],
+      "sample_structure": "State what is known → explain verification step → consult approved source → return with answer.",
+      "source": "Original OverseasJob.in editorial exercise; not an employer assessment",
+      "reviewed_at": "2026-11-23"
+    },
+    {
+      "id": "customer-03",
+      "role": "customer_support",
+      "prompt": "A customer asks for a refund outside the published policy. How would you respond?",
+      "objective": "Use policy and respectful escalation.",
+      "rubric": [
+        "Verifies purchase facts and policy",
+        "Does not promise an unauthorised refund",
+        "Explains an escalation or appeal option if available"
+      ],
+      "sample_structure": "Listen → verify facts → clarify policy → offer approved option → document outcome.",
+      "source": "Original OverseasJob.in editorial exercise; not an employer assessment",
+      "reviewed_at": "2026-11-23"
+    },
+    {
+      "id": "customer-04",
+      "role": "customer_support",
+      "prompt": "Tell us about a time you de-escalated a tense conversation.",
+      "objective": "Structured evidence, not generic claims.",
+      "rubric": [
+        "Uses real example",
+        "Shows listening and concrete action",
+        "Distinguishes outcome from intention"
+      ],
+      "sample_structure": "Situation → what customer needed → your response → observed result.",
+      "source": "Original OverseasJob.in editorial exercise; not an employer assessment",
+      "reviewed_at": "2026-11-23"
+    },
+    {
+      "id": "admin-01",
+      "role": "administration",
+      "prompt": "Two managers request urgent reports due at the same time. How do you proceed?",
+      "objective": "Prioritise, communicate and manage dependencies.",
+      "rubric": [
+        "Clarifies actual deadline and impact",
+        "Checks dependencies and workload",
+        "Negotiates transparently without hiding delays"
+      ],
+      "sample_structure": "Clarify scope → estimate effort → set order with stakeholders → deliver/update.",
+      "source": "Original OverseasJob.in editorial exercise; not an employer assessment",
+      "reviewed_at": "2026-11-23"
+    },
+    {
+      "id": "admin-02",
+      "role": "administration",
+      "prompt": "How do you protect private information in a shared office spreadsheet?",
+      "objective": "Demonstrate confidentiality hygiene.",
+      "rubric": [
+        "Uses approved permissions/access controls",
+        "Avoids sending data to unauthorised recipients",
+        "Understands incident reporting if an error occurs"
+      ],
+      "sample_structure": "Identify sensitivity → restrict access → verify recipient → use secure sharing → report exceptions.",
+      "source": "Original OverseasJob.in editorial exercise; not an employer assessment",
+      "reviewed_at": "2026-11-23"
+    },
+    {
+      "id": "admin-03",
+      "role": "administration",
+      "prompt": "You discover a numerical error in a report already sent to a stakeholder. What do you do?",
+      "objective": "Accountable quality assurance.",
+      "rubric": [
+        "Verifies the correction before notifying",
+        "Communicates error promptly and clearly",
+        "Documents preventive check"
+      ],
+      "sample_structure": "Recalculate → confirm correct data → notify affected recipients → send corrected version → prevent repeat.",
+      "source": "Original OverseasJob.in editorial exercise; not an employer assessment",
+      "reviewed_at": "2026-11-23"
+    },
+    {
+      "id": "admin-04",
+      "role": "administration",
+      "prompt": "Give an example of improving a repetitive administrative workflow.",
+      "objective": "Show measurable, truthful improvements.",
+      "rubric": [
+        "Describes original process",
+        "Explains a practical intervention",
+        "Provides real outcome or learned limitation"
+      ],
+      "sample_structure": "Baseline → simple change → validation → measured benefit or lessons.",
+      "source": "Original OverseasJob.in editorial exercise; not an employer assessment",
+      "reviewed_at": "2026-11-23"
+    }
+  ]
+}

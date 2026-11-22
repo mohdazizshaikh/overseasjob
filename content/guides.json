@@ -1,0 +1,89 @@
+[
+  {
+    "slug": "remote-worldwide-vs-us-only",
+    "title": "Remote worldwide vs US-only: how to check before applying",
+    "summary": "The word remote tells you where the work may happen, not automatically where the employer can hire you.",
+    "research_date": "2026-11-22",
+    "editorial_status": "draft_requires_editorial_review",
+    "reviewed_at": null,
+    "sections": [
+      {"heading": "Read two restrictions, not one", "paragraphs": ["A remote listing can state a location restriction and a separate time-zone restriction. For instance, a role might welcome applicants based in India but require regular overlap with a US team. Another could allow any work schedule while hiring only US residents. These are different questions.", "Before relying on an eligibility badge, open the original listing. Identify the exact employer wording for applicant location, work arrangement and required working hours. If any of these are absent, record them as unknown; avoid treating a generic Remote title as worldwide permission."], "checklist": ["Does the employer explicitly include India or state truly worldwide eligibility?", "Does a time-zone or local-hours requirement rule out your schedule?", "Is it an employee role, contractor engagement or an independent-business arrangement?", "Do you need legal local work authorisation, and is the employer willing to hire in your country?"]},
+      {"heading": "Try a simple decision example", "paragraphs": ["Suppose Job A says Remote — United States only, and Job B says Remote — applicants located in India accepted, overlap 3 hours with London. Job A is not a confirmed India option. Job B may be worth researching further, but the listing still does not prove visa, tax, payroll or employer legitimacy.", "Ask the employer or its authorised application channel for clarification if the wording is ambiguous. Your time is better spent on positions that show evidence rather than hopeful interpretation."], "checklist": ["Save the exact source link and the date you reviewed it.", "Use the salary and time-zone tools only with known inputs.", "If the source changes, re-evaluate instead of relying on an old screenshot."]}
+    ],
+    "sources": [
+      {"title": "Himalayas — how remote job restrictions work", "url": "https://himalayas.app/docs/how-remote-jobs-work-on-himalayas"},
+      {"title": "Himalayas — remote jobs API fields", "url": "https://himalayas.app/docs/remote-jobs-api"}
+    ],
+    "related_tool": "/tools/time-zone-overlap"
+  },
+  {
+    "slug": "compare-overseas-job-offers",
+    "title": "Compare two overseas job offers without overlooking hidden costs",
+    "summary": "A bigger headline salary is not always the offer that leaves more money after expenses, uncertainty and relocation.",
+    "research_date": "2026-11-22",
+    "editorial_status": "draft_requires_editorial_review",
+    "reviewed_at": null,
+    "sections": [
+      {"heading": "Make both offers comparable", "paragraphs": ["Start by putting both salaries on the same time basis, such as monthly. Identify whether amounts are gross or net. A guaranteed base salary belongs in the recurring-pay column; a performance-based bonus belongs in an uncertain-payment column, not in guaranteed savings.", "Record the currency and the exact exchange-rate assumption you personally chose. Avoid using a remembered rate as though it were live. If the rates or taxes are unknown, the comparison is incomplete and should say so."], "checklist": ["Guaranteed monthly cash versus conditional bonuses", "Explicit net pay versus gross pay and estimated deductions", "Accommodation, transport, medical insurance and dependants' likely costs", "One-time flights, deposits, relocation and setup expenses"]},
+      {"heading": "Illustrative calculation", "paragraphs": ["Offer A could give 100,000 per month after deductions, with 60,000 in monthly expenses and a 100,000 first-year move cost. That leaves estimated first-year savings of 380,000. Offer B could give 80,000 per month after deductions, with 30,000 expenses and no move cost; first-year savings would be 600,000. This example uses a single invented unit of money for comparison, not a country salary benchmark.", "These totals do not decide whether either job is suitable. Noncash benefits, risk, family situation, professional growth, working hours and the genuineness of the employer still matter. Keep those factors separate from mathematical outputs."], "checklist": ["Never compare two different currencies without an explicit rate.", "Do not include conditional bonuses in guaranteed savings.", "Verify actual employment terms at the original source."]}
+    ],
+    "sources": [
+      {"title": "OverseasJob — salary savings tool", "url": "https://overseasjob.in/tools/salary-savings"},
+      {"title": "OverseasJob — offer comparison tool", "url": "https://overseasjob.in/tools/offer-compare"}
+    ],
+    "related_tool": "/tools/offer-compare"
+  },
+  {
+    "slug": "recognise-overseas-job-scams",
+    "title": "Overseas job scam checks before sharing money or documents",
+    "summary": "Use independent company and recruiter verification, not urgency, logos or chat screenshots, to decide what is trustworthy.",
+    "research_date": "2026-11-22",
+    "editorial_status": "draft_requires_editorial_review",
+    "reviewed_at": null,
+    "sections": [
+      {"heading": "Warning signals deserve verification", "paragraphs": ["An unsolicited message promising guaranteed overseas employment, requesting payment to an individual's account, or insisting that you transfer money immediately should be treated as a warning signal. The presence of a brand logo, a professional-looking PDF or a job listing is not proof that a recruiter is authorised.", "Find the company's official website independently rather than using a link in the message. Compare the website, vacancy and contact channel. Where India-based recruiting agents are involved, consult India's official overseas-employment information and registered-agent services as appropriate to the arrangement."], "checklist": ["Search for the employer independently; confirm vacancy through its own trusted channel.", "Check whether the supposed recruiter has verifiable authority and an appropriate registration if applicable.", "Do not send original passport images, banking credentials, OTPs or deposits merely to reserve an interview.", "Compare the sender's email domain with independently established company contact information."]},
+      {"heading": "What to do when unsure", "paragraphs": ["Keep the public job URL, date and non-sensitive evidence. Do not disclose private documents in open report forms. Stop the interaction if the other party pressures you to act before independent verification.", "A portal that links to a vacancy does not certify the company or guarantee a visa. Official government channels should be used for current emigration, recruitment and work-authorisation requirements. OverseasJob.in provides a reporting form for reviewing suspicious links, not emergency assistance or a government verification service."], "checklist": ["Read government advice before paying any recruiter.", "Report suspected fraud to the relevant official authority where appropriate.", "Treat sponsorship and work permits as unknown until supported by reliable documents."]}
+    ],
+    "sources": [
+      {"title": "India Ministry of External Affairs — overseas employment", "url": "https://www.mea.gov.in/overseas-employment.htm"},
+      {"title": "India government eMigrate service", "url": "https://emigrate.gov.in/"},
+      {"title": "UAE government — labour and visa fraud prevention", "url": "https://u.ae/en/information-and-services/visa-and-emirates-id/Visa-information/tips-to-avoid-labour-and-visa-fraud"}
+    ],
+    "related_tool": "/report-job"
+  },
+  {
+    "slug": "uae-relocation-budget",
+    "title": "UAE relocation budgeting: questions to answer before accepting an offer",
+    "summary": "Estimate the funds needed to travel, settle and survive while verifying the actual work arrangement separately.",
+    "research_date": "2026-11-22",
+    "editorial_status": "draft_requires_editorial_review",
+    "reviewed_at": null,
+    "sections": [
+      {"heading": "Separate one-time and recurring costs", "paragraphs": ["One-time items may include flights, document preparation, housing deposits and initial household setup. Recurring items may include rent, groceries, transport, utilities, insurance contributions and dependent-related expenses. Do not combine these two categories without explaining the calculation.", "Also record who actually pays. Some offers mention accommodation, transport or relocation support, but the wording matters: reimbursement is not the same as cash paid before departure. Never invent a government fee or assume the employer will cover a cost not stated in the offer."], "checklist": ["Ask for a written breakdown of salary and employer-funded benefits.", "Check when the first salary arrives relative to moving and deposits.", "Model an emergency reserve using months of user-entered expenses.", "Compare first-year savings, not only monthly headline pay."]},
+      {"heading": "A small budgeting example", "paragraphs": ["If your estimated one-time costs total 60,000 and monthly living expenses are 40,000 in one consistent currency, a three-month reserve is 120,000. Applying a user-selected 10% contingency to the sum of one-time costs plus reserve adds 18,000, for a working cash target of 198,000. This is an illustration of a planning method, not an estimate of UAE living costs.", "The UAE government documents formal offer, contract and work-permit processes. Use current official guidance for your specific case and contact the relevant authorities for genuine requirements before committing funds or travel."], "checklist": ["Enter your own currency and expense values; do not treat sample amounts as official.", "Check the employer's contract and application process independently.", "Do not treat tourist permission as permission to take up paid work."]}
+    ],
+    "sources": [
+      {"title": "Official UAE government — employment process", "url": "https://u.ae/en/information-and-services/jobs/employment-in-the-private-sector/job-offers-and-work-permits-and-contracts"},
+      {"title": "Official UAE government — avoiding labour and visa fraud", "url": "https://u.ae/en/information-and-services/visa-and-emirates-id/Visa-information/tips-to-avoid-labour-and-visa-fraud"}
+    ],
+    "related_tool": "/tools/salary-savings"
+  },
+  {
+    "slug": "germany-career-research",
+    "title": "Germany career research: start with the right official questions",
+    "summary": "Explore the role, qualifications and working pathway without letting generic internet advice make the decision for you.",
+    "research_date": "2026-11-22",
+    "editorial_status": "draft_requires_editorial_review",
+    "reviewed_at": null,
+    "sections": [
+      {"heading": "Start from the job, then verify the pathway", "paragraphs": ["First clarify whether you want to work remotely from India for an international employer or physically relocate to Germany. These are not interchangeable. A role advertised online does not establish that the employer will offer sponsorship or that you meet a residence-permit category.", "Germany's official Make it in Germany portal provides starting points for job search, recognition of qualifications and possible visa or residence pathways. Requirements depend on circumstances such as occupation, qualification and purpose; avoid relying on a single blog summary or old salary threshold."], "checklist": ["Record your target occupation and experience level.", "Check whether your qualification may require official recognition or licensing.", "Read the actual job's salary basis, employer location and language expectations.", "Follow the official pathway information applicable to your circumstances."]},
+      {"heading": "Prepare evidence, not optimistic assumptions", "paragraphs": ["Build a list of certificates, work-experience evidence, a resume tailored to the real role and any language requirements that the actual employer states. Keep original documents secure. Rather than uploading passports and certificates to an unfamiliar website, use official procedures and trusted employers' application channels.", "For comparison purposes, the offer calculator can help separate salary, living costs and one-time relocation. It does not estimate German tax or visa eligibility from thin air. If a requirement has not been independently checked, label it as a question to resolve—not a verified condition."], "checklist": ["Use official government or federal employment agency guidance first.", "Capture the exact URL and date of any requirement you rely on.", "Never interpret a remote listing as automatic relocation assistance."]}
+    ],
+    "sources": [
+      {"title": "Make it in Germany — job search and applications", "url": "https://www.make-it-in-germany.com/en/working-in-germany/job-search-application"},
+      {"title": "Make it in Germany — visa and recognition", "url": "https://www.make-it-in-germany.com/en/visa-recognition"},
+      {"title": "Federal Employment Agency — professional qualifications", "url": "https://www.arbeitsagentur.de/en/working-in-germany/professional-qualifications"}
+    ],
+    "related_tool": "/tools/offer-compare"
+  }
+]

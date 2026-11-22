@@ -1,0 +1,9 @@
+/storage/*.lock
+/storage/*.ndjson
+/storage/backups/
+/storage/jobs.json
+/storage/reports.json
+/.env
+/node_modules/
+/storage/server.*
+/public/*test_snapshot*

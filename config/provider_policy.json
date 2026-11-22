@@ -1,0 +1,21 @@
+{
+  "jobicy": {
+    "enabled": true,
+    "checked_at": "2026-11-22",
+    "terms_url": "https://jobicy.com/jobs-rss-feed",
+    "canonical_source_required": true,
+    "allow_resyndication": false,
+    "allow_jobposting_schema": false,
+    "credit": "Jobicy"
+  },
+  "himalayas": {
+    "enabled": false,
+    "checked_at": "2026-11-22",
+    "terms_url": "https://himalayas.app/terms",
+    "canonical_source_required": true,
+    "apply_link_field": "applicationLink",
+    "allow_resyndication": false,
+    "allow_jobposting_schema": false,
+    "credit": "Himalayas"
+  }
+}

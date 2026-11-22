@@ -1,0 +1,98 @@
+{
+  "version": 1,
+  "country_profiles": {
+    "UAE": {
+      "name": "United Arab Emirates",
+      "research_date": "2026-11-23",
+      "review_by": "2027-02-21",
+      "official_resources": [
+        {
+          "title": "UAE government — job offers, work permits and contracts",
+          "url": "https://u.ae/en/information-and-services/jobs/employment-in-the-private-sector/job-offers-and-work-permits-and-contracts/expatriates-employment-in-private-sector"
+        },
+        {
+          "title": "UAE government — avoiding labour and visa fraud",
+          "url": "https://u.ae/en/information-and-services/visa-and-emirates-id/Visa-information/tips-to-avoid-labour-and-visa-fraud"
+        }
+      ]
+    },
+    "Germany": {
+      "name": "Germany",
+      "research_date": "2026-11-23",
+      "review_by": "2027-02-21",
+      "official_resources": [
+        {
+          "title": "Make it in Germany — working in Germany",
+          "url": "https://www.make-it-in-germany.com/en/working-in-germany"
+        },
+        {
+          "title": "Make it in Germany — official visa application information",
+          "url": "https://www.make-it-in-germany.com/en/visa-recognition/apply-for-visa"
+        }
+      ]
+    }
+  },
+  "items": [
+    {
+      "id": "identity",
+      "category": "Personal organisation",
+      "label": "Check identity document validity and record its expiry for your own reference",
+      "generic": true
+    },
+    {
+      "id": "qualification",
+      "category": "Personal organisation",
+      "label": "Collect copies of your genuine qualification and training evidence",
+      "generic": true
+    },
+    {
+      "id": "experience",
+      "category": "Personal organisation",
+      "label": "Prepare truthful employment history, references and project evidence",
+      "generic": true
+    },
+    {
+      "id": "job-offer",
+      "category": "Offer evaluation",
+      "label": "Verify the employer website and application destination independently",
+      "generic": true
+    },
+    {
+      "id": "contract",
+      "category": "Offer evaluation",
+      "label": "Review written salary, work location, hours and employer responsibilities",
+      "generic": true
+    },
+    {
+      "id": "budget",
+      "category": "Personal budgeting",
+      "label": "Estimate relocation costs, living expenses and emergency savings",
+      "generic": true
+    },
+    {
+      "id": "permit",
+      "category": "Official requirements to check",
+      "label": "Look up the correct work/visa/permit route using the official links for your situation",
+      "generic": true
+    },
+    {
+      "id": "recognition",
+      "category": "Official requirements to check",
+      "label": "Ask the relevant authority whether credential recognition or language proof applies",
+      "generic": true
+    },
+    {
+      "id": "translation",
+      "category": "Official requirements to check",
+      "label": "Verify whether translations or authentication are needed for your specific case",
+      "generic": true
+    },
+    {
+      "id": "insurance",
+      "category": "Official requirements to check",
+      "label": "Check insurance or other entry requirements on the official authority website",
+      "generic": true
+    }
+  ],
+  "disclaimer": "This is a generic personal planning checklist, NOT a list of mandatory visa documents or an eligibility decision. Requirements vary by nationality, work type and permit route; check the linked authorities for current rules. Do not upload passports or personal documents."
+}

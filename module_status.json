@@ -1,0 +1,191 @@
+{
+  "spec_version": "v1.3.3",
+  "release": "gate1-plus-gate2-tools-local-v0.5.0",
+  "development_state": "LOCAL_PREVIEW_NOT_DEPLOYED_NOT_LAUNCH_READY",
+  "evidence": [
+    "tests/php_tests.php",
+    "tests/operational_tests.php",
+    "tests/js_tests.mjs",
+    "tests/tracker_tests.mjs",
+    "tests/http_smoke.sh",
+    "docs/RC_IMPLEMENTATION_CHANGELOG.md",
+    "scripts/launch_preflight.php",
+    "tests/new_tools_tests.mjs",
+    "tests/backup_tests.php",
+    "tests/shared_host_layout_tests.php",
+    "scripts/staging_probe.sh",
+    "docs/RC_PLUS_IMPLEMENTATION_CHANGELOG.md",
+    "deploy/shared_host/DEPLOY_STAGING_README.md",
+    "tests/advanced_tools_tests.mjs",
+    "content/interview_questions.json",
+    "content/country_checklists.json",
+    "content/roadmap_tracks.json",
+    "public/assets/advanced_tools.mjs",
+    "public/assets/advanced_tools_ui.mjs",
+    "docs/GATE2_TOOLS_V050_CHANGELOG.md",
+    "docs/LOCAL_TEST_OUTPUT_2026-11-23_v050.txt"
+  ],
+  "modules": [
+    {
+      "module_id": "M00",
+      "implementation_status": "blocked_with_reason",
+      "blocker_reason": "Actual Hostinger plan, domain SSL, cron, private-folder permission and production backup/restore are not verified; conditional staging layout locally tested"
+    },
+    {
+      "module_id": "M01",
+      "implementation_status": "implemented",
+      "tests": [
+        "official-source field mapping + string ISO country tests",
+        "numeric timezone+offset pagination fixtures",
+        "atomic fixture cache isolation",
+        "Himalayas offset/limit and repeated-page signatures"
+      ],
+      "blocker_reason": "Adapter/pagination fixture tested; actual provider network/rights and 14 days of supply not verified"
+    },
+    {
+      "module_id": "M02",
+      "implementation_status": "implemented",
+      "tests": [
+        "source URLs, expiry and no-redist fixtures"
+      ],
+      "blocker_reason": "Source cache and persistent quarantine fixture-tested; production SQL migration not executed"
+    },
+    {
+      "module_id": "M03",
+      "implementation_status": "implemented",
+      "tests": [
+        "strict India geography AND timezone gate",
+        "Jobicy Anywhere stays unknown",
+        "Himalayas numeric timezone fixtures"
+      ],
+      "blocker_reason": "Deterministic eligibility including full-name/country code/conflict tested; real source coverage unverified"
+    },
+    {
+      "module_id": "M04",
+      "implementation_status": "implemented",
+      "tests": [
+        "Source evidence labels",
+        "salary source value+period formatting"
+      ],
+      "blocker_reason": "Raw source restriction evidence preserved and source-host apply URL tested; live source data unverified"
+    },
+    {
+      "module_id": "M05",
+      "implementation_status": "implemented",
+      "tests": [
+        "T01/T02/T05 deterministic JS tests",
+        "T03 HTML/cover-letter escaping/template fixtures",
+        "T04 reserve/contingency formula fixtures",
+        "T06 local tracker export/import tests",
+        "T07 original question bank + self-review (deterministic)",
+        "T08 country-specific local checklist and imported backup validation",
+        "T09 HTML escaping and HTTPS-only self-reported portfolio export",
+        "T10 3-role 30/60/90 day study-hour schedule with own edits"
+      ],
+      "blocker_reason": "All ten tools have local PHP/HTTP/JS checks; real-browser E2E and print QA are blocked in sandbox, original content/editorial review and public launch evidence remain pending. No live tool deployment verified.",
+      "implemented_subset": [
+        "T01",
+        "T02",
+        "T03",
+        "T04",
+        "T05",
+        "T06",
+        "T07",
+        "T08",
+        "T09",
+        "T10"
+      ]
+    },
+    {
+      "module_id": "M06",
+      "implementation_status": "blocked_with_reason",
+      "blocker_reason": "Five original substantial guide drafts exist; human editorial/legal review and indexing approval missing",
+      "implemented_subset": [
+        "five structured original draft guide pages",
+        "dated source citations",
+        "visible editorial review status"
+      ]
+    },
+    {
+      "module_id": "M07",
+      "implementation_status": "blocked_with_reason",
+      "blocker_reason": "Manual local tracker and basic Radar working in local preview; full matching version change, multi-device behaviour, comprehensive browser E2E and real live feed integration not verified.",
+      "implemented_subset": [
+        "local profile",
+        "save job",
+        "preference filter",
+        "export/import"
+      ]
+    },
+    {
+      "module_id": "M08",
+      "implementation_status": "specified",
+      "blocker_reason": "Future optional daily mission not built"
+    },
+    {
+      "module_id": "M09",
+      "implementation_status": "specified",
+      "blocker_reason": "Privacy-safe events and AdSense readiness not integrated; ads off"
+    },
+    {
+      "module_id": "M10",
+      "implementation_status": "blocked_with_reason",
+      "blocker_reason": "Working private CLI queue, suppression and audit; production moderator authentication/capacity and retention unresolved",
+      "implemented_subset": [
+        "bounded job report queue",
+        "trusted CLI moderation",
+        "persistent provider-independent quarantine",
+        "audit and reopen"
+      ]
+    },
+    {
+      "module_id": "M11",
+      "implementation_status": "implemented",
+      "blocker_reason": "Local operational scripts tested; production Hostinger cron, encrypted backups, database restoration and incident alerts unverified",
+      "implemented_subset": [
+        "CLI health",
+        "source coverage report",
+        "isolated file backup and restoration drill",
+        "hash tamper detection",
+        "conditional shared-host preflight"
+      ]
+    },
+    {
+      "module_id": "M12",
+      "implementation_status": "specified",
+      "blocker_reason": "Gated verified recruiter identity phase 2B"
+    },
+    {
+      "module_id": "M13",
+      "implementation_status": "specified",
+      "blocker_reason": "Gated direct employer job posting phase 2B"
+    },
+    {
+      "module_id": "M14",
+      "implementation_status": "specified",
+      "blocker_reason": "Gated inbound partner API phase 3B"
+    },
+    {
+      "module_id": "M15",
+      "implementation_status": "implemented",
+      "blocker_reason": "Private calculations/interview/portfolio/roadmap run locally and checklist ticks store per-country; live analytics/privacy/cookie compliance, legal policy and browser privacy QA not verified."
+    },
+    {
+      "module_id": "M16",
+      "implementation_status": "implemented",
+      "blocker_reason": "267 offline checks passed (PHP/Node/HTTP/backup/preview); Chromium localhost ERR_BLOCKED_BY_ADMINISTRATOR; staging E2E, WCAG audit and PDF/print proof NOT completed."
+    },
+    {
+      "module_id": "M17",
+      "implementation_status": "blocked_with_reason",
+      "blocker_reason": "Real 14-day job inventory, source coverage, business/revenue metrics unavailable"
+    }
+  ],
+  "last_tested_on": "2026-11-23",
+  "source_of_truth_version": "v1.3.3 (product scope unchanged)",
+  "local_check_count": 267,
+  "browser_e2e_status": "BLOCKED_BY_SANDBOX_ADMIN_POLICY; staging E2E NOT RUN",
+  "live_feed_verified": false,
+  "hostinger_verified": false,
+  "public_launch_ready": false
+}

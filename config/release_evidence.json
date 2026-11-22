@@ -1,0 +1,29 @@
+{
+  "release_candidate": "Gate 1 + Gate 2 Tool Preview v0.5.0 \u2014 UNAPPROVED",
+  "checks": {
+    "hosting_ssl_cron": {
+      "verified": false,
+      "evidence": null
+    },
+    "live_provider_rights_and_sample": {
+      "verified": false,
+      "evidence": null
+    },
+    "reviewed_original_guides": {
+      "verified": false,
+      "evidence": null
+    },
+    "privacy_and_legal": {
+      "verified": false,
+      "evidence": null
+    },
+    "backup_restore": {
+      "verified": false,
+      "evidence": null
+    },
+    "staging_e2e_security_accessibility": {
+      "verified": false,
+      "evidence": null
+    }
+  }
+}

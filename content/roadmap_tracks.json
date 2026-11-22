@@ -1,0 +1,145 @@
+{
+  "version": 1,
+  "review_date": "2026-11-23",
+  "tracks": {
+    "it_support": {
+      "name": "IT Support",
+      "prerequisites": [
+        "Basic computer and network literacy",
+        "Comfort with systematic troubleshooting and safe account practices"
+      ],
+      "resources": [
+        {
+          "title": "Microsoft Learn — training catalogue",
+          "url": "https://learn.microsoft.com/en-us/training"
+        },
+        {
+          "title": "IBM SkillsBuild — learning catalogue",
+          "url": "https://skillsbuild.org/learning-catalog"
+        }
+      ],
+      "milestones": [
+        {
+          "day": 30,
+          "title": "Build a troubleshooting foundation",
+          "practice": [
+            "Explain common hardware, account and connectivity problems in your own words",
+            "Write a step-by-step diagnostic checklist for one realistic issue"
+          ],
+          "deliverable": "One clear support runbook covering a realistic desktop/network issue"
+        },
+        {
+          "day": 60,
+          "title": "Practise evidence-driven support",
+          "practice": [
+            "Log and prioritise three fictional support tickets marked as practice exercises",
+            "Practise privacy-safe incident reporting and customer updates"
+          ],
+          "deliverable": "Three practice tickets with reproducible steps and escalation decisions"
+        },
+        {
+          "day": 90,
+          "title": "Demonstrate a support workflow",
+          "practice": [
+            "Create a troubleshooting presentation or short portfolio case study",
+            "Review a sample role description and map genuine skills to requirements"
+          ],
+          "deliverable": "One self-labelled practice support case study and updated resume bullets"
+        }
+      ]
+    },
+    "customer_support": {
+      "name": "Customer Support",
+      "prerequisites": [
+        "Clear written English and listening skills",
+        "Ability to follow published company policies and protect customer data"
+      ],
+      "resources": [
+        {
+          "title": "IBM SkillsBuild — free adult learning resources",
+          "url": "https://skillsbuild.org/adult-learners"
+        },
+        {
+          "title": "IBM SkillsBuild — learning catalogue",
+          "url": "https://skillsbuild.org/learning-catalog"
+        }
+      ],
+      "milestones": [
+        {
+          "day": 30,
+          "title": "Practice communication essentials",
+          "practice": [
+            "Write concise acknowledgement and clarification responses",
+            "Identify facts, emotions and unresolved requests in realistic scenarios"
+          ],
+          "deliverable": "Four original response examples covering different customer situations"
+        },
+        {
+          "day": 60,
+          "title": "Build resolution habits",
+          "practice": [
+            "Draft a customer issue triage and escalation checklist",
+            "Practice explaining policy without promising unauthorised exceptions"
+          ],
+          "deliverable": "One personal service-recovery workflow with example updates"
+        },
+        {
+          "day": 90,
+          "title": "Show evidence of service quality",
+          "practice": [
+            "Build a practice FAQ from safe fictional scenarios",
+            "Self-review clarity, ownership and next-step quality"
+          ],
+          "deliverable": "Five self-written practice responses with a simple review rubric"
+        }
+      ]
+    },
+    "junior_web_dev": {
+      "name": "Junior Web Developer",
+      "prerequisites": [
+        "Basic computer use and a text editor",
+        "Willingness to build and test original small projects"
+      ],
+      "resources": [
+        {
+          "title": "MDN — Learn web development",
+          "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development"
+        },
+        {
+          "title": "MDN — Your first website",
+          "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Your_first_website"
+        }
+      ],
+      "milestones": [
+        {
+          "day": 30,
+          "title": "Create a semantic webpage",
+          "practice": [
+            "Study HTML structure, forms and accessible headings",
+            "Build a small page with content written by you"
+          ],
+          "deliverable": "One local semantic HTML page with validated form labels"
+        },
+        {
+          "day": 60,
+          "title": "Make it responsive and interactive",
+          "practice": [
+            "Add a responsive layout with CSS",
+            "Write a small JavaScript interaction and test invalid input"
+          ],
+          "deliverable": "One original mobile-friendly interactive practice page"
+        },
+        {
+          "day": 90,
+          "title": "Publish reproducible project evidence",
+          "practice": [
+            "Add a simple automated test and a project README",
+            "Record keyboard, mobile and basic security checks"
+          ],
+          "deliverable": "One accessible sample project with source, screenshots and a testing README"
+        }
+      ]
+    }
+  },
+  "disclaimer": "Curated practice plans, not accredited courses, hiring guarantees or industry certifications. Review resource links and customise progress to your own circumstances."
+}

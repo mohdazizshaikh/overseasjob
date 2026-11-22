@@ -1,0 +1,6 @@
+{
+  "jobs": [
+    {"id": 101,"url":"https://jobicy.com/jobs/test-it-support","jobTitle":"IT Support Engineer","companyName":"Sample Fixture Company","jobGeo":"Anywhere","salaryMin":30000,"salaryMax":50000,"salaryCurrency":"USD","salaryPeriod":"yearly","pubDate":"2026-11-21T12:00:00+00:00","jobExcerpt":"Remote IT support role fixture — test only."},
+    {"id": 102,"url":"https://jobicy.com/jobs/test-us-only","jobTitle":"Customer Support Representative","companyName":"Sample Fixture Company","jobGeo":"USA","pubDate":"2026-11-21T10:00:00+00:00","jobExcerpt":"US-only role fixture — test only."}
+  ]
+}

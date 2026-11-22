@@ -1,0 +1,289 @@
+<?php
+declare(strict_types=1);
+// A verified shared-host setup may keep private app files beside public_html and
+// load this controller through a thin webroot bootstrap. Never derive this from user input.
+if(!defined('OJ_PROJECT_ROOT'))define('OJ_PROJECT_ROOT',dirname(__DIR__));
+$verifiedRoot=realpath((string)OJ_PROJECT_ROOT);
+if($verifiedRoot===false||!is_file($verifiedRoot.'/src/Jobs.php')||!is_dir($verifiedRoot.'/storage')){
+    http_response_code(503);exit('Site temporarily unavailable');
+}
+require OJ_PROJECT_ROOT.'/src/Jobs.php';
+require OJ_PROJECT_ROOT.'/src/Guides.php';
+require OJ_PROJECT_ROOT.'/src/Reports.php';
+require OJ_PROJECT_ROOT.'/src/Launch.php';
+header('X-Content-Type-Options: nosniff');
+header('Referrer-Policy: strict-origin-when-cross-origin');
+header('X-Frame-Options: DENY');
+header("Content-Security-Policy: default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'");
+
+$root=OJ_PROJECT_ROOT;
+$path=rawurldecode(parse_url($_SERVER['REQUEST_URI']??'/',PHP_URL_PATH)?:'/');
+if(str_contains($path,"\0")||str_contains($path,'..')){http_response_code(400);exit('Bad request');}
+function h(mixed $str):string{return htmlspecialchars((string)$str,ENT_QUOTES|ENT_SUBSTITUTE,'UTF-8');}
+function fmtdate(mixed $value):string{
+    if(!$value)return 'Not disclosed';
+    $t=strtotime((string)$value);
+    return $t?gmdate('d M Y, H:i', $t).' UTC':'Not disclosed';
+}
+function route(string $p):string{return h($p);}
+function frameStart(string $pageTitle, bool $noindex=false):void{
+    $canonicalTitle=$pageTitle==='Home'?'OverseasJob.in — Global career decisions':h($pageTitle).' | OverseasJob.in';
+    $robots=($noindex || !Launch::allowed(OJ_PROJECT_ROOT))?'noindex,nofollow':'index,follow';
+    echo '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">';
+    echo '<meta name="robots" content="'.$robots.'"><meta name="description" content="Compare overseas career opportunities with honest eligibility labels and free practical tools.">';
+    echo '<title>'.$canonicalTitle.'</title><link rel="icon" href="/assets/overseasjob-logo.png"><link rel="stylesheet" href="/assets/style.css"></head><body>';
+    echo '<a class="skip-link" href="#main">Skip to content</a>';
+    if(!Launch::allowed(OJ_PROJECT_ROOT))echo '<div class="preview-banner">LOCAL RELEASE CANDIDATE — not a deployed or verified job service</div>';
+    echo '<header class="site-header"><div class="container header-inner"><a class="brand" href="/" aria-label="OverseasJob home"><img src="/assets/overseasjob-logo.png" alt="OverseasJob"></a>';
+    echo '<nav aria-label="Main navigation"><a href="/jobs">Find jobs</a><a href="/tools">Free tools</a><a href="/my-career">My career</a><a href="/guides">Guides</a><a href="/safety">Safety</a></nav><a class="nav-action" href="/jobs?path=remote_from_india">Explore opportunities</a></div></header>';
+    echo '<main id="main">';
+}
+function frameEnd():void{
+    echo '</main><footer class="footer"><div class="container footer-grid"><div><strong>OverseasJob.in</strong><p>Discover, compare, prepare. No guaranteed jobs or visas.</p></div><div><a href="/sources">Job sources</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/report-job">Report a job</a></div><div><a href="/about">About</a><a href="/safety">Safety</a><a href="/guides">Guides</a><a href="/tools">Tools</a></div></div><div class="container tiny">Development preview. Current live source availability, hosting and legal compliance are not certified. © 2026 OverseasJob.in</div></footer>';
+    echo '<script type="module" src="/assets/app.js"></script></body></html>';
+}
+function heading(string $eyebrow,string $title,string $text=''):void{
+    echo '<section class="page-head"><div class="container"><span class="eyebrow">'.h($eyebrow).'</span><h1>'.h($title).'</h1>';
+    if($text!=='')echo '<p class="lead">'.h($text).'</p>';
+    echo '</div></section>';
+}
+function jobCard(array $j,bool $short=false):void{
+    $id=(string)$j['id'];
+    $key=(string)$j['provider_job_id'];
+    $slug=preg_replace('/[^a-z0-9]+/','-',strtolower((string)$j['title']));
+    $url='/jobs/'.rawurlencode($j['provider']).'/'.rawurlencode($key).'/'.$slug;
+    $state=$j['eligible_from_in'];
+    $geo=$j['location_eligibility']??'unknown';
+    $tz=$j['time_zone_eligibility']??'unknown';
+    if(Jobs::indiaFullyEligible($j)) {$tag='India location & timezone allowed by source';$tagClass='tag-allowed';}
+    elseif($state==='not_allowed') {$tag='India location/timezone restricted';$tagClass='tag-restricted';}
+    elseif($geo==='allowed') {$tag='India location allowed; timezone not confirmed';$tagClass='tag-unknown';}
+    else {$tag='India eligibility not confirmed';$tagClass='tag-unknown';}
+    echo '<article class="job-card"><div class="card-top"><div><div class="eyebrow">'.h($j['source_name']).' · Source-linked listing</div><h3><a href="'.h($url).'">'.h($j['title']).'</a></h3><p class="muted">'.h($j['company_name']?:'Employer not disclosed').'</p></div><span class="tag '.h($tagClass).'">'.h($tag).'</span></div>';
+    if(!$short&&($j['description']??''))echo '<p class="job-excerpt">'.h($j['description']).'</p>';
+    if(($salary=Jobs::salaryLabel($j))!==null)echo '<p class="muted">Disclosed salary: '.h($salary).'</p>';
+    echo '<div class="card-meta"><span>Remote</span><span>Seen in feed: '.h(fmtdate($j['last_seen_at'])).'</span><span>Visa: not confirmed</span></div><div class="card-actions"><a class="button button-primary" href="'.h($url).'">Review decision card</a><button class="button button-secondary" data-job-id="'.h($id).'" data-job-title="'.h($j['title']).'" data-job-company="'.h($j['company_name']?:'Company not disclosed').'" data-job-url="'.h($j['source_url']).'" type="button">Save job</button></div></article>';
+}
+$jobs=Jobs::listPublic($root.'/storage/jobs.json');
+$config=json_decode((string)file_get_contents($root.'/config/provider_policy.json'),true)?:[];
+$jobs=array_values(array_filter($jobs,static fn($j)=>($config[$j['provider']]['enabled']??false)===true));
+
+if($path==='/'){
+ frameStart('Home');
+ echo '<section class="hero"><div class="container hero-grid"><div><span class="eyebrow">Your global career, made clearer</span><h1>Find opportunities.<br><span>Make better decisions.</span></h1><p class="lead">Source-linked remote jobs, honest India eligibility labels and free salary, offer and timezone tools—without a candidate account.</p><div class="hero-actions"><a class="button button-primary button-lg" href="/jobs?path=remote_from_india">Find India-eligible jobs</a><a class="button button-light button-lg" href="/tools">Explore free tools</a></div><div class="trust-notes"><span>✓ No candidate login</span><span>✓ Real source links only</span><span>✓ No invented salaries</span></div></div><div class="hero-panel"><div class="panel-label">HOW OVERSEASJOB HELPS</div><h2>Know what matters before applying</h2><div class="step"><b>01</b><span>Choose a role and remote-work preference</span></div><div class="step"><b>02</b><span>Check eligibility evidence and source freshness</span></div><div class="step"><b>03</b><span>Estimate salary, savings and next steps</span></div><div class="panel-foot">Clear evidence over misleading match scores</div></div></div></section>';
+ echo '<section class="section"><div class="container"><div class="section-heading"><div><span class="eyebrow">Practical tools</span><h2>Useful before your next move</h2></div><a class="inline-link" href="/tools">See all available tools</a></div><div class="feature-grid">';
+ foreach([['01','Salary & savings','Compare salary against expenses without made-up exchange rates.','/tools/salary-savings'],['02','Compare offers','Understand guaranteed compensation and one-time moving costs.','/tools/offer-compare'],['03','Time-zone overlap','Find workable meeting hours with daylight saving changes.','/tools/time-zone-overlap']] as $f)
+ echo '<a class="feature" href="'.$f[3].'"><span class="feature-icon">'.$f[0].'</span><h3>'.$f[1].'</h3><p>'.$f[2].'</p><span class="feature-more">Open tool →</span></a>';
+ echo '</div></div></section>';
+ echo '<section class="section slate"><div class="container"><div class="section-heading"><div><span class="eyebrow">Real job feed</span><h2>Recently seen opportunities</h2></div><a class="inline-link" href="/jobs">Browse jobs</a></div>';
+ if(!$jobs)echo '<div class="empty-state"><strong>No verified-source jobs in the local cache yet.</strong><p>Jobs appear only after an authorised backend sync has succeeded. We never fill gaps with fictional listings. Try the calculators meanwhile.</p><a class="button button-secondary" href="/tools">Use career tools</a></div>';
+ else{echo '<div class="job-grid">';foreach(array_slice($jobs,0,4) as $j)jobCard($j,true);echo '</div>';}
+ echo '</div></section>';frameEnd();exit;
+}
+if($path==='/jobs'){
+ $query=trim(substr((string)($_GET['q']??''),0,100));
+ $workPath=(string)($_GET['path']??'all');
+ if(!in_array($workPath,['all','remote_from_india','remote_other','onsite_abroad'],true))$workPath='all';
+ $filtered=Jobs::search($jobs,$query,$workPath);
+ frameStart('Browse source-linked jobs',isset($_GET['q'])||isset($_GET['path']));
+ heading('Job discovery','Find your next opportunity','Search real imported jobs. Eligibility is displayed only when the source gives evidence.');
+ echo '<section class="section section-tight"><div class="container"><form class="filter-form" action="/jobs" method="get"><label>Role or company<input type="search" name="q" maxlength="100" value="'.h($query).'" placeholder="e.g. IT Support"></label><label>Work path<select name="path">';
+ foreach(['all'=>'All source-linked jobs','remote_from_india'=>'Remote: location + timezone confirmed','remote_other'=>'Remote: restricted / unknown','onsite_abroad'=>'On-site overseas (evidence required)'] as $k=>$v)echo '<option value="'.$k.'"'.($k===$workPath?' selected':'').'>'.$v.'</option>';
+ echo '</select></label><button class="button button-primary" type="submit">Search jobs</button></form><p class="result-count">'.count($filtered).' currently visible source-linked '.(count($filtered)===1?'result':'results').'</p>';
+ if(!$filtered)echo '<div class="empty-state"><strong>No confirmed matches for those filters.</strong><p>Some APIs provide mostly remote jobs and cannot guarantee relocation or India eligibility. Broaden your filters, or use our tools to prepare while new jobs are imported.</p><a class="button button-secondary" href="/jobs">Clear filters</a><a class="button button-text" href="/tools">Explore free tools →</a></div>';
+ else{echo '<div class="job-grid">';foreach(array_slice($filtered,0,60) as $j)jobCard($j);echo '</div>';}
+ echo '</div></section>';frameEnd();exit;
+}
+if(preg_match('#^/jobs/(jobicy|himalayas)/([^/]+)(?:/[^/]*)?$#',$path,$m)){
+ $match=null;foreach($jobs as $j){if($j['provider']===$m[1]&&$j['provider_job_id']===$m[2]){$match=$j;break;}}
+ if(!$match){http_response_code(404);frameStart('Job not available',true);heading('Source status','This listing is not currently available','It may be stale, closed, restricted or not yet imported.');echo '<section class="section"><div class="container"><a href="/jobs" class="button button-secondary">Back to jobs</a></div></section>';frameEnd();exit;}
+ frameStart($match['title'],true);
+ heading('Source-grounded Job Decision Card',$match['title'],($match['company_name']?:'Company not disclosed').' · Sourced from '.$match['source_name']);
+ echo '<section class="section section-tight"><div class="container detail-grid"><article class="surface"><h2>What we can verify from the feed</h2><dl class="facts">';
+ $facts=[['Work arrangement','Remote'],['India applicant eligibility',match($match['eligible_from_in']){'allowed'=>($match['time_zone_eligibility']==='allowed'?'Explicit India location and timezone allowed':'India location allowed; timezone not disclosed'),'not_allowed'=>'Explicitly not allowed','unknown'=>'Not confirmed'}],['Visa sponsorship','Not disclosed / unknown'],['Disclosed salary',Jobs::salaryLabel($match)??'Not disclosed'],['Source-reported publication date',fmtdate($match['source_published_at'])],['Last source update',fmtdate($match['source_updated_at'])],['Last seen in source',fmtdate($match['last_seen_at'])],['Source URL',parse_url($match['source_url'],PHP_URL_HOST)]];
+ foreach($facts as $f)echo '<div><dt>'.h($f[0]).'</dt><dd>'.h($f[1]).'</dd></div>';
+ echo '</dl><h3>Why it may match</h3><p>It is a remote role in a currently accepted source record. Eligibility is derived only from the provider’s recorded location/timezone data. This is not employment authorisation or a guaranteed opening.</p><h3>Source evidence</h3><ul>';
+ foreach($match['eligibility_evidence'] as $e)echo '<li>'.h($e['provider_field']).': '.h($e['fact']).'</li>';
+ echo '</ul><h3>Role summary</h3><p>'.h($match['description']?:'Please read full details at the original source.').'</p></article><aside class="surface apply-box"><div class="eyebrow">YOUR NEXT ACTION</div><h3>Apply only on the source website</h3><p>Review the full posting and hiring location restrictions before sharing personal data.</p><a class="button button-primary full" target="_blank" rel="noopener noreferrer nofollow" href="'.h($match['apply_url']).'">Open '.h($match['source_name']).' apply link ↗</a><p class="tiny">External destination: '.h(parse_url($match['apply_url'],PHP_URL_HOST)).'</p><a class="button button-secondary full" href="/tools/salary-savings">Estimate potential savings</a><a class="button button-secondary full" href="/report-job?id='.rawurlencode($match['id']).'">Report suspicious listing</a><p class="tiny">Clicking Apply does not mean an application was submitted. No CV is collected here.</p></aside></div></section>';frameEnd();exit;
+}
+if($path==='/tools'){
+ frameStart('Free career tools');heading('Free, private, practical','Useful career tools','Calculations use your own inputs. No paid AI, invented live taxes or forced accounts.');
+ echo '<section class="section section-tight"><div class="container feature-grid">';
+ foreach([['01','Salary & savings','Estimate take-home pay and annual savings.','/tools/salary-savings'],['02','Offer comparison','Compare two jobs with honest assumptions.','/tools/offer-compare'],['05','Time-zone overlap','Find meeting windows across time zones and DST.','/tools/time-zone-overlap'],['03','Resume & cover letter kit','Three original ATS-readable layouts; downloadable HTML and text.','/tools/resume-kit'],['04','Relocation budget','Plan pre-departure expenses, reserve and contingency.','/tools/relocation-budget'],['06','Application tracker','Keep application follow-ups privately on this device.','/tools/application-tracker'],['07','Interview practice','Original text-only questions with self-review rubric.','/tools/interview-practice'],['08','Country checklist','Generic preparation tasks and official government links.','/tools/country-checklist'],['09','WorkProof portfolio','Export your honest self-reported project evidence.','/tools/workproof'],['10','Career roadmap','Create a deterministic 30/60/90-day practice plan.','/tools/career-roadmap']] as $f)echo '<a class="feature" href="'.$f[3].'"><span class="feature-icon">'.$f[0].'</span><h3>'.$f[1].'</h3><p>'.$f[2].'</p><span class="feature-more">Use free tool →</span></a>';
+ echo '</div><p class="tiny">All ten tool interfaces are available in this LOCAL development release; original content assets, live-browser usability and editorial review still require independent verification before public launch.</p></div></section>';frameEnd();exit;
+}
+if($path==='/tools/salary-savings'){
+ frameStart('Salary and savings calculator');heading('Free calculator','Salary vs living costs','See what you might save after your own estimated deductions and living costs.');
+ echo '<section class="section section-tight"><div class="container tool-layout"><form id="salary-form" class="surface form-card" method="dialog" data-local-only="true"><h2>Enter your assumptions</h2><div class="form-grid"><label>Salary amount<input name="salary" type="number" min="0" step="any" required value="120000"></label><label>Salary period<select name="period"><option value="monthly">Monthly</option><option value="annual">Annual</option></select></label><label>Salary basis<select name="basis"><option value="net">Net / after tax</option><option value="gross" selected>Gross / before deductions</option></select></label><label>Currency code<input name="currency" maxlength="3" pattern="[A-Za-z]{3}" value="INR" required></label><label>Fixed monthly deductions<input name="deduction" type="number" min="0" step="any" value="0"></label><label>Additional deduction rate (%)<input name="rate" type="number" min="0" max="100" step="any" value="10"></label>';
+ foreach(['rent'=>'Monthly rent','food'=>'Monthly food','transport'=>'Transport','utilities'=>'Utilities','insurance'=>'Insurance','other'=>'Other monthly expenses','oneTime'=>'One-time moving costs'] as $k=>$label)echo '<label>'.h($label).'<input name="'.h($k).'" type="number" min="0" step="any" value="0"></label>';
+ echo '</div><button class="button button-primary" type="submit">Calculate savings</button></form><div class="surface result-card"><span class="eyebrow">Your results</span><div id="salary-result" hidden><h2 id="salary-total"></h2><p>Estimated monthly savings</p><dl class="facts"><div><dt>Estimated take-home</dt><dd id="salary-take-home"></dd></div><div><dt>Monthly expenses</dt><dd id="salary-expenses"></dd></div><div><dt>Savings share</dt><dd id="salary-rate"></dd></div><div><dt>First-year after moving costs</dt><dd id="salary-first-year"></dd></div></dl></div><p id="salary-feedback" role="status" aria-live="polite">Enter values and calculate. No inputs are sent to our server.</p><p class="tiny">Not legal, tax or financial advice. FX rates and tax estimates must come from you; sample inputs are illustrative.</p></div></div></section>';frameEnd();exit;
+}
+if($path==='/tools/offer-compare'){
+ frameStart('Offer comparison');heading('Free calculator','Compare two job offers','Compare financial scenarios—without confusing guaranteed pay and conditional bonuses.');
+ echo '<section class="section section-tight"><div class="container"><form id="compare-form" class="surface form-card" method="dialog" data-local-only="true"><div class="compare-grid">';
+ foreach(['a'=>'Offer A','b'=>'Offer B'] as $p=>$label){
+  echo '<fieldset><legend>'.h($label).'</legend><label>Base salary<input type="number" name="'.$p.'base" min="0" step="any" required value="0"></label><label>Pay period<select name="'.$p.'period"><option value="monthly">Monthly</option><option value="annual">Annual</option><option value="hourly">Hourly (hours/week below)</option></select></label><label>Currency<input name="'.$p.'currency" maxlength="3" value="INR" pattern="[A-Za-z]{3}" required></label><label>Hours per week (hourly only)<input name="'.$p.'hoursWeek" type="number" min="0" step="any" value="40"></label><label>Weeks per year<input name="'.$p.'weeksYear" type="number" min="0" max="53" value="52"></label><label>Guaranteed cash extra per month<input name="'.$p.'guaranteedCash" type="number" min="0" step="any" value="0"></label><label>Estimated monthly deductions<input name="'.$p.'deductions" type="number" min="0" step="any" value="0"></label><label>Estimated monthly living costs<input name="'.$p.'costs" type="number" min="0" step="any" value="0"></label><label>One-time moving costs<input name="'.$p.'move" type="number" min="0" step="any" value="0"></label><label>Conditional bonus (NOT guaranteed)<input name="'.$p.'conditionalBonus" type="number" min="0" step="any" value="0"></label>';
+  if($p==='b')echo '<label>User-supplied FX: one B currency unit in A currency units<input name="bfxToA" type="number" min="0" step="any" placeholder="Only if currencies differ"></label>';
+  echo '</fieldset>';
+ }
+ echo '</div><button class="button button-primary" type="submit">Compare scenarios</button></form><div class="surface comparison-output"><div id="compare-result" hidden><div class="compare-grid"><div><span class="eyebrow">Offer A first-year estimate</span><h2 id="compare-a"></h2></div><div><span class="eyebrow">Offer B first-year estimate</span><h2 id="compare-b"></h2></div></div><p id="compare-diff"></p></div><p id="compare-feedback" role="status" aria-live="polite">Enter both offers and calculate. No data leaves your browser.</p><p class="tiny">Higher savings are not proof of a better job or a genuine employer. Conditional bonuses are excluded from guaranteed savings.</p></div></div></section>';frameEnd();exit;
+}
+if($path==='/tools/time-zone-overlap'){
+ frameStart('Time-zone overlap calculator');heading('Free scheduling tool','Find overlapping work hours','Uses real time-zone rules and handles daylight saving transitions.');
+ echo '<section class="section section-tight"><div class="container tool-layout"><form id="tz-form" class="surface form-card" method="dialog" data-local-only="true"><h2>Meeting preferences</h2><div class="form-grid"><label>Date<input name="date" type="date" required value="'.gmdate('Y-m-d').'"></label><label>Meeting duration<select name="minutes"><option value="30">30 minutes</option><option value="60">60 minutes</option><option value="90">90 minutes</option></select></label><label>Time zone A<select name="zoneA"><option value="Asia/Kolkata">India — Asia/Kolkata</option><option value="Europe/London">UK — Europe/London</option><option value="America/New_York">US — New York</option><option value="Asia/Dubai">UAE — Dubai</option></select></label><label>Time zone B<select name="zoneB"><option value="Europe/London">UK — Europe/London</option><option value="America/New_York">US — New York</option><option value="Asia/Kolkata">India — Asia/Kolkata</option><option value="Asia/Dubai">UAE — Dubai</option></select></label><label>Zone A working start<input type="time" name="startA" value="09:00"></label><label>Zone A working end<input type="time" name="endA" value="18:00"></label><label>Zone B working start<input type="time" name="startB" value="09:00"></label><label>Zone B working end<input type="time" name="endB" value="18:00"></label></div><button class="button button-primary" type="submit">Find meeting times</button></form><div class="surface result-card"><div id="tz-result" hidden><h2>Suggested slots</h2><p id="tz-total"></p><div id="tz-slots" class="slot-list"></div></div><p id="tz-feedback" role="status" aria-live="polite">Choose working hours to see suggested meeting slots.</p><p class="tiny">Times use IANA time-zone rules from your browser. Actual business working days and holidays are not inferred.</p></div></div></section>';frameEnd();exit;
+}
+if($path==='/tools/resume-kit'){
+ frameStart('Resume and cover letter kit',true);
+ heading('Private career tool','Resume & cover letter kit','Create honest, readable career documents using your own experience. No paid AI, uploads, accounts or fabricated ATS score.');
+ echo <<<'HTML'
+<section class="section section-tight"><div class="container tool-layout">
+<form id="resume-form" class="surface form-card" autocomplete="off" method="dialog" data-local-only="true"><h2>Build your resume</h2>
+<label>Resume structure<select name="template"><option value="chronological">Reverse chronological — experience first</option><option value="skills">Skills based — transferable evidence first</option><option value="fresher">Fresher — education and projects first</option></select></label>
+<div class="form-grid"><label>Full name *<input name="name" maxlength="120" required autocomplete="name" placeholder="Your actual name"></label><label>Target role *<input name="role" maxlength="140" required placeholder="e.g. IT Support Specialist"></label><label>Contact email (optional)<input type="email" name="email" maxlength="180"></label><label>Phone (optional)<input name="phone" maxlength="80"></label><label>Location (optional)<input name="location" maxlength="140"></label><label>Evidence or portfolio link (HTTPS)<input type="url" name="evidence" maxlength="1024" placeholder="https://example.org/my-work"></label></div>
+<label>Professional summary (your own words)<textarea name="summary" rows="3" maxlength="1500" placeholder="Your actual experience or career goal"></textarea></label>
+<label>Experience and achievements (if any)<textarea name="experience" rows="5" maxlength="5000" placeholder="Describe real work, dates, responsibilities and measurable outcomes"></textarea></label>
+<label>Projects and evidence<textarea name="projects" rows="4" maxlength="3000" placeholder="Describe projects you actually completed"></textarea></label>
+<label>Education<textarea name="education" rows="3" maxlength="2500"></textarea></label>
+<label>Skills<textarea name="skills" rows="3" maxlength="1800" placeholder="Skills you can genuinely demonstrate"></textarea></label>
+<h3>Optional cover letter</h3>
+<div class="form-grid"><label>Organisation<input name="employer" maxlength="180" placeholder="Company you are applying to"></label><label>Recipient (if known)<input name="recipient" maxlength="180" placeholder="Hiring team"></label></div>
+<label>Evidence paragraph 1<textarea name="achievement1" rows="3" maxlength="1400" placeholder="Describe a real achievement relevant to this role"></textarea></label>
+<label>Evidence paragraph 2<textarea name="achievement2" rows="3" maxlength="1400" placeholder="Explain another relevant real example or project"></textarea></label>
+<div class="small-controls"><button type="button" id="resume-preview-button" class="button button-primary">Preview resume</button><button type="button" id="resume-export-html" class="button button-secondary">Download HTML</button><button type="button" id="resume-export-text" class="button button-secondary">Download text</button><button type="button" id="resume-export-cover" class="button button-secondary">Cover letter text</button><button type="button" id="resume-print" class="button button-secondary">Print / Save PDF</button><button type="button" id="resume-reset" class="button button-text">Reset</button></div>
+<p id="resume-feedback" role="status" aria-live="polite">Nothing is sent to our server or saved automatically. Review your details before sharing.</p></form>
+<aside class="surface result-card"><h2>Your local document preview</h2><div class="resume-paper"><pre id="resume-preview" aria-live="polite">Fill out the form and select Preview resume.</pre></div><p class="tiny">Three layout options reorder your own details; no ATS compatibility percentage is claimed. Text/HTML downloads and browser print are local exports. Avoid including passport or sensitive ID numbers.</p></aside>
+</div></section><script type="module" src="/assets/resume_ui.mjs"></script>
+HTML;
+ frameEnd();exit;
+}
+if($path==='/tools/relocation-budget'){
+ frameStart('Relocation budget planner');
+ heading('Free scenario calculator','Relocation budget planner','Build an adjustable pre-departure and emergency-fund plan using your own numbers. No live visa costs or exchange rates are assumed.');
+ echo <<<'HTML'
+<section class="section section-tight"><div class="container tool-layout">
+<form id="relocation-form" class="surface form-card" method="dialog" data-local-only="true"><h2>Enter your cost estimates</h2>
+<label>Currency code (one currency for all figures)<input name="currency" pattern="[A-Za-z]{3}" value="INR" maxlength="3" required></label>
+<h3>One-time costs</h3><div class="form-grid">
+<label>Flight / travel<input name="flight" type="number" min="0" step="any" value="0"></label><label>Visa/permit estimate (not official)<input name="visa" type="number" min="0" step="any" value="0"></label>
+<label>Documents/translation<input name="documents" type="number" min="0" step="any" value="0"></label><label>Housing deposit<input name="deposit" type="number" min="0" step="any" value="0"></label>
+<label>Setup/purchases<input name="setup" type="number" min="0" step="any" value="0"></label><label>Arrival transport<input name="arrival" type="number" min="0" step="any" value="0"></label></div>
+<h3>Recurring monthly costs</h3><div class="form-grid"><label>Rent<input name="rent" type="number" min="0" step="any" value="0"></label><label>Food<input name="food" type="number" min="0" step="any" value="0"></label>
+<label>Utilities<input name="utilities" type="number" min="0" step="any" value="0"></label><label>Transport<input name="transport" type="number" min="0" step="any" value="0"></label>
+<label>Insurance<input name="insurance" type="number" min="0" step="any" value="0"></label><label>Other living costs<input name="other" type="number" min="0" step="any" value="0"></label></div>
+<div class="form-grid"><label>Emergency reserve (months)<input name="reserveMonths" type="number" min="0" max="36" step="0.25" value="3"></label><label>Contingency (%)<input name="contingencyPct" type="number" min="0" max="100" step="any" value="10"></label></div>
+<div class="small-controls"><button type="submit" class="button button-primary">Calculate target cash</button><button type="button" id="relocation-download" class="button button-secondary">Export JSON</button><button type="button" id="relocation-print" class="button button-secondary">Print result</button><button type="button" id="relocation-reset" class="button button-text">Reset</button></div>
+</form><aside class="surface result-card"><div id="relocation-result" hidden><span class="eyebrow">Your budget target</span><h2 id="relocation-total"></h2><dl class="facts"><div><dt>One-time costs</dt><dd id="relocation-once"></dd></div><div><dt>Monthly expenses</dt><dd id="relocation-monthly"></dd></div><div><dt>Emergency reserve</dt><dd id="relocation-reserve"></dd></div><div><dt>Contingency</dt><dd id="relocation-contingency"></dd></div></dl></div>
+<p id="relocation-feedback" role="status" aria-live="polite">All amounts are your own estimates. Nothing leaves the browser.</p><p class="tiny">One-time costs plus months of monthly reserves plus percentage contingency; no category is counted twice. Verify official fees directly with relevant authorities. Not immigration or financial advice.</p></aside>
+</div></section><script type="module" src="/assets/relocation_ui.mjs"></script>
+HTML;
+ frameEnd();exit;
+}
+if($path==='/tools/application-tracker'){
+ frameStart('Application tracker — on-device',true);
+ heading('Privacy-first career tool','Application & follow-up tracker','Record applications and follow-up dates yourself. No account, automatic applications, CV uploads or backend notifications.');
+ echo '<section class="section section-tight"><div class="container tool-layout"><form class="surface form-card" id="tracker-form" method="dialog" data-local-only="true"><h2>Your application</h2><input name="id" type="hidden"><div class="form-grid"><label>Company<input name="company" maxlength="120" required></label><label>Role<input name="role" maxlength="140" required></label><label>Source link (HTTPS)<input name="url" type="url" maxlength="2048" placeholder="https://example.com/job"></label><label>Work location (optional)<input name="work_location" maxlength="120"></label><label>Status<select name="status"><option value="saved">Saved</option><option value="applied">Applied (manual)</option><option value="interview">Interview</option><option value="offer">Offer</option><option value="rejected">Rejected</option><option value="closed">Closed</option></select></label><label>Date applied<input name="applied_at" type="date"></label><label>Next follow-up date<input name="followup_date" type="date"></label></div><label>Notes<textarea name="notes" rows="3" maxlength="800" placeholder="Questions and next steps (do not enter passwords/passport numbers)"></textarea></label><div class="small-controls"><button type="submit" id="tracker-submit" class="button button-primary">Save application</button><button type="button" id="tracker-reset" class="button button-secondary">Clear form</button></div><p id="tracker-status" role="status" aria-live="polite"></p></form><div class="surface result-card"><h2>Your saved applications</h2><div class="small-controls"><button type="button" class="button button-secondary" id="tracker-json">Export JSON</button><button type="button" class="button button-secondary" id="tracker-csv">Export CSV</button><label class="file-upload">Import JSON/CSV<input type="file" id="tracker-import" accept=".json,.csv,application/json,text/csv"></label><button type="button" class="button button-text" id="tracker-clear">Delete all applications</button></div><p class="tiny">Information is stored only in this browser. Clearing browser data or switching devices can delete it; export backups regularly. Calendar files are reminders you import yourself, not automatic email alerts. Imported files replace current application records after confirmation.</p><div id="tracker-results" aria-live="polite"></div></div></div></section>';
+ echo '<script type="module" src="/assets/tracker_ui.mjs"></script>';
+ frameEnd();exit;
+}
+if($path==='/tools/interview-practice'){
+ frameStart('Text-only interview practice',true);
+ heading('Original practice exercises','Interview & communication practice','Practice genuine role-specific questions with a transparent self-review rubric. No microphone, paid AI, hiring prediction or answer upload.');
+ $bank=json_decode((string)file_get_contents($root.'/content/interview_questions.json'),true)?:[];
+ echo '<section class="section section-tight"><div class="container tool-layout"><noscript><p class="notice error">Interactive practice requires browser JavaScript. No interview answer can be submitted to this site.</p></noscript><form id="interview-form" class="surface form-card" method="dialog" data-local-only="true"><h2>Choose a role</h2><label>Practice track<select name="role"><option value="it_support">IT Support</option><option value="customer_support">Customer Support</option><option value="administration">Administration</option></select></label><div class="small-controls"><button type="button" id="interview-next" class="button button-secondary">Next question</button><button type="button" id="interview-export" class="button button-secondary">Export your answer</button></div><div id="interview-question" class="practice-question"></div><label>Your practice answer (not stored)<textarea id="interview-answer" rows="7" maxlength="4000" placeholder="Write a truthful example or structured approach"></textarea></label><h3>Self-review prompts</h3><div id="interview-rubric" class="practice-checklist"></div><button class="button button-primary" id="interview-review" type="button">Review against prompts</button></form><div class="surface result-card"><h2>Practice timer</h2><p id="interview-timer" aria-live="off">Practice timer: 00:00</p><div class="small-controls"><button type="button" class="button button-secondary" id="interview-timer-start">Start</button><button type="button" class="button button-secondary" id="interview-timer-pause">Pause</button><button type="button" class="button button-secondary" id="interview-timer-reset">Reset</button></div><p id="interview-message" role="status" aria-live="polite"></p><p class="tiny">These are original learning prompts, not real employer interviews or accredited assessments. Your response is session-only unless you explicitly download it.</p></div></div></section>';
+ echo '<script type="application/json" id="interview-data">'.json_encode($bank,JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT).'</script><script type="module" src="/assets/advanced_tools_ui.mjs"></script>';
+ frameEnd();exit;
+}
+if($path==='/tools/country-checklist'){
+ frameStart('Country preparation checklist',true);
+ heading('Official-reference preparation','Country readiness checklist','Keep a private personal planning list. Official links are starting points, not an automated visa or work-permit eligibility assessment.');
+ $data=json_decode((string)file_get_contents($root.'/content/country_checklists.json'),true)?:[];
+ echo '<section class="section section-tight"><div class="container tool-layout"><noscript><p class="notice error">Local checklist tick storage needs browser JavaScript; use the official links for reference.</p></noscript><form id="checklist-form" class="surface form-card" method="dialog" data-local-only="true"><h2>Choose destination</h2><label>Country<select name="country"><option value="UAE">United Arab Emirates</option><option value="Germany">Germany</option></select></label><p id="checklist-warning" class="notice" role="status"></p><div id="checklist-items" class="practice-checklist"></div><div class="small-controls"><button type="button" class="button button-secondary" id="checklist-export">Export progress JSON</button><label class="file-upload">Import progress JSON<input type="file" id="checklist-import" accept=".json,application/json"></label><button type="button" class="button button-text" id="checklist-delete">Delete local ticks</button></div><p id="checklist-message" role="status" aria-live="polite"></p></form><aside class="surface result-card"><h2>Official starting points</h2><ul id="checklist-official"></ul><p class="tiny">Only generic preparation tasks are tickable here. Documents required for a visa depend on the real permit category, nationality and current official rules. Never upload passport scans or other identity documents to this tool. Local progress can disappear if browser storage is cleared.</p></aside></div></section>';
+ echo '<script type="application/json" id="checklist-data">'.json_encode($data,JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT).'</script><script type="module" src="/assets/advanced_tools_ui.mjs"></script>';
+ frameEnd();exit;
+}
+if($path==='/tools/workproof'){
+ frameStart('Self-reported WorkProof portfolio',true);
+ heading('Private document maker','WorkProof portfolio generator','Create a transparent, printable record of your own projects and experience. No hosting, external verification or uploads.');
+ echo <<<'HTML'
+<section class="section section-tight"><div class="container tool-layout"><noscript><p class="notice error">Portfolio generation requires JavaScript. No personal project data is transmitted.</p></noscript><form id="portfolio-form" class="surface form-card" autocomplete="off" method="dialog" data-local-only="true"><h2>Your self-reported portfolio</h2><div class="form-grid"><label>Your real name *<input name="name" required maxlength="120"></label><label>Target role *<input name="role" required maxlength="140"></label></div><label>Professional summary (optional)<textarea name="summary" rows="3" maxlength="1500"></textarea></label><div id="portfolio-projects"></div><div class="small-controls"><button type="button" id="portfolio-add" class="button button-secondary">Add project (max 10)</button><button type="button" id="portfolio-remove" class="button button-secondary">Remove last project</button><button type="submit" class="button button-primary">Preview locally</button><button type="button" id="portfolio-export" class="button button-secondary">Download HTML portfolio</button><button type="button" id="portfolio-reset" class="button button-text">Reset</button></div><p id="portfolio-message" role="status" aria-live="polite"></p></form><div class="surface result-card"><h2>Preview</h2><div id="portfolio-preview" class="resume-paper"></div><p class="tiny">No invented certifications, employer verification or hosted public profile. Downloaded HTML is printable to PDF using your own browser. Review all claims before sharing.</p></div></div></section>
+HTML;
+ echo '<script type="module" src="/assets/advanced_tools_ui.mjs"></script>';
+ frameEnd();exit;
+}
+if($path==='/tools/career-roadmap'){
+ frameStart('Career practice roadmap',true);
+ heading('Deterministic skills plan','Career roadmap builder','Plan a realistic 30/60/90-day learning journey without paid AI or promises of certification or employment.');
+ $data=json_decode((string)file_get_contents($root.'/content/roadmap_tracks.json'),true)?:[];
+ echo '<section class="section section-tight"><div class="container tool-layout"><noscript><p class="notice error">Roadmap generation requires JavaScript; no form data is sent to the server.</p></noscript><form id="roadmap-form" class="surface form-card" method="dialog" data-local-only="true"><h2>Choose your learning path</h2><label>Career track<select name="track"><option value="it_support">IT Support</option><option value="customer_support">Customer Support</option><option value="junior_web_dev">Junior Web Developer</option></select></label><label>Available hours per week<input name="hours" type="number" min="1" max="40" step="1" required value="3"></label><div class="small-controls"><button type="submit" class="button button-primary">Build roadmap</button><button type="button" id="roadmap-export" class="button button-secondary">Export JSON</button><button type="button" id="roadmap-print" class="button button-secondary">Print plan</button><button type="button" id="roadmap-reset" class="button button-text">Reset</button></div><p id="roadmap-message" role="status" aria-live="polite">Use your available hours to generate three practice milestones. Nothing is sent to our server.</p></form><div class="surface result-card"><div id="roadmap-result" class="roadmap-preview"></div><p class="tiny">Stage budgets assume four weeks each; actual calendar months differ. Course availability and requirements may change. No hiring or accreditation guarantee.</p></div></div></section>';
+ echo '<script type="application/json" id="roadmap-data">'.json_encode($data,JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT).'</script><script type="module" src="/assets/advanced_tools_ui.mjs"></script>';
+ frameEnd();exit;
+}
+
+if($path==='/my-career'){
+ frameStart('My career — on-device',true);heading('Private career workspace','Your Career Radar','Save role preferences and track recently seen jobs on this device. No sign-up or offline monitoring.');
+ $payload=[];
+ foreach(array_slice($jobs,0,80) as $j)$payload[]=['id'=>$j['id'],'title'=>$j['title'],'eligibility'=>Jobs::indiaFullyEligible($j)?'allowed':($j['eligible_from_in']==='not_allowed'?'not_allowed':'unknown'),'workMode'=>$j['work_mode'],'url'=>'/jobs/'.$j['provider'].'/'.$j['provider_job_id'].'/view'];
+ echo '<section class="section section-tight"><div class="container tool-layout"><form class="surface form-card" id="career-form" method="dialog" data-local-only="true"><h2>Saved preferences</h2><label>Target role<input name="role" maxlength="100" placeholder="e.g. Software Engineer"></label><label>Work path<select name="workPath"><option value="remote_from_india">India location + timezone confirmed</option><option value="remote_other">Remote: unknown/restricted</option><option value="onsite_abroad">On-site abroad (verified evidence)</option></select></label><button class="button button-primary" type="submit">Save & check matches</button><div class="small-controls"><button type="button" class="button button-secondary" id="profile-export">Export JSON</button><label class="file-upload">Import JSON<input type="file" id="profile-import" accept="application/json,.json"></label><button type="button" class="button button-text" id="profile-delete">Delete all local data</button></div><p id="career-message" role="status" aria-live="polite"></p></form><div class="surface result-card"><h2>Radar results</h2><div id="career-results" aria-live="polite"></div><p class="tiny">“New to your Radar” means not previously seen on this device, not necessarily a newly posted job. Clearing browser data can erase saved preferences. No background email alerts or automatic application-status tracking is active. <a href="/tools/application-tracker">Open manual application tracker</a>.</p></div></div></section><script type="application/json" id="career-data">'.json_encode($payload,JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT).'</script>';
+ frameEnd();exit;
+}
+if($path==='/sources'){
+ frameStart('Sources and attribution');heading('Transparency','Where listings come from','Every imported listing retains its original provider attribution and approved Apply link.');
+ echo '<section class="section"><div class="container reading"><h2>Jobicy</h2><p>Public remote-job feed. We show the canonical Jobicy URL and never imply affiliate earnings from job clicks. <a href="https://jobicy.com/jobs-rss-feed" rel="noopener noreferrer" target="_blank">Official API rules</a>.</p><h2>Himalayas</h2><p>Optional source. The feed must use the unmodified applicationLink, visible Himalayas credit, and must not be redistributed to other boards or Google Jobs. <a href="https://himalayas.app/docs/remote-jobs-api" rel="noopener noreferrer" target="_blank">Official API reference</a>.</p><p>Provider permissions can change. A job is visible here only if a permitted and recently validated source refresh succeeds.</p></div></section>';frameEnd();exit;
+}
+if($path==='/safety'){
+ frameStart('Stay safe');heading('Job seeker safety','Avoid common overseas job scams','Never pay a recruiter or send identity documents solely because a listing appears on any portal.');
+ echo '<section class="section"><div class="container reading"><h2>Before you apply</h2><ol><li>Verify the hiring company and its official domain independently.</li><li>Do not assume “remote” means India eligible or “relocation” means sponsorship.</li><li>Question requests for deposits, urgent transfers or original passports.</li><li>Read the actual employer application link carefully.</li><li>Check immigration and employment requirements with official authorities, not random job advertisements.</li></ol><p>Official starting points: <a href="https://www.mea.gov.in/oe-faq.htm" target="_blank" rel="noopener noreferrer">India MEA overseas employment FAQ</a> and <a href="https://emigrate.gov.in/" target="_blank" rel="noopener noreferrer">eMigrate</a>.</p><p>We do not verify every employer and cannot promise a job or visa.</p></div></section>';frameEnd();exit;
+}
+// Guides are original editorial drafts until individually reviewed, never automatically published as official immigration advice.
+$guideMap=Guides::all($root.'/content/guides.json');
+if($path==='/guides'){
+ frameStart('Practical career guides',true);heading('Career decision guides','Make better choices before applying','Original decision-making explainers. These are editorial drafts, not legally reviewed country requirements.');
+ echo '<section class="section"><div class="container guide-grid">';
+ foreach($guideMap as $g)echo '<article class="feature"><span class="eyebrow">'.($g['editorial_status']==='reviewed'?'Reviewed guide':'Editorial draft · review pending').'</span><h2>'.h($g['title']).'</h2><p>'.h($g['summary']).'</p><a class="inline-link" href="/guides/'.h($g['slug']).'">Read guide →</a></article>';
+ echo '</div><div class="container"><p class="tiny">Source reference research date: 22 November 2026. Do not treat these pages as current visa, tax or recruitment advice. Content requires independent review before public indexing.</p></div></section>';frameEnd();exit;
+}
+if(preg_match('#^/guides/([a-z0-9-]+)$#',$path,$gm)){
+ $g=$guideMap[$gm[1]]??null;
+ if(!$g){http_response_code(404);frameStart('Guide not found',true);heading('404','Guide unavailable');frameEnd();exit;}
+ $draft=($g['editorial_status']!=='reviewed');
+ frameStart($g['title'],$draft);heading('Career decision guide',$g['title'],$g['summary']);
+ echo '<section class="section section-tight"><div class="container reading surface"><p class="tiny">'.($draft?'EDITORIAL DRAFT — human review still required':'Reviewed on '.h($g['reviewed_at'])).' · Sources researched: '.h($g['research_date']).'. No employment, visa or salary outcomes are guaranteed.</p>';
+ foreach($g['sections'] as $section){echo '<h2>'.h($section['heading']).'</h2>';foreach($section['paragraphs'] as $paragraph)echo '<p>'.h($paragraph).'</p>';echo '<ul>';foreach($section['checklist'] as $item)echo '<li>'.h($item).'</li>';echo '</ul>';}
+ echo '<h2>Official and reference starting points</h2><ul>';
+ foreach($g['sources'] as $reference)echo '<li><a target="_blank" rel="noopener noreferrer nofollow" href="'.h($reference['url']).'">'.h($reference['title']).'</a></li>';
+ echo '</ul><p>These links are starting points, not endorsements or a guarantee that requirements have stayed unchanged. Recheck current official information for your own circumstances.</p><a class="button button-secondary" href="'.h($g['related_tool']).'">Open related career tool →</a></div></section>';
+ frameEnd();exit;
+}
+if($path==='/report-job'){
+ if(session_status()!==PHP_SESSION_ACTIVE){ini_set('session.use_strict_mode','1');session_set_cookie_params(['httponly'=>true,'samesite'=>'Lax','secure'=>(!empty($_SERVER['HTTPS'])&&$_SERVER['HTTPS']!=='off')]);session_start();}
+ if(!isset($_SESSION['csrf']))$_SESSION['csrf']=bin2hex(random_bytes(20));
+ $saved=false;$error='';
+ if($_SERVER['REQUEST_METHOD']==='POST'){
+  $csrf=(string)($_POST['csrf']??'');$started=(int)($_SESSION['report_count']??0);
+  if(!hash_equals($_SESSION['csrf'],$csrf)){$error='Security token invalid. Reload the page.';}
+  elseif($started>=5){$error='Report limit reached for this session.';}
+  elseif(trim((string)($_POST['website']??''))!==''){$error='Report rejected.';}
+  else{
+   $id=trim(substr((string)($_POST['job_id']??''),0,170));
+   $reason=(string)($_POST['reason']??'');$details=Jobs::text($_POST['details']??'',600);
+   try{Reports::submit($root.'/storage',$id,$reason,$details);$saved=true;$_SESSION['report_count']=$started+1;}
+   catch(Throwable $e){$error='Unable to accept report: '.$e->getMessage();}
+  }
+ }
+ frameStart('Report a job',true);heading('Trust and safety','Report an issue','Flag a suspicious or outdated listing. Reports are held for manual review and do not automatically verify wrongdoing.');
+ echo '<section class="section section-tight"><div class="container reading surface">';
+ if($saved)echo '<p role="status" class="notice success">Your report was stored for review. This is not an emergency reporting channel.</p>';
+ elseif($error)echo '<p role="alert" class="notice error">'.h($error).'</p>';
+ echo '<form method="post" class="report-form"><input type="hidden" name="csrf" value="'.h($_SESSION['csrf']).'"><label>Job ID<input name="job_id" maxlength="160" required value="'.h($_GET['id']??'').'"></label><label>Reason<select name="reason"><option value="scam">Possible scam or fee demand</option><option value="wrong_eligibility">Eligibility/location incorrect</option><option value="broken_apply">Apply link broken</option><option value="expired">Expired or removed</option><option value="other">Other issue</option></select></label><label>Brief details (optional, no personal documents)<textarea name="details" maxlength="600" rows="4"></textarea></label><label class="hidden-honeypot">Leave blank<input name="website" autocomplete="off"></label><button type="submit" class="button button-primary">Submit report</button></form><p class="tiny">No email or CV is required. A technical administrator must review and act on reports before production launch.</p></div></section>';frameEnd();exit;
+}
+if($path==='/about'||$path==='/privacy'||$path==='/terms'){
+ $data=[
+  '/about'=>['About OverseasJob','An independent information and career utility project, not a licensed recruitment or visa placement agency. This is an unfinished local release candidate. Our goal is to help people evaluate global careers with honest source labels, financial tools and safety information.'],
+  '/privacy'=>['Privacy and local storage','Our calculators run in your browser. My Career preferences and saved job IDs are stored locally in your device browser and can be exported or deleted. This local release candidate has no advertising analytics enabled. A report form stores job IDs and issue descriptions server-side for review; avoid submitting personal information. Production privacy/cookie policy, retention and lawful-basis review are pending.'],
+  '/terms'=>['Use and limitations','This local release candidate is not an operating employment agency or guarantee of current job availability. External links and third-party data can change. Financial calculations are hypothetical estimates from user-entered numbers; country requirements must be verified with official sources. No paid recruitment services or payments are offered here.']
+ ];
+ frameStart($data[$path][0]);heading('Platform information',$data[$path][0],$data[$path][1]);echo '<section class="section"><div class="container reading"><p><a href="/safety">Review our safety advice</a> and <a href="/sources">source attribution rules</a>.</p></div></section>';frameEnd();exit;
+}
+if($path==='/robots.txt'){header('Content-Type: text/plain');if(!Launch::allowed(OJ_PROJECT_ROOT)){echo "User-agent: *\nDisallow: /\n";}else{echo "User-agent: *\nDisallow: /my-career\nDisallow: /report-job\nDisallow: /jobs/\n";}exit;}
+if($path==='/sitemap.xml'){if(!Launch::allowed(OJ_PROJECT_ROOT)){http_response_code(404);exit('Sitemap unavailable until release readiness');}header('Content-Type: application/xml');echo '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';foreach(['/','/jobs','/tools','/tools/salary-savings','/tools/offer-compare','/tools/time-zone-overlap','/tools/resume-kit','/tools/relocation-budget','/tools/application-tracker','/guides','/safety','/sources','/about'] as $p)echo '<url><loc>https://overseasjob.in'.h($p).'</loc></url>';echo '</urlset>';exit;}
+http_response_code(404);frameStart('Page not found',true);heading('404','Page not found','This page does not exist or the feature is not available yet.');echo '<section class="section"><div class="container"><a class="button button-primary" href="/">Return home</a></div></section>';frameEnd();

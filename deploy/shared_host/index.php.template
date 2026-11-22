@@ -1,0 +1,12 @@
+<?php
+/** Hostinger/shared Apache webroot bootstrap.
+ * Operator should place private files in a non-public sibling named overseasjob_private.
+ * Do NOT deploy before verified Hostinger paths, PHP open_basedir support and backups.
+ */
+declare(strict_types=1);
+$private=realpath(__DIR__.'/../overseasjob_private');
+if($private===false || !is_dir($private.'/src') || !is_file($private.'/public/index.php')){
+    http_response_code(503);header('Content-Type: text/plain; charset=utf-8');exit('Service not configured');
+}
+define('OJ_PROJECT_ROOT',$private);
+require $private.'/public/index.php';

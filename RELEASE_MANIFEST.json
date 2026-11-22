@@ -1,0 +1,363 @@
+{
+  "project": "OverseasJob.in",
+  "release": "0.5.0",
+  "source_of_truth": "v1.3.3",
+  "release_date": "2026-11-23",
+  "deploy_status": "NOT_DEPLOYED",
+  "public_launch_ready": false,
+  "local_tests": "267 passed",
+  "browser_e2e": "BLOCKED by localhost admin policy",
+  "live_sources": "NOT VERIFIED",
+  "contents": [
+    {
+      "path": ".gitignore",
+      "size_bytes": 156,
+      "sha256": "8d64ce445507d98be655158972d2cd54fc49b88103e045e73f4a4ad442e7156c"
+    },
+    {
+      "path": "README.md",
+      "size_bytes": 3103,
+      "sha256": "dabfaa1cfcf8872affcbc2583e6538fa1ce4182c8c7951120c342b7089a711f9"
+    },
+    {
+      "path": "SOURCE_OF_TRUTH_REFERENCE/OverseasJob_v1.3.3_Source_of_Truth_Project_Pack.zip",
+      "size_bytes": 154621,
+      "sha256": "d3d775df9292cede557aabdc63107be7750e909c031b073a5cb7c94de2572adc"
+    },
+    {
+      "path": "START_HERE_FOUNDER.md",
+      "size_bytes": 2372,
+      "sha256": "28622c457a67077b11b68cda3f2a45219ffe0d77300848b59c69d0eb611c4f54"
+    },
+    {
+      "path": "config/provider_policy.json",
+      "size_bytes": 566,
+      "sha256": "796f87be73d26452cc4f5e2411ca8deac4e97037fce669f6e45f774e03befd62"
+    },
+    {
+      "path": "config/release_evidence.json",
+      "size_bytes": 627,
+      "sha256": "82ba893d8a62166f775f5732e78f6682382990d6c4b94d56c43d2cc14f32e954"
+    },
+    {
+      "path": "content/country_checklists.json",
+      "size_bytes": 3524,
+      "sha256": "928632d1ab07866d2f5d35276970c7a5b94afeda3bbd1ee30973247ce3e0faec"
+    },
+    {
+      "path": "content/guides.json",
+      "size_bytes": 13434,
+      "sha256": "8a5d6e18176ee92d2e9f26d357217bb824fdfcd2e81604c88fb2853a9b104274"
+    },
+    {
+      "path": "content/interview_questions.json",
+      "size_bytes": 8206,
+      "sha256": "2d706c3b7dbd1f20e91a5060e0f2d9aad1fbde7bdc0d6fd83ded5dcd51c052e2"
+    },
+    {
+      "path": "content/roadmap_tracks.json",
+      "size_bytes": 5385,
+      "sha256": "97cfdab6c57beb4362fe8b9dbf17e1e5d6f9554bd9d9b1ed27fbc5228b84d960"
+    },
+    {
+      "path": "deploy/shared_host/DEPLOY_STAGING_README.md",
+      "size_bytes": 4402,
+      "sha256": "8884181618e06c69d23ae3ad7a5051f104846c9240b7147a75966298ed0ce90d"
+    },
+    {
+      "path": "deploy/shared_host/index.php.template",
+      "size_bytes": 592,
+      "sha256": "03e2f7eeb22a5a3078999697e3cceebc9da67240025390cb77e008c9878c19c1"
+    },
+    {
+      "path": "docs/BETA_IMPLEMENTATION_CHANGELOG.md",
+      "size_bytes": 1739,
+      "sha256": "1d00bec269c19b10a0cc6af44a7a50ff5c3d18f0e3bc0e8c030c344b8b3c4906"
+    },
+    {
+      "path": "docs/GATE0_REPOSITORY_COMPATIBILITY.md",
+      "size_bytes": 2524,
+      "sha256": "2ebb99a93475cb996cd0ff30336b93abab3c96c9dc9099c999c5e6d3d0c7353f"
+    },
+    {
+      "path": "docs/GATE2_TOOLS_V050_CHANGELOG.md",
+      "size_bytes": 4621,
+      "sha256": "f58615b8d27f4ff2c98a8510f94549802d1526e8fc18e142c47642c1ca481db2"
+    },
+    {
+      "path": "docs/LOCAL_TEST_OUTPUT_2026-11-23_v050.txt",
+      "size_bytes": 9599,
+      "sha256": "9e646c8d5c770e71a38ee446d1829c213ab92e741fc46b40170e369db71d3bc4"
+    },
+    {
+      "path": "docs/RC_IMPLEMENTATION_CHANGELOG.md",
+      "size_bytes": 2262,
+      "sha256": "b6045f56d844efa49d8b01c54fc949a2a829d2a96b50b62803af63e678911af5"
+    },
+    {
+      "path": "docs/RC_PLUS_IMPLEMENTATION_CHANGELOG.md",
+      "size_bytes": 2197,
+      "sha256": "c83214683eae709d62110f4e0d042e910b6044efb8d8ad76ec84a2f6cb8eda10"
+    },
+    {
+      "path": "docs/TEST_OUTPUT_2026-11-22.txt",
+      "size_bytes": 1871,
+      "sha256": "80360608d59a5e1fc442e20d3976cc4f3cbc9c5da92ae80c0314eab53c49d543"
+    },
+    {
+      "path": "docs/TEST_OUTPUT_2026-11-22_RC.txt",
+      "size_bytes": 5283,
+      "sha256": "7320f898186eb3c9ff2ec17f2c47ab7f010f184eeea51a61ea1bafab7ec339fc"
+    },
+    {
+      "path": "docs/TEST_OUTPUT_2026-11-23_RC_PLUS.txt",
+      "size_bytes": 7081,
+      "sha256": "4a3b29056341ed977b3c093621b71919c7d78736a123f13c7c65082764abdaaf"
+    },
+    {
+      "path": "docs/UPSTREAM_PROVIDER_CONTRACT_CHECK_2026-11-22.md",
+      "size_bytes": 2637,
+      "sha256": "0e55a69d75ca5f5d45cc6e9dc28e1161f815d0b221d9525111112c078e4c1cd7"
+    },
+    {
+      "path": "docs/VALIDATION_AND_BLOCKERS.md",
+      "size_bytes": 1717,
+      "sha256": "a243705f7c0e25af26af9abd62189c11fcfb3dcaf70de59294eacce40fa700be"
+    },
+    {
+      "path": "module_status.json",
+      "size_bytes": 7332,
+      "sha256": "e21cc9d12c674bbb4599a8a282306658c2d799f8dda0e86ca906218fdb46d1c1"
+    },
+    {
+      "path": "public/.htaccess",
+      "size_bytes": 563,
+      "sha256": "4baa30a6041779103089857d6221df7f55155f9d527042c1a0ebdd844a3bbfc6"
+    },
+    {
+      "path": "public/assets/advanced_tools.mjs",
+      "size_bytes": 8429,
+      "sha256": "f0035e542db81f2a8de9244f5c84eacf1f1ac7377c65e4e1263220e1e1bed812"
+    },
+    {
+      "path": "public/assets/advanced_tools_ui.mjs",
+      "size_bytes": 11865,
+      "sha256": "3ac03c57e779b859b17acbf4fce244371845c23aac38bcae07ef0265e965b7da"
+    },
+    {
+      "path": "public/assets/app.js",
+      "size_bytes": 8529,
+      "sha256": "a3b89368fdec4a5bf3e82b18daab0ebbe9c1f646931053467e3c25c4dd01cc31"
+    },
+    {
+      "path": "public/assets/calculators.mjs",
+      "size_bytes": 6014,
+      "sha256": "ec724d2ed1e4653510e89a6e85470898f4ab6394163055217be32b4d83b5d13c"
+    },
+    {
+      "path": "public/assets/overseasjob-logo.png",
+      "size_bytes": 148817,
+      "sha256": "8a66e50210dcab7af99a7b70598f3fb1998050e2bee37f84b34d3c43f0e8d2a2"
+    },
+    {
+      "path": "public/assets/relocation.mjs",
+      "size_bytes": 1993,
+      "sha256": "a5cf96c0d034d7b13b65d9ac8e07f9309ad5e517e608d763f0c9fbba2380680f"
+    },
+    {
+      "path": "public/assets/relocation_ui.mjs",
+      "size_bytes": 2228,
+      "sha256": "02c5638430683a74f68ad72e4e95e102fe73fe883ab6886c157976fa8cfc2335"
+    },
+    {
+      "path": "public/assets/resume.mjs",
+      "size_bytes": 4623,
+      "sha256": "aad80c5fcd284abb5b008be3c4a5cc72fc154552446e55ba2ebed9909271fb4e"
+    },
+    {
+      "path": "public/assets/resume_ui.mjs",
+      "size_bytes": 2001,
+      "sha256": "09915a7bc9a22fdf54e4ddabdd6bb5ddf79ac008693c6a71ba3b999959c0dd50"
+    },
+    {
+      "path": "public/assets/style.css",
+      "size_bytes": 13237,
+      "sha256": "950733aaa3dbde3790b7e67b95805e0b05065693898dd073390c0e329267e191"
+    },
+    {
+      "path": "public/assets/tracker.mjs",
+      "size_bytes": 7130,
+      "sha256": "65cd8aaf6b070c48e8b38b1b9e71627d1967b38402da79fcd92e5a5892d9be25"
+    },
+    {
+      "path": "public/assets/tracker_ui.mjs",
+      "size_bytes": 5347,
+      "sha256": "6213feb21edc1053660b5aec48a3da7f3b072561c9706ce7a3566feed9f5267c"
+    },
+    {
+      "path": "public/index.php",
+      "size_bytes": 53972,
+      "sha256": "4a39fe5672b3f1d7540f42d0b8e6a3518c13e5df4a9bcceae778a5c55c4bc8b7"
+    },
+    {
+      "path": "public/router.php",
+      "size_bytes": 791,
+      "sha256": "49cbe2ae5c82d7819ab5fb712452836ced63d342a1a4fa034e61f32aab8ab93f"
+    },
+    {
+      "path": "scripts/backup.php",
+      "size_bytes": 483,
+      "sha256": "b6a8b7937a427d4e867e9758ab291426083deef3aa9bebf4792c54fd80eb71b1"
+    },
+    {
+      "path": "scripts/coverage_report.php",
+      "size_bytes": 1501,
+      "sha256": "6e85a23e69731ffe65d6d2a74278fcc5c302c3f0cc37469e1e855fa1fafba482"
+    },
+    {
+      "path": "scripts/gate0_preflight.php",
+      "size_bytes": 1651,
+      "sha256": "0f2253534e6843cb7787da15343a6031853f9b6f1b1ca96a5491b14a7330f0cd"
+    },
+    {
+      "path": "scripts/health.php",
+      "size_bytes": 1060,
+      "sha256": "98b56fd91eed04ecfcdae9d116ceb9ceedb0b0ccdc0515f29ae4bd48f82de860"
+    },
+    {
+      "path": "scripts/launch_preflight.php",
+      "size_bytes": 270,
+      "sha256": "43c049f1f846c999cda25703a89f21d4e929f26777b25e293c6cb02d203a8624"
+    },
+    {
+      "path": "scripts/restore_drill.php",
+      "size_bytes": 655,
+      "sha256": "e0a7f9f79d6fb46e4515364523d2cd610226a936a54ead74f82825e23e1c9290"
+    },
+    {
+      "path": "scripts/review_reports.php",
+      "size_bytes": 1193,
+      "sha256": "06d082c733f769b3e920aa72ed9a48cc1ca631b2e38a945f10ec83b550cfc401"
+    },
+    {
+      "path": "scripts/staging_probe.sh",
+      "size_bytes": 2268,
+      "sha256": "2ca4c6a9019e7b2bfc9933d01dcf618009feeecbfde691f50306c6d493e4a377"
+    },
+    {
+      "path": "scripts/sync_jobs.php",
+      "size_bytes": 7270,
+      "sha256": "34de5fce50d513e06a4bdd22f10ba868ea0bdc0b83657e2b616b7d98b6166898"
+    },
+    {
+      "path": "src/Backups.php",
+      "size_bytes": 4304,
+      "sha256": "1d89734ab41a79231004e5c9fb964789dc6aac129d137e3711d2f942f57a94f2"
+    },
+    {
+      "path": "src/Countries.php",
+      "size_bytes": 1522,
+      "sha256": "7a6aefb5eb2d3dfd937b7f7431913cc8a77ecbf637d3eff27c3dc025c2edf8f1"
+    },
+    {
+      "path": "src/Guides.php",
+      "size_bytes": 1834,
+      "sha256": "7529bc6482222f880bda897d4f9ff35510f9d0790010658cbf893b4fd126066b"
+    },
+    {
+      "path": "src/Jobs.php",
+      "size_bytes": 15601,
+      "sha256": "83257e66008ae52b4ada74fb5687107c3ea7c54d50067aa18a43b8c4fc0312b7"
+    },
+    {
+      "path": "src/Launch.php",
+      "size_bytes": 2100,
+      "sha256": "fefb87b71bc56d3346a3988c107fa18e07e51e04ab234217ebe15c5adf6dc87c"
+    },
+    {
+      "path": "src/Reports.php",
+      "size_bytes": 5636,
+      "sha256": "999d28a6ae0adff13c7bce38ddd73e0387500d92e549b72572880664709e99ca"
+    },
+    {
+      "path": "src/country_aliases.json",
+      "size_bytes": 14644,
+      "sha256": "0ec147e4b2275b5b689c10c147b7ed385fc3a6d779d1e33a17c1f81993d4ea51"
+    },
+    {
+      "path": "storage/jobs.json",
+      "size_bytes": 44,
+      "sha256": "eda9ef873bbed6349c441524af0099e1c3c7698da47e00afab99349a4763b5dc"
+    },
+    {
+      "path": "tests/advanced_tools_tests.mjs",
+      "size_bytes": 7989,
+      "sha256": "2a9969b0dab7e17ddb3632c38fb7a9997d16a94797e28a358941f1542da93315"
+    },
+    {
+      "path": "tests/backup_tests.php",
+      "size_bytes": 1653,
+      "sha256": "a95937237d7829cb9543cead3cc6ae380cb6a46d5f2fef5ae7a009cf8760128b"
+    },
+    {
+      "path": "tests/browser_e2e.py",
+      "size_bytes": 6150,
+      "sha256": "09f0240ecce9f0a1cf3059fdc9a8183f235de481187f30f23930a3235334537f"
+    },
+    {
+      "path": "tests/fixtures/empty.json",
+      "size_bytes": 12,
+      "sha256": "427aaf47c450fe0224aabbe083080787c2f8494521756da2d017c7ad03c563f9"
+    },
+    {
+      "path": "tests/fixtures/himalayas.json",
+      "size_bytes": 1267,
+      "sha256": "73d2684fa0475583a53dbb4eaa888a1fab7d1dc306f43fbd7ea559eadae431ee"
+    },
+    {
+      "path": "tests/fixtures/jobicy.json",
+      "size_bytes": 608,
+      "sha256": "7928b2c8102ca1c421968a8b7ddd4a7df0125a06bf9bcbee31003df714f584eb"
+    },
+    {
+      "path": "tests/http_smoke.sh",
+      "size_bytes": 2880,
+      "sha256": "1fa2895eb7e42448201d93497a95447564f0e7a61b6c569c246fbf436fe82620"
+    },
+    {
+      "path": "tests/js_tests.mjs",
+      "size_bytes": 3310,
+      "sha256": "47f453459546cffeaee1fef6efbd6eefb5fab8473466a83a4c7590e1b5788aa7"
+    },
+    {
+      "path": "tests/new_tools_tests.mjs",
+      "size_bytes": 4305,
+      "sha256": "4e9e49c4a5d91e1f3b619d307ebf48c7d1526727de2c3f9c147c37f485404f1f"
+    },
+    {
+      "path": "tests/operational_tests.php",
+      "size_bytes": 3069,
+      "sha256": "8bc2e1a4dc2bd514a55c7d0847a53d78842ceb1d6db42278367f6d901be5ac11"
+    },
+    {
+      "path": "tests/php_tests.php",
+      "size_bytes": 8610,
+      "sha256": "8116d2c2dfa3991c5ad4e06c2972f236bf77034ea61a1be6c659228ecf2a03f6"
+    },
+    {
+      "path": "tests/run.sh",
+      "size_bytes": 1192,
+      "sha256": "6cc2a861367941b1c9ed82b36425598ddf190b34b7800b1140f866b3b5af6b30"
+    },
+    {
+      "path": "tests/shared_host_layout_tests.php",
+      "size_bytes": 1587,
+      "sha256": "e48b30b59eb3ed28599cd2adad396f3f646f7e162297858086d449f065c3d71b"
+    },
+    {
+      "path": "tests/tracker_tests.mjs",
+      "size_bytes": 4297,
+      "sha256": "58d32118d1a028aefa16cb68129e344a8901f9ee55a92484628cf841480972bb"
+    }
+  ]
+}
