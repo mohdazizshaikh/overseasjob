@@ -195,7 +195,7 @@ final class Jobs
             return null;
         $cursor=$response['nextCursor'];
         if (!is_string($cursor) || $cursor==='' || strlen($cursor)>2048
-            || preg_match('/[\\x00-\\x20\\x7f]/',$cursor))
+            || preg_match('/[\x00-\x20\x7f]/',$cursor))
             throw new InvalidArgumentException('Invalid Himalayas cursor');
         if (count($response['jobs'])===0)
             throw new InvalidArgumentException('Next cursor supplied without jobs');
@@ -206,7 +206,7 @@ final class Jobs
         $base='https://himalayas.app/jobs/api?limit=20';
         if ($cursor===null) return $base;
         if ($cursor==='' || strlen($cursor)>2048
-            || preg_match('/[\\x00-\\x20\\x7f]/',$cursor))
+            || preg_match('/[\x00-\x20\x7f]/',$cursor))
             throw new InvalidArgumentException('Invalid Himalayas cursor');
         return $base.'&cursor='.rawurlencode($cursor);
     }
