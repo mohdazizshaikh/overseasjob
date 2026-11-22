@@ -99,8 +99,9 @@ test('Fixture import never populates public job cache', count(json_decode((strin
 $cmdH=escapeshellarg(PHP_BINARY).' '.escapeshellarg($testRoot.'/scripts/sync_jobs.php').' himalayas --fixture='.escapeshellarg(__DIR__.'/fixtures/himalayas.json').' 2>&1';
 $out=[];exec($cmdH,$out,$code);
 $hFixture=json_decode((string)file_get_contents($testRoot.'/storage/fixture_jobs.json'),true);
-$hRow=($hFixture['jobs']??[])[0]??[];
-test('Himalayas isolated fixture sync succeeds without external API', $code===0 && count($hFixture['jobs']??[])===4);
+$hRows=array_values(array_filter($hFixture['jobs']??[], static fn($j)=>($j['provider']??null)==='himalayas'));
+$hRow=$hRows[0]??[];
+test('Himalayas isolated fixture sync retains four Himalayas jobs plus two Jobicy jobs', $code===0 && count($hRows)===4 && count($hFixture['jobs']??[])===6);
 test('Himalayas fixture cache keeps original publication unknown', ($hRow['source_published_at']??null)===null && isset($hRow['source_updated_at']));
 function rmrf(string $path):void{foreach(glob($path.'/*')?:[] as $p){if(is_dir($p))rmrf($p);else unlink($p);}rmdir($path);}rmrf($testRoot);
 echo "\n$pass PHP checks passed.\n";
