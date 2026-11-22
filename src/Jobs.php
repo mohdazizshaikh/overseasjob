@@ -163,6 +163,8 @@ final class Jobs
         return self::base('himalayas',hash('sha256',$guid),$guid,$apply,$title,[
             'company_name'=>self::text($j['companyName']??'',100)?:null,
             'source_guid'=>$guid, // Retain canonical provider GUID without altering legacy stable internal ID.
+            'provider_job_id'=>$guid, // Canonical external ID per source contract.
+            'provider_route_key'=>hash('sha256',$guid), // Stable URL-safe backward-compatible route key.
             'eligible_from_in'=>$elig['eligibility'],'location_eligibility'=>$elig['geo'],'time_zone_eligibility'=>$elig['timezone'],
             'eligibility_evidence'=>[
                 ['provider_field'=>'locationRestrictions','fact'=>self::text(json_encode($j['locationRestrictions']??'not supplied',JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES)?:'not supplied',240),'observed_at'=>gmdate('c')],
