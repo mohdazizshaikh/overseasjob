@@ -653,8 +653,8 @@ if($path==='/report-job'){
   else{
    $id=trim(substr((string)($_POST['job_id']??''),0,170));
    $reason=(string)($_POST['reason']??'');$details=Jobs::text($_POST['details']??'',600);
-   try{Reports::submit($root.'/storage',$id,$reason,$details);$saved=true;$_SESSION['report_count']=$started+1;}
-   catch(Throwable $e){$error='Unable to accept report: '.$e->getMessage();}
+   try{Reports::submit($root.'/storage',$id,$reason,$details,(string)($_SERVER['REMOTE_ADDR']??''),(string)getenv('REPORT_RATE_SECRET'));$saved=true;$_SESSION['report_count']=$started+1;}
+   catch(Throwable){$error='Unable to accept report right now. Please try later.';http_response_code(503);}
   }
  }
  frameStart('Report a job',true);heading('Trust and safety','Report an issue','Flag a suspicious or outdated listing. Reports are held for manual review and do not automatically verify wrongdoing.');
