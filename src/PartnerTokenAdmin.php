@@ -19,11 +19,12 @@ final class PartnerTokenAdmin
         foreach($scopes as $scope)if(!in_array($scope,['jobs:read','jobs:write','jobs:close'],true))throw new InvalidArgumentException('Unsupported scope');
         $this->db->beginTransaction();
         try{
-            $stmt=$this->db->prepare('SELECT id,status,email_verified_at,domain_verified_at,approved_at,verified_domains_json FROM oj_employer_orgs WHERE id=:id FOR UPDATE');
+            $stmt=$this->db->prepare('SELECT id,status,email_verified_at,domain_verified_at,approved_at,approved_by,evidence_reference,representative_verified_at,verified_domains_json FROM oj_employer_orgs WHERE id=:id FOR UPDATE');
             $stmt->execute(['id'=>$orgId]);$org=$stmt->fetch(PDO::FETCH_ASSOC);
             $domains=is_array($org)?json_decode((string)$org['verified_domains_json'],true):null;
             $approved=is_array($org)&&$org['status']==='approved'&&$org['email_verified_at']!==null&&$org['domain_verified_at']!==null
-              &&$org['approved_at']!==null&&is_array($domains)&&count($domains)>0;
+              &&$org['approved_at']!==null&&$org['representative_verified_at']!==null
+              &&trim((string)$org['approved_by'])!==''&&trim((string)$org['evidence_reference'])!==''&&is_array($domains)&&count($domains)>0;
             if(!$approved)throw new DomainException('Organisation requires independent identity/email/domain approval');
             $token=EmployerContracts::newOpaqueToken();
             $fingerprint=EmployerContracts::tokenFingerprint($token,$this->serverSecret);

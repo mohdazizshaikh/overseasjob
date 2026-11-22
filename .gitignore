@@ -22,3 +22,7 @@
 /storage/partner*
 /storage/partner-*
 /storage/partner_*
+
+/storage/recruiter*
+/storage/employer*
+/storage/email*

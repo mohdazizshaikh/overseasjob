@@ -1,7 +1,7 @@
 {
   "spec_version": "v1.3.3",
-  "release": "gate1+gate2+gate3-local-v0.7.0-gated-partner-api",
-  "development_state": "LOCAL_PREVIEW_NOT_DEPLOYED_NOT_LAUNCH_READY",
+  "release": "gate1+gate2+gate3-local-v0.8.0-employer-review-recruiter-gated",
+  "development_state": "LOCAL_DEVELOPMENT_WITH_DISABLED_EMPLOYER_PILOT_NOT_DEPLOYED",
   "evidence": [
     "tests/php_tests.php",
     "tests/operational_tests.php",
@@ -50,7 +50,22 @@
     "scripts/partner_preflight.php",
     "tests/partner_api_tests.php",
     "tests/http_partner_pilot_smoke.sh",
-    "docs/PARTNER_PILOT_STAGING_v070.md"
+    "docs/PARTNER_PILOT_STAGING_v070.md",
+    "docs/EMPLOYER_VERIFICATION_AND_MODERATION_v080.md",
+    "docs/LOCAL_TEST_OUTPUT_2026-11-23_v080.txt",
+    "tests/employer_review_portal_tests.php",
+    "tests/mysql_integration_tests.php",
+    "tests/http_employer_review_smoke.sh",
+    "src/EmployerReview.php",
+    "src/RecruiterPortal.php",
+    "src/EmployerDomainProof.php",
+    "src/EmployerDomainMysql.php",
+    "database/002_employer_review.mysql.sql",
+    "database/003_recruiter_accounts.mysql.sql",
+    "database/004_employer_domain_proof.mysql.sql",
+    "scripts/recruiter_invites.php",
+    "scripts/employer_review.php",
+    "scripts/employer_domain.php"
   ],
   "modules": [
     {
@@ -213,49 +228,52 @@
     {
       "module_id": "M12",
       "implementation_status": "blocked_with_reason",
-      "blocker_reason": "v0.7.0 adds gated MySQL/inbound API code and deterministic tenant/security tests. True employer email/domain verification, approved recruiter onboarding, MySQL staging integration, owner publication review, public direct-job rendering and deployed production security are NOT implemented or independently tested.",
+      "blocker_reason": "v0.8.0 invite-only browser authentication, email challenge, DNS TXT domain-control proof and trusted review evidence checks implemented locally. Actual Hostinger outbound email/inbox, domain ownership, legal company identity, human representative authorisation, staging MySQL and security verification NOT demonstrated. No real employer approved or onboarded.",
       "implemented_subset": [
-        "Gated offline domain validation foundation: src/EmployerContracts.php",
-        "Partner API interface and disabled HTTP routing",
-        "MySQL-specific pilot adapter and isolated unrun staging migration",
-        "tenant-scoped idempotent create/read/list/edit/close domain implementation",
-        "hashed token lookup, CLI-only gated issuance/revocation",
-        "pending-review-only creates and rate limit"
+        "Separate employer member SQL records and password hashes",
+        "One-time emailed HMAC OTP challenge with lockout and expiry",
+        "Private CLI sender and DNS TXT control challenge",
+        "Every-session independent company/representative evidence gate",
+        "Browser login and dashboard enabled only by feature flags"
       ],
       "tests": [
-        "47 future employer/partner domain contract tests"
+        "77 combined employer/domain/review policy local checks",
+        "24 employer safe-default HTTP checks",
+        "Disposable MySQL CI test authored: remote success must be verified"
       ]
     },
     {
       "module_id": "M13",
       "implementation_status": "blocked_with_reason",
-      "blocker_reason": "v0.7.0 adds gated MySQL/inbound API code and deterministic tenant/security tests. True employer email/domain verification, approved recruiter onboarding, MySQL staging integration, owner publication review, public direct-job rendering and deployed production security are NOT implemented or independently tested.",
+      "blocker_reason": "v0.8.0 first-party review/publish/reject/suspend, organisation-scoped browser create/edit/close, revision-scoped immutable decision audit, expiry and conditional public projection implemented. Real MySQL and browser E2E on Hostinger, legal verification, review staffing and launch acceptance not complete. Production UI disabled.",
       "implemented_subset": [
-        "Gated offline domain validation foundation: src/EmployerContracts.php",
-        "Partner API interface and disabled HTTP routing",
-        "MySQL-specific pilot adapter and isolated unrun staging migration",
-        "tenant-scoped idempotent create/read/list/edit/close domain implementation",
-        "hashed token lookup, CLI-only gated issuance/revocation",
-        "pending-review-only creates and rate limit"
+        "Human owner-only approval/rejection with mandatory reason",
+        "Per-revision publication audit and server-side first-party-only output whitelist",
+        "Direct employer cards and detail route behind full release gate",
+        "Tenant-scoped invite-only dashboard and job browser forms",
+        "Expiry/suspension and edits hide published listings",
+        "SQL migrations for evidence audit, accounts and DNS control"
       ],
       "tests": [
-        "47 future employer/partner domain contract tests"
+        "77 combined employer/domain/review policy local checks",
+        "24 employer safe-default HTTP checks",
+        "Disposable MySQL CI test authored; no Hostinger staging proof"
       ]
     },
     {
       "module_id": "M14",
       "implementation_status": "blocked_with_reason",
-      "blocker_reason": "v0.7.0 adds gated MySQL/inbound API code and deterministic tenant/security tests. True employer email/domain verification, approved recruiter onboarding, MySQL staging integration, owner publication review, public direct-job rendering and deployed production security are NOT implemented or independently tested.",
+      "blocker_reason": "v0.7.0 inbound API code preserved and now further constrained by representative verification/evidence fields. Default API disabled; disposable MySQL integration tested only if CI job succeeds, not on real Hostinger. Employer pilot identity and public approval gates still unmet.",
       "implemented_subset": [
-        "Gated offline domain validation foundation: src/EmployerContracts.php",
-        "Partner API interface and disabled HTTP routing",
-        "MySQL-specific pilot adapter and isolated unrun staging migration",
-        "tenant-scoped idempotent create/read/list/edit/close domain implementation",
-        "hashed token lookup, CLI-only gated issuance/revocation",
-        "pending-review-only creates and rate limit"
+        "Inbound tenant-scoped create/read/edit/close/usage API",
+        "Strict bearer fingerprints and rate limits",
+        "Token issue requires representative evidence",
+        "Gated SQL persistence and idempotency",
+        "Request review and safe publication completely separate from bearer auth"
       ],
       "tests": [
-        "47 future employer/partner domain contract tests"
+        "53 partner API deterministic checks",
+        "Disposable MySQL CI job authored"
       ]
     },
     {
@@ -270,12 +288,19 @@
     },
     {
       "module_id": "M16",
-      "implementation_status": "implemented",
-      "blocker_reason": "440 deterministic local checks passed; GitHub Actions CI authored, not externally run/verified; Chromium localhost navigation blocked, physical browser/mobile/print audit, staging security and real performance budget not verified.",
+      "implementation_status": "blocked_with_reason",
+      "blocker_reason": "610 deterministic local checks pass, GitHub CI has separate disposable MySQL contract job authored. Real browser E2E and physical Hostinger security/performance/restore remain unverified; CI result must be separately confirmed after push.",
       "implemented_subset": [
-        "CI workflow, read-only token",
-        "all previous tools regression",
-        "new privacy/owner/gated-contract negative checks"
+        "PHP/JS/HTTP deterministic regression",
+        "One GitHub Actions local contract job",
+        "Separate disposable MySQL 8 integration job",
+        "Release preflight fails closed",
+        "Browser E2E script remains unverified"
+      ],
+      "tests": [
+        "610 deterministic local checks",
+        "71 canonical documentation checks",
+        "MySQL GitHub Actions job pending actual run"
       ]
     },
     {

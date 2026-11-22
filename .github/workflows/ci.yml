@@ -35,3 +35,40 @@ jobs:
               assert len(validators)==1, 'Missing canonical validator'
               subprocess.run([sys.executable,str(validators[0])],cwd=validators[0].parent,check=True)
           PY
+  mysql-pilot-integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: oj_test
+          MYSQL_ROOT_PASSWORD: ci_disposable_mysql_only
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -uroot -pci_disposable_mysql_only"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install matching PHP PDO MySQL extension if missing
+        shell: bash
+        run: |
+          php -v
+          if ! php -r 'exit(extension_loaded("pdo_mysql") ? 0 : 1);'; then
+            sudo apt-get update
+            VERSION="$(php -r 'echo PHP_MAJOR_VERSION,".",PHP_MINOR_VERSION;')"
+            sudo apt-get install -y "php${VERSION}-mysql" || sudo apt-get install -y php-mysql
+          fi
+          php -r 'if (!extension_loaded("pdo_mysql")) exit(1);'
+      - name: MySQL 8 database migrations, tenant isolation and owner-reviewed publication
+        env:
+          OJ_MYSQL_INTEGRATION: '1'
+          PARTNER_DB_DSN: 'mysql:host=127.0.0.1;port=3306;dbname=oj_test;charset=utf8mb4'
+          PARTNER_DB_USER: root
+          PARTNER_DB_PASSWORD: ci_disposable_mysql_only
+          PARTNER_TOKEN_HMAC_SECRET: ci-only-partner-api-token-hmac-key-no-live-secrets-123
+          RECRUITER_AUTH_HMAC_SECRET: ci-only-recruiter-auth-hmac-key-no-live-secrets-123
+        run: php tests/mysql_integration_tests.php

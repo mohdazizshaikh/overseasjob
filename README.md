@@ -1,4 +1,4 @@
-# OverseasJob.in — Code Development v0.6.0
+# OverseasJob.in — Code Development v0.8.0
 
 **State: working local application and future-gated contract foundation; NOT deployed, NOT public-launch ready.**  
 **Canonical product Source of Truth:** `SOURCE_OF_TRUTH_REFERENCE/OverseasJob_v1.3.3_Source_of_Truth_Project_Pack.zip` (unchanged business requirements).
@@ -36,3 +36,9 @@ See `START_HERE_FOUNDER.md`, `docs/GATE3_AND_FUTURE_CONTRACTS_v060.md`, `module_
 The invite-only API application layer, isolated MySQL pilot repository and schema, token issuance/revocation CLI, strict scopes and ownership, idempotency, optimistic revisions, rate limits and pending-review lifecycle have been implemented **without enabling the public API**. This is *not* a finished employer onboarding/dashboard or a production-tested database feature.
 
 Run `php tests/partner_api_tests.php`, `sh tests/http_partner_pilot_smoke.sh`, `php scripts/partner_preflight.php` (expected `pilot_http_configured: false`, exit 2). See `docs/PARTNER_PILOT_STAGING_v070.md` for real hosting blockers. Existing career tools and third-party provider jobs are unchanged. The canonical v1.3.3 specifications are unchanged.
+
+## v0.8.0 — employer identity, human review and invite-only dashboard (STAGING CODE; DEFAULT OFF)
+
+`src/EmployerReview.php` and SQL migration `002` add revision-specific owner publication decisions, audit trail, expiry and first-party-only search projection. `src/RecruiterPortal.php` and migration `003` add invite-only emailed one-time challenge, verified member login with rate-limits, organisation-scoped dashboard, create/edit/close forms. `src/EmployerDomainProof.php` and migration `004` add a controlled DNS TXT ownership check, **not automatic company approval**. Third-party feeds are never imported into employer records or APIs. All these switches are default OFF; even a `published` database status cannot appear publicly without current revision-specific human audit and global launch readiness.
+
+Read **`docs/EMPLOYER_VERIFICATION_AND_MODERATION_v080.md`** before any hosting changes. `php tests/mysql_integration_tests.php` requires `OJ_MYSQL_INTEGRATION=1` and a disposable `oj_test` database, and is intentionally not run by the ordinary local suite. The new GitHub Actions job exercises a disposable MySQL 8 container (check the **actual workflow result** before claiming success). Local environment has no MySQL PDO. Email delivery, real employer identity, Hostinger staging, browser E2E and public launch are not verified.

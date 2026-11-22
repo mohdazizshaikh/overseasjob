@@ -14,6 +14,8 @@ require OJ_PROJECT_ROOT.'/src/Launch.php';
 require OJ_PROJECT_ROOT.'/src/Analytics.php';
 require OJ_PROJECT_ROOT.'/src/OwnerAuth.php';
 require OJ_PROJECT_ROOT.'/src/PartnerMysqlStore.php';
+require OJ_PROJECT_ROOT.'/src/EmployerReview.php';
+require OJ_PROJECT_ROOT.'/src/RecruiterPortal.php';
 header('X-Content-Type-Options: nosniff');
 header('Referrer-Policy: strict-origin-when-cross-origin');
 header('X-Frame-Options: DENY');
@@ -70,6 +72,20 @@ function jobCard(array $j,bool $short=false):void{
 $jobs=Jobs::listPublic($root.'/storage/jobs.json');
 $config=json_decode((string)file_get_contents($root.'/config/provider_policy.json'),true)?:[];
 $jobs=array_values(array_filter($jobs,static fn($j)=>($config[$j['provider']]['enabled']??false)===true));
+$directJobs=[];
+if(EmployerReview::publicEnabled() && Launch::allowed($root)){
+    try{$directJobs=EmployerReviewMysql::fromEnvironment()->published(time(),60);}
+    catch(Throwable){$directJobs=[];}// Fail closed, never leak unreviewed records on database failure.
+}
+function directJobCard(array $j):void{
+    echo '<article class="job-card"><div class="eyebrow">Direct employer submission · owner-reviewed</div>';
+    echo '<h3><a href="'.h($j['public_url']).'">'.h($j['title']).'</a></h3><p class="muted">'.h($j['company_name']).'</p>';
+    echo '<p>'.h(substr((string)$j['description'],0,260)).'</p>';
+    echo '<p class="muted">'.h($j['location_text']).' · Sponsorship: '.h($j['visa_sponsorship']).'</p>';
+    echo '<p class="tiny">Expiry '.h(fmtdate($j['valid_through'])).' · Company was checked for this pilot; this is not government certification.</p>';
+    echo '<a class="button button-secondary" href="'.h($j['public_url']).'">Review employer listing</a></article>';
+}
+
 
 if($path==='/api/v1/partner'||str_starts_with($path,'/api/v1/partner/')){
     header('Cache-Control: private, no-store');header('X-Robots-Tag: noindex, nofollow');
@@ -129,6 +145,12 @@ if($path==='/owner'){
                       }elseif($action==='reopen'){
                          Reports::reopen($root.'/storage',(string)($_POST['job_id']??''),$note);
                          $notice='Quarantine removed with audit trail.';
+                      }elseif($action==='employer_review' && EmployerReview::reviewEnabled()){
+                         if(!ctype_digit((string)($_POST['revision']??'')))throw new InvalidArgumentException('Revision required');
+                         $review=EmployerReviewMysql::fromEnvironment();
+                         $result=$review->review((string)($_POST['job_id']??''),(int)$_POST['revision'],
+                            (string)($_POST['decision']??''),$note,'platform_owner',time());
+                         $notice='Employer job '.h($result['status']).' with permanent review audit.';
                       }else{$error='Unsupported action.';http_response_code(400);}
                   }catch(Throwable){$error='Review action could not be completed. Check the private audit and queue.';http_response_code(422);}
               }
@@ -152,6 +174,27 @@ if($path==='/owner'){
      foreach(array_slice($pending,0,200) as $r){
          echo '<article class="owner-report"><p><strong>'.h($r['job_id']??'Unknown').'</strong> · '.h($r['reason']??'').'<br><small>'.h($r['at']??'').'</small></p><p>'.h($r['details']??'').'</p>';
          echo '<form method="post" action="/owner"><input type="hidden" name="csrf" value="'.h($_SESSION['csrf']).'"><input type="hidden" name="action" value="decide"><input type="hidden" name="report_id" value="'.h($r['id']??'').'"><label>Decision<select name="decision"><option value="quarantine">Quarantine listing</option><option value="dismiss">Dismiss report</option><option value="resolve">Resolve</option></select></label><label>Review reason<input name="note" maxlength="280" required></label><button type="submit" class="button button-secondary">Record decision</button></form></article>';
+     }
+     if(EmployerReview::reviewEnabled()){
+         echo '<h2>Pending direct-employer job review</h2>';
+         try{
+             $directPending=EmployerReviewMysql::fromEnvironment()->pending(40);
+             if(!$directPending)echo '<p>No employer submissions pending review.</p>';
+             foreach($directPending as $entry){
+                 $dj=$entry['job'];$org=$entry['org'];$evidence=EmployerReview::validOrg($org);
+                 echo '<article class="owner-report"><p><strong>'.h($dj['title']).'</strong> · '.h($org['company_name']).' · Revision '.h($dj['revision']).'</p>';
+                 echo '<p>Eligibility: '.($evidence?'Independent verification fields recorded':'Verification evidence incomplete — cannot publish').'.</p>';
+                 echo '<p>Apply: '.h($dj['apply_url']??'unknown').' · Expires '.h($dj['valid_through']??'unknown').'</p>';
+                 echo '<p>'.h(substr((string)($dj['description']??''),0,750)).'</p>';
+                 echo '<form method="post" action="/owner"><input type="hidden" name="csrf" value="'.h($_SESSION['csrf']).'">';
+                 echo '<input type="hidden" name="action" value="employer_review"><input type="hidden" name="job_id" value="'.h($dj['id']).'">';
+                 echo '<input type="hidden" name="revision" value="'.h($dj['revision']).'">';
+                 echo '<label>Decision<select name="decision"><option value="reject">Reject</option><option value="suspend">Suspend</option>';
+                 if($evidence)echo '<option value="publish">Publish after review</option>';
+                 echo '</select></label><label>Independent review reason (12–280 characters)<input name="note" minlength="12" maxlength="280" required></label>';
+                 echo '<button class="button button-secondary" type="submit">Record reviewed decision</button></form></article>';
+             }
+         }catch(Throwable){echo '<p class="notice error">Employer review store unavailable; publication remains blocked.</p>';}
      }
      echo '<h2>Held job listings</h2>';
      if(!$holds)echo '<p>No listings currently held.</p>';
@@ -183,10 +226,40 @@ if($path==='/jobs'){
  heading('Job discovery','Find your next opportunity','Search real imported jobs. Eligibility is displayed only when the source gives evidence.');
  echo '<section class="section section-tight"><div class="container"><form class="filter-form" action="/jobs" method="get"><label>Role or company<input type="search" name="q" maxlength="100" value="'.h($query).'" placeholder="e.g. IT Support"></label><label>Work path<select name="path">';
  foreach(['all'=>'All source-linked jobs','remote_from_india'=>'Remote: location + timezone confirmed','remote_other'=>'Remote: restricted / unknown','onsite_abroad'=>'On-site overseas (evidence required)'] as $k=>$v)echo '<option value="'.$k.'"'.($k===$workPath?' selected':'').'>'.$v.'</option>';
- echo '</select></label><button class="button button-primary" type="submit">Search jobs</button></form><p class="result-count">'.count($filtered).' currently visible source-linked '.(count($filtered)===1?'result':'results').'</p>';
- if(!$filtered)echo '<div class="empty-state"><strong>No confirmed matches for those filters.</strong><p>Some APIs provide mostly remote jobs and cannot guarantee relocation or India eligibility. Broaden your filters, or use our tools to prepare while new jobs are imported.</p><a class="button button-secondary" href="/jobs">Clear filters</a><a class="button button-text" href="/tools">Explore free tools →</a></div>';
- else{echo '<div class="job-grid">';foreach(array_slice($filtered,0,60) as $j)jobCard($j);echo '</div>';}
+ echo '</select></label><button class="button button-primary" type="submit">Search jobs</button></form>';
+ $directFiltered=array_values(array_filter($directJobs,static function(array $j)use($query,$workPath):bool{
+     if($query!==''&&!str_contains(strtolower($j['title'].' '.$j['company_name'].' '.$j['description']),strtolower($query)))return false;
+     return match($workPath){
+         'remote_from_india'=>false, // A country field alone does NOT prove time-zone approval.
+         'remote_other'=>$j['work_mode']==='remote',
+         'onsite_abroad'=>($j['work_mode']==='onsite'||$j['work_mode']==='hybrid')&&($j['work_country']??null)!=='IN',
+         default=>true
+     };
+ }));
+ echo '<p class="result-count">'.(count($filtered)+count($directFiltered)).' visible results ('.count($filtered).' source-linked, '.count($directFiltered).' independently reviewed direct submissions).</p>';
+ if(!$filtered&&!$directFiltered)echo '<div class="empty-state"><strong>No confirmed matches for those filters.</strong><p>Some APIs provide mostly remote jobs and cannot guarantee relocation or India eligibility. Broaden your filters, or use our tools to prepare while new jobs are imported.</p><a class="button button-secondary" href="/jobs">Clear filters</a><a class="button button-text" href="/tools">Explore free tools →</a></div>';
+ if($filtered){echo '<div class="job-grid">';foreach(array_slice($filtered,0,60) as $j)jobCard($j);echo '</div>';}
+ if($directFiltered){echo '<h2>Direct employer submissions (separately reviewed)</h2><div class="job-grid">';foreach($directFiltered as $j)directJobCard($j);echo '</div>';}
  echo '</div></section>';frameEnd();exit;
+}
+if(preg_match('#^/jobs/direct/(job_[a-f0-9]{24})$#',$path,$m)){
+    $record=null;
+    foreach($directJobs as $item){if($item['id']===$m[1]){$record=$item;break;}}
+    if($record===null){http_response_code(404);frameStart('Employer listing unavailable',true);heading('Not available','Listing closed or pending','This direct employer job is not approved or has expired.');frameEnd();exit;}
+    frameStart($record['title'],true);
+    heading('Direct-employer Job Decision Card',$record['title'],$record['company_name'].' · Independently reviewed submission (not a government-verified employer badge)');
+    echo '<section class="section section-tight"><div class="container detail-grid"><article class="surface">';
+    echo '<h2>Employer-submitted facts</h2><dl class="facts">';
+    foreach([['Work mode',$record['work_mode']],['Location',$record['location_text']],
+       ['Work country',$record['work_country']??'Not disclosed'],
+       ['Applicant country criteria',implode(', ',$record['candidate_eligible_countries'])?:'Not disclosed'],
+       ['Visa sponsorship',$record['visa_sponsorship']],['Job expires',fmtdate($record['valid_through'])]] as $fact)
+       echo '<div><dt>'.h($fact[0]).'</dt><dd>'.h($fact[1]).'</dd></div>';
+    echo '</dl><h3>Role description</h3><p>'.nl2br(h($record['description']),false).'</p>';
+    echo '<p class="tiny">Employer statement, reviewed for publication. Location criteria do not guarantee work authorisation, visa or employment.</p></article>';
+    echo '<aside class="surface apply-box"><h2>Apply at the employer website</h2><a class="button button-primary full" href="'.h($record['apply_url']).'" target="_blank" rel="noopener noreferrer nofollow">Visit employer application</a>';
+    echo '<p class="tiny">Check the destination domain and terms before sharing personal data. No application is submitted from this site.</p></aside></div></section>';
+    frameEnd();exit;
 }
 if(preg_match('#^/jobs/(jobicy|himalayas)/([^/]+)(?:/[^/]*)?$#',$path,$m)){
  $match=null;foreach($jobs as $j){if($j['provider']===$m[1]&&$j['provider_job_id']===$m[2]){$match=$j;break;}}
@@ -357,6 +430,137 @@ if($path==='/api/privacy-event'){
 if($path==='/contact'){
     frameStart('Contact and support',true);heading('Support and safety','Contact OverseasJob.in','This development preview does not operate a live support desk or employment placement service.');
     echo '<section class="section"><div class="container reading"><p>For a suspicious imported job, use the <a href="/report-job">private report form</a> with the listing ID. Do not submit passports, CVs, passwords or payment details.</p><p>For immediate suspected overseas recruitment fraud, consult appropriate law enforcement and official government reporting resources. This site cannot respond to emergencies.</p><p>Support mailbox verification and a staffed contact process are required before public launch; no response-time guarantee is provided in this preview.</p></div></section>';frameEnd();exit;
+}
+if(RecruiterPortal::enabled() && ($path==='/employers'||str_starts_with($path,'/employers/'))){
+  header('Cache-Control: no-store, private');header('X-Robots-Tag: noindex, nofollow');
+  if(!OwnerAuth::secureRequest($_SERVER)){http_response_code(503);exit('Employer portal requires HTTPS');}
+  session_name('oj_recruiter');ini_set('session.use_strict_mode','1');
+  session_set_cookie_params(['lifetime'=>0,'path'=>'/employers','secure'=>true,'httponly'=>true,'samesite'=>'Strict']);
+  session_start();
+  if(!isset($_SESSION['recruiter_csrf']))$_SESSION['recruiter_csrf']=bin2hex(random_bytes(24));
+  $svc=null;$member=null;$err='';$notice='';$now=time();
+  try{$svc=RecruiterMysql::fromEnvironment();
+      if(is_int($_SESSION['recruiter_member']??null) && ($_SESSION['recruiter_until']??0)>$now){
+          $member=$svc->current($_SESSION['recruiter_member']);
+          if(!$member){unset($_SESSION['recruiter_member'],$_SESSION['recruiter_until']);}
+      }
+  }catch(Throwable){http_response_code(503);exit('Employer portal temporarily unavailable');}
+  if(($_SERVER['REQUEST_METHOD']??'GET')==='POST'){
+      if(!hash_equals((string)$_SESSION['recruiter_csrf'],(string)($_POST['csrf']??''))){$err='Invalid CSRF token';http_response_code(403);}
+      else{
+          try{
+              if($path==='/employers/verify'){
+                  $verified=$svc->confirm(strtolower(trim((string)($_POST['email']??''))),
+                      (string)($_POST['code']??''),(string)($_POST['password']??''),$now);
+                  $notice=$verified?'Email verified; sign in with your password.':'Verification failed or expired. Contact the pilot owner.';
+              }elseif($path==='/employers/login'){
+                  $authenticated=$svc->authenticate((string)($_POST['email']??''),(string)($_POST['password']??''),
+                    (string)($_SERVER['REMOTE_ADDR']??''),$now);
+                  if(!$authenticated){$err='Sign-in failed. Check credentials or verification status.';http_response_code(401);}
+                  else{session_regenerate_id(true);$_SESSION['recruiter_csrf']=bin2hex(random_bytes(24));
+                      $_SESSION['recruiter_member']=$authenticated['id'];$_SESSION['recruiter_until']=$now+1200;
+                      header('Location: /employers/dashboard',true,303);exit;}
+              }elseif($path==='/employers/logout'){
+                  $_SESSION=[];session_regenerate_id(true);$_SESSION['recruiter_csrf']=bin2hex(random_bytes(24));
+                  header('Location: /employers/login',true,303);exit;
+              }elseif(!$member){http_response_code(401);$err='Employer session expired. Sign in again.';}
+              elseif($path==='/employers/jobs/new'){
+                  if(!RecruiterPortal::mayManage($member))throw new DomainException('Cannot manage jobs');
+                  $eligible=array_values(array_filter(array_map('trim',explode(',',strtoupper((string)($_POST['eligible_countries']??''))))));
+                  $fields=['external_id'=>(string)($_POST['external_id']??''),'title'=>(string)($_POST['title']??''),
+                      'description'=>(string)($_POST['description']??''),'employment_type'=>(string)($_POST['employment_type']??''),
+                      'work_mode'=>(string)($_POST['work_mode']??''),'work_country'=>trim((string)($_POST['work_country']??''))?:null,
+                      'location_text'=>(string)($_POST['location_text']??''),'candidate_eligible_countries'=>$eligible,
+                      'apply_url'=>(string)($_POST['apply_url']??''),'valid_through'=>(string)($_POST['valid_through']??'').'T23:59:59Z',
+                      'visa_sponsorship'=>(string)($_POST['visa_sponsorship']??'unknown'),
+                      'consent_to_publish'=>($_POST['consent_to_publish']??'')==='1'];
+                  $svc->create($member,$fields,$now,(string)getenv('PARTNER_TERMS_VERSION'));
+                  header('Location: /employers/dashboard',true,303);exit;
+              }elseif(preg_match('#^/employers/jobs/(job_[a-f0-9]{24})/edit$#',$path,$r)){
+                  if(!RecruiterPortal::mayManage($member))throw new DomainException('Cannot manage jobs');
+                  if(!ctype_digit((string)($_POST['revision']??'')))throw new InvalidArgumentException('Missing revision');
+                  $patch=['title'=>(string)($_POST['title']??''),'description'=>(string)($_POST['description']??''),
+                      'location_text'=>(string)($_POST['location_text']??''),'apply_url'=>(string)($_POST['apply_url']??'')];
+                  $svc->edit($member,$r[1],$patch,(int)$_POST['revision'],$now,(string)getenv('PARTNER_TERMS_VERSION'))
+                      ?:throw new DomainException('Job unavailable');
+                  header('Location: /employers/dashboard',true,303);exit;
+              }elseif(preg_match('#^/employers/jobs/(job_[a-f0-9]{24})/close$#',$path,$r)){
+                  if(!RecruiterPortal::mayManage($member))throw new DomainException('Cannot manage jobs');
+                  $svc->close($member,$r[1],$now)?:throw new DomainException('Job unavailable');
+                  header('Location: /employers/dashboard',true,303);exit;
+              }else{$err='Unsupported employer form';http_response_code(405);}
+          }catch(Throwable){$err='Action rejected by employer security/validation rules. Review data and retry.';http_response_code(422);}
+      }
+  }
+  frameStart('Employer pilot',true);
+  if($path==='/employers'){
+      heading('Invite-only employer pilot','Employer submissions','Only independently approved organisations with verified member emails may create pending-review jobs.');
+      echo '<section class="section"><div class="container reading"><p>No guarantee of publication, applicants, visas or approval. <a href="/employers/login">Employer member sign-in</a> · <a href="/employers/verify">Confirm email invitation</a>.</p></div></section>';
+  }elseif($path==='/employers/login'||$path==='/employers/verify'){
+      heading('Secure employer sign-in',$path==='/employers/login'?'Member login':'Confirm invited email','Employer access only after genuine email and organisation verification.');
+      echo '<section class="section"><div class="container reading surface">';
+      if($err)echo '<p role="alert" class="notice error">'.h($err).'</p>';
+      if($notice)echo '<p role="status">'.h($notice).'</p>';
+      echo '<form method="post" action="'.h($path).'"><input type="hidden" name="csrf" value="'.h($_SESSION['recruiter_csrf']).'">';
+      echo '<label>Invited business email<input type="email" name="email" maxlength="254" required autocomplete="username"></label>';
+      if($path==='/employers/verify')echo '<label>8-digit email code<input name="code" inputmode="numeric" pattern="[0-9]{8}" maxlength="8" required></label>';
+      echo '<label>Strong password<input type="password" name="password" maxlength="256" minlength="12" required autocomplete="'.($path==='/employers/login'?'current-password':'new-password').'"></label>';
+      echo '<button class="button button-primary" type="submit">'.($path==='/employers/login'?'Sign in':'Confirm email and set password').'</button></form>';
+      echo '</div></section>';
+  }elseif($path==='/employers/dashboard'||$path==='/employers/jobs/new'||preg_match('#^/employers/jobs/(job_[a-f0-9]{24})/edit$#',$path)){
+      if(!$member){http_response_code(401);heading('Sign-in required','No active verified member session');echo '<section class="section"><div class="container"><a href="/employers/login">Sign in</a></div></section>';}
+      else{
+          $_SESSION['recruiter_until']=$now+1200;
+          if($path==='/employers/dashboard'){
+              heading('Employer pilot dashboard',($member['org']['company_name']??'Employer').' jobs','Only your company’s first-party jobs. All new or changed jobs require independent review.');
+              echo '<section class="section"><div class="container reading surface">';
+              if(RecruiterPortal::mayManage($member))echo '<a class="button button-primary" href="/employers/jobs/new">Submit new listing</a>';
+              echo '<h2>Organisation listings</h2>';
+              try{$ownJobs=$svc->jobs($member,60);
+                  if(!$ownJobs)echo '<p>No submitted jobs yet.</p>';
+                  foreach($ownJobs as $j){echo '<article class="owner-report"><strong>'.h($j['title']).'</strong> · '.h($j['status']).' · expires '.h($j['valid_through']).'<p>'.h($j['location_text']).'</p>';
+                      if(RecruiterPortal::mayManage($member)&&in_array($j['status'],['pending_review','published','rejected','draft'],true))echo '<a href="/employers/jobs/'.h($j['id']).'/edit">Edit (returns to review)</a>';
+                      if(RecruiterPortal::mayManage($member)&&$j['status']!=='closed')echo '<form method="post" action="/employers/jobs/'.h($j['id']).'/close"><input type="hidden" name="csrf" value="'.h($_SESSION['recruiter_csrf']).'"><button class="button button-secondary" type="submit">Close listing</button></form>';
+                      echo '</article>';
+                  }
+              }catch(Throwable){echo '<p class="notice error">Employer listing store unavailable; no data released.</p>';}
+              echo '<form method="post" action="/employers/logout"><input type="hidden" name="csrf" value="'.h($_SESSION['recruiter_csrf']).'"><button class="button button-text" type="submit">Sign out</button></form></div></section>';
+          }elseif($path==='/employers/jobs/new'&&RecruiterPortal::mayManage($member)){
+              heading('Post to review','New employer job','Submission always begins in pending review, not public search.');
+              echo '<section class="section"><div class="container reading surface">';
+              if($err)echo '<p role="alert">'.h($err).'</p>';
+              echo '<form method="post" action="/employers/jobs/new"><input type="hidden" name="csrf" value="'.h($_SESSION['recruiter_csrf']).'">';
+              foreach(['external_id'=>'Your stable internal job ID','title'=>'Job title','location_text'=>'Location / work arrangement','apply_url'=>'HTTPS employer application URL'] as $key=>$label)
+                 echo '<label>'.h($label).'<input name="'.h($key).'" maxlength="250" required></label>';
+              echo '<label>Role description<textarea name="description" minlength="30" maxlength="16000" rows="6" required></textarea></label>';
+              echo '<label>Employment type<select name="employment_type"><option value="full_time">Full time</option><option value="part_time">Part time</option><option value="contract">Contract</option><option value="internship">Internship</option></select></label>';
+              echo '<label>Work arrangement<select name="work_mode"><option value="remote">Remote</option><option value="hybrid">Hybrid</option><option value="onsite">On site</option></select></label>';
+              echo '<label>Physical work country (ISO2; required for hybrid/on-site)<input name="work_country" maxlength="2" placeholder="e.g. DE"></label>';
+              echo '<label>Eligible applicant countries, comma separated ISO2 (leave blank if unknown)<input name="eligible_countries" maxlength="400" placeholder="IN, AE"></label>';
+              echo '<label>Visa sponsorship<select name="visa_sponsorship"><option value="unknown">Unknown</option><option value="yes">Yes, employer attests</option><option value="no">No</option></select></label>';
+              echo '<label>Job valid through (up to 60 days)<input name="valid_through" type="date" required></label>';
+              echo '<label><input type="checkbox" name="consent_to_publish" value="1" required> I attest this job is real and authorised for publication; I accept the versioned terms.</label>';
+              echo '<button class="button button-primary" type="submit">Submit for human review</button></form></div></section>';
+          }elseif(preg_match('#^/employers/jobs/(job_[a-f0-9]{24})/edit$#',$path,$m)&&RecruiterPortal::mayManage($member)){
+              $target=null;foreach($svc->jobs($member,100) as $j)if($j['id']===$m[1]){$target=$j;break;}
+              if(!$target||!in_array($target['status'],['draft','pending_review','published','rejected'],true)){
+                  http_response_code(404);heading('Not available','Job cannot be edited');
+              }else{
+                  heading('Edit employer listing',$target['title'],'Changed details return to pending review.');
+                  echo '<section class="section"><div class="container reading surface">';
+                  if($err)echo '<p role="alert">'.h($err).'</p>';
+                  echo '<form method="post" action="'.h($path).'"><input type="hidden" name="csrf" value="'.h($_SESSION['recruiter_csrf']).'">';
+                  echo '<input type="hidden" name="revision" value="'.h($target['revision']).'">';
+                  echo '<label>Title<input name="title" maxlength="250" value="'.h($target['title']).'" required></label>';
+                  echo '<label>Description<textarea name="description" maxlength="16000" required>'.h($target['description']).'</textarea></label>';
+                  echo '<label>Location<input name="location_text" maxlength="255" value="'.h($target['location_text']).'" required></label>';
+                  echo '<label>Verified HTTPS apply URL<input name="apply_url" value="'.h($target['apply_url']).'" required></label>';
+                  echo '<button class="button button-primary" type="submit">Save and resubmit for review</button></form></div></section>';
+              }
+          }else{http_response_code(403);heading('Not authorised','Employer account lacks this permission');}
+      }
+  }else{http_response_code(404);heading('Page unavailable','Employer pilot route unavailable');}
+  frameEnd();exit;
 }
 if($path==='/employers'||str_starts_with($path,'/employers/')){
     http_response_code(503);frameStart('Employer features unavailable',true);heading('Invite-only future feature','Employer posting is not open','Employer accounts, identity checks and API posting remain disabled until verified hosting, security, email confirmation and owner review are operating.');

@@ -1,517 +1,601 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.7.0-gated-partner-pilot",
+  "release": "0.8.0-gated-employer-review-and-portal",
   "source_of_truth": "v1.3.3",
   "release_date": "2026-11-23",
-  "deploy_status": "NOT_DEPLOYED",
+  "state": "LOCAL_DEVELOPMENT_NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
-  "local_tests": "509 passed (in-memory partner contracts; real MySQL untested)",
-  "canonical_doc_tests": "71 passed (unchanged v1.3.3 canonical pack)",
-  "browser_e2e": "BLOCKED by localhost administrator policy; NOT PASS",
-  "live_sources": "NOT VERIFIED",
-  "ci": "GitHub Actions pending this v0.7.0 push; prior v0.6.0 CI passed",
-  "contents": [
+  "local_regression": {
+    "passed": 610,
+    "failed": 0,
+    "type": "PHP_JS_HTTP_fixture_and_security"
+  },
+  "canonical_documentation": {
+    "passed": 71,
+    "failed": 0
+  },
+  "mysql_disposable_integration": "AWAITING_INDEPENDENT_GITHUB_ACTIONS_EXECUTION",
+  "browser_e2e": "NOT VERIFIED - localhost navigation blocked in sandbox",
+  "live_provider_imports": "NOT VERIFIED - intentional empty cache",
+  "hostinger": "NOT_INSPECTED_OR_DEPLOYED",
+  "recruiter_and_public_partner_features": "ALL_DISABLED_BY_DEFAULT",
+  "ci": "Check GitHub Actions for current commit; do not infer success from local tests.",
+  "file_count_excluding_manifest": 115,
+  "files": [
     {
       "path": ".env.example",
-      "size_bytes": 817,
-      "sha256": "9f6b9e4252805ac7d9c952af06a80a23e3b56ebd203d12a2749cfed4209279e9"
+      "bytes": 1504,
+      "sha256": "edc26afff331b14864b1cca5aa4c15bac1421bdf135d675e478086e27fee53b6"
     },
     {
       "path": ".github/workflows/ci.yml",
-      "size_bytes": 1300,
-      "sha256": "3d42b661c3993f1644d92440a45088dc3c431459fc35e8cb4da4ff084863ca42"
+      "bytes": 2843,
+      "sha256": "aff393681bd5c19b47ff629a636b16470930edea6750bea4da392b7b2b8fe4e9"
     },
     {
       "path": ".gitignore",
-      "size_bytes": 457,
-      "sha256": "364ba20bd1b2c73b4adfce3d4a29a1e8c19fc7daa0312c5398269c0c9ef3a62c"
+      "bytes": 513,
+      "sha256": "c17732c162d2af6154292cd05fa0760ac70cc69b8ef9513f197623b622d17180"
     },
     {
       "path": "README.md",
-      "size_bytes": 4600,
-      "sha256": "8c469c1772f7190fea85823dba372e96462c7c2cc5cbdf661192c611a5d4413c"
+      "bytes": 5947,
+      "sha256": "e5789eec813d08089b410dfe1c91937cbd5955831464fbf1a44886cdaf0396c1"
     },
     {
       "path": "SOURCE_OF_TRUTH_REFERENCE/OverseasJob_v1.3.3_Source_of_Truth_Project_Pack.zip",
-      "size_bytes": 154621,
+      "bytes": 154621,
       "sha256": "d3d775df9292cede557aabdc63107be7750e909c031b073a5cb7c94de2572adc"
     },
     {
       "path": "START_HERE_FOUNDER.md",
-      "size_bytes": 2421,
-      "sha256": "bb7774309eb13e610536cc41dc09d7cfa16a5bdf5c800ed2910a7b0c1ac42c16"
+      "bytes": 2594,
+      "sha256": "0a885c925e35e082529f1d9659574630c5c8cc54c351ccefaaefe3fb0ccad701"
     },
     {
       "path": "config/provider_policy.json",
-      "size_bytes": 566,
+      "bytes": 566,
       "sha256": "796f87be73d26452cc4f5e2411ca8deac4e97037fce669f6e45f774e03befd62"
     },
     {
       "path": "config/release_evidence.json",
-      "size_bytes": 627,
+      "bytes": 627,
       "sha256": "82ba893d8a62166f775f5732e78f6682382990d6c4b94d56c43d2cc14f32e954"
     },
     {
       "path": "content/country_checklists.json",
-      "size_bytes": 3524,
+      "bytes": 3524,
       "sha256": "928632d1ab07866d2f5d35276970c7a5b94afeda3bbd1ee30973247ce3e0faec"
     },
     {
       "path": "content/daily_missions.json",
-      "size_bytes": 7937,
+      "bytes": 7937,
       "sha256": "4b9ce07aa7dbc16d74e7ea1040d37deb378ee499225fe4880d9380aca11c6003"
     },
     {
       "path": "content/guides.json",
-      "size_bytes": 13434,
+      "bytes": 13434,
       "sha256": "8a5d6e18176ee92d2e9f26d357217bb824fdfcd2e81604c88fb2853a9b104274"
     },
     {
       "path": "content/interview_questions.json",
-      "size_bytes": 8206,
+      "bytes": 8206,
       "sha256": "2d706c3b7dbd1f20e91a5060e0f2d9aad1fbde7bdc0d6fd83ded5dcd51c052e2"
     },
     {
       "path": "content/roadmap_tracks.json",
-      "size_bytes": 5385,
+      "bytes": 5385,
       "sha256": "97cfdab6c57beb4362fe8b9dbf17e1e5d6f9554bd9d9b1ed27fbc5228b84d960"
     },
     {
       "path": "database/001_partner_pilot.mysql.sql",
-      "size_bytes": 3302,
+      "bytes": 3302,
       "sha256": "df13a5e6adfaba2e40cd8893c8b8163f39882ab634e8831f5e7248a9d6564cfe"
     },
     {
+      "path": "database/002_employer_review.mysql.sql",
+      "bytes": 910,
+      "sha256": "f68367a0dc2588b2fc57bb61388837b7f02ad377294e5216401b04a55440b144"
+    },
+    {
+      "path": "database/003_recruiter_accounts.mysql.sql",
+      "bytes": 1369,
+      "sha256": "2ca2ab218e4b26eba367a37ab582fec33829bc4e39df16604856808e39e38ce5"
+    },
+    {
+      "path": "database/004_employer_domain_proof.mysql.sql",
+      "bytes": 458,
+      "sha256": "309559d5af426fd833ca3da4d059681b0a186e2e8be6bb7e7b4f37d52bb2ffa9"
+    },
+    {
       "path": "deploy/shared_host/DEPLOY_STAGING_README.md",
-      "size_bytes": 4402,
+      "bytes": 4402,
       "sha256": "8884181618e06c69d23ae3ad7a5051f104846c9240b7147a75966298ed0ce90d"
     },
     {
       "path": "deploy/shared_host/index.php.template",
-      "size_bytes": 592,
+      "bytes": 592,
       "sha256": "03e2f7eeb22a5a3078999697e3cceebc9da67240025390cb77e008c9878c19c1"
     },
     {
       "path": "docs/BETA_IMPLEMENTATION_CHANGELOG.md",
-      "size_bytes": 1739,
+      "bytes": 1739,
       "sha256": "1d00bec269c19b10a0cc6af44a7a50ff5c3d18f0e3bc0e8c030c344b8b3c4906"
     },
     {
+      "path": "docs/EMPLOYER_VERIFICATION_AND_MODERATION_v080.md",
+      "bytes": 8169,
+      "sha256": "aedb2b886aa7aabc5fb574daab5f5c6acb86b648a442382c112b44ef27d0025d"
+    },
+    {
       "path": "docs/GATE0_REPOSITORY_COMPATIBILITY.md",
-      "size_bytes": 2524,
+      "bytes": 2524,
       "sha256": "2ebb99a93475cb996cd0ff30336b93abab3c96c9dc9099c999c5e6d3d0c7353f"
     },
     {
       "path": "docs/GATE2_TOOLS_V050_CHANGELOG.md",
-      "size_bytes": 4621,
+      "bytes": 4621,
       "sha256": "f58615b8d27f4ff2c98a8510f94549802d1526e8fc18e142c47642c1ca481db2"
     },
     {
       "path": "docs/GATE3_AND_FUTURE_CONTRACTS_v060.md",
-      "size_bytes": 3897,
+      "bytes": 3897,
       "sha256": "6d34db7069256db43457810b92a2be18b2d7587e7f04e70605f01f6392f45e1a"
     },
     {
       "path": "docs/LOCAL_TEST_OUTPUT_2026-11-23_v050.txt",
-      "size_bytes": 9599,
+      "bytes": 9599,
       "sha256": "9e646c8d5c770e71a38ee446d1829c213ab92e741fc46b40170e369db71d3bc4"
     },
     {
       "path": "docs/LOCAL_TEST_OUTPUT_2026-11-23_v060.txt",
-      "size_bytes": 15809,
+      "bytes": 15809,
       "sha256": "9632885b4f23db824f21e0446ff594a5bab6a7aee18cdc4ad8df517ab5d37b7d"
     },
     {
       "path": "docs/LOCAL_TEST_OUTPUT_2026-11-23_v070.txt",
-      "size_bytes": 17772,
+      "bytes": 17772,
       "sha256": "8d29088b53f2b2a7f22a8a53b64b731acf161097e1c1a5c33c1fbcde824909c1"
     },
     {
+      "path": "docs/LOCAL_TEST_OUTPUT_2026-11-23_v080.txt",
+      "bytes": 21442,
+      "sha256": "3af07d8dcd8c13528efddb339b503396038386ceda88300379e0005fd7c90dd6"
+    },
+    {
       "path": "docs/PARTNER_PILOT_STAGING_v070.md",
-      "size_bytes": 6132,
+      "bytes": 6132,
       "sha256": "d46be48d9111750e4f31b1c88d96115b4bf1e909bd3630cd5257f51f2b3d5e60"
     },
     {
       "path": "docs/RC_IMPLEMENTATION_CHANGELOG.md",
-      "size_bytes": 2262,
+      "bytes": 2262,
       "sha256": "b6045f56d844efa49d8b01c54fc949a2a829d2a96b50b62803af63e678911af5"
     },
     {
       "path": "docs/RC_PLUS_IMPLEMENTATION_CHANGELOG.md",
-      "size_bytes": 2197,
+      "bytes": 2197,
       "sha256": "c83214683eae709d62110f4e0d042e910b6044efb8d8ad76ec84a2f6cb8eda10"
     },
     {
       "path": "docs/TEST_OUTPUT_2026-11-22.txt",
-      "size_bytes": 1871,
+      "bytes": 1871,
       "sha256": "80360608d59a5e1fc442e20d3976cc4f3cbc9c5da92ae80c0314eab53c49d543"
     },
     {
       "path": "docs/TEST_OUTPUT_2026-11-22_RC.txt",
-      "size_bytes": 5283,
+      "bytes": 5283,
       "sha256": "7320f898186eb3c9ff2ec17f2c47ab7f010f184eeea51a61ea1bafab7ec339fc"
     },
     {
       "path": "docs/TEST_OUTPUT_2026-11-23_RC_PLUS.txt",
-      "size_bytes": 7081,
+      "bytes": 7081,
       "sha256": "4a3b29056341ed977b3c093621b71919c7d78736a123f13c7c65082764abdaaf"
     },
     {
       "path": "docs/UPSTREAM_PROVIDER_CONTRACT_CHECK_2026-11-22.md",
-      "size_bytes": 2637,
+      "bytes": 2637,
       "sha256": "0e55a69d75ca5f5d45cc6e9dc28e1161f815d0b221d9525111112c078e4c1cd7"
     },
     {
       "path": "docs/VALIDATION_AND_BLOCKERS.md",
-      "size_bytes": 1717,
+      "bytes": 1717,
       "sha256": "a243705f7c0e25af26af9abd62189c11fcfb3dcaf70de59294eacce40fa700be"
     },
     {
       "path": "module_status.json",
-      "size_bytes": 12881,
-      "sha256": "2253c3d4f0239689680e505819b1adb69bbcf8ef3139d02a5ca63498daa2509f"
+      "bytes": 13956,
+      "sha256": "a932714b2768e9c53efe8e625ab6a19ff319974eb357390d6f1ae72a65f98b05"
     },
     {
       "path": "public/.htaccess",
-      "size_bytes": 563,
+      "bytes": 563,
       "sha256": "4baa30a6041779103089857d6221df7f55155f9d527042c1a0ebdd844a3bbfc6"
     },
     {
       "path": "public/assets/advanced_tools.mjs",
-      "size_bytes": 8429,
+      "bytes": 8429,
       "sha256": "f0035e542db81f2a8de9244f5c84eacf1f1ac7377c65e4e1263220e1e1bed812"
     },
     {
       "path": "public/assets/advanced_tools_ui.mjs",
-      "size_bytes": 11865,
+      "bytes": 11865,
       "sha256": "3ac03c57e779b859b17acbf4fce244371845c23aac38bcae07ef0265e965b7da"
     },
     {
       "path": "public/assets/app.js",
-      "size_bytes": 4811,
+      "bytes": 4811,
       "sha256": "122c5d8c71d0002fb1c85f6869f28ffe9124279025898e2a0b8b04a9dbc45f8f"
     },
     {
       "path": "public/assets/calculators.mjs",
-      "size_bytes": 6014,
+      "bytes": 6014,
       "sha256": "ec724d2ed1e4653510e89a6e85470898f4ab6394163055217be32b4d83b5d13c"
     },
     {
       "path": "public/assets/daily.mjs",
-      "size_bytes": 3800,
+      "bytes": 3800,
       "sha256": "0a9f5224745313daa9ed764455bfb845d3bf451693cc08e6643bf4733b9e0673"
     },
     {
       "path": "public/assets/daily_ui.mjs",
-      "size_bytes": 3339,
+      "bytes": 3339,
       "sha256": "6de554124912c0e20635598886007a4f05ef6bf3a793521e0b1a309284709357"
     },
     {
       "path": "public/assets/overseasjob-logo.png",
-      "size_bytes": 148817,
+      "bytes": 148817,
       "sha256": "8a66e50210dcab7af99a7b70598f3fb1998050e2bee37f84b34d3c43f0e8d2a2"
     },
     {
       "path": "public/assets/privacy.mjs",
-      "size_bytes": 1228,
+      "bytes": 1228,
       "sha256": "41186272113d0ea241005ad59c29846f8ce3c99d4339a85d05a7645f16f70498"
     },
     {
       "path": "public/assets/privacy_ui.mjs",
-      "size_bytes": 2430,
+      "bytes": 2430,
       "sha256": "13e3f194c4e6ad66ff83625bc771ca4a96e682c85470d38457ccf780c4045870"
     },
     {
       "path": "public/assets/radar.mjs",
-      "size_bytes": 4034,
+      "bytes": 4034,
       "sha256": "788745d1542331b8579ae8695b78aab7d0ba595d19bf1f5031c513315a27492d"
     },
     {
       "path": "public/assets/radar_ui.mjs",
-      "size_bytes": 3698,
+      "bytes": 3698,
       "sha256": "ba57f848c81690c9e9c13a2da751fd8d30dd29424acb8d2a3592f50c372225a0"
     },
     {
       "path": "public/assets/relocation.mjs",
-      "size_bytes": 1993,
+      "bytes": 1993,
       "sha256": "a5cf96c0d034d7b13b65d9ac8e07f9309ad5e517e608d763f0c9fbba2380680f"
     },
     {
       "path": "public/assets/relocation_ui.mjs",
-      "size_bytes": 2228,
+      "bytes": 2228,
       "sha256": "02c5638430683a74f68ad72e4e95e102fe73fe883ab6886c157976fa8cfc2335"
     },
     {
       "path": "public/assets/resume.mjs",
-      "size_bytes": 4623,
+      "bytes": 4623,
       "sha256": "aad80c5fcd284abb5b008be3c4a5cc72fc154552446e55ba2ebed9909271fb4e"
     },
     {
       "path": "public/assets/resume_ui.mjs",
-      "size_bytes": 2001,
+      "bytes": 2001,
       "sha256": "09915a7bc9a22fdf54e4ddabdd6bb5ddf79ac008693c6a71ba3b999959c0dd50"
     },
     {
       "path": "public/assets/style.css",
-      "size_bytes": 14035,
+      "bytes": 14035,
       "sha256": "4a6c7b5f8ea5b84eb2067de8c7fafa2d6172b8db4dd7796afd4d87447e653450"
     },
     {
       "path": "public/assets/tracker.mjs",
-      "size_bytes": 7130,
+      "bytes": 7130,
       "sha256": "65cd8aaf6b070c48e8b38b1b9e71627d1967b38402da79fcd92e5a5892d9be25"
     },
     {
       "path": "public/assets/tracker_ui.mjs",
-      "size_bytes": 5347,
+      "bytes": 5347,
       "sha256": "6213feb21edc1053660b5aec48a3da7f3b072561c9706ce7a3566feed9f5267c"
     },
     {
       "path": "public/index.php",
-      "size_bytes": 70813,
-      "sha256": "639f06d4016d2c3196b68326b971c1f548c3d12b7350cff4fe09e57a582f57b9"
+      "bytes": 91033,
+      "sha256": "ccf8d13cab3c2ac772b77f587636294dff75b901865327f954e52fd48353ecb8"
     },
     {
       "path": "public/router.php",
-      "size_bytes": 791,
+      "bytes": 791,
       "sha256": "49cbe2ae5c82d7819ab5fb712452836ced63d342a1a4fa034e61f32aab8ab93f"
     },
     {
       "path": "scripts/analytics_report.php",
-      "size_bytes": 524,
+      "bytes": 524,
       "sha256": "e4a04cd321bfbd1201a555972743134840bacae56ff18a36e7acca62dafbedd2"
     },
     {
       "path": "scripts/backup.php",
-      "size_bytes": 483,
+      "bytes": 483,
       "sha256": "b6a8b7937a427d4e867e9758ab291426083deef3aa9bebf4792c54fd80eb71b1"
     },
     {
       "path": "scripts/coverage_report.php",
-      "size_bytes": 1501,
+      "bytes": 1501,
       "sha256": "6e85a23e69731ffe65d6d2a74278fcc5c302c3f0cc37469e1e855fa1fafba482"
     },
     {
+      "path": "scripts/employer_domain.php",
+      "bytes": 1729,
+      "sha256": "4128d7de4cb3078a0c2bda680b6947ba2baa430a0667658ab1a9f7659ae41f85"
+    },
+    {
+      "path": "scripts/employer_review.php",
+      "bytes": 1689,
+      "sha256": "05736a96dcbe1a1c99966744c5ffbdaed83e1082719933dd582023ac37801ede"
+    },
+    {
       "path": "scripts/gate0_preflight.php",
-      "size_bytes": 1651,
+      "bytes": 1651,
       "sha256": "0f2253534e6843cb7787da15343a6031853f9b6f1b1ca96a5491b14a7330f0cd"
     },
     {
       "path": "scripts/health.php",
-      "size_bytes": 1060,
+      "bytes": 1060,
       "sha256": "98b56fd91eed04ecfcdae9d116ceb9ceedb0b0ccdc0515f29ae4bd48f82de860"
     },
     {
       "path": "scripts/launch_preflight.php",
-      "size_bytes": 270,
+      "bytes": 270,
       "sha256": "43c049f1f846c999cda25703a89f21d4e929f26777b25e293c6cb02d203a8624"
     },
     {
       "path": "scripts/partner_preflight.php",
-      "size_bytes": 1122,
+      "bytes": 1122,
       "sha256": "30d32d1e90ae19cc3083fe141d03c549858877a89e7d696e7d5c04094582da49"
     },
     {
       "path": "scripts/partner_tokens.php",
-      "size_bytes": 1677,
+      "bytes": 1677,
       "sha256": "07ebab0a7e837347773db630b084bc8dd3e47216c8c78eaffb56d73ed017a9bc"
     },
     {
+      "path": "scripts/recruiter_invites.php",
+      "bytes": 1703,
+      "sha256": "20c15b8fbd58425c4ce1b31c269a691f959242fed223ae95898b2020f539643a"
+    },
+    {
       "path": "scripts/restore_drill.php",
-      "size_bytes": 655,
+      "bytes": 655,
       "sha256": "e0a7f9f79d6fb46e4515364523d2cd610226a936a54ead74f82825e23e1c9290"
     },
     {
       "path": "scripts/review_reports.php",
-      "size_bytes": 1193,
+      "bytes": 1193,
       "sha256": "06d082c733f769b3e920aa72ed9a48cc1ca631b2e38a945f10ec83b550cfc401"
     },
     {
       "path": "scripts/staging_probe.sh",
-      "size_bytes": 2268,
+      "bytes": 2268,
       "sha256": "2ca4c6a9019e7b2bfc9933d01dcf618009feeecbfde691f50306c6d493e4a377"
     },
     {
       "path": "scripts/sync_jobs.php",
-      "size_bytes": 7270,
+      "bytes": 7270,
       "sha256": "34de5fce50d513e06a4bdd22f10ba868ea0bdc0b83657e2b616b7d98b6166898"
     },
     {
       "path": "src/Analytics.php",
-      "size_bytes": 3158,
+      "bytes": 3158,
       "sha256": "76c542d41181a8c477fcbd396676aee5c318304b156bd1a6366007e17057b188"
     },
     {
       "path": "src/Backups.php",
-      "size_bytes": 4304,
+      "bytes": 4304,
       "sha256": "1d89734ab41a79231004e5c9fb964789dc6aac129d137e3711d2f942f57a94f2"
     },
     {
       "path": "src/Countries.php",
-      "size_bytes": 1522,
+      "bytes": 1522,
       "sha256": "7a6aefb5eb2d3dfd937b7f7431913cc8a77ecbf637d3eff27c3dc025c2edf8f1"
     },
     {
       "path": "src/EmployerContracts.php",
-      "size_bytes": 11894,
+      "bytes": 11894,
       "sha256": "e3f613937221ce46b8a7ce35745843c39a896586192755c80b76c38d7b88ac55"
     },
     {
+      "path": "src/EmployerDomainMysql.php",
+      "bytes": 3772,
+      "sha256": "64c98c5d568a747f679dc06e98ed24974adad9ddcb82c202c658f122df81ecdf"
+    },
+    {
+      "path": "src/EmployerDomainProof.php",
+      "bytes": 1933,
+      "sha256": "26c2648355a61b7a76247c6cc8ec8df52e80b6c017b9c9fa74ab843e66afa371"
+    },
+    {
+      "path": "src/EmployerReview.php",
+      "bytes": 13082,
+      "sha256": "9fcbeb48a367d23ed1164f7ff7e947375f8be6e33e46be603b9ca1dfb77e487b"
+    },
+    {
       "path": "src/Guides.php",
-      "size_bytes": 1834,
+      "bytes": 1834,
       "sha256": "7529bc6482222f880bda897d4f9ff35510f9d0790010658cbf893b4fd126066b"
     },
     {
       "path": "src/Jobs.php",
-      "size_bytes": 15601,
+      "bytes": 15601,
       "sha256": "83257e66008ae52b4ada74fb5687107c3ea7c54d50067aa18a43b8c4fc0312b7"
     },
     {
       "path": "src/Launch.php",
-      "size_bytes": 2100,
+      "bytes": 2100,
       "sha256": "fefb87b71bc56d3346a3988c107fa18e07e51e04ab234217ebe15c5adf6dc87c"
     },
     {
       "path": "src/OwnerAuth.php",
-      "size_bytes": 4157,
+      "bytes": 4157,
       "sha256": "0c6b45bfb3a7039b02b172176b81cc6a4b26cab7abc5fe816302a1692cdec69a"
     },
     {
       "path": "src/PartnerApi.php",
-      "size_bytes": 10597,
+      "bytes": 10597,
       "sha256": "1ff60d31055161dbc015d00ea0befd5039b576598de8bb9d190f6328c11d8b93"
     },
     {
       "path": "src/PartnerMysqlStore.php",
-      "size_bytes": 10984,
-      "sha256": "73e920fe08f2196556dcf87143891db0d771db9623936f6c42a32a5e2e90f80f"
+      "bytes": 11172,
+      "sha256": "fdaa18c82488214da16297d943a53b9cdc820177aec5ccb36d8f9ebaf868fa72"
     },
     {
       "path": "src/PartnerTokenAdmin.php",
-      "size_bytes": 3064,
-      "sha256": "8825bb72764516d96970cc493707db130c28c6b1b14fb838c012dbb0d10a8a5d"
+      "bytes": 3267,
+      "sha256": "50d08f75d9c1ac216e066dce754ad6be3bff25e32c09010763d6c4c31d1b2909"
+    },
+    {
+      "path": "src/RecruiterPortal.php",
+      "bytes": 11840,
+      "sha256": "81f85362a2596b52598072e608634dc991820cb2cb47bea666233e94171f5009"
     },
     {
       "path": "src/Reports.php",
-      "size_bytes": 5636,
+      "bytes": 5636,
       "sha256": "999d28a6ae0adff13c7bce38ddd73e0387500d92e549b72572880664709e99ca"
     },
     {
       "path": "src/country_aliases.json",
-      "size_bytes": 14644,
+      "bytes": 14644,
       "sha256": "0ec147e4b2275b5b689c10c147b7ed385fc3a6d779d1e33a17c1f81993d4ea51"
     },
     {
       "path": "storage/.gitkeep",
-      "size_bytes": 106,
+      "bytes": 106,
       "sha256": "15fc5c9ef0142fa722cbefc53b8073d3e03a84bff0fb1b3b96339e6505ddfac5"
     },
     {
       "path": "tests/advanced_tools_tests.mjs",
-      "size_bytes": 7989,
+      "bytes": 7989,
       "sha256": "2a9969b0dab7e17ddb3632c38fb7a9997d16a94797e28a358941f1542da93315"
     },
     {
       "path": "tests/analytics_tests.php",
-      "size_bytes": 2584,
+      "bytes": 2584,
       "sha256": "dffe3bc6473c8026ceb924ee13c51b040794fa1ed1ecefcb5f426d185924d26a"
     },
     {
       "path": "tests/backup_tests.php",
-      "size_bytes": 1653,
+      "bytes": 1653,
       "sha256": "a95937237d7829cb9543cead3cc6ae380cb6a46d5f2fef5ae7a009cf8760128b"
     },
     {
       "path": "tests/browser_e2e.py",
-      "size_bytes": 7251,
+      "bytes": 7251,
       "sha256": "c398842b2e831dc1e22fbe5436ca16c352292474d0702dffde10587f3de55b96"
     },
     {
       "path": "tests/daily_radar_privacy_tests.mjs",
-      "size_bytes": 9174,
+      "bytes": 9174,
       "sha256": "f90472b54860c4b4a84a693ee49470d3c286966b91a87d9cd4bbaf9c6e158d1b"
     },
     {
       "path": "tests/employer_contract_tests.php",
-      "size_bytes": 7975,
+      "bytes": 7975,
       "sha256": "869b0f51be203bf4efdc1cc2a9e45d3d0cc9a72c646f3027fb0ac95251d1e41e"
     },
     {
+      "path": "tests/employer_review_portal_tests.php",
+      "bytes": 10881,
+      "sha256": "5f82455a2713040cf9cfd735e086c5681bda47726f503a9b4ceaa72d5a4ed5c1"
+    },
+    {
       "path": "tests/fixtures/empty.json",
-      "size_bytes": 12,
+      "bytes": 12,
       "sha256": "427aaf47c450fe0224aabbe083080787c2f8494521756da2d017c7ad03c563f9"
     },
     {
       "path": "tests/fixtures/himalayas.json",
-      "size_bytes": 1267,
+      "bytes": 1267,
       "sha256": "73d2684fa0475583a53dbb4eaa888a1fab7d1dc306f43fbd7ea559eadae431ee"
     },
     {
       "path": "tests/fixtures/jobicy.json",
-      "size_bytes": 608,
+      "bytes": 608,
       "sha256": "7928b2c8102ca1c421968a8b7ddd4a7df0125a06bf9bcbee31003df714f584eb"
     },
     {
+      "path": "tests/http_employer_review_smoke.sh",
+      "bytes": 1783,
+      "sha256": "d17c92bc1c348f7e2be1bd71cc1471d53fa460a283e0fd4795b7c3e9a683e997"
+    },
+    {
       "path": "tests/http_partner_pilot_smoke.sh",
-      "size_bytes": 1257,
+      "bytes": 1257,
       "sha256": "c052d72352f245286fa1bd0b69988758649a619f5fc77c4593896963b5db22bd"
     },
     {
       "path": "tests/http_smoke.sh",
-      "size_bytes": 2880,
+      "bytes": 2880,
       "sha256": "1fa2895eb7e42448201d93497a95447564f0e7a61b6c569c246fbf436fe82620"
     },
     {
       "path": "tests/http_v060_smoke.sh",
-      "size_bytes": 2110,
+      "bytes": 2110,
       "sha256": "e5495fcb76ddd3ebe23f701baef8e893a735d02ab07844f5168e38ab6e07cc8a"
     },
     {
       "path": "tests/js_tests.mjs",
-      "size_bytes": 3310,
+      "bytes": 3310,
       "sha256": "47f453459546cffeaee1fef6efbd6eefb5fab8473466a83a4c7590e1b5788aa7"
     },
     {
+      "path": "tests/mysql_integration_tests.php",
+      "bytes": 8978,
+      "sha256": "a1e74ef8495e122e3305d1840b3701262e72b7b7ca38e1e91115fd30d95a10d3"
+    },
+    {
       "path": "tests/new_tools_tests.mjs",
-      "size_bytes": 4305,
+      "bytes": 4305,
       "sha256": "4e9e49c4a5d91e1f3b619d307ebf48c7d1526727de2c3f9c147c37f485404f1f"
     },
     {
       "path": "tests/operational_tests.php",
-      "size_bytes": 3069,
+      "bytes": 3069,
       "sha256": "8bc2e1a4dc2bd514a55c7d0847a53d78842ceb1d6db42278367f6d901be5ac11"
     },
     {
       "path": "tests/owner_auth_tests.php",
-      "size_bytes": 2549,
+      "bytes": 2549,
       "sha256": "9d77d8bc61d3c5ef324315ca66d5ec30b607290da77e88981216037f0752a736"
     },
     {
       "path": "tests/partner_api_tests.php",
-      "size_bytes": 13033,
+      "bytes": 13033,
       "sha256": "8199d6d2caee9a59e6883a652b8edf539c93935f5dfb90f60a17712e4d879b31"
     },
     {
       "path": "tests/php_tests.php",
-      "size_bytes": 8824,
+      "bytes": 8824,
       "sha256": "a0143dcce38548f2312b8c75132622b51628512b974136d3c87f85f16b4ead18"
     },
     {
       "path": "tests/run.sh",
-      "size_bytes": 1485,
-      "sha256": "e1b11a153cbec826bc9ad6da216b5c85865a96b2b3267861eef51ab6fdfa0fa9"
+      "bytes": 1583,
+      "sha256": "d52cf914c3e8c98d50e7f512e9704517d8f595b366fd4bede5001a20d4acff09"
     },
     {
       "path": "tests/shared_host_layout_tests.php",
-      "size_bytes": 1587,
+      "bytes": 1587,
       "sha256": "e48b30b59eb3ed28599cd2adad396f3f646f7e162297858086d449f065c3d71b"
     },
     {
       "path": "tests/tracker_tests.mjs",
-      "size_bytes": 4297,
+      "bytes": 4297,
       "sha256": "58d32118d1a028aefa16cb68129e344a8901f9ee55a92484628cf841480972bb"
     }
-  ],
-  "partner_http": "DISABLED by default; verification/identity/hosting/DB gates not met",
-  "mysql_staging": "NOT RUN: no pdo_mysql driver available in local environment"
+  ]
 }

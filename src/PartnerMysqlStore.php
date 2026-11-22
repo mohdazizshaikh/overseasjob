@@ -37,14 +37,14 @@ final class PartnerMysqlStore implements PartnerRepository
     }
     public function principal(string $fingerprint,string $prefix,int $now):?array
     {
-        $r=$this->stmt('SELECT t.id token_id,t.org_id,t.scopes_json,o.status,o.email_verified_at,o.domain_verified_at,o.approved_at,o.verified_domains_json
+        $r=$this->stmt('SELECT t.id token_id,t.org_id,t.scopes_json,o.status,o.email_verified_at,o.domain_verified_at,o.approved_at,o.approved_by,o.evidence_reference,o.representative_verified_at,o.verified_domains_json
           FROM oj_partner_tokens t JOIN oj_employer_orgs o ON o.id=t.org_id
           WHERE t.fingerprint=:fingerprint AND t.token_prefix=:prefix AND t.revoked_at IS NULL AND t.expires_at>:now LIMIT 1',
           ['fingerprint'=>$fingerprint,'prefix'=>$prefix,'now'=>self::sqlTime($now)])->fetch(PDO::FETCH_ASSOC);
         if(!$r)return null;
         $domains=self::decode($r['verified_domains_json']);$scopes=self::decode($r['scopes_json']);
         // Convert only trusted database approval fields, never caller request fields.
-        $org=['id'=>$r['org_id'],'approved'=>$r['status']==='approved'&&$r['approved_at']!==null,
+        $org=['id'=>$r['org_id'],'approved'=>$r['status']==='approved'&&$r['approved_at']!==null&&$r['representative_verified_at']!==null&&trim((string)$r['approved_by'])!==''&&trim((string)$r['evidence_reference'])!=='',
           'suspended'=>$r['status']==='suspended','email_verified'=>$r['email_verified_at']!==null,
           'domain_verified'=>$r['domain_verified_at']!==null,'verified_domains'=>$domains];
         return ['token_id'=>(int)$r['token_id'],'org'=>$org,'scopes'=>$scopes];
