@@ -641,8 +641,8 @@
     },
     {
       "path": "tests/php_tests.php",
-      "bytes": 10969,
-      "sha256": "07ad1b9119bb7cc91465219fc5cb152edec293f7a9ba9578029a5f95fd5739d6"
+      "bytes": 11103,
+      "sha256": "6a9d9d467d2c1dd4a4e0de701bb62ce29b42e1e28919cd067b96e1852ecdf44d"
     },
     {
       "path": "tests/recruiter_recovery_tests.php",
