@@ -90,7 +90,7 @@
         "atomic fixture cache isolation",
         "Himalayas offset/limit and repeated-page signatures"
       ],
-      "blocker_reason": "Adapter/pagination fixture tested; actual provider network/rights and 14 days of supply not verified Official provider API moved to opaque cursor and declares pubDate last updated; v0.9.1 correction pending CI, current source pack reconciliation outstanding."
+      "blocker_reason": "Adapter/pagination fixture tested; actual provider network/rights and 14 days of supply not verified Official provider API moved to opaque cursor and declares pubDate last updated; v0.9.1 correction passed isolated CI, current source pack reconciliation outstanding."
     },
     {
       "module_id": "M02",
@@ -301,7 +301,7 @@
     {
       "module_id": "M16",
       "implementation_status": "blocked_with_reason",
-      "blocker_reason": "610 deterministic local checks pass, GitHub CI has separate disposable MySQL contract job authored. Real browser E2E and physical Hostinger security/performance/restore remain unverified; CI result must be separately confirmed after push.",
+      "blocker_reason": "663 baseline-plus-provider deterministic regression checks and isolated MySQL integration CI passed at run 45073631074. Real browser E2E, source permissions and physical Hostinger security/performance/restore are not verified.",
       "implemented_subset": [
         "PHP/JS/HTTP deterministic regression",
         "One GitHub Actions local contract job",
@@ -312,9 +312,10 @@
         "Source ZIP manifest verification"
       ],
       "tests": [
-        "610 deterministic local checks",
-        "71 canonical documentation checks",
-        "MySQL GitHub Actions job pending actual run"
+        "GitHub Actions deterministic checks passed with current provider regression",
+        "71 canonical documentation checks passed",
+        "49 disposable MySQL integration assertions passed",
+        "126 source files verified by SHA-256 manifest"
       ]
     },
     {
@@ -325,12 +326,12 @@
   ],
   "last_tested_on": "2026-11-23",
   "source_of_truth_version": "v1.3.3 (normative product scope unchanged)",
-  "local_check_count": 652,
+  "local_check_count": 663,
   "browser_e2e_status": "BLOCKED: Chromium localhost administrator policy; E2E authored but not executed",
   "live_feed_verified": false,
   "hostinger_verified": false,
   "public_launch_ready": false,
-  "local_automated_checks": 652,
+  "local_automated_checks": 663,
   "hosting_db_integration_tested": false,
   "partner_api_deployed": false,
   "disposable_mysql_ci_verified_for_this_commit": true,
@@ -350,12 +351,14 @@
     "docs/RELEASE_V090_SECURITY_AND_THEME_HANDOFF.md"
   ],
   "disposable_mysql_ci_assertions": 49,
-  "disposable_mysql_ci_run_url": "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45072238748",
-  "release_patch_status": "Provider patch under CI review; no source activation or production verification",
+  "disposable_mysql_ci_run_url": "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45073631074",
+  "release_patch_status": "VERIFIED_GITHUB_CI_TESTS_ONLY; neither deployed nor live provider verified",
   "new_v091_evidence": [
     "src/Jobs.php",
     "scripts/sync_jobs.php",
     "tests/php_tests.php",
-    "docs/PROVIDER_CURSOR_AND_DATE_CORRECTION_v091.md"
-  ]
+    "docs/PROVIDER_CURSOR_AND_DATE_CORRECTION_v091.md",
+    "GitHub Actions run 45073631074: deterministic regression passed, MySQL integration passed, 126 source-file checks and canonical 71/71"
+  ],
+  "provider_patch_verified_ci_run_url": "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45073631074"
 }
