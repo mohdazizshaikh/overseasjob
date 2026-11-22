@@ -1,6 +1,6 @@
 {
   "spec_version": "v1.3.3",
-  "release": "gate1+gate2+gate3-local-v0.9.3-deployment-hardening-under-test",
+  "release": "gate1+gate2+gate3-local-v0.9.3-audit-hardening-verified-isolated-ci",
   "development_state": "LOCAL_CODE_WITH_VERIFIED_DISPOSABLE_CI_NOT_DEPLOYED",
   "evidence": [
     "tests/php_tests.php",
@@ -602,9 +602,24 @@
   ],
   "audit_code_gap_status": {
     "github_issue": "https://github.com/mohdazizshaikh/overseasjob/issues/4",
-    "code_fixes_under_test": true,
+    "code_fixes_under_test": false,
     "real_world_gates_still_pending": true,
     "verified_user_hosting": false,
-    "unverified_canonical_pack_reconciliation": true
-  }
+    "unverified_canonical_pack_reconciliation": true,
+    "code_verified_ci_run_url": "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45083243298",
+    "note": "Coding defects addressed in isolated CI; unverified original theme, Hostinger, real provider samples, SOT pack reissue, editor/legal, and physical restore are still blocked."
+  },
+  "local_automated_checks_note": "663 was earlier v0.9.1 baseline, not a recalculated v0.9.3 total. This run separately passed 89 PHP fixture checks, 10 provider-HTTP checks, 18-module register, and more; see CI logs.",
+  "v093_evidence": [
+    "tests/provider_http_tests.php",
+    "tests/module_register_tests.php",
+    "tests/php_tests.php",
+    "tests/operational_tests.php",
+    "tests/backup_tests.php",
+    "scripts/check_himalayas_status.php",
+    "scripts/gate0_preflight.php",
+    "scripts/health_guard.php",
+    "docs/PREDEPLOYMENT_CODE_HARDENING_V093.md",
+    "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45083243298"
+  ]
 }
