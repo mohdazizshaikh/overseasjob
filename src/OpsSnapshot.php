@@ -35,6 +35,8 @@ final class OpsSnapshot
         if(!$backupFiles)$warnings[]='No local backup files found (not proof of host-level backups)';
         $latestBackup=null;
         foreach($backupFiles as $f){if(is_link($f))continue;$mtime=filemtime($f);if($mtime!==false&&($latestBackup===null||$mtime>$latestBackup))$latestBackup=$mtime;}
+        if($latestBackup!==null && $latestBackup < $now-72*3600)
+            $warnings[]='Last local file backup is older than 72 hours';
         $coverage=$storage.'/coverage.ndjson';$days=[];
         if(is_file($coverage)&&!is_link($coverage)&&filesize($coverage)<2_000_000){
             $handle=fopen($coverage,'rb');
