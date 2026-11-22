@@ -471,8 +471,8 @@
     },
     {
       "path": "src/Jobs.php",
-      "bytes": 17026,
-      "sha256": "e343263f8bf3e8bbdebe6254a4c0b7cb43738be00999872f52dd4d893fc0a871"
+      "bytes": 17020,
+      "sha256": "223a29419b93ae9a4f794320d94d2f7b838630e2d7006b7eb32c916f2226d183"
     },
     {
       "path": "src/Launch.php",
@@ -641,8 +641,8 @@
     },
     {
       "path": "tests/php_tests.php",
-      "bytes": 10970,
-      "sha256": "1d4626f9fe080f481f0479da9bf12bfbb2e8d075d50693be9ad2e6894ccd356d"
+      "bytes": 10969,
+      "sha256": "07ad1b9119bb7cc91465219fc5cb152edec293f7a9ba9578029a5f95fd5739d6"
     },
     {
       "path": "tests/recruiter_recovery_tests.php",
