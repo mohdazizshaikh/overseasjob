@@ -6,9 +6,11 @@
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
-    "status": "PENDING_CI_FOR_THIS_PATCH",
-    "previous_version_passed": 652,
-    "previous_version_failed": 0
+    "status": "PASSED_GITHUB_ACTIONS_ISOLATED",
+    "passed": 663,
+    "failed": 0,
+    "run_url": "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45073631074",
+    "note": "Tests were run before release-evidence metadata update; no runtime code changed since successful run."
   },
   "canonical_documentation": {
     "passed": 71,
@@ -31,7 +33,7 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "The previous v0.9.0 CI figures are historical; v0.9.1 provider changes need fresh PR CI evidence. No live provider or Hostinger integration is certified.",
+  "developer_notes": "v0.9.1 runtime code passed isolated GitHub Actions deterministic + disposable MySQL 8 jobs; 71 canonical documentation checks and 126 source file hashes also passed. No live provider or Hostinger verification.",
   "file_count_excluding_manifest": 126,
   "files": [
     {
@@ -176,8 +178,8 @@
     },
     {
       "path": "docs/PROVIDER_CURSOR_AND_DATE_CORRECTION_v091.md",
-      "bytes": 2716,
-      "sha256": "9d17560e1951b0a93dc36e1a59ccb30ae142b28ffda5314f6fd9ab4d958409b0"
+      "bytes": 2810,
+      "sha256": "b90cd79de65a061a7b138d4fff9855cd8113bf2f7b486a690bbbe2219319b7e1"
     },
     {
       "path": "docs/RC_IMPLEMENTATION_CHANGELOG.md",
@@ -221,8 +223,8 @@
     },
     {
       "path": "module_status.json",
-      "bytes": 15916,
-      "sha256": "14637f2364d08c567bd9614ff653bfb6c0ef99ca126420b87928b4f6e9da1343"
+      "bytes": 16277,
+      "sha256": "b9ca1fb6268c78e7efd7d276cca213386de01f354a15b3b775831d5718b681a0"
     },
     {
       "path": "public/.htaccess",
@@ -331,8 +333,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 8474,
-      "sha256": "400bf8896ee44f98d1aebc9e5ff26ebcdba520cf3bc8ba20721c8d602aa88868"
+      "bytes": 8855,
+      "sha256": "0ffd0bddbd8e3955aead6aa8ecada559b62217379ad0c17e7e3970ff3f547e05"
     },
     {
       "path": "scripts/analytics_report.php",
