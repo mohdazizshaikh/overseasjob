@@ -3,6 +3,8 @@
 **State: working local application and future-gated contract foundation; NOT deployed, NOT public-launch ready.**  
 **Canonical product Source of Truth:** `SOURCE_OF_TRUTH_REFERENCE/OverseasJob_v1.3.3_Source_of_Truth_Project_Pack.zip` (unchanged business requirements).
 
+**Verified CI evidence (23 Nov 2026):** [GitHub Actions run 45069896338](https://github.com/mohdazizshaikh/overseasjob/actions/runs/45069896338) passed both the deterministic regression job (610 local checks) and an isolated **MySQL 8** integration job (37 assertions). The MySQL run used a disposable `oj_test` container and injected test-only email delivery; real Hostinger, real inbox delivery and public launch have NOT been verified.
+
 ## Implemented code
 
 - Source-attributed job discovery, conservative India location + timezone eligibility, Job Decision Cards, atomic import/cache and safe empty-state handling. **There are currently no verified live jobs** in this repository.

@@ -14,12 +14,30 @@
     "passed": 71,
     "failed": 0
   },
-  "mysql_disposable_integration": "AWAITING_INDEPENDENT_GITHUB_ACTIONS_EXECUTION",
+  "mysql_disposable_integration": {
+    "status": "PASSED_GITHUB_ACTIONS",
+    "assertions": 37,
+    "github_run_id": 45069896338,
+    "run_url": "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45069896338",
+    "environment": "disposable MySQL 8 oj_test only, test-only email",
+    "does_not_prove": [
+      "Hostinger deployment",
+      "real email delivery",
+      "real employer verification",
+      "production security",
+      "browser E2E"
+    ]
+  },
   "browser_e2e": "NOT VERIFIED - localhost navigation blocked in sandbox",
   "live_provider_imports": "NOT VERIFIED - intentional empty cache",
   "hostinger": "NOT_INSPECTED_OR_DEPLOYED",
   "recruiter_and_public_partner_features": "ALL_DISABLED_BY_DEFAULT",
-  "ci": "Check GitHub Actions for current commit; do not infer success from local tests.",
+  "ci": {
+    "deterministic_job": "passed",
+    "mysql_job": "passed",
+    "run_id": 45069896338,
+    "url": "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45069896338"
+  },
   "file_count_excluding_manifest": 115,
   "files": [
     {
@@ -39,8 +57,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 5947,
-      "sha256": "e5789eec813d08089b410dfe1c91937cbd5955831464fbf1a44886cdaf0396c1"
+      "bytes": 6387,
+      "sha256": "00477e060cb40bd7d95e2084e34db2dc8fce845dac865b107567c0a1f6c0ad27"
     },
     {
       "path": "SOURCE_OF_TRUTH_REFERENCE/OverseasJob_v1.3.3_Source_of_Truth_Project_Pack.zip",
@@ -49,8 +67,8 @@
     },
     {
       "path": "START_HERE_FOUNDER.md",
-      "bytes": 2594,
-      "sha256": "0a885c925e35e082529f1d9659574630c5c8cc54c351ccefaaefe3fb0ccad701"
+      "bytes": 2776,
+      "sha256": "27d3f3630ce76a249a27e2ea7324d6b6475edb15f11c13e36d9c909b873faee4"
     },
     {
       "path": "config/provider_policy.json",
@@ -554,8 +572,8 @@
     },
     {
       "path": "tests/mysql_integration_tests.php",
-      "bytes": 8978,
-      "sha256": "a1e74ef8495e122e3305d1840b3701262e72b7b7ca38e1e91115fd30d95a10d3"
+      "bytes": 9736,
+      "sha256": "9c3894a5b9ba8f42478cb468f05e20ee1feeffc340389b59464a312041dd7fd9"
     },
     {
       "path": "tests/new_tools_tests.mjs",

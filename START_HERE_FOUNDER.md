@@ -11,7 +11,7 @@ Public direct employer cards are separate from feed listings, require a human `p
 ### Tests and deployment honesty
 
 - Local PHP/JavaScript/HTTP deterministic test suite is run from `sh tests/run.sh`; see `docs/LOCAL_TEST_OUTPUT_2026-11-23_v080.txt` for **measured** check count.
-- A **separate GitHub Actions MySQL 8 integration job** exercises all four migrations and tenant/approval/email-confirmation flows against a *disposable test database*. Its status is only established by the remote CI run, not by the local machine.
+- **Verified GitHub CI SUCCESS:** [run #45069896338](https://github.com/mohdazizshaikh/overseasjob/actions/runs/45069896338) passed deterministic checks and **37 MySQL 8 integration assertions** in a disposable `oj_test` database: migrations, test-only email challenge, recruiter login, owner review, audit, edit/close, idempotence and token revocation. This is NOT evidence of Hostinger staging readiness or real email delivery.
 - MySQL PDO is absent in this local container. Real Hostinger MySQL, DNS, outbound email, SSL, migration rollback and full browser tests are **not** verified. No actual employer has been approved or invited, and the jobs cache is still deliberately empty.
 - New employer features, Partner Posting API, analytics, advertising and `RELEASE_READY` are all OFF by default. The v1.3.3 canonical specifications remain unchanged. No extra paid APIs or recurring subscriptions have been introduced.
 
