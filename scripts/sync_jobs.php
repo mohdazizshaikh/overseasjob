@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 require dirname(__DIR__).'/src/Jobs.php';
+require dirname(__DIR__).'/src/ProviderHttp.php';
 
 /** Server-side scheduled ingestion. Run only by PHP CLI or cron, never from a web route. */
 if (PHP_SAPI !== 'cli') { http_response_code(403); exit; }
@@ -16,41 +17,22 @@ if (!$fixture && !$policy['enabled']) {fwrite(STDERR,"Provider disabled in polic
 if (!$fixture && strtotime((string)($policy['checked_at']??'')) < time()-30*86400){fwrite(STDERR,"Provider rights need re-review (>30 days); sync blocked\n");exit(3);}
 $lock=fopen($base.'/storage/sync.lock','c');
 if(!$lock||!flock($lock,LOCK_EX|LOCK_NB)){fwrite(STDERR,"Concurrent sync blocked\n");exit(4);}
-function fetchApi(string $url, int $limitBytes=2000000): array {
-    // Only hard-coded upstream hosts and HTTPS; no user-provided fetch URLs.
-    $allowed=['jobicy.com','himalayas.app'];
-    $parts=parse_url($url);
-    if(($parts['scheme']??'')!=='https'||!in_array(($parts['host']??''),$allowed,true))throw new RuntimeException('Forbidden upstream');
-    $ctx=stream_context_create(['http'=>[
-        'timeout'=>20,'follow_location'=>0,'ignore_errors'=>true,
-        'header'=>"Accept: application/json\r\nUser-Agent: OverseasJob.in/0.1 (+https://overseasjob.in; source-linked cache)\r\n"
-    ],'ssl'=>['verify_peer'=>true,'verify_peer_name'=>true]]);
-    $fp=@fopen($url,'rb',false,$ctx);
-    if(!$fp)throw new RuntimeException('Source connection unavailable');
-    $meta=stream_get_meta_data($fp);
-    $headers=$meta['wrapper_data']??[];
-    $line=is_array($headers)?($headers[0]??''):'';
-    if(!preg_match('/^HTTP\/\S+ 200\b/',(string)$line)){fclose($fp);throw new RuntimeException('Unexpected provider HTTP status: '.substr((string)$line,0,70));}
-    $body=stream_get_contents($fp,$limitBytes+1);fclose($fp);
-    if($body===false||strlen($body)>$limitBytes)throw new RuntimeException('Source payload too large');
-    $data=json_decode($body,true);
-    if(!is_array($data))throw new RuntimeException('Invalid provider JSON');
-    return $data;
-}
 try {
-    $payloads=[]; $seenPageSignatures=[]; $partial=false;
+    $payloads=[]; $seenPageSignatures=[];
+    // A recent-window Jobicy feed is never a full source inventory.
+    $partial=($provider==='jobicy');
     if($fixture!==null){
         $data=json_decode((string)file_get_contents($fixture),true,512,JSON_THROW_ON_ERROR);
         if(!is_array($data)||!is_array($data['jobs']??null))throw new RuntimeException('Invalid fixture shape');
         $payloads=[$data];
     } elseif($provider==='jobicy'){
-        $payloads=[fetchApi('https://jobicy.com/api/v2/remote-jobs?count=100')];
+        $payloads=[ProviderHttp::fetchJson('https://jobicy.com/api/v2/remote-jobs?count=100')];
     } else {
         // Current official API prefers opaque nextCursor; offset is deprecated.
         // Never publish an incomplete crawl as a full healthy inventory.
         $cursor=null;$finished=false;$maxPages=100;$seenCursors=[];
         for($page=0;$page<$maxPages;$page++){
-            $data=fetchApi(Jobs::himalayasBrowseUrl($cursor),1200000);
+            $data=ProviderHttp::fetchJson(Jobs::himalayasBrowseUrl($cursor),1200000);
             $signature=Jobs::himalayasPageSignature($data);
             if(isset($seenPageSignatures[$signature]))throw new RuntimeException('Repeated Himalayas page; old cache preserved');
             $seenPageSignatures[$signature]=true;
