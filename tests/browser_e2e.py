@@ -9,7 +9,7 @@ def ok(label,condition):
     passes.append(label)
     print('PASS '+label)
 with sync_playwright() as p:
-    browser=p.chromium.launch(executable_path='/usr/bin/chromium',headless=True,args=['--no-sandbox','--disable-dev-shm-usage'])
+    browser=p.chromium.launch(headless=True,args=['--no-sandbox','--disable-dev-shm-usage'])
     context=browser.new_context(accept_downloads=True,viewport={'width':1360,'height':900})
     page=context.new_page()
     errs=[]
@@ -38,8 +38,7 @@ with sync_playwright() as p:
     page.goto(BASE+'/guides/germany-career-research',wait_until='networkidle')
     ok('Sourced Germany draft page available',page.get_by_text('Federal Employment Agency — professional qualifications').count()==1)
     ok('Unreviewed guide is noindex',page.locator('meta[name="robots"]').get_attribute('content')=='noindex,nofollow')
-    # Gate-2 T07/T08/T09/T10 interactive acceptance tests. Not yet runnable in this
-    # sandbox because Chrome localhost navigation is administratively blocked.
+    # Actual headless Chromium exercises T07–T10 on isolated local PHP preview.
     page.goto(BASE+'/tools/interview-practice',wait_until='networkidle')
     ok('T07 original question displayed',page.locator('#interview-question h3').count()==1)
     page.locator('#interview-rubric input').first.check()
@@ -73,7 +72,7 @@ with sync_playwright() as p:
     page.locator('#roadmap-note-30').fill('My personal target')
     with page.expect_download() as d:page.locator('#roadmap-export').click()
     ok('T10 personal roadmap export',d.value.suggested_filename.endswith('.json'))
-    # v0.6 privacy-first daily mission and consent journeys — authored, NOT verified in sandbox.
+    # Privacy-first daily mission and consent checks run in the isolated browser.
     page.goto(BASE+'/daily',wait_until='networkidle')
     ok('M08 daily question shown',len(page.locator('#daily-prompt').inner_text())>20)
     page.locator('#daily-complete').click()
@@ -88,5 +87,17 @@ with sync_playwright() as p:
     page.locator('#privacy-delete-all').click()
     ok('M15 all local OverseasJob data deletion',page.evaluate('!Object.keys(localStorage).some(k=>k.startsWith("overseasjob_"))'))
     ok('No browser JavaScript errors',not errs)
+    # Real narrow-screen responsive checks. Offscreen content must not create
+    # horizontal scrolling that hides critical actions on a typical phone.
+    mobile_context=browser.new_context(viewport={'width':390,'height':844},is_mobile=True,has_touch=True,device_scale_factor=1)
+    mobile=mobile_context.new_page()
+    mobile_errs=[]
+    mobile.on('pageerror',lambda e: mobile_errs.append(str(e)))
+    for route in ['/', '/jobs', '/tools', '/tools/application-tracker', '/tools/interview-practice', '/daily', '/privacy']:
+        mobile.goto(BASE+route,wait_until='networkidle')
+        dims=mobile.evaluate('''() => ({viewport: window.innerWidth, content: document.documentElement.scrollWidth})''')
+        ok('Mobile 390px no horizontal overflow '+route,dims['content']<=dims['viewport']+3)
+    ok('Mobile pages have no uncaught JS errors',not mobile_errs)
+    mobile_context.close()
     context.close();browser.close()
 print(f'\n{len(passes)} actual Chromium browser checks passed')

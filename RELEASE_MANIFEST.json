@@ -1,16 +1,14 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.1-himalayas-provider-compatibility",
+  "release": "0.9.2-browser-e2e-ci",
   "source_of_truth": "v1.3.3",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
-    "status": "PASSED_GITHUB_ACTIONS_ISOLATED",
-    "passed": 663,
-    "failed": 0,
-    "run_url": "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45073631074",
-    "note": "Tests were run before release-evidence metadata update; no runtime code changed since successful run."
+    "status": "PENDING_FINAL_0_9_2_PR_CI",
+    "previous_version_passed": 663,
+    "previous_version_failed": 0
   },
   "canonical_documentation": {
     "passed": 71,
@@ -33,8 +31,8 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "v0.9.1 runtime code passed isolated GitHub Actions deterministic + disposable MySQL 8 jobs; 71 canonical documentation checks and 126 source file hashes also passed. No live provider or Hostinger verification.",
-  "file_count_excluding_manifest": 126,
+  "developer_notes": "Source manifest updated after actual 38-check desktop/mobile browser CI; full PR must rerun green. Live host/theme/provider/editorial/legal/production release gates remain unresolved.",
+  "file_count_excluding_manifest": 127,
   "files": [
     {
       "path": ".env.example",
@@ -43,8 +41,8 @@
     },
     {
       "path": ".github/workflows/ci.yml",
-      "bytes": 2843,
-      "sha256": "aff393681bd5c19b47ff629a636b16470930edea6750bea4da392b7b2b8fe4e9"
+      "bytes": 4399,
+      "sha256": "4a4197fbc6c7742188ce2e5ebe911c2ee94fb950dda1ffb748fa3f2ab0299cf9"
     },
     {
       "path": ".gitignore",
@@ -192,6 +190,11 @@
       "sha256": "c83214683eae709d62110f4e0d042e910b6044efb8d8ad76ec84a2f6cb8eda10"
     },
     {
+      "path": "docs/REAL_BROWSER_CI_V092.md",
+      "bytes": 3150,
+      "sha256": "8948fff0bc26c52c2102461019c49536b22c25bb4f030b05fbe9b21ffac9c5ab"
+    },
+    {
       "path": "docs/RELEASE_V090_SECURITY_AND_THEME_HANDOFF.md",
       "bytes": 5203,
       "sha256": "df00cc2c1bb401f9584c5b60572e836a3152aee4c724758037d7f46a17f2e282"
@@ -223,8 +226,8 @@
     },
     {
       "path": "module_status.json",
-      "bytes": 16277,
-      "sha256": "b9ca1fb6268c78e7efd7d276cca213386de01f354a15b3b775831d5718b681a0"
+      "bytes": 16967,
+      "sha256": "9b95a2ccf6183e9f9445d7c38f5f13862e7e5d2c5155901f6435cdfd7322acaf"
     },
     {
       "path": "public/.htaccess",
@@ -233,8 +236,8 @@
     },
     {
       "path": "public/assets/advanced_tools_ui.mjs",
-      "bytes": 11865,
-      "sha256": "3ac03c57e779b859b17acbf4fce244371845c23aac38bcae07ef0265e965b7da"
+      "bytes": 11986,
+      "sha256": "efb5290b34358f9bd6f9ffd01317a6d379362b958cded23bd54c6652434dd46e"
     },
     {
       "path": "public/assets/advanced_tools.mjs",
@@ -333,8 +336,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 8855,
-      "sha256": "0ffd0bddbd8e3955aead6aa8ecada559b62217379ad0c17e7e3970ff3f547e05"
+      "bytes": 9448,
+      "sha256": "838e31958e03c96ca1035fbd6f2eb5d37ca08b1addfc3010ce729ae022581cb5"
     },
     {
       "path": "scripts/analytics_report.php",
@@ -528,8 +531,8 @@
     },
     {
       "path": "START_HERE_FOUNDER.md",
-      "bytes": 2715,
-      "sha256": "3d1b372faa8a66255a8a73a2691ebd99075568c711531f24bf7966996caa7b9f"
+      "bytes": 3163,
+      "sha256": "2a14e1e3aa3162d231b04e24f14067725b5ef6253d3e5199d2861b7481d0b276"
     },
     {
       "path": "storage/.gitkeep",
@@ -553,8 +556,8 @@
     },
     {
       "path": "tests/browser_e2e.py",
-      "bytes": 7251,
-      "sha256": "c398842b2e831dc1e22fbe5436ca16c352292474d0702dffde10587f3de55b96"
+      "bytes": 8006,
+      "sha256": "2c0e8e2dbfb364dfa70ffa18198be90d602533e7102a0907f134841352332341"
     },
     {
       "path": "tests/daily_radar_privacy_tests.mjs",
@@ -667,5 +670,13 @@
       "sha256": "58d32118d1a028aefa16cb68129e344a8901f9ee55a92484628cf841480972bb"
     }
   ],
-  "source_provider_docs_reviewed_at": "2026-11-23"
+  "source_provider_docs_reviewed_at": "2026-11-23",
+  "browser_ci": {
+    "run_id": "45075331503",
+    "browser_check_count": 38,
+    "chromium_local_preview": true,
+    "hostinger_staging_verified": false,
+    "mobile_real_devices_verified": false,
+    "notes": "Standalone real-browser job passed; entire run's legacy manifest failed before this manifest refresh."
+  }
 }

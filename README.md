@@ -1,6 +1,8 @@
-# OverseasJob.in — Code Development v0.9.1 (provider compatibility patch)
+# OverseasJob.in — Code Development v0.9.2 (browser regression verified)
 
 **State: working local application and future-gated contract foundation; NOT deployed, NOT public-launch ready.**
+
+**v0.9.2 browser QA:** Real Chromium + Playwright runs on isolated GitHub CI with feature gates OFF. [Browser job, 38/38 passed](https://github.com/mohdazizshaikh/overseasjob/actions/runs/45075331503): desktop tracker, downloads, T07–T10, Daily Mission, privacy, plus seven 390px mobile routes and uncaught-JavaScript checks. Fixed a real interview checkbox / country form-change reset issue in `public/assets/advanced_tools_ui.mjs`. This is **not** production, Hostinger, original-theme parity or formal accessibility certification.
 
 **v0.9.1 provider compatibility patch (isolated GitHub CI passed):** Himalayas browse now uses official opaque `nextCursor` instead of deprecated offset; a capped or incomplete traversal preserves last healthy cache; JSON `pubDate` maps to source-updated time, never an invented original publication date. See `docs/PROVIDER_CURSOR_AND_DATE_CORRECTION_v091.md`. Himalayas remains disabled by default; no actual live listing is claimed.  
 **Canonical product Source of Truth:** `SOURCE_OF_TRUTH_REFERENCE/OverseasJob_v1.3.3_Source_of_Truth_Project_Pack.zip` (unchanged business requirements).
@@ -29,7 +31,7 @@ php -S 127.0.0.1:8000 -t public public/router.php
 # Open http://127.0.0.1:8000/tools and /daily
 ```
 
-All new code runs without paid AI or additional subscriptions. The deterministic local suite passes **440 checks**; the unchanged canonical specification passes **71/71 documentation checks**. This is NOT a production security certification. The E2E browser script exists but its Chromium runs were blocked by the sandbox administrator policy; do NOT call it passed. GitHub Actions success remains to be checked after pushing.
+All new code runs without paid AI or additional subscriptions. The deterministic local suite passes **440 checks**; the unchanged canonical specification passes **71/71 documentation checks**. This is NOT a production security certification. The 38 actual Chromium browser checks passed on GitHub's isolated local preview; live hosting, production theme parity, assistive technology and real user testing remain unverified. GitHub Actions success remains to be checked after pushing.
 
 **Zero-trust defaults:** `RELEASE_READY=0`, `ANALYTICS_ENABLED=0`, `ADS_ENABLED=0`, `OWNER_PANEL_ENABLED=0`, `RECRUITER_LITE_ENABLED=0`, `PARTNER_POSTING_API_ENABLED=0`. See `.env.example`. Do not place the project root or secrets inside `public_html`.
 

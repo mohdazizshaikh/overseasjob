@@ -1,6 +1,8 @@
-# OverseasJob.in v0.9.0 — Founder status (23 November 2026)
+# OverseasJob.in v0.9.2 — Founder status (23 November 2026)
 
 **Current position: code development ongoing; PUBLIC DEPLOYMENT IS NOT APPROVED.** The existing overseasjob.in theme and website are untouched. User prefers that current theme; it will be preserved and separately compared, not overwritten by this project's newer CSS.
+
+**New engineering evidence:** [GitHub Chromium job 45075331503](https://github.com/mohdazizshaikh/overseasjob/actions/runs/45075331503) executed 38 browser checks on a disposable local preview, including seven mobile 390px layouts. The newly identified interview checkbox reset was fixed; real hosting, user devices and accessibility audit are still pending.
 
 ## Implemented and tested locally
 
@@ -13,10 +15,10 @@
 
 ## Required real-world gates
 
-The current website's original static HTML/CSS and visual screenshots, Hostinger plan and private staging environment, actual emailed confirmation, MySQL migration/rollback on staging, live Jobicy/Himalayas providers, 14 observed days of job inventory, accessibility/mobile browser E2E, editorial/legal approvals and production backup restore are **not independently verified**. The release preflight stays `ready:false`. Real employers and their application data must not be activated until these checks pass.
+The current website's original static HTML/CSS and visual screenshots, Hostinger plan and private staging environment, actual emailed confirmation, MySQL migration/rollback on staging, live Jobicy/Himalayas providers, 14 observed days of job inventory, on-Hostinger browser E2E, assistive-technology accessibility audit, editorial/legal approvals and production backup restore are **not independently verified**. The release preflight stays `ready:false`. Real employers and their application data must not be activated until these checks pass.
 
 **Next safe handoff:** obtain a sanitized archive of current `public_html`, deploy this separate new backend to an isolated staging site, compare and port the preferred theme before any public cutover. No need to change current production site now.
 
 GitHub repository: https://github.com/mohdazizshaikh/overseasjob
 
-**Test evidence:** 652/652 deterministic local checks; separate 49/49 disposable MySQL CI assertions; canonical specification 71/71 documentation checks. No live-domain theme comparison or Hostinger staging evidence.
+**Test evidence:** 652/652 deterministic local checks; separate 49/49 disposable MySQL CI assertions; canonical specification 71/71 documentation checks. 38 real Chromium preview checks passed on GitHub, but no live-domain theme comparison or Hostinger staging evidence.
