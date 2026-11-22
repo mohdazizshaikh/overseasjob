@@ -1,12 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.3-predeployment-hardening-candidate",
+  "release": "0.9.3-predeployment-code-hardening",
   "source_of_truth": "v1.3.3",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
-    "status": "PENDING_PR_CI"
+    "status": "PENDING_GITHUB_PR_CI",
+    "tests": "deterministic, disposable MySQL, Chromium"
   },
   "canonical_documentation": {
     "passed": 71,
@@ -29,8 +30,8 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "Source manifest updated after actual 38-check desktop/mobile browser CI; full PR must rerun green. Live host/theme/provider/editorial/legal/production release gates remain unresolved.",
-  "file_count_excluding_manifest": 129,
+  "developer_notes": "Provider retries/status, contract fields, report throttling and local backup/register hardening await PR CI. External Hostinger, theme, editorial, provider rights, 14d inventory, actual backup restore remain unverified.",
+  "file_count_excluding_manifest": 133,
   "files": [
     {
       "path": ".env.example",
@@ -173,6 +174,11 @@
       "sha256": "d46be48d9111750e4f31b1c88d96115b4bf1e909bd3630cd5257f51f2b3d5e60"
     },
     {
+      "path": "docs/PREDEPLOYMENT_CODE_HARDENING_V093.md",
+      "bytes": 6269,
+      "sha256": "f0c83156956e924f3ff8d7d8ea174fd0a9ea0af43de5e703070e514ca6d001ef"
+    },
+    {
       "path": "docs/PROVIDER_CURSOR_AND_DATE_CORRECTION_v091.md",
       "bytes": 2810,
       "sha256": "b90cd79de65a061a7b138d4fff9855cd8113bf2f7b486a690bbbe2219319b7e1"
@@ -224,8 +230,8 @@
     },
     {
       "path": "module_status.json",
-      "bytes": 16967,
-      "sha256": "9b95a2ccf6183e9f9445d7c38f5f13862e7e5d2c5155901f6435cdfd7322acaf"
+      "bytes": 22367,
+      "sha256": "afb7e720c2db1d8c40a10ab23e9f77434265a383b990e0c23d6b4b9193a44429"
     },
     {
       "path": "public/.htaccess",
@@ -369,8 +375,13 @@
     },
     {
       "path": "scripts/gate0_preflight.php",
-      "bytes": 1651,
-      "sha256": "0f2253534e6843cb7787da15343a6031853f9b6f1b1ca96a5491b14a7330f0cd"
+      "bytes": 2700,
+      "sha256": "645bb2359676fa2df1f658d50196660393363360b3f6d7afb36675aa20a9aaac"
+    },
+    {
+      "path": "scripts/health_guard.php",
+      "bytes": 850,
+      "sha256": "df93f326d4b50fcf4c28871c13175968678e9085193747501263bb70ec1ca091"
     },
     {
       "path": "scripts/health.php",
@@ -489,8 +500,8 @@
     },
     {
       "path": "src/OpsSnapshot.php",
-      "bytes": 3540,
-      "sha256": "f3a8be296b8ba5f25161014523b444e7846f1e4fc8a4021277433cacd4edabcd"
+      "bytes": 3678,
+      "sha256": "4922d457b7b4b915f27986862abe90401571b5c2e6ec76e4af9fb799eb937591"
     },
     {
       "path": "src/OwnerAuth.php",
@@ -559,8 +570,8 @@
     },
     {
       "path": "tests/backup_tests.php",
-      "bytes": 1653,
-      "sha256": "a95937237d7829cb9543cead3cc6ae380cb6a46d5f2fef5ae7a009cf8760128b"
+      "bytes": 2251,
+      "sha256": "dd2931feb7e3b7daee51953087187b3a2c4bab370e8931b2f717dfc2adc882d1"
     },
     {
       "path": "tests/browser_e2e.py",
@@ -623,6 +634,11 @@
       "sha256": "47f453459546cffeaee1fef6efbd6eefb5fab8473466a83a4c7590e1b5788aa7"
     },
     {
+      "path": "tests/module_register_tests.php",
+      "bytes": 2484,
+      "sha256": "a0f8d732227729f7b3b91886edf760e4404b6d454a2764a041ed61040854ddba"
+    },
+    {
       "path": "tests/mysql_integration_tests.php",
       "bytes": 12166,
       "sha256": "06aef529f7ee56c36bf55a55853d33725b64c112ec354c0593659c9d0d0e8141"
@@ -634,8 +650,8 @@
     },
     {
       "path": "tests/operational_tests.php",
-      "bytes": 3069,
-      "sha256": "8bc2e1a4dc2bd514a55c7d0847a53d78842ceb1d6db42278367f6d901be5ac11"
+      "bytes": 4198,
+      "sha256": "dced951c5dcb9404eb35b936a33ccd85962b9bcfa1045570ab73eabf5ea74eb5"
     },
     {
       "path": "tests/ops_snapshot_tests.php",
@@ -654,8 +670,13 @@
     },
     {
       "path": "tests/php_tests.php",
-      "bytes": 11103,
-      "sha256": "6a9d9d467d2c1dd4a4e0de701bb62ce29b42e1e28919cd067b96e1852ecdf44d"
+      "bytes": 16271,
+      "sha256": "5c93770501196859fd4301f087106479d75895dbbb7a3f65eb3f595604296b53"
+    },
+    {
+      "path": "tests/provider_http_tests.php",
+      "bytes": 2826,
+      "sha256": "fa62602e7d43d037f4964fcfecb88630cc1252219c7c5a1c38f108099b667de2"
     },
     {
       "path": "tests/recruiter_recovery_tests.php",
@@ -664,8 +685,8 @@
     },
     {
       "path": "tests/run.sh",
-      "bytes": 1720,
-      "sha256": "3b814f2fea53915b7b09e1fc9ff8fc35295b0cce68fcfe49f03f609fdd518dc7"
+      "bytes": 1806,
+      "sha256": "bd15b8c8c15dd2a035e199fa998e534e60a5b6e4a59f551977cbeb783c0dd965"
     },
     {
       "path": "tests/shared_host_layout_tests.php",
