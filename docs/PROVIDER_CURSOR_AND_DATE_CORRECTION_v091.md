@@ -1,6 +1,6 @@
 # v0.9.1 — Himalayas provider adapter correction (23 November 2026)
 
-**Status: source-code change pending fresh CI checks. NOT a live source integration, legal approval, public deployment or production verification.**
+**Status: isolated GitHub CI tests passed ([run 45073631074](https://github.com/mohdazizshaikh/overseasjob/actions/runs/45073631074)). NOT a live source integration, legal approval, public deployment or production verification.**
 
 ## Official provider evidence
 
@@ -20,4 +20,4 @@
 
 The versioned v1.3.3 binary Source-of-Truth ZIP bundled in this repository includes an older provider-specific publication/offset assumption. Actual official upstream API documentation overrides dated assumptions under the authority register. **This code-only correction does not secretly rewrite or regenerate that canonical binary ZIP.** Update the owner provider contract, fixtures and release manifest in the next versioned Source-of-Truth pack before source activation.
 
-No live Himalayas job sample, 14-day India eligibility observation, rate-limit quota, Hostinger migration, DNS/theme parity, recruiter identity, browser accessibility run, live email delivery or production backup restoration was verified here. Keep Himalayas and employer/API feature gates disabled. Verify this PR in isolated GitHub CI before merging; public launch preflight must continue to fail closed.
+No live Himalayas job sample, 14-day India eligibility observation, rate-limit quota, Hostinger migration, DNS/theme parity, recruiter identity, browser accessibility run, live email delivery or production backup restoration was verified here. Keep Himalayas and employer/API feature gates disabled. The PR's isolated deterministic and disposable MySQL jobs passed; public launch preflight must continue to fail closed.
