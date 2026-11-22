@@ -10,8 +10,22 @@ if(getenv('OJ_MYSQL_INTEGRATION')!=='1'){
 }
 if(!extension_loaded('pdo_mysql')){fwrite(STDERR,"MySQL PDO driver missing.\n");exit(2);}
 $dsn=(string)getenv('PARTNER_DB_DSN');
-if(!str_starts_with($dsn,'mysql:') || !preg_match('/(?:^|;)dbname=oj_test(?:;|$)/D',$dsn)
-  || !preg_match('/(?:^|;)host=(?:127\.0\.0\.1|localhost)(?:;|$)/',$dsn)){
+// PDO's host field begins immediately after `mysql:`, not after a semicolon.
+// Require exact local host and disposable database fields, with no duplicate keys.
+$dsnFields=[];$safeDsn=str_starts_with($dsn,'mysql:');
+if($safeDsn){
+    foreach(explode(';',substr($dsn,strlen('mysql:'))) as $field){
+        if(!preg_match('/^([a-z_]+)=([^;]+)$/i',$field,$matches)
+           || array_key_exists(strtolower($matches[1]??''),$dsnFields)){
+            $safeDsn=false;break;
+        }
+        $dsnFields[strtolower($matches[1])]=$matches[2];
+    }
+}
+if(!$safeDsn || ($dsnFields['dbname']??null)!=='oj_test'
+   || !in_array(($dsnFields['host']??null),['127.0.0.1','localhost'],true)
+   || (isset($dsnFields['port'])&&$dsnFields['port']!=='3306')
+   || isset($dsnFields['unix_socket'])){
     fwrite(STDERR,"Refusing to run migrations outside disposable oj_test database.\n");exit(2);
 }
 $pdo=new PDO($dsn,(string)getenv('PARTNER_DB_USER'),(string)getenv('PARTNER_DB_PASSWORD'),[
