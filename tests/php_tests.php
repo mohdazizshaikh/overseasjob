@@ -26,6 +26,8 @@ test('Himalayas non-provider apply host rejected', Jobs::fromHimalayas(array_mer
 test('Himalayas applyLink preserved', $c['apply_url']===$h[0]['applicationLink']);
 test('Canonical provider JobView includes employer country unknown and empty reason tags', array_key_exists('employer_country',$a)&&$a['employer_country']===null&&$a['reason_tags']===[]&&$a['source_policy_id']==='provider_jobicy_source_link_only');
 test('Himalayas provenance retains the immutable provider guid', $c['source_guid']===$h[0]['guid']&&$c['source_policy_id']==='provider_himalayas_source_link_only');
+test('Himalayas provider id is original GUID', $c['provider_job_id']===$h[0]['guid']);
+test('Himalayas display route keeps stable hash', $c['provider_route_key']===hash('sha256',$h[0]['guid']));
 test('Documented Himalayas status URL derived safely from original guid', Jobs::himalayasStatusUrl('https://himalayas.app/companies/linear/jobs/senior-engineer')==='https://himalayas.app/jobs/api/companies/linear/jobs/senior-engineer');
 test('Only HTTP 410 can prove Himalayas closure', Jobs::himalayasStatusDecision(410)==='closed'&&Jobs::himalayasStatusDecision(200)==='active'&&Jobs::himalayasStatusDecision(404)==='unknown'&&Jobs::himalayasStatusDecision(429)==='unknown');
 $badStatusUrl=false;try{Jobs::himalayasStatusUrl('https://himalayas.app.evil.example/companies/a/jobs/b');}catch(InvalidArgumentException){$badStatusUrl=true;}
