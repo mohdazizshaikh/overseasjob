@@ -168,7 +168,7 @@ final class Jobs
             'salary_min'=>self::salary($j['minSalary']??null),'salary_max'=>self::salary($j['maxSalary']??null),
             'salary_currency'=>self::isoCurrency($j['currency']??null),
             'salary_period'=>$periodMap[$period]??null,
-            'source_published_at'=>self::utc($j['pubDate']??null), // current official JSON docs: publication time
+            'source_updated_at'=>self::utc($j['pubDate']??null), // JSON browse pubDate means last updated, not first published
             'valid_through'=>self::utc($j['expiryDate']??null),
             'description'=>self::text($j['excerpt']??'',300),
         ]);
@@ -185,6 +185,32 @@ final class Jobs
         foreach($response['jobs'] as $j)$ids[]=is_array($j)&&is_string($j['guid']??null)?$j['guid']:null;
         return hash('sha256',json_encode($ids,JSON_THROW_ON_ERROR));
     }
+    /** Current provider pagination: nextCursor is opaque and must be echoed unchanged. */
+    public static function himalayasNextCursor(array $response, int $limit=20): ?string
+    {
+        if ($limit<1 || $limit>20 || !is_array($response['jobs']??null)
+            || count($response['jobs'])>$limit)
+            throw new InvalidArgumentException('Malformed Himalayas cursor page');
+        if (!array_key_exists('nextCursor',$response) || $response['nextCursor']===null)
+            return null;
+        $cursor=$response['nextCursor'];
+        if (!is_string($cursor) || $cursor==='' || strlen($cursor)>2048
+            || preg_match('/[\\x00-\\x20\\x7f]/',$cursor))
+            throw new InvalidArgumentException('Invalid Himalayas cursor');
+        if (count($response['jobs'])===0)
+            throw new InvalidArgumentException('Next cursor supplied without jobs');
+        return $cursor;
+    }
+    public static function himalayasBrowseUrl(?string $cursor=null): string
+    {
+        $base='https://himalayas.app/jobs/api?limit=20';
+        if ($cursor===null) return $base;
+        if ($cursor==='' || strlen($cursor)>2048
+            || preg_match('/[\\x00-\\x20\\x7f]/',$cursor))
+            throw new InvalidArgumentException('Invalid Himalayas cursor');
+        return $base.'&cursor='.rawurlencode($cursor);
+    }
+    /** Legacy offset helper retained only for older fixture compatibility. */
     public static function himalayasNextOffset(array $response, int $requestedOffset, int $limit=20): ?int
     {
         if($requestedOffset<0||$limit<1||$limit>20 || !is_array($response['jobs']??null))
