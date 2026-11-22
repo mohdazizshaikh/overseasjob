@@ -1,6 +1,6 @@
 {
   "spec_version": "v1.3.3",
-  "release": "gate1+gate2+gate3-local-v0.9.0-recruiter-reset-theme-safe",
+  "release": "gate1+gate2+gate3-local-v0.9.1-himalayas-provider-compatibility",
   "development_state": "LOCAL_CODE_WITH_VERIFIED_DISPOSABLE_CI_NOT_DEPLOYED",
   "evidence": [
     "tests/php_tests.php",
@@ -90,7 +90,7 @@
         "atomic fixture cache isolation",
         "Himalayas offset/limit and repeated-page signatures"
       ],
-      "blocker_reason": "Adapter/pagination fixture tested; actual provider network/rights and 14 days of supply not verified"
+      "blocker_reason": "Adapter/pagination fixture tested; actual provider network/rights and 14 days of supply not verified Official provider API moved to opaque cursor and declares pubDate last updated; v0.9.1 correction pending CI, current source pack reconciliation outstanding."
     },
     {
       "module_id": "M02",
@@ -350,5 +350,12 @@
     "docs/RELEASE_V090_SECURITY_AND_THEME_HANDOFF.md"
   ],
   "disposable_mysql_ci_assertions": 49,
-  "disposable_mysql_ci_run_url": "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45072238748"
+  "disposable_mysql_ci_run_url": "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45072238748",
+  "release_patch_status": "Provider patch under CI review; no source activation or production verification",
+  "new_v091_evidence": [
+    "src/Jobs.php",
+    "scripts/sync_jobs.php",
+    "tests/php_tests.php",
+    "docs/PROVIDER_CURSOR_AND_DATE_CORRECTION_v091.md"
+  ]
 }
