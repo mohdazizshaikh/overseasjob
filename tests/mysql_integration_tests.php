@@ -80,7 +80,7 @@ $form=['external_id'=>'ref-1001','title'=>'Customer Support Specialist',
 $created=$portal->create($member,$form,$now,'pilot-terms-v1');$id=$created['id'];
 checkDb(($created['status']??'')==='pending_review','Browser submission remains pending human review');
 checkDb(count($portal->jobs($member))===1,'Recruiter dashboard reads only its org jobs');
-$review=new EmployerReviewMysql($pdo);
+$review=EmployerReviewMysql::fromEnvironment();
 checkDb(count($review->pending())===1,'Owner sees one pending employer job');
 checkDb($review->published($now)===[],'Unreviewed listing never appears in public projection');
 $decision=$review->review($id,1,'publish','Independent employer and job evidence validated','human_owner',$now);
