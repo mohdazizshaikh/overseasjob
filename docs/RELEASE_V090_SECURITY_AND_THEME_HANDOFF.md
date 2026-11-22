@@ -27,7 +27,7 @@ The real static HTML/CSS/assets and screenshots from `overseasjob.in` are not pr
 
 `php scripts/health.php` is now a read-only, privacy-safe operational report. It displays cache state, visible source jobs, actual distinct UTC days, backlog count and local backup presence; it never emits raw reports, private candidate text, HMAC secrets or tokens. Missing cache/report/backup state produces warnings, not false healthy status. It cannot prove off-site backup encryption, actual email receipt, provider permissions or Hostinger health.
 
-`sh tests/run.sh` includes isolated fixtures and a complete SHA-256 release-manifest read-only verifier. Existing CI uses a disposable MySQL 8 service to exercise member reset, old-session invalidation, review, tenant scope and token revocation. These are not production tests. `php scripts/launch_preflight.php` still **must** return `ready:false` without real launch evidence.
+`sh tests/run.sh` includes isolated fixtures and a complete SHA-256 release-manifest read-only verifier. Existing CI uses a disposable MySQL 8 service to exercise member reset, old-session invalidation, review, tenant scope and token revocation. These are not production tests. The final observed GitHub Actions run 45072238748 passed 49/49 disposable MySQL 8 assertions and the separate deterministic job. `php scripts/launch_preflight.php` still **must** return `ready:false` without real launch evidence.
 
 ## 4. Mandatory before enabling any real employer account
 

@@ -15,10 +15,11 @@
     "failed": 0
   },
   "mysql_disposable_integration": {
-    "status": "PENDING_NEW_CI_VERIFICATION",
-    "assertions": null,
-    "previous_v080_success_run": "45070112534",
-    "disclaimer": "Previous 37 assertions pass; new v0.9 reset and fifth migration have not yet passed remote MySQL until verified."
+    "status": "PASSED_GITHUB_ACTIONS",
+    "assertions": 49,
+    "github_run_id": "45072238748",
+    "run_url": "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45072238748",
+    "disclaimer": "Verified on disposable MySQL 8; not Hostinger or real mailbox delivery."
   },
   "current_theme": {
     "approved_for_overwrite": false,
@@ -50,8 +51,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 7642,
-      "sha256": "fe8f9a3da2a72c8bd8388b5c7ec2a951b0d23b6d5896322fc12ae2849c9ffd1f"
+      "bytes": 8015,
+      "sha256": "ece864d563fe2de07e180fa641694268ff898254d4e68e9eff2b3b171c50e9c2"
     },
     {
       "path": "SOURCE_OF_TRUTH_REFERENCE/OverseasJob_v1.3.3_Source_of_Truth_Project_Pack.zip",
@@ -60,8 +61,8 @@
     },
     {
       "path": "START_HERE_FOUNDER.md",
-      "bytes": 2426,
-      "sha256": "97eac903a83bfc36595814329fe4e5493dfd8647bf0f620e251ae8ff8141335f"
+      "bytes": 2715,
+      "sha256": "3d1b372faa8a66255a8a73a2691ebd99075568c711531f24bf7966996caa7b9f"
     },
     {
       "path": "config/provider_policy.json",
@@ -200,8 +201,8 @@
     },
     {
       "path": "docs/RELEASE_V090_SECURITY_AND_THEME_HANDOFF.md",
-      "bytes": 5074,
-      "sha256": "e6df1ed84b03bb1fe452e28238f4bb4400e5ef94fec12d7edf7d8f8033a5bcda"
+      "bytes": 5203,
+      "sha256": "df00cc2c1bb401f9584c5b60572e836a3152aee4c724758037d7f46a17f2e282"
     },
     {
       "path": "docs/TEST_OUTPUT_2026-11-22.txt",
@@ -230,8 +231,8 @@
     },
     {
       "path": "module_status.json",
-      "bytes": 15338,
-      "sha256": "0da8b8384a93bd17e2bbbab7531826c09ce51b935546d4e5da853dddd733db45"
+      "bytes": 15482,
+      "sha256": "13a018ce542a21f5b7eeb9a468034856ba82ca28d9b8bbaa5a881bc1884b3518"
     },
     {
       "path": "public/.htaccess",

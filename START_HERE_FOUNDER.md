@@ -9,7 +9,7 @@
 - New **recruiter forgot-password flow**: time-limited one-time mailbox code, bounded attempts, password hashing and forced invalidation of previous browser sessions. Email configuration is required and actual Hostinger inbox delivery is **not** verified.
 - New **theme collision audit** is strictly read-only, detects static HTML and PHP/CSS collisions on a **local backup**, and intentionally cannot approve any replacement of live website files. Current static site files/screenshots have not been supplied for visual parity checking.
 - New **operational snapshot** gives owner-safe counts and honest missing-cache/backup warnings without leaking report contents.
-- Full source ZIP manifest with SHA-256 verification. Unit and HTTP checks run in the local toolchain; the new disposable MySQL tests must be judged by the actual GitHub Actions result.
+- Full source ZIP manifest with SHA-256 verification. Unit and HTTP checks run in the local toolchain; the new disposable MySQL checks passed 49/49 in [GitHub Actions run 45072238748](https://github.com/mohdazizshaikh/overseasjob/actions/runs/45072238748).
 
 ## Required real-world gates
 
@@ -18,3 +18,5 @@ The current website's original static HTML/CSS and visual screenshots, Hostinger
 **Next safe handoff:** obtain a sanitized archive of current `public_html`, deploy this separate new backend to an isolated staging site, compare and port the preferred theme before any public cutover. No need to change current production site now.
 
 GitHub repository: https://github.com/mohdazizshaikh/overseasjob
+
+**Test evidence:** 652/652 deterministic local checks; separate 49/49 disposable MySQL CI assertions; canonical specification 71/71 documentation checks. No live-domain theme comparison or Hostinger staging evidence.

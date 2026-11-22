@@ -1,7 +1,7 @@
 {
   "spec_version": "v1.3.3",
   "release": "gate1+gate2+gate3-local-v0.9.0-recruiter-reset-theme-safe",
-  "development_state": "LOCAL_CODE_AND_CI_VALIDATION_PENDING_NO_THEME_CUTOVER",
+  "development_state": "LOCAL_CODE_WITH_VERIFIED_DISPOSABLE_CI_NOT_DEPLOYED",
   "evidence": [
     "tests/php_tests.php",
     "tests/operational_tests.php",
@@ -333,7 +333,7 @@
   "local_automated_checks": 652,
   "hosting_db_integration_tested": false,
   "partner_api_deployed": false,
-  "disposable_mysql_ci_verified_for_this_commit": false,
+  "disposable_mysql_ci_verified_for_this_commit": true,
   "current_live_theme_migrated": false,
   "current_live_theme_backup_received": false,
   "real_outbound_mail_verified": false,
@@ -348,5 +348,7 @@
     "src/OpsSnapshot.php",
     "database/005_recruiter_password_recovery.mysql.sql",
     "docs/RELEASE_V090_SECURITY_AND_THEME_HANDOFF.md"
-  ]
+  ],
+  "disposable_mysql_ci_assertions": 49,
+  "disposable_mysql_ci_run_url": "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45072238748"
 }
