@@ -1,6 +1,8 @@
-# OverseasJob.in — Code Development v0.9.2 (browser regression verified)
+# OverseasJob.in — Code Development v0.9.3 (pre-deployment hardening candidate)
 
 **State: working local application and future-gated contract foundation; NOT deployed, NOT public-launch ready.**
+
+**v0.9.3 proposed code hardening:** bounded provider 429/5xx backoff, source-specific 200/410/404 status probe (Himalayas OFF until authorised), canonical source fields and stable route key, truthful bounded feed completeness, HMAC IP report throttling (requires private REPORT_RATE_SECRET), expanded local backups, honest health guard and complete M00–M17 evidence register. See `docs/PREDEPLOYMENT_CODE_HARDENING_V093.md`. Production host, original live theme, provider rights, real email and external backups are still UNVERIFIED. **Do not upload or replace existing production public_html** on the strength of this code release.
 
 **v0.9.2 browser QA:** Real Chromium + Playwright runs on isolated GitHub CI with feature gates OFF. [Browser job, 38/38 passed](https://github.com/mohdazizshaikh/overseasjob/actions/runs/45075331503): desktop tracker, downloads, T07–T10, Daily Mission, privacy, plus seven 390px mobile routes and uncaught-JavaScript checks. Fixed a real interview checkbox / country form-change reset issue in `public/assets/advanced_tools_ui.mjs`. This is **not** production, Hostinger, original-theme parity or formal accessibility certification.
 
