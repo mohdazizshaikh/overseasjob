@@ -34,5 +34,18 @@ $corrupt=false;file_put_contents($storage.'/quarantine.json','not-json');
 ok('Corrupt quarantine hides all rather than ignoring holds',count(Jobs::listPublic($storage.'/jobs.json'))===0);
 $wrongReason=false;try{Reports::submit($storage,$job['id'],'invalid','bad');}catch(InvalidArgumentException){$wrongReason=true;}
 ok('Invalid report category rejected',$wrongReason);
+// Public report throttling is server-side and never stores the raw source IP.
+$rateStore=sys_get_temp_dir().'/oj-report-rate-'.bin2hex(random_bytes(5));mkdir($rateStore,0700);
+$fakeKey=str_repeat('s',40);$sourceIP='203.0.113.19';$blocked=false;
+try{
+ for($i=0;$i<6;$i++)Reports::submit($rateStore,$job['id'],'other','Fixture report '.$i,$sourceIP,$fakeKey);
+ try{Reports::submit($rateStore,$job['id'],'other','Seventh attempt',$sourceIP,$fakeKey);}catch(RuntimeException){$blocked=true;}
+ ok('Server-side hourly report limit rejects seventh request from same IP',$blocked&&count(Reports::read($rateStore))===6);
+ $rateFile=(string)file_get_contents($rateStore.'/report_rate.json');
+ ok('Report rate store persists only hashed IP, not raw address',!str_contains($rateFile,$sourceIP)&&!str_contains($rateFile,$fakeKey));
+ $invalidKey=false;
+ try{Reports::submit($rateStore,$job['id'],'other','Without secret',$sourceIP,'short');}catch(RuntimeException){$invalidKey=true;}
+ ok('Public reports fail closed without configured private key',$invalidKey);
+}finally{foreach(glob($rateStore.'/*')?:[] as $f)unlink($f);rmdir($rateStore);}
 function cleanDir($p){foreach(glob($p.'/*')?:[] as $f){if(is_dir($f))cleanDir($f);else unlink($f);}rmdir($p);}cleanDir($storage);
 echo "\n$passed operational and guide checks passed.\n";
