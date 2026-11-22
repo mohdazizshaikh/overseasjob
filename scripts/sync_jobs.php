@@ -46,21 +46,22 @@ try {
     } elseif($provider==='jobicy'){
         $payloads=[fetchApi('https://jobicy.com/api/v2/remote-jobs?count=100')];
     } else {
-        // The current official browse endpoint uses offset+limit. Never switch
-        // mid-traversal to a hypothetical cursor field; protect cache from repeated pages.
-        $offset=0;$limit=20;$maxPages=10;$finished=false;
+        // Current official API prefers opaque nextCursor; offset is deprecated.
+        // Never publish an incomplete crawl as a full healthy inventory.
+        $cursor=null;$finished=false;$maxPages=100;$seenCursors=[];
         for($page=0;$page<$maxPages;$page++){
-            $url='https://himalayas.app/jobs/api?limit='.$limit.'&offset='.$offset;
-            $data=fetchApi($url,1200000);
+            $data=fetchApi(Jobs::himalayasBrowseUrl($cursor),1200000);
             $signature=Jobs::himalayasPageSignature($data);
-            if(isset($seenPageSignatures[$signature]))throw new RuntimeException('Repeated Himalayas page despite advancing offset; previous good cache preserved');
+            if(isset($seenPageSignatures[$signature]))throw new RuntimeException('Repeated Himalayas page; old cache preserved');
             $seenPageSignatures[$signature]=true;
             $payloads[]=$data;
-            $nextOffset=Jobs::himalayasNextOffset($data,$offset,$limit);
-            if($nextOffset===null){$finished=true;break;}
-            $offset=$nextOffset;
+            $nextCursor=Jobs::himalayasNextCursor($data);
+            if($nextCursor===null){$finished=true;break;}
+            if(isset($seenCursors[$nextCursor]))throw new RuntimeException('Repeated Himalayas cursor; old cache preserved');
+            $seenCursors[$nextCursor]=true;
+            $cursor=$nextCursor;
         }
-        $partial=!$finished;
+        if(!$finished)throw new RuntimeException('Himalayas cursor page cap exceeded; old cache preserved');
     }
     $new=[];$invalid=0;
     foreach ($payloads as $data){
@@ -92,7 +93,7 @@ try {
     $existing=array_filter($existing,static function($j)use($now){
         return (strtotime($j['last_seen_at']??'')?:0)>$now-30*86400;
     });
-    $summary=['provider'=>$provider,'success_at'=>gmdate('c'),'seen'=>count($new),'invalid'=>$invalid,'updated'=>$updated,'from_fixture'=>$fixture!==null,'partial_provider_sample'=>$partial,'pagination_mode'=>$provider==='himalayas'?'offset_limit':'bounded_recent_feed'];
+    $summary=['provider'=>$provider,'success_at'=>gmdate('c'),'seen'=>count($new),'invalid'=>$invalid,'updated'=>$updated,'from_fixture'=>$fixture!==null,'partial_provider_sample'=>$partial,'pagination_mode'=>$provider==='himalayas'?'opaque_cursor':'bounded_recent_feed'];
     $oldStats=is_array($old['providers']??null)?$old['providers']:[];
     $oldStats[$provider]=$summary;
     $output=['synced_at'=>gmdate('c'),'providers'=>$oldStats,'jobs'=>array_values($existing)];

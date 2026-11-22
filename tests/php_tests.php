@@ -23,7 +23,7 @@ test('Himalayas raw geographic restrictions retained as evidence', $c['eligibili
 test('Himalayas raw time restrictions retained as evidence', $c['eligibility_evidence'][1]['fact']==='[]');
 test('Himalayas non-provider apply host rejected', Jobs::fromHimalayas(array_merge($h[0],['applicationLink'=>'https://other.example.com/apply']))===null);
 test('Himalayas applyLink preserved', $c['apply_url']===$h[0]['applicationLink']);
-test('Himalayas pubDate follows current official publication-date docs', $c['source_published_at']!==null&&$c['source_updated_at']===null);
+test('Himalayas pubDate is a source update, not original publication', $c['source_published_at']===null&&$c['source_updated_at']===Jobs::utc($h[0]['pubDate']));
 test('Himalayas US-only not eligible', Jobs::fromHimalayas($h[1])['eligible_from_in']==='not_allowed');
 test('Himalayas timezone mismatch not eligible', Jobs::fromHimalayas($h[2])['eligible_from_in']==='not_allowed');
 test('Himalayas missing restrictions unknown', Jobs::fromHimalayas($h[3])['eligible_from_in']==='unknown');
@@ -42,6 +42,20 @@ test('ISO country alias resolves India', Countries::alpha2('india')==='IN');
 
 test('Unknown remote India eligibility not fully confirmed', !Jobs::indiaFullyEligible($a));
 test('India UTC+05:30 allowed', Jobs::himalayasIndia(['locationRestrictions'=>[],'timezoneRestrictions'=>['UTC+05:30']])['eligibility']==='allowed');
+test('First Himalayas cursor request has no deprecated offset', Jobs::himalayasBrowseUrl()==='https://himalayas.app/jobs/api?limit=20');
+test('Opaque Himalayas token is URL-encoded, not decoded or modified', Jobs::himalayasBrowseUrl('a+b/=')==='https://himalayas.app/jobs/api?limit=20&cursor=a%2Bb%2F%3D');
+test('Himalayas next cursor accepted unchanged', Jobs::himalayasNextCursor(['jobs'=>[['guid'=>'x']],'nextCursor'=>'a+b/='])==='a+b/=');
+test('Missing Himalayas cursor signals completed traversal', Jobs::himalayasNextCursor(['jobs'=>[['guid'=>'x']]])===null);
+test('Null Himalayas cursor signals completed traversal', Jobs::himalayasNextCursor(['jobs'=>[['guid'=>'x']],'nextCursor'=>null])===null);
+$cursorRejected=false;try{Jobs::himalayasNextCursor(['jobs'=>[['guid'=>'x']],'nextCursor'=>'']);}catch(InvalidArgumentException){$cursorRejected=true;}
+test('Empty Himalayas cursor fails closed',$cursorRejected);
+$cursorRejected=false;try{Jobs::himalayasNextCursor(['jobs'=>[],'nextCursor'=>'next']);}catch(InvalidArgumentException){$cursorRejected=true;}
+test('Next cursor with zero jobs fails closed',$cursorRejected);
+$cursorRejected=false;try{Jobs::himalayasBrowseUrl("a\nb");}catch(InvalidArgumentException){$cursorRejected=true;}
+test('Control bytes in cursor rejected',$cursorRejected);
+$cursorRejected=false;try{Jobs::himalayasNextCursor(['jobs'=>array_fill(0,21,[]),'nextCursor'=>'next']);}catch(InvalidArgumentException){$cursorRejected=true;}
+test('Himalayas oversized page rejected',$cursorRejected);
+
 test('Himalayas documented offset next page 20', Jobs::himalayasNextOffset(['offset'=>0,'totalCount'=>41,'jobs'=>array_fill(0,20,[])],0)===20);
 test('Himalayas documented final page stops', Jobs::himalayasNextOffset(['offset'=>20,'totalCount'=>40,'jobs'=>array_fill(0,20,[])],20)===null);
 test('Himalayas short final page stops', Jobs::himalayasNextOffset(['offset'=>40,'totalCount'=>43,'jobs'=>array_fill(0,3,[])],40)===null);
@@ -82,5 +96,12 @@ $out=[];exec($fail,$out,$code);$preserved=json_decode((string)file_get_contents(
 test('Zero-job sync fails safely', $code!==0);
 test('Last healthy fixture cache preserved on bad sync', count($preserved['jobs'])===2);
 test('Fixture import never populates public job cache', count(json_decode((string)file_get_contents($testRoot.'/storage/jobs.json'),true)['jobs'])===0);
+$cmdH=escapeshellarg(PHP_BINARY).' '.escapeshellarg($testRoot.'/scripts/sync_jobs.php').' himalayas --fixture='.escapeshellarg(__DIR__.'/fixtures/himalayas.json').' 2>&1';
+$out=[];exec($cmdH,$out,$code);
+$hFixture=json_decode((string)file_get_contents($testRoot.'/storage/fixture_jobs.json'),true);
+$hRows=array_values(array_filter($hFixture['jobs']??[], static fn($j)=>($j['provider']??null)==='himalayas'));
+$hRow=$hRows[0]??[];
+test('Himalayas isolated fixture sync retains four Himalayas jobs plus two Jobicy jobs', $code===0 && count($hRows)===4 && count($hFixture['jobs']??[])===6);
+test('Himalayas fixture cache keeps original publication unknown', ($hRow['source_published_at']??null)===null && isset($hRow['source_updated_at']));
 function rmrf(string $path):void{foreach(glob($path.'/*')?:[] as $p){if(is_dir($p))rmrf($p);else unlink($p);}rmdir($path);}rmrf($testRoot);
 echo "\n$pass PHP checks passed.\n";
