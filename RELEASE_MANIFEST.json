@@ -1,14 +1,12 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.2-browser-e2e-ci",
+  "release": "0.9.3-predeployment-hardening-candidate",
   "source_of_truth": "v1.3.3",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
-    "status": "PENDING_FINAL_0_9_2_PR_CI",
-    "previous_version_passed": 663,
-    "previous_version_failed": 0
+    "status": "PENDING_PR_CI"
   },
   "canonical_documentation": {
     "passed": 71,
@@ -32,12 +30,12 @@
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
   "developer_notes": "Source manifest updated after actual 38-check desktop/mobile browser CI; full PR must rerun green. Live host/theme/provider/editorial/legal/production release gates remain unresolved.",
-  "file_count_excluding_manifest": 127,
+  "file_count_excluding_manifest": 129,
   "files": [
     {
       "path": ".env.example",
-      "bytes": 1525,
-      "sha256": "7c2970f89f5a69632f12214a2850de78cbb8d2c10b20aeab2f83ac80a88730f2"
+      "bytes": 1705,
+      "sha256": "2ae17e6ebddb8c7ecea2769b6a003ba709a6793bd60bf0d75c0443610d6acb65"
     },
     {
       "path": ".github/workflows/ci.yml",
@@ -326,8 +324,8 @@
     },
     {
       "path": "public/index.php",
-      "bytes": 94750,
-      "sha256": "221d9f60d2212f810f74aeccb44aa5f4d210cd2b697eaa111875aa58bcc31a01"
+      "bytes": 94920,
+      "sha256": "b34a88b49a136b8c2bfdab9411f6ea6e1bf91207133094d5e47f98afa81414e7"
     },
     {
       "path": "public/router.php",
@@ -336,8 +334,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 9448,
-      "sha256": "838e31958e03c96ca1035fbd6f2eb5d37ca08b1addfc3010ce729ae022581cb5"
+      "bytes": 10091,
+      "sha256": "15ed04d269a791f7a7639aa20833922ff170d0d678ee04a5825300c3034528c9"
     },
     {
       "path": "scripts/analytics_report.php",
@@ -348,6 +346,11 @@
       "path": "scripts/backup.php",
       "bytes": 483,
       "sha256": "b6a8b7937a427d4e867e9758ab291426083deef3aa9bebf4792c54fd80eb71b1"
+    },
+    {
+      "path": "scripts/check_himalayas_status.php",
+      "bytes": 5353,
+      "sha256": "2088c22dc954bebea31aa4fde43ce4c9ce1a0ac9f8cf85bd85105664d6198229"
     },
     {
       "path": "scripts/coverage_report.php",
@@ -411,8 +414,8 @@
     },
     {
       "path": "scripts/sync_jobs.php",
-      "bytes": 7409,
-      "sha256": "172d0d2ddb10da968c0eff8e3a79b9957e2847ee2ff7ee2c6cd93dfc5ba79baa"
+      "bytes": 6227,
+      "sha256": "088216928f047bd7ad35cbcc79f0d55f5105bae58bbda13a07d12e75246e9ed6"
     },
     {
       "path": "scripts/theme_collision_audit.php",
@@ -436,8 +439,8 @@
     },
     {
       "path": "src/Backups.php",
-      "bytes": 4304,
-      "sha256": "1d89734ab41a79231004e5c9fb964789dc6aac129d137e3711d2f942f57a94f2"
+      "bytes": 4364,
+      "sha256": "1a1b18e3c14386b05dc9a2f16f8ba8c66d902a66d0cd63737f0ac388da92223d"
     },
     {
       "path": "src/Countries.php",
@@ -476,8 +479,8 @@
     },
     {
       "path": "src/Jobs.php",
-      "bytes": 17020,
-      "sha256": "223a29419b93ae9a4f794320d94d2f7b838630e2d7006b7eb32c916f2226d183"
+      "bytes": 18629,
+      "sha256": "c452fd7e7cdd180403d0dbbf604925a16f85f294ca3bef8b408531e0b36e19e5"
     },
     {
       "path": "src/Launch.php",
@@ -510,6 +513,11 @@
       "sha256": "50d08f75d9c1ac216e066dce754ad6be3bff25e32c09010763d6c4c31d1b2909"
     },
     {
+      "path": "src/ProviderHttp.php",
+      "bytes": 4640,
+      "sha256": "313d3c3efc5f6dfbf7cb24c770147a20edc8002f60f6bcdc3df37a2c2f8337d2"
+    },
+    {
       "path": "src/RecruiterMailer.php",
       "bytes": 2438,
       "sha256": "3353e19a5396e97054d8e0d3e0031e11cab93166e0ecd2fcf36b2b3ae9a532e9"
@@ -521,8 +529,8 @@
     },
     {
       "path": "src/Reports.php",
-      "bytes": 5636,
-      "sha256": "999d28a6ae0adff13c7bce38ddd73e0387500d92e549b72572880664709e99ca"
+      "bytes": 7009,
+      "sha256": "e4a841652674a06c66f799e4f14a7c5fedea19b5a42a4ef775640afe82fa0667"
     },
     {
       "path": "src/ThemeSafety.php",
