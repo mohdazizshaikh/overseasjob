@@ -3,6 +3,7 @@ set -eu
 ROOT="$(CDPATH= cd -- "$(dirname "$0")/.." && pwd)"
 find "$ROOT/public" "$ROOT/src" "$ROOT/scripts" -type f -name '*.php' -print | while IFS= read -r file; do php -l "$file" | grep -q 'No syntax errors'; done
 php "$ROOT/tests/php_tests.php"
+php "$ROOT/tests/provider_http_tests.php"
 php "$ROOT/tests/operational_tests.php"
 php "$ROOT/tests/backup_tests.php"
 php "$ROOT/tests/shared_host_layout_tests.php"
