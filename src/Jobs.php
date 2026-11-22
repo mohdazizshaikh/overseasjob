@@ -117,7 +117,9 @@ final class Jobs
         return array_merge([
             'id'=>'provider:'.$provider.':'.$pid,'origin'=>'provider','provider'=>$provider,
             'provider_job_id'=>$pid,'source_name'=>ucfirst($provider),'source_url'=>$source,'apply_url'=>$apply,
-            'title'=>$title,'company_name'=>null,'work_mode'=>'remote','work_country'=>null,
+            'title'=>$title,'company_name'=>null,'work_mode'=>'remote','work_country'=>null,'employer_country'=>null,
+            'source_policy_id'=>($provider==='jobicy'?'provider_jobicy_source_link_only':'provider_himalayas_source_link_only'),
+            'reason_tags'=>[],
             'eligible_from_in'=>'unknown','location_eligibility'=>'unknown','time_zone_eligibility'=>'unknown',
             'eligibility_evidence'=>[],'visa_sponsorship'=>'unknown',
             'salary_min'=>null,'salary_max'=>null,'salary_currency'=>null,'salary_period'=>null,
@@ -160,6 +162,9 @@ final class Jobs
         $periodMap=['hourly'=>'hour','daily'=>'day','weekly'=>'week','fortnightly'=>'fortnight','monthly'=>'month','annual'=>'year','yearly'=>'year'];
         return self::base('himalayas',hash('sha256',$guid),$guid,$apply,$title,[
             'company_name'=>self::text($j['companyName']??'',100)?:null,
+            'source_guid'=>$guid, // Retain canonical provider GUID without altering legacy stable internal ID.
+            'provider_job_id'=>$guid, // Canonical external ID per source contract.
+            'provider_route_key'=>hash('sha256',$guid), // Stable URL-safe backward-compatible route key.
             'eligible_from_in'=>$elig['eligibility'],'location_eligibility'=>$elig['geo'],'time_zone_eligibility'=>$elig['timezone'],
             'eligibility_evidence'=>[
                 ['provider_field'=>'locationRestrictions','fact'=>self::text(json_encode($j['locationRestrictions']??'not supplied',JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES)?:'not supplied',240),'observed_at'=>gmdate('c')],
@@ -200,6 +205,24 @@ final class Jobs
         if (count($response['jobs'])===0)
             throw new InvalidArgumentException('Next cursor supplied without jobs');
         return $cursor;
+    }
+    /** Build ONLY the documented read-only per-job status endpoint from its canonical guid.
+     * Never dereference candidate-provided URLs; the resulting endpoint is confined to the API host.
+     */
+    public static function himalayasStatusUrl(string $guid): string
+    {
+        if (self::safeUrl($guid,'himalayas.app')===null)throw new InvalidArgumentException('Invalid Himalayas job guid');
+        $parts=parse_url($guid);
+        if(!is_array($parts) || strtolower((string)($parts['host']??''))!=='himalayas.app'
+            || isset($parts['query']) || isset($parts['fragment'])
+            || !preg_match('#^/companies/[a-z0-9-]+/jobs/[a-z0-9-]+/?$#D',(string)($parts['path']??'')))
+            throw new InvalidArgumentException('Himalayas job path is not supported');
+        return 'https://himalayas.app/jobs/api'.rtrim((string)$parts['path'],'/');
+    }
+    /** Only authoritative HTTP 410 is closure. 404/errors mean unknown, not closed. */
+    public static function himalayasStatusDecision(int $status): string
+    {
+        return match($status){200=>'active',410=>'closed',default=>'unknown'};
     }
     public static function himalayasBrowseUrl(?string $cursor=null): string
     {

@@ -34,17 +34,34 @@ final class Reports
             if(!rename($tmp,$file))throw new RuntimeException('Cannot publish moderation state');
         }finally{if(is_file($tmp))unlink($tmp);}
     }
-    public static function submit(string $storage,string $id,string $reason,string $details):string
+    public static function submit(string $storage,string $id,string $reason,string $details,?string $ip=null,?string $secret=null):string
     {
         if(!preg_match('/^(?:provider|direct):[A-Za-z0-9:._-]{2,160}$/',$id))throw new InvalidArgumentException('Provide a valid listing identifier');
         if(!in_array($reason,self::REASONS,true))throw new InvalidArgumentException('Select a valid reason');
         if(strlen($details)>2400)throw new InvalidArgumentException('Report details too long');
         $reportId='report-'.bin2hex(random_bytes(10));
-        self::locked($storage,function()use($storage,$id,$reason,$details,$reportId){
+        self::locked($storage,function()use($storage,$id,$reason,$details,$reportId,$ip,$secret){
             $rows=self::read($storage);
             // Refuse silent loss of pending complaints; no automatic deletion on full queue.
             if(count($rows)>=200)throw new RuntimeException('Review queue is full; try another trusted contact channel');
+            if($ip!==null){
+                if(!filter_var($ip,FILTER_VALIDATE_IP)||!is_string($secret)||strlen($secret)<32)
+                    throw new RuntimeException('Private report rate limit unavailable');
+                $hour=gmdate('YmdH');$key=hash_hmac('sha256',$ip,$secret);
+                $ratePath=$storage.'/report_rate.json';
+                $raw=is_file($ratePath)?file_get_contents($ratePath):'{}';
+                if(!is_string($raw)||strlen($raw)>150000)throw new RuntimeException('Report abuse store unavailable');
+                $state=json_decode($raw,true);
+                if(!is_array($state)||($state!==[]&&array_is_list($state)))throw new RuntimeException('Report abuse store corrupt');
+                if(($state['hour']??null)!==$hour)$state=['hour'=>$hour,'total'=>0,'per_client'=>[]];
+                $clients=$state['per_client']??[];
+                if(!is_array($clients)||count($clients)>=1000||($state['total']??0)>=120||($clients[$key]??0)>=6)
+                    throw new RuntimeException('Rate limit reached for private report queue');
+                // A rejected request never alters the existing moderation queue.
+                $state['total']++;$state['per_client'][$key]=($clients[$key]??0)+1;
+            }
             $rows[]=['id'=>$reportId,'at'=>gmdate('c'),'job_id'=>$id,'reason'=>$reason,'details'=>$details,'state'=>'pending_review'];
+            if($ip!==null)self::atomicJson($ratePath,$state);
             self::atomicJson($storage.'/reports.json',$rows);
         });return $reportId;
     }

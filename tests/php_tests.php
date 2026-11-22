@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 require dirname(__DIR__).'/src/Jobs.php';
+require dirname(__DIR__).'/src/ProviderHttp.php';
 $pass=0;
 function test(string $name, bool $result):void{global $pass;if(!$result){fwrite(STDERR,"FAIL $name\n");exit(1);}echo "PASS $name\n";$pass++;}
 $j=json_decode((string)file_get_contents(__DIR__.'/fixtures/jobicy.json'),true)['jobs'];
@@ -23,6 +24,38 @@ test('Himalayas raw geographic restrictions retained as evidence', $c['eligibili
 test('Himalayas raw time restrictions retained as evidence', $c['eligibility_evidence'][1]['fact']==='[]');
 test('Himalayas non-provider apply host rejected', Jobs::fromHimalayas(array_merge($h[0],['applicationLink'=>'https://other.example.com/apply']))===null);
 test('Himalayas applyLink preserved', $c['apply_url']===$h[0]['applicationLink']);
+test('Canonical provider JobView includes employer country unknown and empty reason tags', array_key_exists('employer_country',$a)&&$a['employer_country']===null&&$a['reason_tags']===[]&&$a['source_policy_id']==='provider_jobicy_source_link_only');
+test('Himalayas provenance retains the immutable provider guid', $c['source_guid']===$h[0]['guid']&&$c['source_policy_id']==='provider_himalayas_source_link_only');
+test('Himalayas provider id is original GUID', $c['provider_job_id']===$h[0]['guid']);
+test('Himalayas display route keeps stable hash', $c['provider_route_key']===hash('sha256',$h[0]['guid']));
+test('Documented Himalayas status URL derived safely from original guid', Jobs::himalayasStatusUrl('https://himalayas.app/companies/linear/jobs/senior-engineer')==='https://himalayas.app/jobs/api/companies/linear/jobs/senior-engineer');
+test('Only HTTP 410 can prove Himalayas closure', Jobs::himalayasStatusDecision(410)==='closed'&&Jobs::himalayasStatusDecision(200)==='active'&&Jobs::himalayasStatusDecision(404)==='unknown'&&Jobs::himalayasStatusDecision(429)==='unknown');
+$badStatusUrl=false;try{Jobs::himalayasStatusUrl('https://himalayas.app.evil.example/companies/a/jobs/b');}catch(InvalidArgumentException){$badStatusUrl=true;}
+test('Himalayas job checker rejects foreign hosts',$badStatusUrl);
+$badStatusUrl=false;try{Jobs::himalayasStatusUrl('https://himalayas.app/companies/a/jobs/b?unexpected=1');}catch(InvalidArgumentException){$badStatusUrl=true;}
+test('Himalayas status checker rejects extra query',$badStatusUrl);
+test('Retry-After numeric 429 is respected', ProviderHttp::retryDelay(429,['Retry-After: 6'],0,0,0)===6);
+test('Retry-After longer than retry budget safely stops', ProviderHttp::retryDelay(429,['Retry-After: 120'],0)===null);
+test('Temporary 503 uses bounded exponential backoff', ProviderHttp::retryDelay(503,[],1)===2);
+test('Permanent 403 is not retried', ProviderHttp::retryDelay(403,[],0)===null);
+test('Retry-After bad value fails closed',ProviderHttp::retryDelay(429,['Retry-After: invalid'],0)===null);
+$attempts=0;$delays=[];
+$mock=static function(string $url,int $maxBytes)use(&$attempts):array{
+ $attempts++;return ['status'=>$attempts===1?429:200,'headers'=>$attempts===1?['Retry-After: 2']:[],'body'=>'{"jobs":[]}'];
+};
+$sleep=static function(int $secs)use(&$delays):void{$delays[]=$secs;};
+$mockResult=ProviderHttp::fetchJson('https://himalayas.app/jobs/api',2000,$mock,$sleep);
+test('429 retry returns validated JSON without real sleeping',count($mockResult['jobs'])===0&&$attempts===2&&$delays===[2]);
+$disallowed=false;try{ProviderHttp::fetchJson('https://evil.example/jobs/api',2000,$mock,$sleep);}catch(InvalidArgumentException){$disallowed=true;}
+test('Provider client refuses arbitrary upstream hosts',$disallowed);
+$disallowed=false;try{ProviderHttp::fetchJson('https://user@himalayas.app/jobs/api',2000,$mock,$sleep);}catch(InvalidArgumentException){$disallowed=true;}
+test('Provider client refuses URL username',$disallowed);
+$failureAttempts=0;
+$failure=static function(string $url,int $limit)use(&$failureAttempts):array{
+ $failureAttempts++;return ['status'=>429,'headers'=>['Retry-After: 60'],'body'=>''];
+};
+$closed=false;try{ProviderHttp::fetchJson('https://himalayas.app/jobs/api',2000,$failure,$sleep);}catch(RuntimeException){$closed=true;}
+test('Long 429 Retry-After fails with single request, no premature retry',$closed&&$failureAttempts===1);
 test('Himalayas pubDate is a source update, not original publication', $c['source_published_at']===null&&$c['source_updated_at']===Jobs::utc($h[0]['pubDate']));
 test('Himalayas US-only not eligible', Jobs::fromHimalayas($h[1])['eligible_from_in']==='not_allowed');
 test('Himalayas timezone mismatch not eligible', Jobs::fromHimalayas($h[2])['eligible_from_in']==='not_allowed');
@@ -80,7 +113,7 @@ test('Onsite abroad not faked by remote jobs', Jobs::search([$a,$b],'','onsite_a
 // Atomic CLI ingestion tested in an isolated copy: never public-facing fake jobs.
 $testRoot=sys_get_temp_dir().'/oj-sync-'.bin2hex(random_bytes(4));
 mkdir($testRoot);foreach(['src','scripts','config','storage'] as $d)mkdir($testRoot.'/'.$d);
-foreach(['src/Jobs.php','src/Countries.php','src/country_aliases.json','scripts/sync_jobs.php','config/provider_policy.json'] as $f)copy(dirname(__DIR__).'/'.$f,$testRoot.'/'.$f);
+foreach(['src/Jobs.php','src/Countries.php','src/country_aliases.json','src/ProviderHttp.php','scripts/sync_jobs.php','scripts/check_himalayas_status.php','config/provider_policy.json'] as $f)copy(dirname(__DIR__).'/'.$f,$testRoot.'/'.$f);
 // Runtime cache is intentionally gitignored. Seed the fixture sandbox itself, never a tracked/public job cache.
 file_put_contents($testRoot.'/storage/jobs.json',json_encode(['jobs'=>[]], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
 $cmd=escapeshellarg(PHP_BINARY).' '.escapeshellarg($testRoot.'/scripts/sync_jobs.php').' jobicy --fixture='.escapeshellarg(__DIR__.'/fixtures/jobicy.json').' 2>&1';
@@ -103,5 +136,23 @@ $hRows=array_values(array_filter($hFixture['jobs']??[], static fn($j)=>($j['prov
 $hRow=$hRows[0]??[];
 test('Himalayas isolated fixture sync retains four Himalayas jobs plus two Jobicy jobs', $code===0 && count($hRows)===4 && count($hFixture['jobs']??[])===6);
 test('Himalayas fixture cache keeps original publication unknown', ($hRow['source_published_at']??null)===null && isset($hRow['source_updated_at']));
+// Authoritative status probe fixture: 410 closes, 404 remains unconfirmed, 200 re-verifies.
+$statuses=[];
+foreach($h as $i=>$item){
+ $code=[410,404,200,200][$i];
+ $statuses[$item['guid']]=['status'=>$code,'body'=>$code===200?json_encode(['job'=>['guid'=>$item['guid']]]):''];
+}
+$statusFixture=$testRoot.'/status_fixture.json';
+file_put_contents($statusFixture,json_encode(['statuses'=>$statuses],JSON_THROW_ON_ERROR));
+$statusCommand=escapeshellarg(PHP_BINARY).' '.escapeshellarg($testRoot.'/scripts/check_himalayas_status.php').' --fixture='.escapeshellarg($statusFixture).' 2>&1';
+$out=[];exec($statusCommand,$out,$statusCode);
+$statusCache=json_decode((string)file_get_contents($testRoot.'/storage/fixture_jobs.json'),true);
+$hAfter=array_values(array_filter($statusCache['jobs'],static fn($j)=>($j['provider']??'')==='himalayas'));
+$statusByGuid=[];foreach($hAfter as $row)$statusByGuid[$row['source_guid']]=$row;
+test('Authoritative status fixture command succeeds without network',$statusCode===0);
+test('HTTP 410 closes and hides listing',($statusByGuid[$h[0]['guid']]['availability']??null)==='closed'&&($statusByGuid[$h[0]['guid']]['display_status']??null)==='hidden');
+test('HTTP 404 is unconfirmed rather than closed',($statusByGuid[$h[1]['guid']]['availability']??null)==='unknown'&&($statusByGuid[$h[1]['guid']]['display_status']??null)==='hidden');
+test('HTTP 200 verifies exact original provider GUID',($statusByGuid[$h[2]['guid']]['availability']??null)==='active');
+test('Status fixture does not alter public jobs cache',count(json_decode((string)file_get_contents($testRoot.'/storage/jobs.json'),true)['jobs'])===0);
 function rmrf(string $path):void{foreach(glob($path.'/*')?:[] as $p){if(is_dir($p))rmrf($p);else unlink($p);}rmdir($path);}rmrf($testRoot);
 echo "\n$pass PHP checks passed.\n";

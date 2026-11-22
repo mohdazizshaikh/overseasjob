@@ -1,14 +1,14 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.2-browser-e2e-ci",
+  "release": "0.9.3-predeployment-code-hardening",
   "source_of_truth": "v1.3.3",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
-    "status": "PENDING_FINAL_0_9_2_PR_CI",
-    "previous_version_passed": 663,
-    "previous_version_failed": 0
+    "status": "ISOLATED_CI_VERIFIED_BEFORE_FINAL_METADATA_UPDATE",
+    "run_url": "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45083243298",
+    "note": "Final full commit rerun pending; host and release readiness remain unverified."
   },
   "canonical_documentation": {
     "passed": 71,
@@ -31,13 +31,13 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "Source manifest updated after actual 38-check desktop/mobile browser CI; full PR must rerun green. Live host/theme/provider/editorial/legal/production release gates remain unresolved.",
-  "file_count_excluding_manifest": 127,
+  "developer_notes": "Provider retries/status, contract fields, report throttling and local backup/register hardening await PR CI. External Hostinger, theme, editorial, provider rights, 14d inventory, actual backup restore remain unverified.",
+  "file_count_excluding_manifest": 133,
   "files": [
     {
       "path": ".env.example",
-      "bytes": 1525,
-      "sha256": "7c2970f89f5a69632f12214a2850de78cbb8d2c10b20aeab2f83ac80a88730f2"
+      "bytes": 1705,
+      "sha256": "2ae17e6ebddb8c7ecea2769b6a003ba709a6793bd60bf0d75c0443610d6acb65"
     },
     {
       "path": ".github/workflows/ci.yml",
@@ -175,6 +175,11 @@
       "sha256": "d46be48d9111750e4f31b1c88d96115b4bf1e909bd3630cd5257f51f2b3d5e60"
     },
     {
+      "path": "docs/PREDEPLOYMENT_CODE_HARDENING_V093.md",
+      "bytes": 6269,
+      "sha256": "f0c83156956e924f3ff8d7d8ea174fd0a9ea0af43de5e703070e514ca6d001ef"
+    },
+    {
       "path": "docs/PROVIDER_CURSOR_AND_DATE_CORRECTION_v091.md",
       "bytes": 2810,
       "sha256": "b90cd79de65a061a7b138d4fff9855cd8113bf2f7b486a690bbbe2219319b7e1"
@@ -226,8 +231,8 @@
     },
     {
       "path": "module_status.json",
-      "bytes": 16967,
-      "sha256": "9b95a2ccf6183e9f9445d7c38f5f13862e7e5d2c5155901f6435cdfd7322acaf"
+      "bytes": 23317,
+      "sha256": "e417dcde303b0a327e968d7c8f74fc86f7ffefdb0f9b53933a9361cfda16a7d0"
     },
     {
       "path": "public/.htaccess",
@@ -326,8 +331,8 @@
     },
     {
       "path": "public/index.php",
-      "bytes": 94750,
-      "sha256": "221d9f60d2212f810f74aeccb44aa5f4d210cd2b697eaa111875aa58bcc31a01"
+      "bytes": 94920,
+      "sha256": "b34a88b49a136b8c2bfdab9411f6ea6e1bf91207133094d5e47f98afa81414e7"
     },
     {
       "path": "public/router.php",
@@ -336,8 +341,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 9448,
-      "sha256": "838e31958e03c96ca1035fbd6f2eb5d37ca08b1addfc3010ce729ae022581cb5"
+      "bytes": 10305,
+      "sha256": "ab27d705a432faddb76517b51b97846cfc50bd692183a3ff50dce76fcdbbb53a"
     },
     {
       "path": "scripts/analytics_report.php",
@@ -348,6 +353,11 @@
       "path": "scripts/backup.php",
       "bytes": 483,
       "sha256": "b6a8b7937a427d4e867e9758ab291426083deef3aa9bebf4792c54fd80eb71b1"
+    },
+    {
+      "path": "scripts/check_himalayas_status.php",
+      "bytes": 5353,
+      "sha256": "2088c22dc954bebea31aa4fde43ce4c9ce1a0ac9f8cf85bd85105664d6198229"
     },
     {
       "path": "scripts/coverage_report.php",
@@ -366,8 +376,13 @@
     },
     {
       "path": "scripts/gate0_preflight.php",
-      "bytes": 1651,
-      "sha256": "0f2253534e6843cb7787da15343a6031853f9b6f1b1ca96a5491b14a7330f0cd"
+      "bytes": 2700,
+      "sha256": "645bb2359676fa2df1f658d50196660393363360b3f6d7afb36675aa20a9aaac"
+    },
+    {
+      "path": "scripts/health_guard.php",
+      "bytes": 850,
+      "sha256": "df93f326d4b50fcf4c28871c13175968678e9085193747501263bb70ec1ca091"
     },
     {
       "path": "scripts/health.php",
@@ -411,8 +426,8 @@
     },
     {
       "path": "scripts/sync_jobs.php",
-      "bytes": 7409,
-      "sha256": "172d0d2ddb10da968c0eff8e3a79b9957e2847ee2ff7ee2c6cd93dfc5ba79baa"
+      "bytes": 6227,
+      "sha256": "088216928f047bd7ad35cbcc79f0d55f5105bae58bbda13a07d12e75246e9ed6"
     },
     {
       "path": "scripts/theme_collision_audit.php",
@@ -436,8 +451,8 @@
     },
     {
       "path": "src/Backups.php",
-      "bytes": 4304,
-      "sha256": "1d89734ab41a79231004e5c9fb964789dc6aac129d137e3711d2f942f57a94f2"
+      "bytes": 4364,
+      "sha256": "1a1b18e3c14386b05dc9a2f16f8ba8c66d902a66d0cd63737f0ac388da92223d"
     },
     {
       "path": "src/Countries.php",
@@ -476,8 +491,8 @@
     },
     {
       "path": "src/Jobs.php",
-      "bytes": 17020,
-      "sha256": "223a29419b93ae9a4f794320d94d2f7b838630e2d7006b7eb32c916f2226d183"
+      "bytes": 18629,
+      "sha256": "c452fd7e7cdd180403d0dbbf604925a16f85f294ca3bef8b408531e0b36e19e5"
     },
     {
       "path": "src/Launch.php",
@@ -486,8 +501,8 @@
     },
     {
       "path": "src/OpsSnapshot.php",
-      "bytes": 3540,
-      "sha256": "f3a8be296b8ba5f25161014523b444e7846f1e4fc8a4021277433cacd4edabcd"
+      "bytes": 3678,
+      "sha256": "4922d457b7b4b915f27986862abe90401571b5c2e6ec76e4af9fb799eb937591"
     },
     {
       "path": "src/OwnerAuth.php",
@@ -510,6 +525,11 @@
       "sha256": "50d08f75d9c1ac216e066dce754ad6be3bff25e32c09010763d6c4c31d1b2909"
     },
     {
+      "path": "src/ProviderHttp.php",
+      "bytes": 5025,
+      "sha256": "3e11bedda6b4b5d29b66a9ce2434cebb4862774307533940cd7b697c491bc781"
+    },
+    {
       "path": "src/RecruiterMailer.php",
       "bytes": 2438,
       "sha256": "3353e19a5396e97054d8e0d3e0031e11cab93166e0ecd2fcf36b2b3ae9a532e9"
@@ -521,8 +541,8 @@
     },
     {
       "path": "src/Reports.php",
-      "bytes": 5636,
-      "sha256": "999d28a6ae0adff13c7bce38ddd73e0387500d92e549b72572880664709e99ca"
+      "bytes": 7009,
+      "sha256": "e4a841652674a06c66f799e4f14a7c5fedea19b5a42a4ef775640afe82fa0667"
     },
     {
       "path": "src/ThemeSafety.php",
@@ -551,8 +571,8 @@
     },
     {
       "path": "tests/backup_tests.php",
-      "bytes": 1653,
-      "sha256": "a95937237d7829cb9543cead3cc6ae380cb6a46d5f2fef5ae7a009cf8760128b"
+      "bytes": 2251,
+      "sha256": "dd2931feb7e3b7daee51953087187b3a2c4bab370e8931b2f717dfc2adc882d1"
     },
     {
       "path": "tests/browser_e2e.py",
@@ -615,6 +635,11 @@
       "sha256": "47f453459546cffeaee1fef6efbd6eefb5fab8473466a83a4c7590e1b5788aa7"
     },
     {
+      "path": "tests/module_register_tests.php",
+      "bytes": 2484,
+      "sha256": "a0f8d732227729f7b3b91886edf760e4404b6d454a2764a041ed61040854ddba"
+    },
+    {
       "path": "tests/mysql_integration_tests.php",
       "bytes": 12166,
       "sha256": "06aef529f7ee56c36bf55a55853d33725b64c112ec354c0593659c9d0d0e8141"
@@ -626,8 +651,8 @@
     },
     {
       "path": "tests/operational_tests.php",
-      "bytes": 3069,
-      "sha256": "8bc2e1a4dc2bd514a55c7d0847a53d78842ceb1d6db42278367f6d901be5ac11"
+      "bytes": 4198,
+      "sha256": "dced951c5dcb9404eb35b936a33ccd85962b9bcfa1045570ab73eabf5ea74eb5"
     },
     {
       "path": "tests/ops_snapshot_tests.php",
@@ -646,8 +671,13 @@
     },
     {
       "path": "tests/php_tests.php",
-      "bytes": 11103,
-      "sha256": "6a9d9d467d2c1dd4a4e0de701bb62ce29b42e1e28919cd067b96e1852ecdf44d"
+      "bytes": 16271,
+      "sha256": "5c93770501196859fd4301f087106479d75895dbbb7a3f65eb3f595604296b53"
+    },
+    {
+      "path": "tests/provider_http_tests.php",
+      "bytes": 3443,
+      "sha256": "888acfceeacadb53dd5b18eab85a8d214da6333befe52c00f8570bab9a10567e"
     },
     {
       "path": "tests/recruiter_recovery_tests.php",
@@ -656,8 +686,8 @@
     },
     {
       "path": "tests/run.sh",
-      "bytes": 1720,
-      "sha256": "3b814f2fea53915b7b09e1fc9ff8fc35295b0cce68fcfe49f03f609fdd518dc7"
+      "bytes": 1806,
+      "sha256": "bd15b8c8c15dd2a035e199fa998e534e60a5b6e4a59f551977cbeb783c0dd965"
     },
     {
       "path": "tests/shared_host_layout_tests.php",

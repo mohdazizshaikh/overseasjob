@@ -55,7 +55,7 @@ function heading(string $eyebrow,string $title,string $text=''):void{
 }
 function jobCard(array $j,bool $short=false):void{
     $id=(string)$j['id'];
-    $key=(string)$j['provider_job_id'];
+    $key=(string)($j['provider_route_key']??$j['provider_job_id']);
     $slug=preg_replace('/[^a-z0-9]+/','-',strtolower((string)$j['title']));
     $url='/jobs/'.rawurlencode($j['provider']).'/'.rawurlencode($key).'/'.$slug;
     $state=$j['eligible_from_in'];
@@ -263,7 +263,7 @@ if(preg_match('#^/jobs/direct/(job_[a-f0-9]{24})$#',$path,$m)){
     frameEnd();exit;
 }
 if(preg_match('#^/jobs/(jobicy|himalayas)/([^/]+)(?:/[^/]*)?$#',$path,$m)){
- $match=null;foreach($jobs as $j){if($j['provider']===$m[1]&&$j['provider_job_id']===$m[2]){$match=$j;break;}}
+ $match=null;foreach($jobs as $j){if($j['provider']===$m[1]&&(string)($j['provider_route_key']??$j['provider_job_id'])===$m[2]){$match=$j;break;}}
  if(!$match){http_response_code(404);frameStart('Job not available',true);heading('Source status','This listing is not currently available','It may be stale, closed, restricted or not yet imported.');echo '<section class="section"><div class="container"><a href="/jobs" class="button button-secondary">Back to jobs</a></div></section>';frameEnd();exit;}
  frameStart($match['title'],true);
  heading('Source-grounded Job Decision Card',$match['title'],($match['company_name']?:'Company not disclosed').' · Sourced from '.$match['source_name']);
@@ -653,8 +653,8 @@ if($path==='/report-job'){
   else{
    $id=trim(substr((string)($_POST['job_id']??''),0,170));
    $reason=(string)($_POST['reason']??'');$details=Jobs::text($_POST['details']??'',600);
-   try{Reports::submit($root.'/storage',$id,$reason,$details);$saved=true;$_SESSION['report_count']=$started+1;}
-   catch(Throwable $e){$error='Unable to accept report: '.$e->getMessage();}
+   try{Reports::submit($root.'/storage',$id,$reason,$details,(string)($_SERVER['REMOTE_ADDR']??''),(string)getenv('REPORT_RATE_SECRET'));$saved=true;$_SESSION['report_count']=$started+1;}
+   catch(Throwable){$error='Unable to accept report right now. Please try later.';http_response_code(503);}
   }
  }
  frameStart('Report a job',true);heading('Trust and safety','Report an issue','Flag a suspicious or outdated listing. Reports are held for manual review and do not automatically verify wrongdoing.');
