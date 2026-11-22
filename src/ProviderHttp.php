@@ -11,7 +11,7 @@ final class ProviderHttp
         $parts=parse_url($url);
         return is_array($parts) && ($parts['scheme']??'')==='https'
             && in_array($parts['host']??null,['jobicy.com','himalayas.app'],true)
-            && !isset($parts['user'],$parts['pass']) && !isset($parts['port'])
+            && !isset($parts['user']) && !isset($parts['pass']) && !isset($parts['port'])
             && !isset($parts['fragment']) && strlen($url)<=4096;
     }
 
