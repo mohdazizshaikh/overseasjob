@@ -6,8 +6,9 @@
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
-    "status": "PENDING_GITHUB_PR_CI",
-    "tests": "deterministic, disposable MySQL, Chromium"
+    "status": "ISOLATED_CI_VERIFIED_BEFORE_FINAL_METADATA_UPDATE",
+    "run_url": "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45083243298",
+    "note": "Final full commit rerun pending; host and release readiness remain unverified."
   },
   "canonical_documentation": {
     "passed": 71,
@@ -230,8 +231,8 @@
     },
     {
       "path": "module_status.json",
-      "bytes": 22367,
-      "sha256": "afb7e720c2db1d8c40a10ab23e9f77434265a383b990e0c23d6b4b9193a44429"
+      "bytes": 23317,
+      "sha256": "e417dcde303b0a327e968d7c8f74fc86f7ffefdb0f9b53933a9361cfda16a7d0"
     },
     {
       "path": "public/.htaccess",
@@ -340,8 +341,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 10091,
-      "sha256": "15ed04d269a791f7a7639aa20833922ff170d0d678ee04a5825300c3034528c9"
+      "bytes": 10305,
+      "sha256": "ab27d705a432faddb76517b51b97846cfc50bd692183a3ff50dce76fcdbbb53a"
     },
     {
       "path": "scripts/analytics_report.php",
@@ -525,8 +526,8 @@
     },
     {
       "path": "src/ProviderHttp.php",
-      "bytes": 4640,
-      "sha256": "313d3c3efc5f6dfbf7cb24c770147a20edc8002f60f6bcdc3df37a2c2f8337d2"
+      "bytes": 5025,
+      "sha256": "3e11bedda6b4b5d29b66a9ce2434cebb4862774307533940cd7b697c491bc781"
     },
     {
       "path": "src/RecruiterMailer.php",
@@ -675,8 +676,8 @@
     },
     {
       "path": "tests/provider_http_tests.php",
-      "bytes": 2826,
-      "sha256": "fa62602e7d43d037f4964fcfecb88630cc1252219c7c5a1c38f108099b667de2"
+      "bytes": 3443,
+      "sha256": "888acfceeacadb53dd5b18eab85a8d214da6333befe52c00f8570bab9a10567e"
     },
     {
       "path": "tests/recruiter_recovery_tests.php",
