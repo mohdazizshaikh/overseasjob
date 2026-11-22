@@ -35,9 +35,11 @@ $n=0;
 function checkDb(bool $v,string $message):void{global $n;if(!$v)throw new RuntimeException('FAIL '.$message);$n++;echo 'PASS '.$message."\n";}
 foreach(['001_partner_pilot.mysql.sql','002_employer_review.mysql.sql','003_recruiter_accounts.mysql.sql','004_employer_domain_proof.mysql.sql'] as $name){
     $raw=(string)file_get_contents(dirname(__DIR__).'/database/'.$name);
-    // The checked-in migrations contain no semicolons in string literals or stored procedures.
-    foreach(explode(';',$raw) as $piece){
-        $piece=trim(preg_replace('/^\s*--[^\n]*(?:\n|$)/m','',$piece));
+    // Drop full-line SQL comments before splitting: some comments contain semicolons.
+    // The checked-in migrations contain no semicolons in string literals or procedures.
+    $sqlWithoutComments=preg_replace('/^\s*--[^\n]*(?:\n|$)/m','',$raw);
+    foreach(explode(';',(string)$sqlWithoutComments) as $piece){
+        $piece=trim($piece);
         if($piece!=='')$pdo->exec($piece);
     }
     checkDb(true,'Migration '.$name.' executed on disposable MySQL');
