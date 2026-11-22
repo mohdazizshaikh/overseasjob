@@ -61,8 +61,8 @@ final class Reports
                 $state['total']++;$state['per_client'][$key]=($clients[$key]??0)+1;
             }
             $rows[]=['id'=>$reportId,'at'=>gmdate('c'),'job_id'=>$id,'reason'=>$reason,'details'=>$details,'state'=>'pending_review'];
-            self::atomicJson($storage.'/reports.json',$rows);
             if($ip!==null)self::atomicJson($ratePath,$state);
+            self::atomicJson($storage.'/reports.json',$rows);
         });return $reportId;
     }
     /** Explicitly trusted CLI workflow; source sync never removes quarantine state. */
