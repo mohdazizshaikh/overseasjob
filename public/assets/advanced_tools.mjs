@@ -14,7 +14,13 @@ export function safeHttps(url){
   const value=bounded(url,1024);
   if(/[\u0000-\u001f\u007f]/.test(value))throw new Error('Invalid link');
   let u;try{u=new URL(value);}catch{throw new Error('Enter an absolute HTTPS link');}
-  if(u.protocol!=='https:'||!u.hostname||u.username||u.password||/^(localhost|127\.|0\.|10\.|192\.168\.|169\.254\.|172\.(1[6-9]|2\d|3[01])\.|\[?(?:::1|fc|fd|fe80))/i.test(u.hostname))throw new Error('Only safe public HTTPS links are accepted');
+  const host=u.hostname.toLowerCase();
+  // URL canonicalises decimal/hex/octal numeric aliases; accept DNS-form hosts only.
+  // Syntax is not DNS verification or a guarantee of source or employer trust.
+  const publicDns=/^(?=.{4,253}$)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z](?:[a-z0-9-]{0,61}[a-z0-9])?$/;
+  if(u.protocol!=='https:'||u.username||u.password||u.port
+      ||!publicDns.test(host)||/\.(?:local|internal|localhost)$/.test(host))
+    throw new Error('Only public-looking HTTPS DNS links without credentials are accepted');
   return u.href;
 }
 export function interviewQuestions(bank,role){
