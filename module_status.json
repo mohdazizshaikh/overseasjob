@@ -1,6 +1,6 @@
 {
   "spec_version": "v1.3.3",
-  "release": "gate1+gate2+gate3-local-v0.9.6-canonical-reissue-isolated-ci-verified",
+  "release": "gate1+gate2+gate3-local-v0.9.7-hostinger-cutover-safety-pending-ci",
   "development_state": "LOCAL_CODE_WITH_VERIFIED_DISPOSABLE_CI_NOT_DEPLOYED",
   "evidence": [
     "tests/php_tests.php",
@@ -79,7 +79,7 @@
     {
       "module_id": "M00",
       "implementation_status": "blocked_with_reason",
-      "blocker_reason": "Current live static theme not available for parity check; Hostinger plan, private staging and rollback unverified. Read-only collision guard added.",
+      "blocker_reason": "Read-only original-site backup vs candidate ZIP guard added, but real current Hostinger public_html backup/restore, PHP/open_basedir and original visual theme are unverified. Apache DirectoryIndex index.php can replace the visible index.html homepage even without deleting it; safe root cutover NOT approved.",
       "spec_version": "v1.3.3",
       "routes": [],
       "dependencies": [],
@@ -88,7 +88,10 @@
         "deploy/shared_host/DEPLOY_STAGING_README.md",
         "scripts/build_hostinger_bundle.py",
         "tests/hostinger_bundle_tests.py",
-        "docs/HOSTINGER_DIRECT_HOST_BUNDLE_V095.md"
+        "docs/HOSTINGER_DIRECT_HOST_BUNDLE_V095.md",
+        "scripts/audit_hostinger_cutover.py",
+        "tests/hostinger_cutover_audit_tests.py",
+        "docs/HOSTINGER_ORIGINAL_HOMEPAGE_SWITCH_GUARD_V097.md"
       ],
       "tests": [],
       "last_verified_at": null
@@ -539,7 +542,8 @@
         "tests/browser_e2e.py",
         "scripts/reissue_canonical_pack_v134.py",
         "tests/canonical_pack_reissue_tests.py",
-        "docs/CANONICAL_SOURCE_PACK_REISSUE_V134.md"
+        "docs/CANONICAL_SOURCE_PACK_REISSUE_V134.md",
+        "tests/hostinger_cutover_audit_tests.py"
       ],
       "last_verified_at": null
     },
@@ -664,5 +668,17 @@
     "reissue_acceptance_tests": 16,
     "original_pack_preserved": true,
     "actual_host_installed": false
+  },
+  "hostinger_cutover_guard": {
+    "status": "READ_ONLY_LOCAL_COPY_TESTS_PENDING_CI",
+    "audit_script": "scripts/audit_hostinger_cutover.py",
+    "test_script": "tests/hostinger_cutover_audit_tests.py",
+    "safety_doc": "docs/HOSTINGER_ORIGINAL_HOMEPAGE_SWITCH_GUARD_V097.md",
+    "archive_contains_stop_warning": true,
+    "real_host_backup_received": false,
+    "real_host_backup_restored": false,
+    "original_index_html_preservation_does_not_preserve_homepage": true,
+    "real_host_php_document_root_permissions_verified": false,
+    "public_cutover_approved": false
   }
 }

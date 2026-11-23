@@ -1,6 +1,8 @@
-# OverseasJob.in v0.9.2 — Founder status (23 November 2026)
+# OverseasJob.in v0.9.7 — Founder handoff (23 November 2026)
 
-**Current position: code development ongoing; PUBLIC DEPLOYMENT IS NOT APPROVED.** The existing overseasjob.in theme and website are untouched. User prefers that current theme; it will be preserved and separately compared, not overwritten by this project's newer CSS.
+**Current position: code development ongoing; PUBLIC DEPLOYMENT IS NOT APPROVED.**
+
+**Production file safety:** Existing Hostinger `public_html/index.html` remaining intact does not preserve the homepage when the new `.htaccess` sets `DirectoryIndex index.php`. The candidate public ZIP can switch the homepage and replace same-path theme assets. v0.9.7 ships a read-only original-backup-versus-candidate audit and a `STOP_READ_FIRST_NO_LIVE_CUTOVER.txt` warning; this is NOT proof of actual host backup or permission. See `docs/HOSTINGER_ORIGINAL_HOMEPAGE_SWITCH_GUARD_V097.md`. The existing overseasjob.in theme and website are untouched. User prefers that current theme; it will be preserved and separately compared, not overwritten by this project's newer CSS.
 
 **New engineering evidence:** [GitHub Chromium job 45075331503](https://github.com/mohdazizshaikh/overseasjob/actions/runs/45075331503) executed 38 browser checks on a disposable local preview, including seven mobile 390px layouts. The newly identified interview checkbox reset was fixed; real hosting, user devices and accessibility audit are still pending.
 
@@ -17,7 +19,7 @@
 
 The current website's original static HTML/CSS and visual screenshots, Hostinger plan and private staging environment, actual emailed confirmation, MySQL migration/rollback on staging, live Jobicy/Himalayas providers, 14 observed days of job inventory, on-Hostinger browser E2E, assistive-technology accessibility audit, editorial/legal approvals and production backup restore are **not independently verified**. The release preflight stays `ready:false`. Real employers and their application data must not be activated until these checks pass.
 
-**Next safe handoff:** obtain a sanitized archive of current `public_html`, deploy this separate new backend to an isolated staging site, compare and port the preferred theme before any public cutover. No need to change current production site now.
+**Next safe handoff:** obtain a recoverable complete copy of the actual current `public_html` and any database, verify Hostinger private PHP folder and rollback, then run the read-only ZIP-vs-original comparison before any authorised same-production-host trial. No separate paid staging site is required merely to conduct read-only backup comparisons, but the public site must not be blindly replaced. No need to change current production site now.
 
 GitHub repository: https://github.com/mohdazizshaikh/overseasjob
 

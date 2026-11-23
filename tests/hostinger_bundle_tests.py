@@ -23,6 +23,11 @@ with tempfile.TemporaryDirectory(prefix='oj-hostinger-preflight-') as td:
     report=build(root/'bundle')
     check('Release SHA-256 manifest verified before packaging',report['manifest_files_verified']>=133)
     check('Bundle never claims approved cutover',not report['production_cutover_approved'] and not report['live_host_modified'])
+    check('Bundle explicitly blocks extraction over existing public_html',
+          report['safe_to_extract_over_current_public_html'] is False)
+    check('ZIP warning explains preserved index.html can still lose effective homepage',
+          'DirectoryIndex index.php' in (root/'bundle'/'STOP_READ_FIRST_NO_LIVE_CUTOVER.txt').read_text()
+          and 'SWITCH THE LIVE HOMEPAGE' in (root/'bundle'/'STOP_READ_FIRST_NO_LIVE_CUTOVER.txt').read_text())
     for kind in ('private','public'):
         key=kind+'_archive'
         file=root/'bundle'/report[key]
