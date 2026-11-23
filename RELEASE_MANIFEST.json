@@ -611,8 +611,8 @@
     },
     {
       "path": "tests/canonical_pack_reissue_tests.py",
-      "bytes": 3203,
-      "sha256": "27c9cdacc5ed63af5e23aca477a9132bf16f382b5617fc7ac47b00ea5aeacb7a"
+      "bytes": 3194,
+      "sha256": "7573c79048ac9663fd0ef7aeb6dd96cd273acdd35da74a560f362679ab9c976e"
     },
     {
       "path": "tests/daily_radar_privacy_tests.mjs",
