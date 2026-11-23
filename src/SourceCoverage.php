@@ -29,6 +29,7 @@ final class SourceCoverage
             'schema_version'=>2,
             'origin'=>'live_provider_sync',
             'cache_published'=>true,
+            'from_fixture'=>false,
             'run_id'=>bin2hex(random_bytes(12)),
             'at'=>gmdate('Y-m-d\TH:i:s\Z',$now),
             'date'=>gmdate('Y-m-d',$now),
@@ -57,6 +58,7 @@ final class SourceCoverage
         if(!is_array($raw) || ($raw['schema_version']??null)!==2
           || ($raw['origin']??null)!=='live_provider_sync'
           || ($raw['cache_published']??null)!==true
+          || ($raw['from_fixture']??null)!==false
           || !in_array($raw['provider']??null,self::PROVIDERS,true)
           || !is_string($raw['run_id']??null)
           || !preg_match('/^[a-f0-9]{24}$/D',$raw['run_id'])
