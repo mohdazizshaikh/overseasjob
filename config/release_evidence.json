@@ -1,5 +1,5 @@
 {
-  "release_candidate": "Gate 1 + Gate 2 Tool Preview v0.5.0 \u2014 UNAPPROVED",
+  "release_candidate": "v0.9.12 code preview — UNAPPROVED; not deployed on Hostinger; all public gates still blocked",
   "checks": {
     "hosting_ssl_cron": {
       "verified": false,
