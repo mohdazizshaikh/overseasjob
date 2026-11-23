@@ -11,6 +11,7 @@ require OJ_PROJECT_ROOT.'/src/Jobs.php';
 require OJ_PROJECT_ROOT.'/src/Guides.php';
 require OJ_PROJECT_ROOT.'/src/Reports.php';
 require OJ_PROJECT_ROOT.'/src/Launch.php';
+require_once OJ_PROJECT_ROOT.'/src/SourcePermissionGate.php';
 require OJ_PROJECT_ROOT.'/src/Analytics.php';
 require OJ_PROJECT_ROOT.'/src/OwnerAuth.php';
 require OJ_PROJECT_ROOT.'/src/PartnerMysqlStore.php';
@@ -70,9 +71,18 @@ function jobCard(array $j,bool $short=false):void{
     if(($salary=Jobs::salaryLabel($j))!==null)echo '<p class="muted">Disclosed salary: '.h($salary).'</p>';
     echo '<div class="card-meta"><span>Remote</span><span>Seen in feed: '.h(fmtdate($j['last_seen_at'])).'</span><span>Visa: not confirmed</span></div><div class="card-actions"><a class="button button-primary" href="'.h($url).'">Review decision card</a><button class="button button-secondary" data-job-id="'.h($id).'" data-job-title="'.h($j['title']).'" data-job-company="'.h($j['company_name']?:'Company not disclosed').'" data-job-url="'.h($j['source_url']).'" type="button">Save job</button></div></article>';
 }
-$jobs=Jobs::listPublic($root.'/storage/jobs.json');
+// Cached jobs are not independently licensed: hide them immediately if a source's
+// private owner permission, runtime switch, review date or source policy is revoked.
 $config=json_decode((string)file_get_contents($root.'/config/provider_policy.json'),true)?:[];
-$jobs=array_values(array_filter($jobs,static fn($j)=>($config[$j['provider']]['enabled']??false)===true));
+$sourceFlags=SourcePermissionGate::runtimeFlags();
+$displayPermitted=[];
+foreach(['jobicy','himalayas'] as $provider){
+    if(SourcePermissionGate::publicDisplayAllowed($root,$provider,$config,$sourceFlags,time()))
+        $displayPermitted[$provider]=true;
+}
+$jobs=Jobs::listPublic($root.'/storage/jobs.json');
+$jobs=array_values(array_filter($jobs,
+    static fn($j)=>is_array($j)&&isset($displayPermitted[$j['provider']??''])));
 $directJobs=[];
 if(EmployerReview::publicEnabled() && Launch::allowed($root)){
     try{$directJobs=EmployerReviewMysql::fromEnvironment()->published(time(),60);}
