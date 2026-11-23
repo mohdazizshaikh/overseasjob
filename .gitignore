@@ -26,3 +26,7 @@
 /storage/recruiter*
 /storage/employer*
 /storage/email*
+
+# Private legal/operational attestations must never be committed.
+/storage/release_authorization.json
+/storage/provider_rights/

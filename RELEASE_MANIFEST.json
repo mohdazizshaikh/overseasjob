@@ -1,13 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.17-hostinger-candidate-zip-bounded-preflight",
+  "release": "0.9.18-predeploy-release-evidence-failclosed-v141",
   "source_of_truth": "v1.3.3",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
     "status": "PENDING_PR_CI",
-    "tests": "Hostinger read-only candidate ZIP preflight hardening; 4 added unsafe archive checks; existing regression suite"
+    "tests": "Public release fail-closed evidence checks and full GitHub CI suites"
   },
   "canonical_documentation": {
     "passed": 71,
@@ -30,8 +30,8 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "Read-only candidate ZIP preflight security improvement. No real Hostinger account inspection, original site backup restoration or production cutover performed. Provider and advertiser flags remain OFF.",
-  "file_count_excluding_manifest": 159,
+  "developer_notes": "Public launch requires exact founder canonical v1.4.1 SHA-256 ZIP, aligned version and module ledger, per-evidence SHA-256, 14 UTC days, valid private rights activation, editorial review and time-limited private 0600 owner approval. Local code checks are not proof of external claims. No Hostinger deployment or provider activation performed.",
+  "file_count_excluding_manifest": 161,
   "files": [
     {
       "path": ".env.example",
@@ -45,8 +45,23 @@
     },
     {
       "path": ".gitignore",
-      "bytes": 513,
-      "sha256": "c17732c162d2af6154292cd05fa0760ac70cc69b8ef9513f197623b622d17180"
+      "bytes": 642,
+      "sha256": "758d25804e9f3ad865cc41da537b3e703d15b839f24309feed1965814d2eaa8f"
+    },
+    {
+      "path": "README.md",
+      "bytes": 17687,
+      "sha256": "ffa44eaa2665ac64231395f827645cfc473dfcfe20a1d19c3ec32548aa57dce2"
+    },
+    {
+      "path": "SOURCE_OF_TRUTH_REFERENCE/OverseasJob_v1.3.3_Source_of_Truth_Project_Pack.zip",
+      "bytes": 154621,
+      "sha256": "d3d775df9292cede557aabdc63107be7750e909c031b073a5cb7c94de2572adc"
+    },
+    {
+      "path": "START_HERE_FOUNDER.md",
+      "bytes": 7952,
+      "sha256": "faa92b6cd6f66dda59b01ae756366408572bb2e655533eb03d55abf9f395c75d"
     },
     {
       "path": "config/provider_policy.json",
@@ -249,19 +264,24 @@
       "sha256": "8948fff0bc26c52c2102461019c49536b22c25bb4f030b05fbe9b21ffac9c5ab"
     },
     {
+      "path": "docs/RELEASE_GATE_V2_SECURITY.md",
+      "bytes": 3091,
+      "sha256": "97c71c007789aa9ab5026b5646214b682067e61e249248cd88c25e5ce49a7b82"
+    },
+    {
       "path": "docs/RELEASE_V090_SECURITY_AND_THEME_HANDOFF.md",
       "bytes": 5203,
       "sha256": "df00cc2c1bb401f9584c5b60572e836a3152aee4c724758037d7f46a17f2e282"
     },
     {
-      "path": "docs/TEST_OUTPUT_2026-11-22_RC.txt",
-      "bytes": 5283,
-      "sha256": "7320f898186eb3c9ff2ec17f2c47ab7f010f184eeea51a61ea1bafab7ec339fc"
-    },
-    {
       "path": "docs/TEST_OUTPUT_2026-11-22.txt",
       "bytes": 1871,
       "sha256": "80360608d59a5e1fc442e20d3976cc4f3cbc9c5da92ae80c0314eab53c49d543"
+    },
+    {
+      "path": "docs/TEST_OUTPUT_2026-11-22_RC.txt",
+      "bytes": 5283,
+      "sha256": "7320f898186eb3c9ff2ec17f2c47ab7f010f184eeea51a61ea1bafab7ec339fc"
     },
     {
       "path": "docs/TEST_OUTPUT_2026-11-23_RC_PLUS.txt",
@@ -289,14 +309,14 @@
       "sha256": "b67e300d4c79d17a657a6382b6a06f5b7a771d02a22ba199d05e85016edae4f7"
     },
     {
-      "path": "public/assets/advanced_tools_ui.mjs",
-      "bytes": 11986,
-      "sha256": "efb5290b34358f9bd6f9ffd01317a6d379362b958cded23bd54c6652434dd46e"
-    },
-    {
       "path": "public/assets/advanced_tools.mjs",
       "bytes": 8429,
       "sha256": "f0035e542db81f2a8de9244f5c84eacf1f1ac7377c65e4e1263220e1e1bed812"
+    },
+    {
+      "path": "public/assets/advanced_tools_ui.mjs",
+      "bytes": 11986,
+      "sha256": "efb5290b34358f9bd6f9ffd01317a6d379362b958cded23bd54c6652434dd46e"
     },
     {
       "path": "public/assets/app.js",
@@ -309,14 +329,14 @@
       "sha256": "ec724d2ed1e4653510e89a6e85470898f4ab6394163055217be32b4d83b5d13c"
     },
     {
-      "path": "public/assets/daily_ui.mjs",
-      "bytes": 3339,
-      "sha256": "6de554124912c0e20635598886007a4f05ef6bf3a793521e0b1a309284709357"
-    },
-    {
       "path": "public/assets/daily.mjs",
       "bytes": 3800,
       "sha256": "0a9f5224745313daa9ed764455bfb845d3bf451693cc08e6643bf4733b9e0673"
+    },
+    {
+      "path": "public/assets/daily_ui.mjs",
+      "bytes": 3339,
+      "sha256": "6de554124912c0e20635598886007a4f05ef6bf3a793521e0b1a309284709357"
     },
     {
       "path": "public/assets/overseasjob-logo.png",
@@ -324,19 +344,14 @@
       "sha256": "8a66e50210dcab7af99a7b70598f3fb1998050e2bee37f84b34d3c43f0e8d2a2"
     },
     {
-      "path": "public/assets/privacy_ui.mjs",
-      "bytes": 2430,
-      "sha256": "13e3f194c4e6ad66ff83625bc771ca4a96e682c85470d38457ccf780c4045870"
-    },
-    {
       "path": "public/assets/privacy.mjs",
       "bytes": 1228,
       "sha256": "41186272113d0ea241005ad59c29846f8ce3c99d4339a85d05a7645f16f70498"
     },
     {
-      "path": "public/assets/radar_ui.mjs",
-      "bytes": 3698,
-      "sha256": "ba57f848c81690c9e9c13a2da751fd8d30dd29424acb8d2a3592f50c372225a0"
+      "path": "public/assets/privacy_ui.mjs",
+      "bytes": 2430,
+      "sha256": "13e3f194c4e6ad66ff83625bc771ca4a96e682c85470d38457ccf780c4045870"
     },
     {
       "path": "public/assets/radar.mjs",
@@ -344,9 +359,9 @@
       "sha256": "788745d1542331b8579ae8695b78aab7d0ba595d19bf1f5031c513315a27492d"
     },
     {
-      "path": "public/assets/relocation_ui.mjs",
-      "bytes": 2228,
-      "sha256": "02c5638430683a74f68ad72e4e95e102fe73fe883ab6886c157976fa8cfc2335"
+      "path": "public/assets/radar_ui.mjs",
+      "bytes": 3698,
+      "sha256": "ba57f848c81690c9e9c13a2da751fd8d30dd29424acb8d2a3592f50c372225a0"
     },
     {
       "path": "public/assets/relocation.mjs",
@@ -354,9 +369,9 @@
       "sha256": "a5cf96c0d034d7b13b65d9ac8e07f9309ad5e517e608d763f0c9fbba2380680f"
     },
     {
-      "path": "public/assets/resume_ui.mjs",
-      "bytes": 2001,
-      "sha256": "09915a7bc9a22fdf54e4ddabdd6bb5ddf79ac008693c6a71ba3b999959c0dd50"
+      "path": "public/assets/relocation_ui.mjs",
+      "bytes": 2228,
+      "sha256": "02c5638430683a74f68ad72e4e95e102fe73fe883ab6886c157976fa8cfc2335"
     },
     {
       "path": "public/assets/resume.mjs",
@@ -364,19 +379,24 @@
       "sha256": "aad80c5fcd284abb5b008be3c4a5cc72fc154552446e55ba2ebed9909271fb4e"
     },
     {
+      "path": "public/assets/resume_ui.mjs",
+      "bytes": 2001,
+      "sha256": "09915a7bc9a22fdf54e4ddabdd6bb5ddf79ac008693c6a71ba3b999959c0dd50"
+    },
+    {
       "path": "public/assets/style.css",
       "bytes": 14035,
       "sha256": "4a6c7b5f8ea5b84eb2067de8c7fafa2d6172b8db4dd7796afd4d87447e653450"
     },
     {
-      "path": "public/assets/tracker_ui.mjs",
-      "bytes": 5347,
-      "sha256": "6213feb21edc1053660b5aec48a3da7f3b072561c9706ce7a3566feed9f5267c"
-    },
-    {
       "path": "public/assets/tracker.mjs",
       "bytes": 7130,
       "sha256": "65cd8aaf6b070c48e8b38b1b9e71627d1967b38402da79fcd92e5a5892d9be25"
+    },
+    {
+      "path": "public/assets/tracker_ui.mjs",
+      "bytes": 5347,
+      "sha256": "6213feb21edc1053660b5aec48a3da7f3b072561c9706ce7a3566feed9f5267c"
     },
     {
       "path": "public/index.php",
@@ -387,11 +407,6 @@
       "path": "public/router.php",
       "bytes": 791,
       "sha256": "49cbe2ae5c82d7819ab5fb712452836ced63d342a1a4fa034e61f32aab8ab93f"
-    },
-    {
-      "path": "README.md",
-      "bytes": 17687,
-      "sha256": "ffa44eaa2665ac64231395f827645cfc473dfcfe20a1d19c3ec32548aa57dce2"
     },
     {
       "path": "scripts/analytics_report.php",
@@ -439,14 +454,14 @@
       "sha256": "645bb2359676fa2df1f658d50196660393363360b3f6d7afb36675aa20a9aaac"
     },
     {
-      "path": "scripts/health_guard.php",
-      "bytes": 850,
-      "sha256": "df93f326d4b50fcf4c28871c13175968678e9085193747501263bb70ec1ca091"
-    },
-    {
       "path": "scripts/health.php",
       "bytes": 338,
       "sha256": "3c984f9aee8a50ceb53ca729d070596d6012610d884426d6073f77e15e0acc98"
+    },
+    {
+      "path": "scripts/health_guard.php",
+      "bytes": 850,
+      "sha256": "df93f326d4b50fcf4c28871c13175968678e9085193747501263bb70ec1ca091"
     },
     {
       "path": "scripts/inspect_canonical_pack.py",
@@ -514,11 +529,6 @@
       "sha256": "954367f776109c0d6aad1598439c627d5876a75b4e526be7ddc86326744b8b8e"
     },
     {
-      "path": "SOURCE_OF_TRUTH_REFERENCE/OverseasJob_v1.3.3_Source_of_Truth_Project_Pack.zip",
-      "bytes": 154621,
-      "sha256": "d3d775df9292cede557aabdc63107be7750e909c031b073a5cb7c94de2572adc"
-    },
-    {
       "path": "src/Analytics.php",
       "bytes": 3158,
       "sha256": "76c542d41181a8c477fcbd396676aee5c318304b156bd1a6366007e17057b188"
@@ -532,11 +542,6 @@
       "path": "src/Countries.php",
       "bytes": 1522,
       "sha256": "7a6aefb5eb2d3dfd937b7f7431913cc8a77ecbf637d3eff27c3dc025c2edf8f1"
-    },
-    {
-      "path": "src/country_aliases.json",
-      "bytes": 14644,
-      "sha256": "0ec147e4b2275b5b689c10c147b7ed385fc3a6d779d1e33a17c1f81993d4ea51"
     },
     {
       "path": "src/EmployerContracts.php",
@@ -570,8 +575,8 @@
     },
     {
       "path": "src/Launch.php",
-      "bytes": 2100,
-      "sha256": "fefb87b71bc56d3346a3988c107fa18e07e51e04ab234217ebe15c5adf6dc87c"
+      "bytes": 6691,
+      "sha256": "e208b0c7794ef60b45aab5107d60a462d5a06ab7198a180a2989995903430849"
     },
     {
       "path": "src/OpsSnapshot.php",
@@ -634,9 +639,9 @@
       "sha256": "084b1f10b1dd2e88be454885d787b525602d407d2d85cf2942bd0066990de895"
     },
     {
-      "path": "START_HERE_FOUNDER.md",
-      "bytes": 7952,
-      "sha256": "faa92b6cd6f66dda59b01ae756366408572bb2e655533eb03d55abf9f395c75d"
+      "path": "src/country_aliases.json",
+      "bytes": 14644,
+      "sha256": "0ec147e4b2275b5b689c10c147b7ed385fc3a6d779d1e33a17c1f81993d4ea51"
     },
     {
       "path": "storage/.gitkeep",
@@ -749,6 +754,11 @@
       "sha256": "47f453459546cffeaee1fef6efbd6eefb5fab8473466a83a4c7590e1b5788aa7"
     },
     {
+      "path": "tests/launch_release_gate_tests.php",
+      "bytes": 6062,
+      "sha256": "6510e41d1ecb29db7cbee1b6662493c84b693fa08ff8ff308826f1232198245b"
+    },
+    {
       "path": "tests/manifest_inventory_tests.py",
       "bytes": 3875,
       "sha256": "c34af7efc329a8227cea4d09e54bb8e1bc0eb2ee3fadf4d615f77f925eda1a8f"
@@ -805,8 +815,8 @@
     },
     {
       "path": "tests/run.sh",
-      "bytes": 1901,
-      "sha256": "e5eeaf27dcbb3bd28693b40492b838daa471d1750c12a1104197c22c44a08aa7"
+      "bytes": 1949,
+      "sha256": "2a6329d2cb0e12804af3fca7c27bf457ac82b42689b808eede3dfaa3cc052a11"
     },
     {
       "path": "tests/shared_host_layout_tests.php",
