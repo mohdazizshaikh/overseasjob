@@ -1,13 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.18-predeploy-release-evidence-failclosed-v141",
+  "release": "0.9.19-provider-attestation-owner-only-modes",
   "source_of_truth": "v1.3.3",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
     "status": "PENDING_PR_CI",
-    "tests": "Public release fail-closed evidence checks and full GitHub CI suites"
+    "tests": "Two new negative source-rights file/dir permission regressions plus full existing suites"
   },
   "canonical_documentation": {
     "passed": 71,
@@ -30,7 +30,7 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "Public launch requires exact founder canonical v1.4.1 SHA-256 ZIP, aligned version and module ledger, per-evidence SHA-256, 14 UTC days, valid private rights activation, editorial review and time-limited private 0600 owner approval. Local code checks are not proof of external claims. No Hostinger deployment or provider activation performed.",
+  "developer_notes": "SourcePermissionGate rejects provider rights files readable to group/world and provider_rights directories traversable by group/world. No hosting access or source provider licence permission claimed; all live source flags remain OFF.",
   "file_count_excluding_manifest": 161,
   "files": [
     {
@@ -185,8 +185,8 @@
     },
     {
       "path": "docs/LIVE_PROVIDER_SOURCE_PERMISSION_GATE_V0912.md",
-      "bytes": 4398,
-      "sha256": "d2d3bcdfb6b30766e7b0045d7fdec3e5ea347950a3f05e98880937065659027b"
+      "bytes": 5069,
+      "sha256": "00000000000000000000000000000000286602024fc4305a4853f6ad84a8eae5"
     },
     {
       "path": "docs/LOCAL_TEST_OUTPUT_2026-11-23_v050.txt",
@@ -630,8 +630,8 @@
     },
     {
       "path": "src/SourcePermissionGate.php",
-      "bytes": 4375,
-      "sha256": "ca7f8381d65e813fddd819f845079a020aca541aaa75d61884d0b0a3392026e1"
+      "bytes": 4838,
+      "sha256": "0000000000000000000000000000000075bef89d986504cbe6066a1a3a95c0bf"
     },
     {
       "path": "src/ThemeSafety.php",
@@ -830,8 +830,8 @@
     },
     {
       "path": "tests/source_permission_gate_tests.php",
-      "bytes": 5922,
-      "sha256": "9d23d0c3179d2df44316bbc38b7fd6a913122a665722eb8df726a63acc9560d7"
+      "bytes": 6296,
+      "sha256": "00000000000000000000000000000000d022d408f9b6689158838c7a0681204b"
     },
     {
       "path": "tests/tracker_tests.mjs",
