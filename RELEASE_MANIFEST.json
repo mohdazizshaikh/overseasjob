@@ -1,13 +1,14 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.5-hostinger-split-preview-bundle",
+  "release": "0.9.6-exact-canonical-v134-reissue",
   "source_of_truth": "v1.3.3",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
-    "status": "PENDING_PR_CI",
-    "notes": "Build packages only if verified manifest and isolated UI are both valid"
+    "status": "PENDING_3_JOB_PR_CI",
+    "original_canonical_source": "v1.3.3 ZIP",
+    "target_canonical_source": "v1.3.4 ZIP"
   },
   "canonical_documentation": {
     "passed": 71,
@@ -30,8 +31,8 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "The preview artifact packaging deliberately never installs into existing Hostinger public_html; real permission/private directory, theme backup and release evidence still required.",
-  "file_count_excluding_manifest": 137,
+  "developer_notes": "Narrow reissue targets ONLY independently confirmed stale per-job 410 statement. Original v1.3.3 pagination/date semantics already correct. Reissued ZIP is generated from exact original, not host deployment; real provider rights/hosting/backup still unverified.",
+  "file_count_excluding_manifest": 141,
   "files": [
     {
       "path": ".env.example",
@@ -40,8 +41,8 @@
     },
     {
       "path": ".github/workflows/ci.yml",
-      "bytes": 5332,
-      "sha256": "65665bc992745b325aa581544be39cc7942d5812a2a2580c094ac8dbd0c37b11"
+      "bytes": 6314,
+      "sha256": "caaa46a0d7d789297c981cebf4dc2f0aae73a81ec641fc6e8a7d2162220f8f14"
     },
     {
       "path": ".gitignore",
@@ -122,6 +123,11 @@
       "path": "docs/BETA_IMPLEMENTATION_CHANGELOG.md",
       "bytes": 1739,
       "sha256": "1d00bec269c19b10a0cc6af44a7a50ff5c3d18f0e3bc0e8c030c344b8b3c4906"
+    },
+    {
+      "path": "docs/CANONICAL_SOURCE_PACK_REISSUE_V134.md",
+      "bytes": 3601,
+      "sha256": "5802e07e78c1160b4d4e9ba6d110bfe89bf23bf028f1dda4916bc1268a276a4c"
     },
     {
       "path": "docs/EMPLOYER_VERIFICATION_AND_MODERATION_v080.md",
@@ -240,8 +246,8 @@
     },
     {
       "path": "module_status.json",
-      "bytes": 24309,
-      "sha256": "fc94614cd6ce6f5e8b96baa5b9d838f8d1e23fd1f907f555990c9d9701de919b"
+      "bytes": 24994,
+      "sha256": "04f7dfeb26158406e965db842d1ceb3048d80b685db3b922b27caa81cd5a5bec"
     },
     {
       "path": "public/.htaccess",
@@ -350,8 +356,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 11253,
-      "sha256": "b506d89b82a0e08b296432e48dac06686e56dc56d4b1a5cb0877eb9bf2c2f503"
+      "bytes": 11716,
+      "sha256": "340481d293bba4255e0eea93680a2a9823a1023bb6eaa0ae7e3b8fa8cc734ffa"
     },
     {
       "path": "scripts/analytics_report.php",
@@ -404,6 +410,11 @@
       "sha256": "3c984f9aee8a50ceb53ca729d070596d6012610d884426d6073f77e15e0acc98"
     },
     {
+      "path": "scripts/inspect_canonical_pack.py",
+      "bytes": 2371,
+      "sha256": "7519aa9605c30b103ac46ef686835f3ac32177e6d1a18dbe24cc0ef2e7d48879"
+    },
+    {
       "path": "scripts/launch_preflight.php",
       "bytes": 270,
       "sha256": "43c049f1f846c999cda25703a89f21d4e929f26777b25e293c6cb02d203a8624"
@@ -422,6 +433,11 @@
       "path": "scripts/recruiter_invites.php",
       "bytes": 992,
       "sha256": "d4642937e29e7e342ab6aeba4e8d08fee4f85fda6d5382d94066a585dc490b36"
+    },
+    {
+      "path": "scripts/reissue_canonical_pack_v134.py",
+      "bytes": 11312,
+      "sha256": "295eb3aa1185df4d2dcd62e41aa54587e0ac4e9b48558c41ee51ad1e21a5da51"
     },
     {
       "path": "scripts/restore_drill.php",
@@ -592,6 +608,11 @@
       "path": "tests/browser_e2e.py",
       "bytes": 8006,
       "sha256": "2c0e8e2dbfb364dfa70ffa18198be90d602533e7102a0907f134841352332341"
+    },
+    {
+      "path": "tests/canonical_pack_reissue_tests.py",
+      "bytes": 3203,
+      "sha256": "27c9cdacc5ed63af5e23aca477a9132bf16f382b5617fc7ac47b00ea5aeacb7a"
     },
     {
       "path": "tests/daily_radar_privacy_tests.mjs",
