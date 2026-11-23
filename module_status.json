@@ -735,12 +735,14 @@
     "verified_run_url": "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45163104776"
   },
   "complete_release_manifest": {
-    "status": "GIT_TRACKED_INVENTORY_CHECK_PENDING_CI",
+    "status": "VERIFIED_MAIN_CI_SIX_OF_SIX",
     "script": "scripts/refresh_release_manifest.py",
     "tests": "tests/manifest_inventory_tests.py",
     "docs": "docs/COMPLETE_RELEASE_MANIFEST_INVENTORY_V0911.md",
     "exhaustive_tracked_files_claim_after_ci": true,
-    "production_host_verified": false
+    "production_host_verified": false,
+    "verified_run_url": "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45164547790",
+    "verified_file_count": 154
   },
   "source_provider_activation": {
     "status": "DEFAULT_OFF_LOCAL_GATE_PENDING_CI",
