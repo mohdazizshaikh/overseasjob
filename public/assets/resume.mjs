@@ -10,7 +10,17 @@ const read=(v,key)=>{
 };
 export function safeEvidenceLink(raw){
   if(!raw)return null;
-  try{const url=new URL(raw);if(url.protocol!=='https:'||url.username||url.password||url.port||url.hostname==='localhost'||/\.(local|internal)$/i.test(url.hostname)||!url.hostname.includes('.'))throw Error();return url.toString();}
+  try{
+    const url=new URL(raw);
+    const host=url.hostname.toLowerCase();
+    // URL normalises decimal/octal/hex IPv4 host literals before this test.
+    // Do not embed loopback, RFC1918 or literal IP endpoints into generated documents.
+    const literalIP=/^(?:\d{1,3}\.){3}\d{1,3}$/.test(host)||host.includes(':');
+    const localName=/(?:^|\.)localhost\.?$/.test(host)||/\.(?:local|internal)\.?$/.test(host);
+    if(url.protocol!=='https:'||url.username||url.password||url.port
+       ||!host.includes('.')||literalIP||localName)throw Error();
+    return url.toString();
+  }
   catch{throw new Error('Evidence link must be a direct HTTPS URL without credentials.');}
 }
 const sections={experience:'Experience / Work history',projects:'Projects and work evidence',skills:'Skills',education:'Education'};

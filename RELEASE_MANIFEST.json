@@ -1,13 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.29-m11-m17-private-role-coverage-backup",
+  "release": "0.9.30-t03-literal-ip-evidence-url-hardening",
   "source_of_truth": "v1.4.1",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
     "status": "PENDING_PR_CI",
-    "tests": "M11 role-coverage backup SHA, isolated restore, symlink denial plus complete existing CI"
+    "tests": "T03 private/loopback IPv4 IPv6 and obfuscated URL denials plus existing complete suites"
   },
   "canonical_documentation": {
     "status": "EXACT_FOUNDER_V141_ZIP_IMPORTED__CI_VALIDATION_PENDING",
@@ -35,8 +35,8 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "Local file snapshot now preserves M17 role_coverage.ndjson, never synthetic evidence of actual source HTTP days. Provider rights and owner release authorization deliberately excluded, and actual Hostinger original public_html/MySQL recovery remains blocked.",
-  "file_count_excluding_manifest": 180,
+  "developer_notes": "T03 evidence link now refuses literal numeric IP and reserved local hostname forms before standalone HTML export, but offline syntax cannot prove DNS trust. Provider, ads, recruiter and launch gates unchanged and OFF.",
+  "file_count_excluding_manifest": 181,
   "files": [
     {
       "path": ".env.example",
@@ -324,6 +324,11 @@
       "sha256": "f5edd0456c8a220c561251b1ef934900acc0cce66faa9f86c5495f1ffd53b017"
     },
     {
+      "path": "docs/T03_PUBLIC_EVIDENCE_LINK_HARDENING_V141.md",
+      "bytes": 1516,
+      "sha256": "331c36a839392263ee4487e8200e065ec9fa9af6d0b6a6915fce87ce66c405f7"
+    },
+    {
       "path": "docs/TEST_OUTPUT_2026-11-22.txt",
       "bytes": 1871,
       "sha256": "80360608d59a5e1fc442e20d3976cc4f3cbc9c5da92ae80c0314eab53c49d543"
@@ -425,8 +430,8 @@
     },
     {
       "path": "public/assets/resume.mjs",
-      "bytes": 4623,
-      "sha256": "aad80c5fcd284abb5b008be3c4a5cc72fc154552446e55ba2ebed9909271fb4e"
+      "bytes": 4975,
+      "sha256": "3bc8f7b1b09a385a859ba1dd03cc381d7efd257ab5c6960a470ab9ce27c43038"
     },
     {
       "path": "public/assets/resume_ui.mjs",
@@ -865,8 +870,8 @@
     },
     {
       "path": "tests/new_tools_tests.mjs",
-      "bytes": 4305,
-      "sha256": "4e9e49c4a5d91e1f3b619d307ebf48c7d1526727de2c3f9c147c37f485404f1f"
+      "bytes": 5307,
+      "sha256": "2b51ebf7b925649e096fcf15a123a42c70a2d8f2c2521822f54ac2dcacd3ad10"
     },
     {
       "path": "tests/operational_tests.php",

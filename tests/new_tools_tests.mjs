@@ -22,6 +22,24 @@ test('T03 required name rejected',()=>{assert.throws(()=>validateResume({role:'I
 test('T03 invalid email rejected',()=>{assert.throws(()=>validateResume({...resume,email:'a@'}))});
 test('T03 removes scripts from executable HTML',()=>{const html=resumeHTML({...resume,summary:'<script>alert(1)</script>'});assert.ok(html.includes('&lt;script&gt;alert(1)&lt;/script&gt;'));assert.ok(!html.includes('<script>'));});
 test('T03 safe evidence URL only',()=>{assert.equal(safeEvidenceLink('https://example.org/work'),'https://example.org/work');assert.throws(()=>safeEvidenceLink('javascript:alert(1)'));assert.throws(()=>safeEvidenceLink('http://example.org'));});
+test('T03 blocks literal loopback and RFC1918 private evidence targets',()=>{
+  assert.throws(()=>safeEvidenceLink('https://127.0.0.1/status'));
+  assert.throws(()=>safeEvidenceLink('https://192.168.1.12/resume'));
+  assert.throws(()=>safeEvidenceLink('https://10.0.0.2/work'));
+});
+test('T03 blocks IPv6 and browser-normalised numeric host aliases',()=>{
+  assert.throws(()=>safeEvidenceLink('https://[::1]/private'));
+  assert.throws(()=>safeEvidenceLink('https://2130706433/admin'));
+  assert.throws(()=>safeEvidenceLink('https://0x7f000001/'));
+});
+test('T03 blocks reserved local hostnames with trailing dot',()=>{
+  assert.throws(()=>safeEvidenceLink('https://localhost./'));
+  assert.throws(()=>safeEvidenceLink('https://example.local./'));
+  assert.throws(()=>safeEvidenceLink('https://example.internal/'));
+});
+test('T03 keeps ordinary public HTTPS evidence domains valid',()=>{
+  assert.equal(safeEvidenceLink('https://portfolio.example.org/work'), 'https://portfolio.example.org/work');
+});
 test('T03 HTML is standalone with print stylesheet, no ads',()=>{const html=resumeHTML(resume);assert.match(html,/<!doctype html>/);assert.match(html,/@media print/);assert.ok(!html.includes('advertisement'))});
 test('T03 cover letter requires evidence paragraphs',()=>{assert.throws(()=>coverLetterText({...resume,employer:'Company'}),/both evidence/)});
 test('T03 cover letter from entered evidence only',()=>{const s=coverLetterText({...resume,employer:'Acme',achievement1:'I fixed real tickets.',achievement2:'I built a practice project.'});assert.ok(s.includes('fixed real tickets'));assert.ok(s.includes('practice project'));assert.ok(s.includes('Acme'))});
