@@ -1,14 +1,12 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.3-predeployment-code-hardening",
+  "release": "0.9.4-official-himalayas-openapi-contract",
   "source_of_truth": "v1.3.3",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
-    "status": "ISOLATED_CI_VERIFIED_BEFORE_FINAL_METADATA_UPDATE",
-    "run_url": "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45083243298",
-    "note": "Final full commit rerun pending; host and release readiness remain unverified."
+    "status": "PENDING_GITHUB_PR_CI"
   },
   "canonical_documentation": {
     "passed": 71,
@@ -31,8 +29,8 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "Provider retries/status, contract fields, report throttling and local backup/register hardening await PR CI. External Hostinger, theme, editorial, provider rights, 14d inventory, actual backup restore remain unverified.",
-  "file_count_excluding_manifest": 133,
+  "developer_notes": "Official 2026-11-23 Himalayas OpenAPI supersedes previous nextCursor/updateDate claim. Source disabled; live 200/410 not documented. Code & new fixtures require CI. Hostinger, real provider rights/14d inventory, canonical binary pack reissue and original theme remain unverified.",
+  "file_count_excluding_manifest": 134,
   "files": [
     {
       "path": ".env.example",
@@ -170,19 +168,24 @@
       "sha256": "b4fddd4e4e9c5204a14da8a412c5db802239a7a736031f80dc5ab2c33aa6b8f6"
     },
     {
+      "path": "docs/OPENAPI_HIMALAYAS_CORRECTION_V094.md",
+      "bytes": 4016,
+      "sha256": "ff60185b2fec66bc5a0a59a32c943e35337d8a975cee31b5d03773905d70ef8c"
+    },
+    {
       "path": "docs/PARTNER_PILOT_STAGING_v070.md",
       "bytes": 6132,
       "sha256": "d46be48d9111750e4f31b1c88d96115b4bf1e909bd3630cd5257f51f2b3d5e60"
     },
     {
       "path": "docs/PREDEPLOYMENT_CODE_HARDENING_V093.md",
-      "bytes": 6269,
-      "sha256": "f0c83156956e924f3ff8d7d8ea174fd0a9ea0af43de5e703070e514ca6d001ef"
+      "bytes": 6476,
+      "sha256": "bb7e5d7702c552c825caa18f7ad63888cb4a41175ee6aa01f59bfa3e2fa499c0"
     },
     {
       "path": "docs/PROVIDER_CURSOR_AND_DATE_CORRECTION_v091.md",
-      "bytes": 2810,
-      "sha256": "b90cd79de65a061a7b138d4fff9855cd8113bf2f7b486a690bbbe2219319b7e1"
+      "bytes": 3003,
+      "sha256": "21bd4e898a2d7ecaa3432cae5b8b03e8e1463c71aabf9e4271b846bf4e9ddbd7"
     },
     {
       "path": "docs/RC_IMPLEMENTATION_CHANGELOG.md",
@@ -231,8 +234,8 @@
     },
     {
       "path": "module_status.json",
-      "bytes": 23317,
-      "sha256": "e417dcde303b0a327e968d7c8f74fc86f7ffefdb0f9b53933a9361cfda16a7d0"
+      "bytes": 23848,
+      "sha256": "989d4de53cad5c2e301967cad0174d84f78d1aa04fdf24c0253b7e63a3127b60"
     },
     {
       "path": "public/.htaccess",
@@ -341,8 +344,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 10305,
-      "sha256": "ab27d705a432faddb76517b51b97846cfc50bd692183a3ff50dce76fcdbbb53a"
+      "bytes": 10750,
+      "sha256": "f509a4075f61b99d5b392e0cd8df78ff15a3ac844c25a98e37a48990977abcfa"
     },
     {
       "path": "scripts/analytics_report.php",
@@ -356,8 +359,8 @@
     },
     {
       "path": "scripts/check_himalayas_status.php",
-      "bytes": 5353,
-      "sha256": "2088c22dc954bebea31aa4fde43ce4c9ce1a0ac9f8cf85bd85105664d6198229"
+      "bytes": 5308,
+      "sha256": "cda75696123077ea1efbf38799b23a8143b6954ea9a3edff3f63a8e27baeba83"
     },
     {
       "path": "scripts/coverage_report.php",
@@ -426,8 +429,8 @@
     },
     {
       "path": "scripts/sync_jobs.php",
-      "bytes": 6227,
-      "sha256": "088216928f047bd7ad35cbcc79f0d55f5105bae58bbda13a07d12e75246e9ed6"
+      "bytes": 6048,
+      "sha256": "f3d4a7fc04a2b1526ce08f1e3ae6bb7c57957a4c16064082b4adce0e09139237"
     },
     {
       "path": "scripts/theme_collision_audit.php",
@@ -491,8 +494,8 @@
     },
     {
       "path": "src/Jobs.php",
-      "bytes": 18629,
-      "sha256": "c452fd7e7cdd180403d0dbbf604925a16f85f294ca3bef8b408531e0b36e19e5"
+      "bytes": 18177,
+      "sha256": "1546f1c4aeb1ef417ec64ae54e999e9aa32732cebda0eeef3b4ed55553e2d21f"
     },
     {
       "path": "src/Launch.php",
@@ -671,8 +674,8 @@
     },
     {
       "path": "tests/php_tests.php",
-      "bytes": 16271,
-      "sha256": "5c93770501196859fd4301f087106479d75895dbbb7a3f65eb3f595604296b53"
+      "bytes": 16647,
+      "sha256": "f41e6a2d20db8534b2327904b444eb9150c54884460f7b22217bbba9737d0511"
     },
     {
       "path": "tests/provider_http_tests.php",
