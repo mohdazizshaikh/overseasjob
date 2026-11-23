@@ -1,13 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.9-m17-live-source-observation-integrity",
+  "release": "0.9.10-m16-browser-accessibility-print-reflow-evidence",
   "source_of_truth": "v1.3.3",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
-    "status": "PENDING_GITHUB_PR_CI",
-    "test_focus": "Strict M17 live-sync shape, 14 UTC-day real log, legacy exclusion, zero fabricated external evidence"
+    "status": "PENDING_PR_CI",
+    "browser_tests": "M16 16-route keyboard/label/reflow/print/noJS plus original 38 Playwright checks"
   },
   "canonical_documentation": {
     "passed": 71,
@@ -30,8 +30,8 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "New M17 evidence validation prevents 14-day completion claims from date-only or fixture records. Even 14 valid on-host log entries cannot independently prove source rights or upstream truth; actual Hostinger/provider/2-3 roles/traffic remain blocked.",
-  "file_count_excluding_manifest": 149,
+  "developer_notes": "New candidate-only desktop/mobile screenshots, targeted accessibility and print checks do not certify WCAG or original live site parity. Hostinger provider legal and backups remain unverified.",
+  "file_count_excluding_manifest": 151,
   "files": [
     {
       "path": ".env.example",
@@ -40,8 +40,8 @@
     },
     {
       "path": ".github/workflows/ci.yml",
-      "bytes": 6869,
-      "sha256": "b7588bb20745db5293a7d61a45ed16deae13c94b308c39a4ca04f6a2cab783fa"
+      "bytes": 7254,
+      "sha256": "7fb3a9f18833774aadbe6d942c38bff59fc9f40cb7056c1a2aef46dfbc80c29e"
     },
     {
       "path": ".gitignore",
@@ -189,6 +189,11 @@
       "sha256": "b4fddd4e4e9c5204a14da8a412c5db802239a7a736031f80dc5ab2c33aa6b8f6"
     },
     {
+      "path": "docs/M16_BROWSER_A11Y_REFLOW_PRINT_V0910.md",
+      "bytes": 2592,
+      "sha256": "85496fea4989d88a2b952c5744e8557f25ede79831914bc42c4a59b5750f25ac"
+    },
+    {
       "path": "docs/M17_SOURCE_OBSERVATION_EVIDENCE_V099.md",
       "bytes": 3934,
       "sha256": "428a687a4796363190b4aa34cd5c80866e87c1dca2ccca146b4926563f1ff8a1"
@@ -260,8 +265,8 @@
     },
     {
       "path": "module_status.json",
-      "bytes": 27669,
-      "sha256": "9c49af6f65cc711a64c9d3c91ab7b42c516ed5a927589f70f4dccecad80ad77d"
+      "bytes": 28390,
+      "sha256": "796a9cf929671b97e8d844284303b7c54bc0dca6e8004ecb2af4f9c3645d93d9"
     },
     {
       "path": "public/.htaccess",
@@ -370,8 +375,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 14148,
-      "sha256": "ab165693bf8858a29fa48b34298e3f15d6aea011b567f0de529908ab1b0e9343"
+      "bytes": 14662,
+      "sha256": "e03a3f91a86430f8d323b046249831559de238b870c0265152c34e1304209f82"
     },
     {
       "path": "scripts/analytics_report.php",
@@ -605,8 +610,8 @@
     },
     {
       "path": "START_HERE_FOUNDER.md",
-      "bytes": 4877,
-      "sha256": "5d2e787a86c256576d59c1e09a3b3671932849a154513f69f0e342496523e083"
+      "bytes": 5321,
+      "sha256": "15f11bcb1c253e9aafd0230e3c89f4b1522b312bd75e81ae9bec8d4c3b855be8"
     },
     {
       "path": "storage/.gitkeep",
@@ -632,6 +637,11 @@
       "path": "tests/backup_tests.php",
       "bytes": 2251,
       "sha256": "dd2931feb7e3b7daee51953087187b3a2c4bab370e8931b2f717dfc2adc882d1"
+    },
+    {
+      "path": "tests/browser_a11y_print.py",
+      "bytes": 6211,
+      "sha256": "a95ba410e33dfa1eba54b27195fddbad628576810cdf54c39933daef1e32b314"
     },
     {
       "path": "tests/browser_e2e.py",
