@@ -1,6 +1,8 @@
-# OverseasJob.in v0.9.11 — Founder handoff (23 November 2026)
+# OverseasJob.in v0.9.12 — Founder handoff (23 November 2026)
 
 **Current position: code development ongoing; PUBLIC DEPLOYMENT IS NOT APPROVED.**
+
+**Important live job-feed safety:** v0.9.12 blocks real Jobicy/Himalayas fetches by default, even if the configuration says the provider is enabled. An authorised operator must separately review the provider's current terms, record private evidence and explicitly activate both host and provider flags. This protects against an accidentally scheduled live cron before legal review; no real provider approval has been received. Do not enable the flags just to make tests pass. See `docs/LIVE_PROVIDER_SOURCE_PERMISSION_GATE_V0912.md`.
 
 **Code-release accuracy improvement:** Earlier SHA-256 checks could miss an entirely unlisted new file. v0.9.11 adds automatic Git-tracked inventory comparison and safe manifest regeneration, with negative tests. It does not change your existing Hostinger files, create subscriptions or enable job feeds. See `docs/COMPLETE_RELEASE_MANIFEST_INVENTORY_V0911.md`.
 

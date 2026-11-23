@@ -3,6 +3,7 @@ declare(strict_types=1);
 require dirname(__DIR__).'/src/Jobs.php';
 require dirname(__DIR__).'/src/ProviderHttp.php';
 require dirname(__DIR__).'/src/SourceCoverage.php';
+require dirname(__DIR__).'/src/SourcePermissionGate.php';
 
 /** Server-side scheduled ingestion. Run only by PHP CLI or cron, never from a web route. */
 if (PHP_SAPI !== 'cli') { http_response_code(403); exit; }
@@ -14,6 +15,17 @@ foreach ($argv as $arg) if(str_starts_with($arg,'--fixture='))$fixture=substr($a
 $config=json_decode((string)file_get_contents($base.'/config/provider_policy.json'),true);
 if (!is_array($config)||!is_array($config[$provider]??null)) {fwrite(STDERR,"Missing source-policy config\n");exit(2);}
 $policy=$config[$provider];
+if($fixture===null){
+    // Legal rights are not established by a JSON enabled flag or a recent date.
+    // Never issue any LIVE outbound request without independent operator intent
+    // and a non-public attestation specific to this provider and policy revision.
+    $activation=SourcePermissionGate::readiness($base,$provider,$policy,
+        SourcePermissionGate::runtimeFlags(),time());
+    if(!$activation['ready']){
+        fwrite(STDERR,'Live source access blocked: '.implode(',',$activation['blockers'])."\n");
+        exit(3);
+    }
+}
 if (!$fixture && !$policy['enabled']) {fwrite(STDERR,"Provider disabled in policy configuration\n");exit(3);}
 if (!$fixture && strtotime((string)($policy['checked_at']??'')) < time()-30*86400){fwrite(STDERR,"Provider rights need re-review (>30 days); sync blocked\n");exit(3);}
 $lock=fopen($base.'/storage/sync.lock','c');
