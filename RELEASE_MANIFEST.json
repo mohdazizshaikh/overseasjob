@@ -1,13 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.22-founder-canonical-v141-verified-adoption",
+  "release": "0.9.23-M17-pilot-role-cohort-evidence-contract",
   "source_of_truth": "v1.4.1",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
     "status": "PENDING_PR_CI",
-    "tests": "Original GitHub six-job CI + founder v1.4.1 149/149 document checks, SHA-256 and manifest inventory"
+    "tests": "30 M17 role-supply negative/positive assertions + existing GitHub CI, SHA-256 inventory, authoritative v1.4.1 149 checks"
   },
   "canonical_documentation": {
     "status": "EXACT_FOUNDER_V141_ZIP_IMPORTED__CI_VALIDATION_PENDING",
@@ -35,8 +35,8 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "Imported exact founder canonical v1.4.1 ZIP without replacing historical v1.3.3 and v1.3.4. Code-vs-new-spec reconciliation remains open; no Hostinger access, source approvals, backups, 14-day real data, legal/editorial signoff or deployment. All production gates remain OFF.",
-  "file_count_excluding_manifest": 164,
+  "developer_notes": "Role cohorts account only for an authorised completed source sync, not historical backfill/fixture data. Three seed role title heuristics are not a positive-supply claim; actual 14-day report and independent permissions/Hostinger evidence are missing. Public launch gate remains blocked.",
+  "file_count_excluding_manifest": 168,
   "files": [
     {
       "path": ".env.example",
@@ -52,6 +52,26 @@
       "path": ".gitignore",
       "bytes": 642,
       "sha256": "758d25804e9f3ad865cc41da537b3e703d15b839f24309feed1965814d2eaa8f"
+    },
+    {
+      "path": "README.md",
+      "bytes": 18854,
+      "sha256": "ad906cc5fac42e1e269860cd79ce3d623ef2024623d0ebae1f6b9efcd29e7970"
+    },
+    {
+      "path": "SOURCE_OF_TRUTH_REFERENCE/OverseasJob_v1.3.3_Source_of_Truth_Project_Pack.zip",
+      "bytes": 154621,
+      "sha256": "d3d775df9292cede557aabdc63107be7750e909c031b073a5cb7c94de2572adc"
+    },
+    {
+      "path": "SOURCE_OF_TRUTH_REFERENCE/OverseasJob_v1.4.1_Corrected_Canonical_Pack.zip",
+      "bytes": 310623,
+      "sha256": "3802d1e3b9090feeaaa5eed3fa780f9858299eaa96f1be4980edb9569983ecb9"
+    },
+    {
+      "path": "START_HERE_FOUNDER.md",
+      "bytes": 7952,
+      "sha256": "faa92b6cd6f66dda59b01ae756366408572bb2e655533eb03d55abf9f395c75d"
     },
     {
       "path": "config/provider_policy.json",
@@ -214,6 +234,11 @@
       "sha256": "85496fea4989d88a2b952c5744e8557f25ede79831914bc42c4a59b5750f25ac"
     },
     {
+      "path": "docs/M17_ROLE_COHORT_EVIDENCE_V1.md",
+      "bytes": 4892,
+      "sha256": "14e170483a3d717a94bb49867aa5b38e74459eb595d25e20bab1f90c70d03041"
+    },
+    {
       "path": "docs/M17_SOURCE_OBSERVATION_EVIDENCE_V099.md",
       "bytes": 3934,
       "sha256": "428a687a4796363190b4aa34cd5c80866e87c1dca2ccca146b4926563f1ff8a1"
@@ -269,14 +294,14 @@
       "sha256": "f5edd0456c8a220c561251b1ef934900acc0cce66faa9f86c5495f1ffd53b017"
     },
     {
-      "path": "docs/TEST_OUTPUT_2026-11-22_RC.txt",
-      "bytes": 5283,
-      "sha256": "7320f898186eb3c9ff2ec17f2c47ab7f010f184eeea51a61ea1bafab7ec339fc"
-    },
-    {
       "path": "docs/TEST_OUTPUT_2026-11-22.txt",
       "bytes": 1871,
       "sha256": "80360608d59a5e1fc442e20d3976cc4f3cbc9c5da92ae80c0314eab53c49d543"
+    },
+    {
+      "path": "docs/TEST_OUTPUT_2026-11-22_RC.txt",
+      "bytes": 5283,
+      "sha256": "7320f898186eb3c9ff2ec17f2c47ab7f010f184eeea51a61ea1bafab7ec339fc"
     },
     {
       "path": "docs/TEST_OUTPUT_2026-11-23_RC_PLUS.txt",
@@ -295,8 +320,8 @@
     },
     {
       "path": "module_status.json",
-      "bytes": 32926,
-      "sha256": "469e1f2af7da47cefd0ed6e38de2cc3bef4c746070e78c36ba52ea387d4af46e"
+      "bytes": 33656,
+      "sha256": "3a7b29d1868c41723537342939cd995c9f2c61b7119475c5e69d57624fef4b46"
     },
     {
       "path": "public/.htaccess",
@@ -304,14 +329,14 @@
       "sha256": "b67e300d4c79d17a657a6382b6a06f5b7a771d02a22ba199d05e85016edae4f7"
     },
     {
-      "path": "public/assets/advanced_tools_ui.mjs",
-      "bytes": 11986,
-      "sha256": "efb5290b34358f9bd6f9ffd01317a6d379362b958cded23bd54c6652434dd46e"
-    },
-    {
       "path": "public/assets/advanced_tools.mjs",
       "bytes": 8429,
       "sha256": "f0035e542db81f2a8de9244f5c84eacf1f1ac7377c65e4e1263220e1e1bed812"
+    },
+    {
+      "path": "public/assets/advanced_tools_ui.mjs",
+      "bytes": 11986,
+      "sha256": "efb5290b34358f9bd6f9ffd01317a6d379362b958cded23bd54c6652434dd46e"
     },
     {
       "path": "public/assets/app.js",
@@ -324,14 +349,14 @@
       "sha256": "ec724d2ed1e4653510e89a6e85470898f4ab6394163055217be32b4d83b5d13c"
     },
     {
-      "path": "public/assets/daily_ui.mjs",
-      "bytes": 3339,
-      "sha256": "6de554124912c0e20635598886007a4f05ef6bf3a793521e0b1a309284709357"
-    },
-    {
       "path": "public/assets/daily.mjs",
       "bytes": 3800,
       "sha256": "0a9f5224745313daa9ed764455bfb845d3bf451693cc08e6643bf4733b9e0673"
+    },
+    {
+      "path": "public/assets/daily_ui.mjs",
+      "bytes": 3339,
+      "sha256": "6de554124912c0e20635598886007a4f05ef6bf3a793521e0b1a309284709357"
     },
     {
       "path": "public/assets/overseasjob-logo.png",
@@ -339,19 +364,14 @@
       "sha256": "8a66e50210dcab7af99a7b70598f3fb1998050e2bee37f84b34d3c43f0e8d2a2"
     },
     {
-      "path": "public/assets/privacy_ui.mjs",
-      "bytes": 2430,
-      "sha256": "13e3f194c4e6ad66ff83625bc771ca4a96e682c85470d38457ccf780c4045870"
-    },
-    {
       "path": "public/assets/privacy.mjs",
       "bytes": 1228,
       "sha256": "41186272113d0ea241005ad59c29846f8ce3c99d4339a85d05a7645f16f70498"
     },
     {
-      "path": "public/assets/radar_ui.mjs",
-      "bytes": 3698,
-      "sha256": "ba57f848c81690c9e9c13a2da751fd8d30dd29424acb8d2a3592f50c372225a0"
+      "path": "public/assets/privacy_ui.mjs",
+      "bytes": 2430,
+      "sha256": "13e3f194c4e6ad66ff83625bc771ca4a96e682c85470d38457ccf780c4045870"
     },
     {
       "path": "public/assets/radar.mjs",
@@ -359,9 +379,9 @@
       "sha256": "788745d1542331b8579ae8695b78aab7d0ba595d19bf1f5031c513315a27492d"
     },
     {
-      "path": "public/assets/relocation_ui.mjs",
-      "bytes": 2228,
-      "sha256": "02c5638430683a74f68ad72e4e95e102fe73fe883ab6886c157976fa8cfc2335"
+      "path": "public/assets/radar_ui.mjs",
+      "bytes": 3698,
+      "sha256": "ba57f848c81690c9e9c13a2da751fd8d30dd29424acb8d2a3592f50c372225a0"
     },
     {
       "path": "public/assets/relocation.mjs",
@@ -369,9 +389,9 @@
       "sha256": "a5cf96c0d034d7b13b65d9ac8e07f9309ad5e517e608d763f0c9fbba2380680f"
     },
     {
-      "path": "public/assets/resume_ui.mjs",
-      "bytes": 2001,
-      "sha256": "09915a7bc9a22fdf54e4ddabdd6bb5ddf79ac008693c6a71ba3b999959c0dd50"
+      "path": "public/assets/relocation_ui.mjs",
+      "bytes": 2228,
+      "sha256": "02c5638430683a74f68ad72e4e95e102fe73fe883ab6886c157976fa8cfc2335"
     },
     {
       "path": "public/assets/resume.mjs",
@@ -379,19 +399,24 @@
       "sha256": "aad80c5fcd284abb5b008be3c4a5cc72fc154552446e55ba2ebed9909271fb4e"
     },
     {
+      "path": "public/assets/resume_ui.mjs",
+      "bytes": 2001,
+      "sha256": "09915a7bc9a22fdf54e4ddabdd6bb5ddf79ac008693c6a71ba3b999959c0dd50"
+    },
+    {
       "path": "public/assets/style.css",
       "bytes": 14035,
       "sha256": "4a6c7b5f8ea5b84eb2067de8c7fafa2d6172b8db4dd7796afd4d87447e653450"
     },
     {
-      "path": "public/assets/tracker_ui.mjs",
-      "bytes": 5347,
-      "sha256": "6213feb21edc1053660b5aec48a3da7f3b072561c9706ce7a3566feed9f5267c"
-    },
-    {
       "path": "public/assets/tracker.mjs",
       "bytes": 7130,
       "sha256": "65cd8aaf6b070c48e8b38b1b9e71627d1967b38402da79fcd92e5a5892d9be25"
+    },
+    {
+      "path": "public/assets/tracker_ui.mjs",
+      "bytes": 5347,
+      "sha256": "6213feb21edc1053660b5aec48a3da7f3b072561c9706ce7a3566feed9f5267c"
     },
     {
       "path": "public/index.php",
@@ -402,11 +427,6 @@
       "path": "public/router.php",
       "bytes": 791,
       "sha256": "49cbe2ae5c82d7819ab5fb712452836ced63d342a1a4fa034e61f32aab8ab93f"
-    },
-    {
-      "path": "README.md",
-      "bytes": 18357,
-      "sha256": "1c518f20025e6410891bf96f7ec9fc0174621fa84882f547a03bfc3a67f81194"
     },
     {
       "path": "scripts/analytics_report.php",
@@ -454,14 +474,14 @@
       "sha256": "645bb2359676fa2df1f658d50196660393363360b3f6d7afb36675aa20a9aaac"
     },
     {
-      "path": "scripts/health_guard.php",
-      "bytes": 850,
-      "sha256": "df93f326d4b50fcf4c28871c13175968678e9085193747501263bb70ec1ca091"
-    },
-    {
       "path": "scripts/health.php",
       "bytes": 338,
       "sha256": "3c984f9aee8a50ceb53ca729d070596d6012610d884426d6073f77e15e0acc98"
+    },
+    {
+      "path": "scripts/health_guard.php",
+      "bytes": 850,
+      "sha256": "df93f326d4b50fcf4c28871c13175968678e9085193747501263bb70ec1ca091"
     },
     {
       "path": "scripts/inspect_canonical_pack.py",
@@ -509,14 +529,19 @@
       "sha256": "06d082c733f769b3e920aa72ed9a48cc1ca631b2e38a945f10ec83b550cfc401"
     },
     {
+      "path": "scripts/role_coverage_report.php",
+      "bytes": 456,
+      "sha256": "6fb3b7fe66a11507c7ef306673725733ad1d35c096cd83850385fbb518bf21a1"
+    },
+    {
       "path": "scripts/staging_probe.sh",
       "bytes": 2268,
       "sha256": "2ca4c6a9019e7b2bfc9933d01dcf618009feeecbfde691f50306c6d493e4a377"
     },
     {
       "path": "scripts/sync_jobs.php",
-      "bytes": 6758,
-      "sha256": "9b162ff1acbdc23d4c66357fa15d9ecfe8fa3e1fb19f7b3fec6b9c23960fe0bc"
+      "bytes": 8074,
+      "sha256": "50ee93557738b3450018a39e1629afcf8853056bd5965e8353459c712362fcb7"
     },
     {
       "path": "scripts/theme_collision_audit.php",
@@ -534,16 +559,6 @@
       "sha256": "954367f776109c0d6aad1598439c627d5876a75b4e526be7ddc86326744b8b8e"
     },
     {
-      "path": "SOURCE_OF_TRUTH_REFERENCE/OverseasJob_v1.3.3_Source_of_Truth_Project_Pack.zip",
-      "bytes": 154621,
-      "sha256": "d3d775df9292cede557aabdc63107be7750e909c031b073a5cb7c94de2572adc"
-    },
-    {
-      "path": "SOURCE_OF_TRUTH_REFERENCE/OverseasJob_v1.4.1_Corrected_Canonical_Pack.zip",
-      "bytes": 310623,
-      "sha256": "3802d1e3b9090feeaaa5eed3fa780f9858299eaa96f1be4980edb9569983ecb9"
-    },
-    {
       "path": "src/Analytics.php",
       "bytes": 3158,
       "sha256": "76c542d41181a8c477fcbd396676aee5c318304b156bd1a6366007e17057b188"
@@ -557,11 +572,6 @@
       "path": "src/Countries.php",
       "bytes": 1522,
       "sha256": "7a6aefb5eb2d3dfd937b7f7431913cc8a77ecbf637d3eff27c3dc025c2edf8f1"
-    },
-    {
-      "path": "src/country_aliases.json",
-      "bytes": 14644,
-      "sha256": "0ec147e4b2275b5b689c10c147b7ed385fc3a6d779d1e33a17c1f81993d4ea51"
     },
     {
       "path": "src/EmployerContracts.php",
@@ -595,8 +605,8 @@
     },
     {
       "path": "src/Launch.php",
-      "bytes": 6927,
-      "sha256": "ae578d67c638fdcfc0c4fa7f55bb706140c147ff4c812cee2760f9bb5a0cb113"
+      "bytes": 7266,
+      "sha256": "3633b39b7b546739b29bacab82b48e78a63dda3aa8e5d161150f8668f093ebe3"
     },
     {
       "path": "src/OpsSnapshot.php",
@@ -644,6 +654,11 @@
       "sha256": "e4a841652674a06c66f799e4f14a7c5fedea19b5a42a4ef775640afe82fa0667"
     },
     {
+      "path": "src/RoleCoverage.php",
+      "bytes": 10716,
+      "sha256": "2c0f6577ebffd02abf30867f205d3471ea0846e06557248beee0dcb59dfd5774"
+    },
+    {
       "path": "src/SourceCoverage.php",
       "bytes": 7341,
       "sha256": "457a49d22cbf0112e0869097d96c91dbcc700e859a05c28bd3585e82e2ed139e"
@@ -659,9 +674,9 @@
       "sha256": "084b1f10b1dd2e88be454885d787b525602d407d2d85cf2942bd0066990de895"
     },
     {
-      "path": "START_HERE_FOUNDER.md",
-      "bytes": 7952,
-      "sha256": "faa92b6cd6f66dda59b01ae756366408572bb2e655533eb03d55abf9f395c75d"
+      "path": "src/country_aliases.json",
+      "bytes": 14644,
+      "sha256": "0ec147e4b2275b5b689c10c147b7ed385fc3a6d779d1e33a17c1f81993d4ea51"
     },
     {
       "path": "storage/.gitkeep",
@@ -834,9 +849,14 @@
       "sha256": "e25c760266e72dd643d6a190904f963b46a2ce631c7fa9e75e27b0d56667f1a2"
     },
     {
+      "path": "tests/role_coverage_tests.php",
+      "bytes": 7948,
+      "sha256": "403ffbe9c3e8fef027dd665dfa69a43df74586b711a03850b6d4503c1ca70c77"
+    },
+    {
       "path": "tests/run.sh",
-      "bytes": 1949,
-      "sha256": "2a6329d2cb0e12804af3fca7c27bf457ac82b42689b808eede3dfaa3cc052a11"
+      "bytes": 2312,
+      "sha256": "3889e57139ff67ad950fe053be4858d68d7b771a5263e7571f65e9a7ad7e764d"
     },
     {
       "path": "tests/shared_host_layout_tests.php",
