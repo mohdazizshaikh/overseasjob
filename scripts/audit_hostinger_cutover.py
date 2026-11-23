@@ -17,6 +17,8 @@ import zipfile
 MAX_SITE_FILES = 2500
 MAX_SITE_BYTES = 200_000_000
 MAX_BUNDLE_BYTES = 25_000_000
+MAX_BUNDLE_FILES = 300
+MAX_HTACCESS_BYTES = 65_536
 
 
 def safe_entry(name: str) -> bool:
@@ -125,40 +127,75 @@ def backup_zip_fingerprints(source_zip: Path) -> dict[str, str]:
 
 
 def candidate_fingerprints(public_zip: Path) -> tuple[dict[str, str], bytes]:
+    """Bounded, read-only validation of a public preview ZIP before hashing it.
+
+    Inspect ALL central-directory entries and declared sizes before decompressing.
+    ZIP CRC validation happens as each bounded stream reaches EOF; never call
+    ZipFile.testzip() or ZipFile.read() on unbounded untrusted input.
+    """
     if public_zip.is_symlink() or not public_zip.is_file():
         raise ValueError('Candidate public ZIP must be a regular local file')
+    if public_zip.stat().st_size > MAX_BUNDLE_BYTES:
+        raise ValueError('Candidate public ZIP compressed archive exceeds 25 MB')
     proposed: dict[str, str] = {}
     htaccess = b''
-    total = 0
     with zipfile.ZipFile(public_zip) as z:
-        if z.testzip() is not None:
-            raise ValueError('Candidate public ZIP fails CRC')
-        for item in z.infolist():
+        entries = z.infolist()
+        if not entries or len(entries) > MAX_BUNDLE_FILES:
+            raise ValueError('Candidate public ZIP exceeds file count safety bound')
+        checked: list[tuple[str, zipfile.ZipInfo]] = []
+        seen: set[str] = set()
+        total = 0
+        for item in entries:
             if item.is_dir():
                 raise ValueError('Candidate public ZIP must not include directory entries')
             if not safe_entry(item.filename) or not item.filename.startswith('public_html/'):
                 raise ValueError('Candidate public ZIP path is unsafe or outside webroot')
             name = item.filename[len('public_html/'):]
-            if not safe_entry(name) or name in proposed:
+            if not safe_entry(name) or name.casefold() in seen:
                 raise ValueError('Candidate public ZIP has unsafe/duplicate path')
+            seen.add(name.casefold())
             if not (name in ('index.php', '.htaccess') or name.startswith('assets/')):
                 raise ValueError('Unexpected file in public preview bundle')
+            if item.flag_bits & 0x1:
+                raise ValueError('Encrypted candidate public archive cannot be audited')
             mode = (item.external_attr >> 16) & 0o170000
             if mode not in (0, 0o100000):
                 raise ValueError('Candidate ZIP contains a nonregular file')
+            if item.file_size < 0 or item.compress_size < 0:
+                raise ValueError('Candidate ZIP has invalid member size')
             total += item.file_size
-            if total > MAX_BUNDLE_BYTES or len(proposed) >= 300:
-                raise ValueError('Candidate public bundle exceeds size/file bounds')
-            raw = z.read(item)
-            proposed[name] = hashlib.sha256(raw).hexdigest()
-            if name == '.htaccess':
-                htaccess = raw
-    if 'index.php' not in proposed or '.htaccess' not in proposed:
-        raise ValueError('Candidate entrypoint or Apache config missing')
+            if total > MAX_BUNDLE_BYTES:
+                raise ValueError('Candidate public bundle exceeds expanded 25 MB bound')
+            if item.file_size > 1024 * 1024 and (
+                    item.compress_size == 0 or item.file_size > 400 * item.compress_size):
+                raise ValueError('Candidate ZIP compression ratio unsafe')
+            if name == '.htaccess' and item.file_size > MAX_HTACCESS_BYTES:
+                raise ValueError('Candidate Apache configuration exceeds audit bound')
+            checked.append((name, item))
+        if not {'index.php', '.htaccess'}.issubset(seen):
+            raise ValueError('Candidate entrypoint or Apache config missing')
+        # No decompression occurs until every entry passes the structural limits.
+        for name, item in checked:
+            digest = hashlib.sha256()
+            consumed = 0
+            apache = bytearray() if name == '.htaccess' else None
+            with z.open(item, 'r') as stream:
+                while chunk := stream.read(64 * 1024):
+                    consumed += len(chunk)
+                    if consumed > item.file_size or consumed > MAX_BUNDLE_BYTES:
+                        raise ValueError('Candidate ZIP member expanded beyond bounds')
+                    digest.update(chunk)
+                    if apache is not None:
+                        apache.extend(chunk)
+            if consumed != item.file_size:
+                raise ValueError('Candidate ZIP declared and actual size mismatch')
+            proposed[name] = digest.hexdigest()
+            if apache is not None:
+                htaccess = bytes(apache)
     if b'DirectoryIndex index.php' not in htaccess or b'Require all denied' not in htaccess:
         raise ValueError('Candidate Apache configuration not expected secure bootstrap')
     return dict(sorted(proposed.items())), htaccess
-
 
 def compare_fingerprints(current: dict[str, str], candidate: Path, mode: str) -> dict:
     new, _ = candidate_fingerprints(candidate)

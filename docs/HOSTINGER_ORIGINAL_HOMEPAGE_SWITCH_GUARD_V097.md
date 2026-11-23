@@ -41,3 +41,9 @@ The outer GitHub Actions artifact now contains `STOP_READ_FIRST_NO_LIVE_CUTOVER.
 **Completion criteria:** this guard proves the code detects risks in a supplied local backup; actual `overseasjob.in` permissions, current theme contents, indexing, backup restore, real provider licences, live jobs and public launch remain **UNVERIFIED**.
 
 The original static-theme checker `src/ThemeSafety.php` is preserved. This v0.9.7 guard differs by comparing the **exact generated public ZIP** intended for Hostinger and explicitly modeling the root homepage switch.
+
+## 24 November 2026 — bounded candidate-ZIP verification before CRC scan
+
+The candidate public ZIP is now checked for **compressed archive size (25 MB)**, **total expanded size (25 MB)**, **member count (300)**, safe webroot-only paths, case-insensitive duplicate paths, encrypted members, symlink/non-file entries, suspicious compression ratios and bounded `.htaccess` size **before** decompressing any member. Unlike the earlier implementation, validation no longer invokes whole-archive `ZipFile.testzip()` or reads entire members into memory. Each member is SHA-256 hashed with bounded streaming; Python's ZIP reader verifies CRC on stream completion. Added negative regression fixtures for an oversized ZIP container, excessive uncompressed size, compression-ratio bomb and case-insensitive asset collision. The read-only CLI continues to exit code 2, never returns deployment permission and never touches Hostinger.
+
+These safeguards protect the offline inspection tool against malformed candidate archives; they **do not** prove that the original Hostinger backup is complete, that MySQL can be restored, that the host supports sibling private directories, or that existing website SEO/theme can be cut over safely. Keep Gate 0 blocked until the real evidence is inspected.
