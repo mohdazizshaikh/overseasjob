@@ -1,13 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.24-current-founder-v141-canonical-actions-artifact",
+  "release": "0.9.25-founder-readonly-predeployment-report",
   "source_of_truth": "v1.4.1",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
-    "status": "PENDING_PR_CI",
-    "tests": "Main GitHub Actions source pack job now uploads exact founder v1.4.1 ZIP instead of historical v1.3.4 artifact; existing deterministic historic validation preserved"
+    "status": "PENDING_FULL_PR_CI",
+    "tests": "12 founder NO-GO truth/report assertions plus complete existing six-job GitHub CI and SHA-256 manifest inventory"
   },
   "canonical_documentation": {
     "status": "EXACT_FOUNDER_V141_ZIP_IMPORTED__CI_VALIDATION_PENDING",
@@ -35,8 +35,8 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "Latest founder v1.4.1 artifact is versioned, SHA-256 guarded and free to download from CI. Historical packs remain tracked and checked, but no stale version is distributed as current. Real hosting/provider/legal/14d source evidence gates remain blocked.",
-  "file_count_excluding_manifest": 168,
+  "developer_notes": "Added read-only founder-friendly predeployment report; fixed outdated docs that incorrectly called v1.4.1 ZIP import pending. Exits 2 when local blockers remain and never auto-authorises deployment, logs in to Hostinger, activates providers or exports private approvals. Real Hostinger backups, permissions, 14 genuine UTC days, legal/editorial signoff and rollback remain pending.",
+  "file_count_excluding_manifest": 171,
   "files": [
     {
       "path": ".env.example",
@@ -55,8 +55,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 19285,
-      "sha256": "7bfdfc81859a2b36cf2012183b4e2914fb72c2411e05580469a26def9f64b83c"
+      "bytes": 19706,
+      "sha256": "77f4d4f078b1de71192a8eb04f787a5e2a3e714f83c8d2addf3c682175de95bc"
     },
     {
       "path": "SOURCE_OF_TRUTH_REFERENCE/OverseasJob_v1.3.3_Source_of_Truth_Project_Pack.zip",
@@ -259,6 +259,11 @@
       "sha256": "bb7e5d7702c552c825caa18f7ad63888cb4a41175ee6aa01f59bfa3e2fa499c0"
     },
     {
+      "path": "docs/PREDEPLOYMENT_REPORT_GUIDE.md",
+      "bytes": 3488,
+      "sha256": "bc62c7c60ef54de068f9a54cc12052f83b7778624fcf59acd1ae4b979be7c6dc"
+    },
+    {
       "path": "docs/PROVIDER_CURSOR_AND_DATE_CORRECTION_v091.md",
       "bytes": 3170,
       "sha256": "f9807e09c90561cae0b3d532872c175042a5cb6126f2c36ef7cafdde8f4bce86"
@@ -280,8 +285,8 @@
     },
     {
       "path": "docs/RELEASE_GATE_V2_SECURITY.md",
-      "bytes": 3572,
-      "sha256": "a8a2d3038b42e3a0e1a539c1e509c47d24d30e229dbc57032003fe083dd9e93a"
+      "bytes": 4717,
+      "sha256": "441d8da19a9aa93054443ea3fc061084352a2de4b27ed8bb8ca85119b6151ae0"
     },
     {
       "path": "docs/RELEASE_V090_SECURITY_AND_THEME_HANDOFF.md",
@@ -502,6 +507,11 @@
       "path": "scripts/partner_tokens.php",
       "bytes": 1677,
       "sha256": "07ebab0a7e837347773db630b084bc8dd3e47216c8c78eaffb56d73ed017a9bc"
+    },
+    {
+      "path": "scripts/predeployment_report.php",
+      "bytes": 4255,
+      "sha256": "9d74dd3e6acf9aed252fedd974f98cae0911e7a9ed3cc970406f9fd0802477c4"
     },
     {
       "path": "scripts/recruiter_invites.php",
@@ -839,6 +849,11 @@
       "sha256": "47f6e1c08c22a410c7e7d71156fe0b8f1f6c87bafee4318cadb856b567851ca0"
     },
     {
+      "path": "tests/predeployment_report_tests.php",
+      "bytes": 3036,
+      "sha256": "2cb8a30afce0705cd72c477448f2fb625985a2dfdb340caa480fbae40087c1e0"
+    },
+    {
       "path": "tests/provider_http_tests.php",
       "bytes": 3443,
       "sha256": "888acfceeacadb53dd5b18eab85a8d214da6333befe52c00f8570bab9a10567e"
@@ -855,8 +870,8 @@
     },
     {
       "path": "tests/run.sh",
-      "bytes": 2312,
-      "sha256": "3889e57139ff67ad950fe053be4858d68d7b771a5263e7571f65e9a7ad7e764d"
+      "bytes": 2361,
+      "sha256": "3957146823cef1dc5ec0f45d96d477f90325d32f6cf6540b0109998d7918e795"
     },
     {
       "path": "tests/shared_host_layout_tests.php",
