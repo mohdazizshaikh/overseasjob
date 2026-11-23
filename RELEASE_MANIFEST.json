@@ -1,13 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.26-founder-v141-golden-code-bridge",
+  "release": "0.9.27-canonical-m08-arena-route",
   "source_of_truth": "v1.4.1",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
     "status": "PENDING_PR_CI",
-    "tests": "Direct 4 tool golden output groups + 18 strict Himalayas eligibility expected outputs from exact founder v1.4.1 ZIP against real JS/PHP; all existing CI"
+    "tests": "M08 canonical /arena route, /daily 301 Location, headless browser redirected journey and all existing suites"
   },
   "canonical_documentation": {
     "status": "EXACT_FOUNDER_V141_ZIP_IMPORTED__CI_VALIDATION_PENDING",
@@ -35,8 +35,8 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "New offline immutable canonical fixture runtime bridge catches drift between founder spec and implementation for T01/T02/T04/T05 and Himalayas India-eligibility truth table. Other modules and live external proof remain unverified. Current founder ZIP unchanged; release and provider rights gates remain OFF.",
-  "file_count_excluding_manifest": 175,
+  "developer_notes": "Corrected founder v1.4.1 M08 route implementation, navigation, tests and ledger; documentation stale counts fixed. No source or hosting flags changed; production remains NO-GO.",
+  "file_count_excluding_manifest": 176,
   "files": [
     {
       "path": ".env.example",
@@ -55,8 +55,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 20200,
-      "sha256": "09d76c6a6b218dba7e44bbc579edd134e213ba0b41e65cbcf4246adfaff96ba5"
+      "bytes": 20274,
+      "sha256": "a36d66213b24ec8ad425b0ed25c2bac375a90ac0558972cec23bfc685c69d8b3"
     },
     {
       "path": "SOURCE_OF_TRUTH_REFERENCE/OverseasJob_v1.3.3_Source_of_Truth_Project_Pack.zip",
@@ -229,6 +229,11 @@
       "sha256": "b4fddd4e4e9c5204a14da8a412c5db802239a7a736031f80dc5ab2c33aa6b8f6"
     },
     {
+      "path": "docs/M08_CANONICAL_ARENA_ROUTE_V141.md",
+      "bytes": 1281,
+      "sha256": "e477c345c641d9543d153c9789f8fc69674abd561457ce26205a6b19da9a5daf"
+    },
+    {
       "path": "docs/M11_LOCAL_BACKUP_SYMLINK_DEFENSE_V0914.md",
       "bytes": 2344,
       "sha256": "56a8476679fb90b6c26a0136063569babb36f791f4703fa9fb4b1484333f5c7f"
@@ -330,8 +335,8 @@
     },
     {
       "path": "module_status.json",
-      "bytes": 33656,
-      "sha256": "3a7b29d1868c41723537342939cd995c9f2c61b7119475c5e69d57624fef4b46"
+      "bytes": 33982,
+      "sha256": "8b9b57b1da626e3e8594c3f5e2333ea5c164c2e09e09d7f54342af5d6625a5e2"
     },
     {
       "path": "public/.htaccess",
@@ -430,8 +435,8 @@
     },
     {
       "path": "public/index.php",
-      "bytes": 95424,
-      "sha256": "29f01ccfe655d14be59bac9cb15d4af4310b7089e99e197462268f4ac32ede6e"
+      "bytes": 95573,
+      "sha256": "96ae20a150e407ad9fad70cc3660ef004ef40277d5c7cc9a83140ea2031437eb"
     },
     {
       "path": "public/router.php",
@@ -725,8 +730,8 @@
     },
     {
       "path": "tests/browser_e2e.py",
-      "bytes": 8006,
-      "sha256": "2c0e8e2dbfb364dfa70ffa18198be90d602533e7102a0907f134841352332341"
+      "bytes": 8093,
+      "sha256": "0bac9f46a88ce50bb9cc1575831bbc081c1eb62db0ad43d307cb21331119e263"
     },
     {
       "path": "tests/canonical_pack_reissue_tests.py",
@@ -810,8 +815,8 @@
     },
     {
       "path": "tests/http_v060_smoke.sh",
-      "bytes": 2110,
-      "sha256": "e5495fcb76ddd3ebe23f701baef8e893a735d02ab07844f5168e38ab6e07cc8a"
+      "bytes": 2386,
+      "sha256": "03ccb85cad54568e7a5a970a4a5dc87c08d668118b1fc803525e05452cbb8a6f"
     },
     {
       "path": "tests/js_tests.mjs",

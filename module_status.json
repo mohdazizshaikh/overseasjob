@@ -298,22 +298,27 @@
         "21 original offline missions across 3 roles",
         "deterministic UTC daily rotation",
         "on-device streak per track",
-        "strict import/export, reset, no-JS practice fallback"
+        "strict import/export, reset, no-JS practice fallback",
+        "Canonical M08 /arena and permanent /daily redirect with direct navigation/footer links"
       ],
       "tests": [
         "61 combined deterministic M07/M08/M09/M15 JavaScript checks",
-        "30 v0.6 HTTP/safety checks"
+        "30 v0.6 HTTP/safety checks",
+        "Canonical M08 /arena HTTP 200, legacy /daily HTTP 301 Location and headless browser redirect"
       ],
       "spec_version": "v1.4.1",
       "routes": [
-        "/daily"
+        "/arena",
+        "/daily (301 redirect only)"
       ],
       "dependencies": [
         "M05"
       ],
       "evidence_paths": [
         "tests/daily_radar_privacy_tests.mjs",
-        "tests/browser_e2e.py"
+        "tests/browser_e2e.py",
+        "tests/http_v060_smoke.sh",
+        "docs/M08_CANONICAL_ARENA_ROUTE_V141.md"
       ],
       "last_verified_at": null
     },

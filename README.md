@@ -65,10 +65,10 @@
 sh tests/run.sh
 php scripts/launch_preflight.php   # 'ready': false and exit code 2 are EXPECTED
 php -S 127.0.0.1:8000 -t public public/router.php
-# Open http://127.0.0.1:8000/tools and /daily
+# Open http://127.0.0.1:8000/tools and /arena (legacy /daily permanently redirects)
 ```
 
-All new code runs without paid AI or additional subscriptions. The deterministic local suite passes **440 checks**; the unchanged canonical specification passes **71/71 documentation checks**. This is NOT a production security certification. The 38 actual Chromium browser checks passed on GitHub's isolated local preview; live hosting, production theme parity, assistive technology and real user testing remain unverified. GitHub Actions success remains to be checked after pushing.
+All new code runs without paid AI or additional subscriptions. The deterministic local suite passes current automated GitHub CI checks; the verified v1.4.1 canonical specification passes **149/149 documentation/fixture checks**. This is NOT a production security certification. The 38 actual Chromium browser checks passed on GitHub's isolated local preview; live hosting, production theme parity, assistive technology and real user testing remain unverified. GitHub Actions success remains to be checked after pushing.
 
 **Zero-trust defaults:** `RELEASE_READY=0`, `ANALYTICS_ENABLED=0`, `ADS_ENABLED=0`, `OWNER_PANEL_ENABLED=0`, `RECRUITER_LITE_ENABLED=0`, `PARTNER_POSTING_API_ENABLED=0`. See `.env.example`. Do not place the project root or secrets inside `public_html`.
 
