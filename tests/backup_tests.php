@@ -20,6 +20,45 @@ try{
     count(array_intersect(['report_rate.json','analytics_daily.json'],Backups::isolatedRestoreDrill($root)))===2);
  Backups::create($root);Backups::create($root);
  okBackup('Only two most recent restore points retained',count(glob($root.'/backups/jobs.json.*.bak'))===2);
+ // Security regression: never follow a backup directory pointing elsewhere.
+ $backups=$root.'/backups';
+ $offsite=$root.'/isolated-backups-original';
+ if(!rename($backups,$offsite))throw new RuntimeException('Failed test directory setup');
+ symlink($offsite,$backups);
+ $deniedCreate=false;$deniedRestore=false;
+ try{Backups::create($root);}catch(RuntimeException){$deniedCreate=true;}
+ try{Backups::isolatedRestoreDrill($root);}catch(RuntimeException){$deniedRestore=true;}
+ okBackup('Symlinked backups directory rejected for snapshot creation',$deniedCreate);
+ okBackup('Symlinked backups directory rejected for restore',$deniedRestore);
+ unlink($backups);rename($offsite,$backups);
+ // The storage root itself may not be a symlink.
+ symlink($root,$root.'/linked-root');
+ $deniedRoot=false;
+ try{Backups::create($root.'/linked-root');}catch(RuntimeException){$deniedRoot=true;}
+ okBackup('Symlinked storage root rejected before backup writes',$deniedRoot);
+ unlink($root.'/linked-root');
+ // Reject a symlinked candidate source, even if it points to a regular file.
+ rename($root.'/jobs.json',$root.'/original-jobs.json');
+ symlink('original-jobs.json',$root.'/jobs.json');
+ $deniedSource=false;
+ try{Backups::create($root);}catch(RuntimeException){$deniedSource=true;}
+ okBackup('Symlinked source input rejected instead of copied',$deniedSource);
+ unlink($root.'/jobs.json');rename($root.'/original-jobs.json',$root.'/jobs.json');
+ // Most recent backup's JSON can also be substituted with a symlink.
+ $candidates=glob($backups.'/jobs.json.*.bak');rsort($candidates);
+ $metafile=$candidates[0].'.json';
+ rename($metafile,$metafile.'.saved');
+ symlink(basename($metafile).'.saved',$metafile);
+ $deniedMeta=false;
+ try{Backups::isolatedRestoreDrill($root);}catch(RuntimeException){$deniedMeta=true;}
+ okBackup('Symlinked backup checksum metadata rejected',$deniedMeta);
+ unlink($metafile);rename($metafile.'.saved',$metafile);
+ okBackup('Untampered snapshots still restore safely after symlink refusals',
+    in_array('jobs.json',Backups::isolatedRestoreDrill($root),true));
+ okBackup('Private backup directory mode remains 0700',
+    (fileperms($backups)&0777)===0700);
+ okBackup('Checksum metadata mode remains 0600',
+    (fileperms($metafile)&0777)===0600);
  $latest=glob($root.'/backups/jobs.json.*.bak');rsort($latest);file_put_contents($latest[0],'tampered backup');
  $detected=false;try{Backups::isolatedRestoreDrill($root);}catch(RuntimeException){$detected=true;}
  okBackup('Backup tampering causes restore failure',$detected);
