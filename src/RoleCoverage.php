@@ -145,13 +145,13 @@ final class RoleCoverage
             'sampled_dates'=>0,'relevant_rows'=>0,'india_allowed'=>0,
             'india_unknown'=>0,'india_not_allowed'=>0,'safe_apply_https'=>0,'expired_by_source_date'=>0
         ];
-        $sampledByProvider=[];$partialDays=0;$rawCount=0;$dupes=0;$invalidUrls=0;
+        $sampledByProvider=[];$roleDateSets=[];$partialDays=0;$rawCount=0;$dupes=0;$invalidUrls=0;
         foreach($latest as $row){
             $days[$row['date']]=true;$sampledByProvider[$row['provider']][$row['date']]=true;
             $partialDays+=(int)$row['partial_provider_sample'];
             $rawCount+=$row['fetched_total'];$dupes+=$row['duplicate_rows'];$invalidUrls+=$row['raw_apply_url_failures'];
             foreach($row['cohorts'] as $id=>$item){
-                $roles[$id]['sampled_dates']++;
+                $roleDateSets[$id][$row['date']]=true;
                 foreach(['relevant','india_allowed','india_unknown','india_not_allowed','safe_apply_https','expired_by_source_date'] as $field){
                     $key=$field==='relevant'?'relevant_rows':$field;
                     $roles[$id][$key]+=$item[$field];
@@ -159,7 +159,10 @@ final class RoleCoverage
             }
         }
         $count=count($days);$cohortComplete=0;
-        foreach($roles as $r)if($r['sampled_dates']>=14)$cohortComplete++;
+        foreach($roles as $id=>&$r){
+            $r['sampled_dates']=count($roleDateSets[$id]??[]);
+            if($r['sampled_dates']>=14)$cohortComplete++;
+        }unset($r);
         return [
             'as_of'=>gmdate('Y-m-d',$now),'days_measured'=>$count,
             'cohorts_measured'=>array_keys($roles),'role_counts'=>$roles,

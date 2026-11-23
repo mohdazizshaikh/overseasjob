@@ -54,6 +54,12 @@ try{
     $path=$tmp.'/role_coverage.ndjson';
     $empty=RoleCoverage::summarize($path,$now);
     roleCheck('No role log cannot invent 14 days',$empty['days_measured']===0&&!$empty['14_days_for_2_to_3_role_cohorts_shape_valid']);
+    file_put_contents($path,json_encode($r)."\n".json_encode($h)."\n");
+    $twoSourceSameDay=RoleCoverage::summarize($path,$now);
+    roleCheck('Two providers on one UTC day still count as ONE calendar date per role',
+        $twoSourceSameDay['days_measured']===1
+        &&$twoSourceSameDay['role_counts']['it_support']['sampled_dates']===1
+        &&$twoSourceSameDay['role_counts']['it_support']['relevant_rows']===2);
     $lines=[];
     for($day=0;$day<14;$day++){
         $then=$now-$day*86400;
