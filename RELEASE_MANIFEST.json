@@ -745,8 +745,8 @@
     },
     {
       "path": "tests/php_tests.php",
-      "bytes": 16647,
-      "sha256": "f41e6a2d20db8534b2327904b444eb9150c54884460f7b22217bbba9737d0511"
+      "bytes": 16672,
+      "sha256": "96e2cbb6d12b8bc7f6ab023ac5604c763b8fd3b9d0e79a5cf17b74d4e9f87836"
     },
     {
       "path": "tests/provider_http_tests.php",
