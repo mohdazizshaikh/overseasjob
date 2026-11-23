@@ -1,6 +1,6 @@
 {
   "spec_version": "v1.3.3",
-  "release": "gate1+gate2+gate3-local-v0.9.7-hostinger-cutover-safety-pending-ci",
+  "release": "gate1+gate2+gate3-local-v0.9.8-apache-security-qa-pending-ci",
   "development_state": "LOCAL_CODE_WITH_VERIFIED_DISPOSABLE_CI_NOT_DEPLOYED",
   "evidence": [
     "tests/php_tests.php",
@@ -91,7 +91,9 @@
         "docs/HOSTINGER_DIRECT_HOST_BUNDLE_V095.md",
         "scripts/audit_hostinger_cutover.py",
         "tests/hostinger_cutover_audit_tests.py",
-        "docs/HOSTINGER_ORIGINAL_HOMEPAGE_SWITCH_GUARD_V097.md"
+        "docs/HOSTINGER_ORIGINAL_HOMEPAGE_SWITCH_GUARD_V097.md",
+        "tests/apache_webroot_security.sh",
+        "docs/APACHE_WEBROOT_DEFENSE_IN_DEPTH_V098.md"
       ],
       "tests": [],
       "last_verified_at": null
@@ -543,7 +545,9 @@
         "scripts/reissue_canonical_pack_v134.py",
         "tests/canonical_pack_reissue_tests.py",
         "docs/CANONICAL_SOURCE_PACK_REISSUE_V134.md",
-        "tests/hostinger_cutover_audit_tests.py"
+        "tests/hostinger_cutover_audit_tests.py",
+        "tests/apache_webroot_security.sh",
+        "docs/APACHE_WEBROOT_DEFENSE_IN_DEPTH_V098.md"
       ],
       "last_verified_at": null
     },
@@ -680,5 +684,13 @@
     "original_index_html_preservation_does_not_preserve_homepage": true,
     "real_host_php_document_root_permissions_verified": false,
     "public_cutover_approved": false
+  },
+  "apache_webroot_defense": {
+    "status": "ISOLATED_APACHE_CI_PENDING",
+    "test": "tests/apache_webroot_security.sh",
+    "config": "public/.htaccess",
+    "docs": "docs/APACHE_WEBROOT_DEFENSE_IN_DEPTH_V098.md",
+    "real_host_tested": false,
+    "private_source_outside_public_webroot_still_required": true
   }
 }
