@@ -20,7 +20,6 @@ jobs:
           php -v
           node -v
           php -r 'if (PHP_VERSION_ID < 80200) exit(1);'
-          python3 scripts/inspect_canonical_pack.py
           sh tests/run.sh
       - name: Verify isolated split Hostinger preview archives
         run: python3 tests/hostinger_bundle_tests.py
@@ -38,6 +37,9 @@ jobs:
               assert len(validators)==1, 'Missing canonical validator'
               subprocess.run([sys.executable,str(validators[0])],cwd=validators[0].parent,check=True)
           PY
+      - name: Reissue exact canonical v1.3.3 and verify narrow v1.3.4 preservation
+        run: python3 tests/canonical_pack_reissue_tests.py
+
   mysql-pilot-integration:
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -140,3 +142,24 @@ jobs:
           path: artifacts/hostinger-preview/
           if-no-files-found: error
           retention-days: 14
+
+  canonical-v134-artifact:
+    needs: [deterministic-tests, mysql-pilot-integration, real-browser-e2e]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate exact canonical source and generate reissued v1.3.4 ZIP
+        run: |
+          python3 tests/canonical_pack_reissue_tests.py
+          python3 scripts/reissue_canonical_pack_v134.py --output artifacts/canonical-v134
+      - name: Downloadable versioned canonical source pack (not deployment)
+        uses: actions/upload-artifact@v4
+        with:
+          name: overseasjob-canonical-v134-validated
+          path: artifacts/canonical-v134/
+          retention-days: 14
+          if-no-files-found: error
