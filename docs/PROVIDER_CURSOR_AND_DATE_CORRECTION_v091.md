@@ -1,4 +1,6 @@
-# v0.9.1 — Himalayas provider adapter correction (23 November 2026)
+# v0.9.1 — Historical Himalayas adapter correction (SUPERSEDED)
+
+**Historical implementation note: SUPERSEDED by `docs/OPENAPI_HIMALAYAS_CORRECTION_V094.md` after official OpenAPI revalidation. Do NOT use the cursor or pubDate semantics below for deployment.**
 
 **Status: isolated GitHub CI tests passed ([run 45073631074](https://github.com/mohdazizshaikh/overseasjob/actions/runs/45073631074)). NOT a live source integration, legal approval, public deployment or production verification.**
 
