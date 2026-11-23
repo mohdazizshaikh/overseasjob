@@ -1,13 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.13-hostinger-original-public-html-backup-zip-audit",
+  "release": "0.9.14-m11-local-backup-symlink-metadata-safety",
   "source_of_truth": "v1.3.3",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
     "status": "PENDING_PR_CI",
-    "tests": "Original Hostinger ZIP safe read-only parity and host-cutover negative archive checks"
+    "tests": "Local backup symlink/refusal, hash restore, no original Hostinger backup claims"
   },
   "canonical_documentation": {
     "passed": 71,
@@ -30,8 +30,8 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "ZIP backup comparison is safe and no-extract but cannot verify actual live Hostinger files, full backup restoration or original theme preservation. All cutover gates remain blocked.",
-  "file_count_excluding_manifest": 157,
+  "developer_notes": "Local backups only, production Hostinger public_html and DB restore were not done; backup path symlink and metadata confusion blocked in code pending CI.",
+  "file_count_excluding_manifest": 158,
   "files": [
     {
       "path": ".env.example",
@@ -199,6 +199,11 @@
       "sha256": "b4fddd4e4e9c5204a14da8a412c5db802239a7a736031f80dc5ab2c33aa6b8f6"
     },
     {
+      "path": "docs/M11_LOCAL_BACKUP_SYMLINK_DEFENSE_V0914.md",
+      "bytes": 2344,
+      "sha256": "56a8476679fb90b6c26a0136063569babb36f791f4703fa9fb4b1484333f5c7f"
+    },
+    {
       "path": "docs/M16_BROWSER_A11Y_REFLOW_PRINT_V0910.md",
       "bytes": 2592,
       "sha256": "85496fea4989d88a2b952c5744e8557f25ede79831914bc42c4a59b5750f25ac"
@@ -275,8 +280,8 @@
     },
     {
       "path": "module_status.json",
-      "bytes": 30797,
-      "sha256": "3da0d7e41f726000aef83784638d83b97c29f0137b9c0ab3bc200ae386f59a4d"
+      "bytes": 31502,
+      "sha256": "426e557d63b61ada6f9649d63701b429e4bfd63ea011dd88cf191091643eb531"
     },
     {
       "path": "public/.htaccess",
@@ -385,8 +390,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 16457,
-      "sha256": "8a04a3ad385a1148708b52a6fd630f1517862183e101f2fb7dd2f926ac535167"
+      "bytes": 16927,
+      "sha256": "e42165ce4dfabd629b7b7bab7f4228771025150217efa3faa5c6533ed389f88a"
     },
     {
       "path": "scripts/analytics_report.php",
@@ -400,8 +405,8 @@
     },
     {
       "path": "scripts/backup.php",
-      "bytes": 483,
-      "sha256": "b6a8b7937a427d4e867e9758ab291426083deef3aa9bebf4792c54fd80eb71b1"
+      "bytes": 652,
+      "sha256": "58f2e20c8d1af2609224e4fc755706aaeac1bdc423b29cde4a1afdc8cd9d4e32"
     },
     {
       "path": "scripts/build_hostinger_bundle.py",
@@ -520,8 +525,8 @@
     },
     {
       "path": "src/Backups.php",
-      "bytes": 4364,
-      "sha256": "1a1b18e3c14386b05dc9a2f16f8ba8c66d902a66d0cd63737f0ac388da92223d"
+      "bytes": 5640,
+      "sha256": "f9d6006f457d2772cc8bdc2bf6da6a97d3866f30d7be00fe3587f4fd391b4c05"
     },
     {
       "path": "src/Countries.php",
@@ -630,8 +635,8 @@
     },
     {
       "path": "START_HERE_FOUNDER.md",
-      "bytes": 6773,
-      "sha256": "a8736af9c6687dacd705b0fe5e2a87c3a4b682fb61296ac2357b7f74cea51536"
+      "bytes": 7198,
+      "sha256": "689d6a3868bb8046fefe4f2d5b680ef204ea607377384784a1d1c48281a5aa08"
     },
     {
       "path": "storage/.gitkeep",
@@ -655,8 +660,8 @@
     },
     {
       "path": "tests/backup_tests.php",
-      "bytes": 2251,
-      "sha256": "dd2931feb7e3b7daee51953087187b3a2c4bab370e8931b2f717dfc2adc882d1"
+      "bytes": 4514,
+      "sha256": "1f42d33b47ab96b21a5b37ca5f5de10d2d4a78d64e3316d52f5419c4e9b6f717"
     },
     {
       "path": "tests/browser_a11y_print.py",
