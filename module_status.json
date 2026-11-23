@@ -1,6 +1,6 @@
 {
   "spec_version": "v1.3.4",
-  "release": "gate1+gate2+gate3-local-v0.9.12-default-off-source-main-ci-verified",
+  "release": "gate1+gate2+gate3-local-v0.9.13-hostinger-original-backup-zip-audit-pending-ci",
   "development_state": "LOCAL_CODE_WITH_VERIFIED_DISPOSABLE_CI_NOT_DEPLOYED",
   "evidence": [
     "tests/php_tests.php",
@@ -79,7 +79,7 @@
     {
       "module_id": "M00",
       "implementation_status": "blocked_with_reason",
-      "blocker_reason": "Read-only original-site backup vs candidate ZIP guard added, but real current Hostinger public_html backup/restore, PHP/open_basedir and original visual theme are unverified. Apache DirectoryIndex index.php can replace the visible index.html homepage even without deleting it; safe root cutover NOT approved.",
+      "blocker_reason": "Isolated local-folder and original-site Hostinger ZIP comparison supported (no extraction/deployment; ZIP traversal/symlink/bomb guards), but founder's actual current Hostinger backup was not received or restored, original theme assets and PHP docroot/open_basedir remain unverified. .htaccess DirectoryIndex index.php may displace original static homepage; no public cutover approved.",
       "spec_version": "v1.3.4",
       "routes": [],
       "dependencies": [],
@@ -757,5 +757,16 @@
     "live_host_provider_calls_authorized": false,
     "verified_run_url": "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45195745006",
     "activation_tests_passed": 21
+  },
+  "original_hostinger_zip_audit": {
+    "status": "ZIP_INPUT_READONLY_CHECKS_PENDING_CI",
+    "script": "scripts/audit_hostinger_cutover.py",
+    "tests": "tests/hostinger_cutover_audit_tests.py",
+    "guide": "docs/HOSTINGER_ORIGINAL_HOMEPAGE_SWITCH_GUARD_V097.md",
+    "original_production_zip_received": false,
+    "original_production_zip_verified_restorable": false,
+    "real_current_theme_parity_verified": false,
+    "real_host_modified": false,
+    "public_cutover_approved": false
   }
 }
