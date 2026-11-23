@@ -26,6 +26,11 @@ header("Content-Security-Policy: default-src 'self'; img-src 'self' data:; scrip
 $root=OJ_PROJECT_ROOT;
 $path=rawurldecode(parse_url($_SERVER['REQUEST_URI']??'/',PHP_URL_PATH)?:'/');
 if(str_contains($path,"\0")||str_contains($path,'..')){http_response_code(400);exit('Bad request');}
+// v1.4.1 canonical M08: the original /daily route redirects permanently.
+if($path==='/daily'){
+    header('Location: /arena',true,301);
+    exit;
+}
 function h(mixed $str):string{return htmlspecialchars((string)$str,ENT_QUOTES|ENT_SUBSTITUTE,'UTF-8');}
 function fmtdate(mixed $value):string{
     if(!$value)return 'Not disclosed';
@@ -42,11 +47,11 @@ function frameStart(string $pageTitle, bool $noindex=false):void{
     echo '<a class="skip-link" href="#main">Skip to content</a>';
     if(!Launch::allowed(OJ_PROJECT_ROOT))echo '<div class="preview-banner">LOCAL RELEASE CANDIDATE — not a deployed or verified job service</div>';
     echo '<header class="site-header"><div class="container header-inner"><a class="brand" href="/" aria-label="OverseasJob home"><img src="/assets/overseasjob-logo.png" alt="OverseasJob"></a>';
-    echo '<nav aria-label="Main navigation"><a href="/jobs">Find jobs</a><a href="/tools">Free tools</a><a href="/my-career">My career</a><a href="/daily">Daily mission</a><a href="/guides">Guides</a><a href="/safety">Safety</a></nav><a class="nav-action" href="/jobs?path=remote_from_india">Explore opportunities</a></div></header>';
+    echo '<nav aria-label="Main navigation"><a href="/jobs">Find jobs</a><a href="/tools">Free tools</a><a href="/my-career">My career</a><a href="/arena">Daily mission</a><a href="/guides">Guides</a><a href="/safety">Safety</a></nav><a class="nav-action" href="/jobs?path=remote_from_india">Explore opportunities</a></div></header>';
     echo '<main id="main">';
 }
 function frameEnd():void{
-    echo '</main><footer class="footer"><div class="container footer-grid"><div><strong>OverseasJob.in</strong><p>Discover, compare, prepare. No guaranteed jobs or visas.</p></div><div><a href="/sources">Job sources</a><a href="/privacy">Privacy & data controls</a><a href="/terms">Terms</a><a href="/report-job">Report a job</a></div><div><a href="/about">About</a><a href="/contact">Contact</a><a href="/safety">Safety</a><a href="/daily">Daily mission</a></div></div><div class="container tiny">Development preview. Current live source availability, hosting and legal compliance are not certified. © 2026 OverseasJob.in</div></footer>';
+    echo '</main><footer class="footer"><div class="container footer-grid"><div><strong>OverseasJob.in</strong><p>Discover, compare, prepare. No guaranteed jobs or visas.</p></div><div><a href="/sources">Job sources</a><a href="/privacy">Privacy & data controls</a><a href="/terms">Terms</a><a href="/report-job">Report a job</a></div><div><a href="/about">About</a><a href="/contact">Contact</a><a href="/safety">Safety</a><a href="/arena">Daily mission</a></div></div><div class="container tiny">Development preview. Current live source availability, hosting and legal compliance are not certified. © 2026 OverseasJob.in</div></footer>';
     echo '<script type="module" src="/assets/app.js"></script><script type="module" src="/assets/privacy_ui.mjs"></script></body></html>';
 }
 function heading(string $eyebrow,string $title,string $text=''):void{
@@ -408,7 +413,7 @@ if($path==='/my-career'){
  echo '<section class="section section-tight"><div class="container tool-layout"><form class="surface form-card" id="career-form" method="dialog" data-local-only="true"><h2>Saved preferences</h2><label>Target role<input name="role" maxlength="100" placeholder="e.g. Software Engineer"></label><label>Work path<select name="workPath"><option value="remote_from_india">India location + timezone confirmed</option><option value="remote_other">Remote: unknown/restricted</option><option value="onsite_abroad">On-site abroad (verified evidence)</option></select></label><button class="button button-primary" type="submit">Save & check matches</button><div class="small-controls"><button type="button" class="button button-secondary" id="profile-export">Export JSON</button><label class="file-upload">Import JSON<input type="file" id="profile-import" accept="application/json,.json"></label><button type="button" class="button button-text" id="profile-delete">Delete all local data</button></div><p id="career-message" role="status" aria-live="polite"></p></form><div class="surface result-card"><h2>Radar results</h2><div id="career-results" aria-live="polite"></div><p class="tiny">“New to your Radar” means not seen on this device; “details changed” is a local listing comparison, not a confirmed employer update. Clearing browser data can erase saved preferences. No background email alerts or automatic application-status tracking is active. <a href="/tools/application-tracker">Open manual application tracker</a>.</p></div></div></section><script type="application/json" id="career-data">'.json_encode($payload,JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT).'</script>';
  frameEnd();exit;
 }
-if($path==='/daily'){
+if($path==='/arena'){
     $daily=json_decode((string)file_get_contents($root.'/content/daily_missions.json'),true);
     if(!is_array($daily)||!is_array($daily['missions']??null)){http_response_code(503);exit('Daily practice unavailable');}
     frameStart('Daily Career Mission',true);

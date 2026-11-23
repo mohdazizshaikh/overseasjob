@@ -74,6 +74,7 @@ with sync_playwright() as p:
     ok('T10 personal roadmap export',d.value.suggested_filename.endswith('.json'))
     # Privacy-first daily mission and consent checks run in the isolated browser.
     page.goto(BASE+'/daily',wait_until='networkidle')
+    ok('M08 legacy Daily route lands at canonical /arena',page.url.endswith('/arena'))
     ok('M08 daily question shown',len(page.locator('#daily-prompt').inner_text())>20)
     page.locator('#daily-complete').click()
     ok('M08 self-reported completion saved',page.locator('#daily-complete').is_disabled())

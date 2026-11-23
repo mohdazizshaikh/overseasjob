@@ -9,14 +9,18 @@ trap 'kill "$PID" 2>/dev/null || true' EXIT INT TERM
 sleep 1
 BASE="http://127.0.0.1:$PORT"; count=0
 expect(){ code=$(curl -s --max-time 8 -o /dev/null -w '%{http_code}' "$BASE$1"); [ "$code" = "$2" ] || { echo "FAIL $1 expected $2 but returned $code" >&2;exit 1;};count=$((count+1));}
-for path in /daily /privacy /contact /developers /my-career /assets/daily.mjs /assets/daily_ui.mjs /assets/radar.mjs /assets/radar_ui.mjs /assets/privacy.mjs /assets/privacy_ui.mjs;do expect "$path" 200;done
+for path in /arena /privacy /contact /developers /my-career /assets/daily.mjs /assets/daily_ui.mjs /assets/radar.mjs /assets/radar_ui.mjs /assets/privacy.mjs /assets/privacy_ui.mjs;do expect "$path" 200;done
+expect /daily 301
+redirect=$(curl -sS --max-time 8 -D - -o /dev/null "$BASE/daily" | tr -d '\r' | grep -i '^Location:' | head -n 1 || true)
+[ "$redirect" = 'Location: /arena' ] || { echo "FAIL legacy /daily must 301 to /arena, got $redirect" >&2; exit 1; }
+count=$((count+1))
 expect /owner 404
 expect /employers 503
 expect /employers/register 503
 expect /api/v1/partner/jobs 404
 expect /api/privacy-event 404
 for path in /src/OwnerAuth.php /src/Analytics.php /src/EmployerContracts.php /content/daily_missions.json /.env /.htaccess /storage/analytics_daily.json;do expect "$path" 404;done
-html=$(curl -fsS "$BASE/daily")
+html=$(curl -fsS "$BASE/arena")
 printf '%s' "$html" | grep -q 'id="daily-data"' || { echo 'FAIL private authored daily data missing' >&2;exit 1; };count=$((count+1))
 printf '%s' "$html" | grep -q 'noindex,nofollow' || { echo 'FAIL daily release hold missing' >&2;exit 1; };count=$((count+1))
 printf '%s' "$html" | grep -q 'data-local-only="true"' || { echo 'FAIL daily privacy marker missing' >&2;exit 1; };count=$((count+1))
