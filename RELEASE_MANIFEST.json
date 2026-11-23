@@ -1,13 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.10-m16-browser-accessibility-print-reflow-evidence",
+  "release": "0.9.11-complete-git-source-inventory-audit",
   "source_of_truth": "v1.3.3",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
     "status": "PENDING_PR_CI",
-    "browser_tests": "M16 16-route keyboard/label/reflow/print/noJS plus original 38 Playwright checks"
+    "manifest_check": "Exhaustive git ls-files and SHA256 matching, negative temp Git fixture"
   },
   "canonical_documentation": {
     "passed": 71,
@@ -30,8 +30,8 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "New candidate-only desktop/mobile screenshots, targeted accessibility and print checks do not certify WCAG or original live site parity. Hostinger provider legal and backups remain unverified.",
-  "file_count_excluding_manifest": 151,
+  "developer_notes": "All Git-tracked source file names must be represented exactly in manifest; cannot claim production Hostinger, original theme, real source licence or 14day inventory from source tracking.",
+  "file_count_excluding_manifest": 154,
   "files": [
     {
       "path": ".env.example",
@@ -40,8 +40,8 @@
     },
     {
       "path": ".github/workflows/ci.yml",
-      "bytes": 7254,
-      "sha256": "7fb3a9f18833774aadbe6d942c38bff59fc9f40cb7056c1a2aef46dfbc80c29e"
+      "bytes": 7456,
+      "sha256": "5fbaa786ad8eac57697f3966db9d5119c306c67c434f18c4eb3055e4a671bb2f"
     },
     {
       "path": ".gitignore",
@@ -132,6 +132,11 @@
       "path": "docs/CANONICAL_SOURCE_PACK_REISSUE_V134.md",
       "bytes": 3601,
       "sha256": "5802e07e78c1160b4d4e9ba6d110bfe89bf23bf028f1dda4916bc1268a276a4c"
+    },
+    {
+      "path": "docs/COMPLETE_RELEASE_MANIFEST_INVENTORY_V0911.md",
+      "bytes": 2740,
+      "sha256": "2802419884b2d75d939e9695a96cfff8619611dcfdd74d607d54d89249fd2b58"
     },
     {
       "path": "docs/EMPLOYER_VERIFICATION_AND_MODERATION_v080.md",
@@ -265,8 +270,8 @@
     },
     {
       "path": "module_status.json",
-      "bytes": 28390,
-      "sha256": "796a9cf929671b97e8d844284303b7c54bc0dca6e8004ecb2af4f9c3645d93d9"
+      "bytes": 29152,
+      "sha256": "678a8f8a6b1565f26eb0d022e8f6cd53768c0b43d99aab5f0a0af4302db4c479"
     },
     {
       "path": "public/.htaccess",
@@ -375,8 +380,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 14662,
-      "sha256": "e03a3f91a86430f8d323b046249831559de238b870c0265152c34e1304209f82"
+      "bytes": 15175,
+      "sha256": "c29853e18cd30e931b5aa050f8499d7a7831b268608da23a8741b01e10c50de9"
     },
     {
       "path": "scripts/analytics_report.php",
@@ -457,6 +462,11 @@
       "path": "scripts/recruiter_invites.php",
       "bytes": 992,
       "sha256": "d4642937e29e7e342ab6aeba4e8d08fee4f85fda6d5382d94066a585dc490b36"
+    },
+    {
+      "path": "scripts/refresh_release_manifest.py",
+      "bytes": 5743,
+      "sha256": "6d523253162a2844f0740d6c2cdeaeb66c324ed1fe5d2e2498bb7b7e08a4e565"
     },
     {
       "path": "scripts/reissue_canonical_pack_v134.py",
@@ -610,8 +620,8 @@
     },
     {
       "path": "START_HERE_FOUNDER.md",
-      "bytes": 5321,
-      "sha256": "15f11bcb1c253e9aafd0230e3c89f4b1522b312bd75e81ae9bec8d4c3b855be8"
+      "bytes": 5684,
+      "sha256": "3499a221205f65a02dbbb5366a2c7f9e78d4f30f0a4e43bdb260eb850e755547"
     },
     {
       "path": "storage/.gitkeep",
@@ -717,6 +727,11 @@
       "path": "tests/js_tests.mjs",
       "bytes": 3310,
       "sha256": "47f453459546cffeaee1fef6efbd6eefb5fab8473466a83a4c7590e1b5788aa7"
+    },
+    {
+      "path": "tests/manifest_inventory_tests.py",
+      "bytes": 3266,
+      "sha256": "0d3b56405e2ef2b5fb118d18031c2bb3cc49ed78652b6c56655359991dca4b4d"
     },
     {
       "path": "tests/module_register_tests.php",
