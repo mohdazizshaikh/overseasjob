@@ -1,6 +1,8 @@
-# OverseasJob.in — Code Development v0.9.3 (pre-deployment hardening candidate)
+# OverseasJob.in — Code Development v0.9.4 (official provider contract correction)
 
 **State: working local application and future-gated contract foundation; NOT deployed, NOT public-launch ready.**
+
+**Critical v0.9.4 source contract correction:** The official Himalayas OpenAPI was rechecked on 23 Nov 2026 and documents offset+limit, job-publication `pubDate`, opaque GUID and external employer application URLs, with no public per-job 410 API. `docs/OPENAPI_HIMALAYAS_CORRECTION_V094.md` supersedes prior v0.9.1 cursor/date claims; Himalayas remains disabled until source re-approval, live samples and the canonical v1.3.4 pack revision.
 
 **v0.9.3 isolated-CI-verified code hardening:** bounded provider 429/5xx backoff, source-specific 200/410/404 status probe (Himalayas OFF until authorised), canonical source fields and stable route key, truthful bounded feed completeness, HMAC IP report throttling (requires private REPORT_RATE_SECRET), expanded local backups, honest health guard and complete M00–M17 evidence register. See `docs/PREDEPLOYMENT_CODE_HARDENING_V093.md`. [PR validation run 45083243298](https://github.com/mohdazizshaikh/overseasjob/actions/runs/45083243298) passed 3/3 isolated jobs, including 38 real Chromium browser tests and 133 SHA-256 source checks. Production host, original live theme, provider rights, real email and external backups are still UNVERIFIED. **Do not upload or replace existing production public_html** on the strength of this code release.
 

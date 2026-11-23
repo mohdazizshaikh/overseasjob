@@ -1,6 +1,6 @@
 {
   "spec_version": "v1.3.3",
-  "release": "gate1+gate2+gate3-local-v0.9.3-audit-hardening-verified-isolated-ci",
+  "release": "gate1+gate2+gate3-local-v0.9.4-official-provider-correction-pending-ci",
   "development_state": "LOCAL_CODE_WITH_VERIFIED_DISPOSABLE_CI_NOT_DEPLOYED",
   "evidence": [
     "tests/php_tests.php",
@@ -99,7 +99,7 @@
         "atomic fixture cache isolation",
         "Himalayas offset/limit and repeated-page signatures"
       ],
-      "blocker_reason": "Adapter/pagination fixture tested; actual provider network/rights and 14 days of supply not verified Official provider API moved to opaque cursor and declares pubDate last updated; v0.9.1 correction passed isolated CI, current source pack reconciliation outstanding.",
+      "blocker_reason": "Himalayas official OpenAPI reconfirmed as offset+limit+totalCount, published-date pubDate, opaque GUID and possibly external ATS apply URL. Source stays disabled until current provider permission and real responses; canonical pack must be reissued; actual 14-day inventory and hosting cron unverified.",
       "spec_version": "v1.3.3",
       "routes": [
         "/sources"
@@ -110,7 +110,8 @@
       "evidence_paths": [
         "tests/php_tests.php",
         "scripts/sync_jobs.php",
-        "tests/provider_http_tests.php"
+        "tests/provider_http_tests.php",
+        "docs/OPENAPI_HIMALAYAS_CORRECTION_V094.md"
       ],
       "last_verified_at": null
     },
@@ -621,5 +622,15 @@
     "scripts/health_guard.php",
     "docs/PREDEPLOYMENT_CODE_HARDENING_V093.md",
     "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45083243298"
-  ]
+  ],
+  "provider_contract_correction": {
+    "evidence": "docs/OPENAPI_HIMALAYAS_CORRECTION_V094.md",
+    "official_openapi": "https://himalayas.app/docs/openapi.json",
+    "checked_at": "2026-11-23",
+    "himalayas_browse_pagination": "offset_limit_totalCount",
+    "himalayas_publication_field": "pubDate",
+    "himalayas_status_endpoint_documented": false,
+    "live_provider_enabled": false,
+    "canonical_binary_pack_reissued": false
+  }
 }

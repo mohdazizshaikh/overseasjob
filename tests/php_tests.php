@@ -22,14 +22,15 @@ $c=Jobs::fromHimalayas($h[0]);
 test('Worldwide + all timezones confirmed IN', $c['eligible_from_in']==='allowed');
 test('Himalayas raw geographic restrictions retained as evidence', $c['eligibility_evidence'][0]['fact']==='[]');
 test('Himalayas raw time restrictions retained as evidence', $c['eligibility_evidence'][1]['fact']==='[]');
-test('Himalayas non-provider apply host rejected', Jobs::fromHimalayas(array_merge($h[0],['applicationLink'=>'https://other.example.com/apply']))===null);
+test('Documented Himalayas external ATS apply host is accepted unchanged', Jobs::fromHimalayas(array_merge($h[0],['applicationLink'=>'https://careers.example.com/apply']))['apply_url']==='https://careers.example.com/apply');
+test('Unsafe Himalayas application URL is rejected', Jobs::fromHimalayas(array_merge($h[0],['applicationLink'=>'http://127.0.0.1/apply']))===null);
 test('Himalayas applyLink preserved', $c['apply_url']===$h[0]['applicationLink']);
 test('Canonical provider JobView includes employer country unknown and empty reason tags', array_key_exists('employer_country',$a)&&$a['employer_country']===null&&$a['reason_tags']===[]&&$a['source_policy_id']==='provider_jobicy_source_link_only');
 test('Himalayas provenance retains the immutable provider guid', $c['source_guid']===$h[0]['guid']&&$c['source_policy_id']==='provider_himalayas_source_link_only');
 test('Himalayas provider id is original GUID', $c['provider_job_id']===$h[0]['guid']);
 test('Himalayas display route keeps stable hash', $c['provider_route_key']===hash('sha256',$h[0]['guid']));
-test('Documented Himalayas status URL derived safely from original guid', Jobs::himalayasStatusUrl('https://himalayas.app/companies/linear/jobs/senior-engineer')==='https://himalayas.app/jobs/api/companies/linear/jobs/senior-engineer');
-test('Only HTTP 410 can prove Himalayas closure', Jobs::himalayasStatusDecision(410)==='closed'&&Jobs::himalayasStatusDecision(200)==='active'&&Jobs::himalayasStatusDecision(404)==='unknown'&&Jobs::himalayasStatusDecision(429)==='unknown');
+test('Offline-only legacy status fixture URL construction', Jobs::himalayasStatusUrl('https://himalayas.app/companies/linear/jobs/senior-engineer')==='https://himalayas.app/jobs/api/companies/linear/jobs/senior-engineer');
+test('Simulated 410 fixture maps closed, 404 unconfirmed', Jobs::himalayasStatusDecision(410)==='closed'&&Jobs::himalayasStatusDecision(200)==='active'&&Jobs::himalayasStatusDecision(404)==='unknown'&&Jobs::himalayasStatusDecision(429)==='unknown');
 $badStatusUrl=false;try{Jobs::himalayasStatusUrl('https://himalayas.app.evil.example/companies/a/jobs/b');}catch(InvalidArgumentException){$badStatusUrl=true;}
 test('Himalayas job checker rejects foreign hosts',$badStatusUrl);
 $badStatusUrl=false;try{Jobs::himalayasStatusUrl('https://himalayas.app/companies/a/jobs/b?unexpected=1');}catch(InvalidArgumentException){$badStatusUrl=true;}
@@ -56,7 +57,7 @@ $failure=static function(string $url,int $limit)use(&$failureAttempts):array{
 };
 $closed=false;try{ProviderHttp::fetchJson('https://himalayas.app/jobs/api',2000,$failure,$sleep);}catch(RuntimeException){$closed=true;}
 test('Long 429 Retry-After fails with single request, no premature retry',$closed&&$failureAttempts===1);
-test('Himalayas pubDate is a source update, not original publication', $c['source_published_at']===null&&$c['source_updated_at']===Jobs::utc($h[0]['pubDate']));
+test('Official OpenAPI Himalayas pubDate is publication time', $c['source_published_at']===Jobs::utc($h[0]['pubDate'])&&$c['source_updated_at']===null);
 test('Himalayas US-only not eligible', Jobs::fromHimalayas($h[1])['eligible_from_in']==='not_allowed');
 test('Himalayas timezone mismatch not eligible', Jobs::fromHimalayas($h[2])['eligible_from_in']==='not_allowed');
 test('Himalayas missing restrictions unknown', Jobs::fromHimalayas($h[3])['eligible_from_in']==='unknown');
@@ -75,20 +76,19 @@ test('ISO country alias resolves India', Countries::alpha2('india')==='IN');
 
 test('Unknown remote India eligibility not fully confirmed', !Jobs::indiaFullyEligible($a));
 test('India UTC+05:30 allowed', Jobs::himalayasIndia(['locationRestrictions'=>[],'timezoneRestrictions'=>['UTC+05:30']])['eligibility']==='allowed');
-test('First Himalayas cursor request has no deprecated offset', Jobs::himalayasBrowseUrl()==='https://himalayas.app/jobs/api?limit=20');
-test('Opaque Himalayas token is URL-encoded, not decoded or modified', Jobs::himalayasBrowseUrl('a+b/=')==='https://himalayas.app/jobs/api?limit=20&cursor=a%2Bb%2F%3D');
-test('Himalayas next cursor accepted unchanged', Jobs::himalayasNextCursor(['jobs'=>[['guid'=>'x']],'nextCursor'=>'a+b/='])==='a+b/=');
-test('Missing Himalayas cursor signals completed traversal', Jobs::himalayasNextCursor(['jobs'=>[['guid'=>'x']]])===null);
-test('Null Himalayas cursor signals completed traversal', Jobs::himalayasNextCursor(['jobs'=>[['guid'=>'x']],'nextCursor'=>null])===null);
-$cursorRejected=false;try{Jobs::himalayasNextCursor(['jobs'=>[['guid'=>'x']],'nextCursor'=>'']);}catch(InvalidArgumentException){$cursorRejected=true;}
-test('Empty Himalayas cursor fails closed',$cursorRejected);
-$cursorRejected=false;try{Jobs::himalayasNextCursor(['jobs'=>[],'nextCursor'=>'next']);}catch(InvalidArgumentException){$cursorRejected=true;}
-test('Next cursor with zero jobs fails closed',$cursorRejected);
-$cursorRejected=false;try{Jobs::himalayasBrowseUrl("a\nb");}catch(InvalidArgumentException){$cursorRejected=true;}
-test('Control bytes in cursor rejected',$cursorRejected);
-$cursorRejected=false;try{Jobs::himalayasNextCursor(['jobs'=>array_fill(0,21,[]),'nextCursor'=>'next']);}catch(InvalidArgumentException){$cursorRejected=true;}
-test('Himalayas oversized page rejected',$cursorRejected);
-
+test('Official browse first page includes zero offset', Jobs::himalayasBrowseUrl()==='https://himalayas.app/jobs/api?limit=20&offset=0');
+test('Official browse page two increments offset', Jobs::himalayasBrowseUrl(20)==='https://himalayas.app/jobs/api?limit=20&offset=20');
+$badOffset=false;try{Jobs::himalayasBrowseUrl(-1);}catch(InvalidArgumentException){$badOffset=true;}
+test('Negative offset rejected',$badOffset);
+test('Himalayas OpenAPI opaque GUID maps to original external ID',
+  Jobs::fromHimalayas(array_merge($h[0],['guid'=>'stripe-senior-engineer-abc123']))['provider_job_id']==='stripe-senior-engineer-abc123');
+$opaque=Jobs::fromHimalayas(array_merge($h[0],['guid'=>'stripe-senior-engineer-abc123','applicationLink'=>'https://boards.greenhouse.io/company/jobs/1234']));
+test('Opaque GUID does not fabricate job-detail source URL', $opaque['source_url']==='https://himalayas.app/jobs'&&$opaque['source_url_is_job_specific']===false);
+test('Opaque GUID external employer apply URL unchanged', $opaque['apply_url']==='https://boards.greenhouse.io/company/jobs/1234');
+$badOffset=false;try{Jobs::himalayasNextOffset(['offset'=>0,'jobs'=>[['guid'=>'a']]],0);}catch(InvalidArgumentException){$badOffset=true;}
+test('Missing totalCount fails closed',$badOffset);
+$badOffset=false;try{Jobs::himalayasNextOffset(['offset'=>0,'totalCount'=>50,'jobs'=>[]],0);}catch(InvalidArgumentException){$badOffset=true;}
+test('Premature empty Himalayas page fails closed',$badOffset);
 test('Himalayas documented offset next page 20', Jobs::himalayasNextOffset(['offset'=>0,'totalCount'=>41,'jobs'=>array_fill(0,20,[])],0)===20);
 test('Himalayas documented final page stops', Jobs::himalayasNextOffset(['offset'=>20,'totalCount'=>40,'jobs'=>array_fill(0,20,[])],20)===null);
 test('Himalayas short final page stops', Jobs::himalayasNextOffset(['offset'=>40,'totalCount'=>43,'jobs'=>array_fill(0,3,[])],40)===null);
@@ -135,7 +135,7 @@ $hFixture=json_decode((string)file_get_contents($testRoot.'/storage/fixture_jobs
 $hRows=array_values(array_filter($hFixture['jobs']??[], static fn($j)=>($j['provider']??null)==='himalayas'));
 $hRow=$hRows[0]??[];
 test('Himalayas isolated fixture sync retains four Himalayas jobs plus two Jobicy jobs', $code===0 && count($hRows)===4 && count($hFixture['jobs']??[])===6);
-test('Himalayas fixture cache keeps original publication unknown', ($hRow['source_published_at']??null)===null && isset($hRow['source_updated_at']));
+test('Himalayas fixture cache retains published date without fictitious update', isset($hRow['source_published_at']) && ($hRow['source_updated_at']??null)===null);
 // Authoritative status probe fixture: 410 closes, 404 remains unconfirmed, 200 re-verifies.
 $statuses=[];
 foreach($h as $i=>$item){
@@ -149,10 +149,12 @@ $out=[];exec($statusCommand,$out,$statusCode);
 $statusCache=json_decode((string)file_get_contents($testRoot.'/storage/fixture_jobs.json'),true);
 $hAfter=array_values(array_filter($statusCache['jobs'],static fn($j)=>($j['provider']??'')==='himalayas'));
 $statusByGuid=[];foreach($hAfter as $row)$statusByGuid[$row['source_guid']]=$row;
-test('Authoritative status fixture command succeeds without network',$statusCode===0);
+test('Offline-only status fixture command succeeds without network',$statusCode===0);
 test('HTTP 410 closes and hides listing',($statusByGuid[$h[0]['guid']]['availability']??null)==='closed'&&($statusByGuid[$h[0]['guid']]['display_status']??null)==='hidden');
 test('HTTP 404 is unconfirmed rather than closed',($statusByGuid[$h[1]['guid']]['availability']??null)==='unknown'&&($statusByGuid[$h[1]['guid']]['display_status']??null)==='hidden');
 test('HTTP 200 verifies exact original provider GUID',($statusByGuid[$h[2]['guid']]['availability']??null)==='active');
 test('Status fixture does not alter public jobs cache',count(json_decode((string)file_get_contents($testRoot.'/storage/jobs.json'),true)['jobs'])===0);
+$out=[];exec(escapeshellarg(PHP_BINARY).' '.escapeshellarg($testRoot.'/scripts/check_himalayas_status.php').' 2>&1',$out,$code);
+test('Undocumented live status endpoint cannot be called',$code===3);
 function rmrf(string $path):void{foreach(glob($path.'/*')?:[] as $p){if(is_dir($p))rmrf($p);else unlink($p);}rmdir($path);}rmrf($testRoot);
 echo "\n$pass PHP checks passed.\n";
