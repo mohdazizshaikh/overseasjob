@@ -1,6 +1,6 @@
 {
   "spec_version": "v1.3.3",
-  "release": "gate1+gate2+gate3-local-v0.9.5-hostinger-preview-bundle-pending-ci",
+  "release": "gate1+gate2+gate3-local-v0.9.6-canonical-reissue-pending-ci",
   "development_state": "LOCAL_CODE_WITH_VERIFIED_DISPOSABLE_CI_NOT_DEPLOYED",
   "evidence": [
     "tests/php_tests.php",
@@ -536,7 +536,10 @@
       ],
       "evidence_paths": [
         ".github/workflows/ci.yml",
-        "tests/browser_e2e.py"
+        "tests/browser_e2e.py",
+        "scripts/reissue_canonical_pack_v134.py",
+        "tests/canonical_pack_reissue_tests.py",
+        "docs/CANONICAL_SOURCE_PACK_REISSUE_V134.md"
       ],
       "last_verified_at": null
     },
@@ -643,5 +646,17 @@
     "guide": "docs/HOSTINGER_DIRECT_HOST_BUNDLE_V095.md",
     "actual_host_installed": false,
     "original_theme_preserved_verified": false
+  },
+  "canonical_pack_reissue": {
+    "source_version": "1.3.3",
+    "target_version": "1.3.4",
+    "status": "PENDING_CI",
+    "source_manifest_verified": true,
+    "creator": "scripts/reissue_canonical_pack_v134.py",
+    "tests": "tests/canonical_pack_reissue_tests.py",
+    "source_contradiction": "Undocumented Himalayas per-job HTTP 410/404 route, despite v1.3.3 pagination/date correctness",
+    "provider_permission_verified": false,
+    "production_deployed": false,
+    "reviewed_docs": "https://himalayas.app/docs/openapi.json"
   }
 }
