@@ -1,5 +1,7 @@
 # Hostinger existing production hosting — split preview packaging (v0.9.5)
 
+**Important v0.9.7 safety clarification:** Preserving `index.html` as a file does NOT guarantee preserving the live homepage. Adding `index.php` with `.htaccess DirectoryIndex index.php` can switch `/` immediately, and overlapping `assets/` may overwrite live design files. The current preview bundle includes a STOP note and `scripts/audit_hostinger_cutover.py` compares the exact public ZIP against a local copy of the original site. See `docs/HOSTINGER_ORIGINAL_HOMEPAGE_SWITCH_GUARD_V097.md` before any same-host trial.
+
 **Status: release artifact preparation only. NOT a public launch approval, and never an automatic production deployment.**
 
 ## Why this is necessary
