@@ -1,13 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.14-m11-local-backup-symlink-metadata-safety",
+  "release": "0.9.15-hostinger-same-account-founder-handoff-verified-guard",
   "source_of_truth": "v1.3.3",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
     "status": "PENDING_PR_CI",
-    "tests": "Local backup symlink/refusal, hash restore, no original Hostinger backup claims"
+    "tests": "14 Hostinger handoff safety assertions plus original automated suites"
   },
   "canonical_documentation": {
     "passed": 71,
@@ -30,8 +30,8 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "Local backups only, production Hostinger public_html and DB restore were not done; backup path symlink and metadata confusion blocked in code pending CI.",
-  "file_count_excluding_manifest": 158,
+  "developer_notes": "Handoff doc now aligns with founder same-production-account testing preference and default-OFF source rights; this is not evidence of real Hostinger permissions, backup restore, original site theme or live provider approval.",
+  "file_count_excluding_manifest": 159,
   "files": [
     {
       "path": ".env.example",
@@ -40,8 +40,8 @@
     },
     {
       "path": ".github/workflows/ci.yml",
-      "bytes": 7456,
-      "sha256": "5fbaa786ad8eac57697f3966db9d5119c306c67c434f18c4eb3055e4a671bb2f"
+      "bytes": 7593,
+      "sha256": "1743bc22f794f7ac62874be1bac761f204c3fb2df0037b0d874b6c58fa5a6cf4"
     },
     {
       "path": ".gitignore",
@@ -110,8 +110,8 @@
     },
     {
       "path": "deploy/shared_host/DEPLOY_STAGING_README.md",
-      "bytes": 4402,
-      "sha256": "8884181618e06c69d23ae3ad7a5051f104846c9240b7147a75966298ed0ce90d"
+      "bytes": 7284,
+      "sha256": "61fe22368b34a2ec508e360a2827adcfd7a4cd123ff8846504485f11d3d34ca4"
     },
     {
       "path": "deploy/shared_host/index.php.template",
@@ -160,8 +160,8 @@
     },
     {
       "path": "docs/HOSTINGER_DIRECT_HOST_BUNDLE_V095.md",
-      "bytes": 5763,
-      "sha256": "1dda2305ab2721344810139bbaf87aa71e1338fcb8cf83524374dd14ecfa6733"
+      "bytes": 6545,
+      "sha256": "b1e41c8954bd58fe2ac809475f934a106472e0f48f58de2e87094e1e2524806e"
     },
     {
       "path": "docs/HOSTINGER_ORIGINAL_HOMEPAGE_SWITCH_GUARD_V097.md",
@@ -280,8 +280,8 @@
     },
     {
       "path": "module_status.json",
-      "bytes": 31502,
-      "sha256": "426e557d63b61ada6f9649d63701b429e4bfd63ea011dd88cf191091643eb531"
+      "bytes": 32233,
+      "sha256": "375eb250210c5d5f3d6b2b3267373b669f8a18e4ddba56429e3b77598bd03c81"
     },
     {
       "path": "public/.htaccess",
@@ -390,8 +390,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 16927,
-      "sha256": "e42165ce4dfabd629b7b7bab7f4228771025150217efa3faa5c6533ed389f88a"
+      "bytes": 17687,
+      "sha256": "ffa44eaa2665ac64231395f827645cfc473dfcfe20a1d19c3ec32548aa57dce2"
     },
     {
       "path": "scripts/analytics_report.php",
@@ -635,8 +635,8 @@
     },
     {
       "path": "START_HERE_FOUNDER.md",
-      "bytes": 7198,
-      "sha256": "689d6a3868bb8046fefe4f2d5b680ef204ea607377384784a1d1c48281a5aa08"
+      "bytes": 7952,
+      "sha256": "faa92b6cd6f66dda59b01ae756366408572bb2e655533eb03d55abf9f395c75d"
     },
     {
       "path": "storage/.gitkeep",
@@ -717,6 +717,11 @@
       "path": "tests/hostinger_cutover_audit_tests.py",
       "bytes": 8667,
       "sha256": "ad2c22916187757bc0c6da727090d6582372f7ffd2071c376cf745752ccf69a8"
+    },
+    {
+      "path": "tests/hostinger_handoff_contract_tests.py",
+      "bytes": 2183,
+      "sha256": "551cc7abc56a98c52609e1111bbda5629b1780b43aba1b98739569df644c64d5"
     },
     {
       "path": "tests/http_employer_review_smoke.sh",

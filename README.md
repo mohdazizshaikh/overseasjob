@@ -1,8 +1,10 @@
-# OverseasJob.in — Code Development v0.9.14 (M11 backup/restore symlink safety)
+# OverseasJob.in — Code Development v0.9.15 (Hostinger founder handoff contract)
 
 **State: working local application and future-gated contract foundation; NOT deployed, NOT public-launch ready.**
 
-**v0.9.14 M11 backup safety:** Local private-storage backup/restore now fail closed for symlinked original data, storage root, backup directory and backup checksum metadata, and require 0700 backup directories/0600 backup files. Malicious-path and positive local restore tests are CI-gated. **This does not back up your actual original Hostinger `public_html` or MySQL, prove restore, or authorise a public cutover.** See `docs/M11_LOCAL_BACKUP_SYMLINK_DEFENSE_V0914.md`.
+**v0.9.15 handoff governance:** Updated the conditional Hostinger operator guide to match the founder's SAME existing production account as testing environment, without mandatory separate paid staging. The guide expressly blocks blind `public_html` extraction, documents `DirectoryIndex index.php` homepage switch/SEO effects, requires independently restored original site and database backups, and forbids raw Jobicy live sync until separately reviewed default-OFF source flags and private attestation are approved. `tests/hostinger_handoff_contract_tests.py` guards these facts in CI. No live hosting changes. See `deploy/shared_host/DEPLOY_STAGING_README.md`.
+
+**v0.9.14 M11 backup safety ([main CI 6/6 passed](https://github.com/mohdazizshaikh/overseasjob/actions/runs/45202746909)):** Local private-storage backup/restore now fail closed for symlinked original data, storage root, backup directory and backup checksum metadata, and require 0700 backup directories/0600 backup files. Malicious-path and positive local restore tests are CI-gated. **This does not back up your actual original Hostinger `public_html` or MySQL, prove restore, or authorise a public cutover.** See `docs/M11_LOCAL_BACKUP_SYMLINK_DEFENSE_V0914.md`.
 
 **v0.9.13 M00 direct Hostinger backup ZIP audit:** `scripts/audit_hostinger_cutover.py --current-site-zip BACKUP.zip --candidate-public-zip PUBLIC.zip` now compares the downloaded original-site ZIP **without extraction**, detects root/index.html, original asset collision and missing screenshot folders, and rejects path traversal, symlinks, mixed roots or oversized/unsafe ZIPs. It is read-only and always refuses to approve production cutover. A ZIP's SHA/CRC is not proof of a complete or restorable Hostinger backup. See `docs/HOSTINGER_ORIGINAL_HOMEPAGE_SWITCH_GUARD_V097.md`.
 

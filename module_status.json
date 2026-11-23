@@ -1,6 +1,6 @@
 {
   "spec_version": "v1.3.4",
-  "release": "gate1+gate2+gate3-local-v0.9.14-m11-backup-path-safety-pending-ci",
+  "release": "gate1+gate2+gate3-local-v0.9.15-hostinger-founder-handoff-qa-pending-ci",
   "development_state": "LOCAL_CODE_WITH_VERIFIED_DISPOSABLE_CI_NOT_DEPLOYED",
   "evidence": [
     "tests/php_tests.php",
@@ -79,7 +79,7 @@
     {
       "module_id": "M00",
       "implementation_status": "blocked_with_reason",
-      "blocker_reason": "Isolated local-folder and original-site Hostinger ZIP comparison supported (no extraction/deployment; ZIP traversal/symlink/bomb guards), but founder's actual current Hostinger backup was not received or restored, original theme assets and PHP docroot/open_basedir remain unverified. .htaccess DirectoryIndex index.php may displace original static homepage; no public cutover approved.",
+      "blocker_reason": "Founder elects existing production Hostinger hosting as test environment without mandatory separate paid staging. Source/docs and ZIP offline comparison code are verified, but actual private root/open_basedir, full current public_html and DB backup restoration, original theme parity, SEO and owner-approved cutover are UNVERIFIED. Existing index.html may be displaced by candidate DirectoryIndex index.php.",
       "spec_version": "v1.3.4",
       "routes": [],
       "dependencies": [],
@@ -96,7 +96,8 @@
         "docs/APACHE_WEBROOT_DEFENSE_IN_DEPTH_V098.md",
         "scripts/refresh_release_manifest.py",
         "tests/manifest_inventory_tests.py",
-        "docs/COMPLETE_RELEASE_MANIFEST_INVENTORY_V0911.md"
+        "docs/COMPLETE_RELEASE_MANIFEST_INVENTORY_V0911.md",
+        "tests/hostinger_handoff_contract_tests.py"
       ],
       "tests": [],
       "last_verified_at": null
@@ -379,7 +380,7 @@
     {
       "module_id": "M11",
       "implementation_status": "implemented",
-      "blocker_reason": "Local backup/restore already hash-verifies private file copies. New symlinked storage/backup-dir/source/metadata fail-closed tests pending CI. But real original Hostinger website and DB backup, encrypted off-site copy, full restore/rollback and scheduler/incident monitoring remain UNVERIFIED. Source code security alone does not prove disaster recovery.",
+      "blocker_reason": "Local backup/restore path safeguards verified in 6/6 isolated main CI: 16/16 tests, symlinked private roots/sources/metadata denied and 0700/0600 protection. Real Hostinger original-site+DB backup/restore, encrypted offsite snapshots and monitoring/alerts remain UNVERIFIED.",
       "implemented_subset": [
         "CLI health",
         "source coverage report",
@@ -761,7 +762,7 @@
     "activation_tests_passed": 21
   },
   "original_hostinger_zip_audit": {
-    "status": "ZIP_INPUT_READONLY_CHECKS_PENDING_CI",
+    "status": "VERIFIED_MAIN_CI_READ_ONLY_28_ZIP_AND_DIR_CHECKS",
     "script": "scripts/audit_hostinger_cutover.py",
     "tests": "tests/hostinger_cutover_audit_tests.py",
     "guide": "docs/HOSTINGER_ORIGINAL_HOMEPAGE_SWITCH_GUARD_V097.md",
@@ -769,16 +770,30 @@
     "original_production_zip_verified_restorable": false,
     "real_current_theme_parity_verified": false,
     "real_host_modified": false,
-    "public_cutover_approved": false
+    "public_cutover_approved": false,
+    "ci_url": "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45199750959"
   },
   "m11_backup_path_safety": {
-    "status": "LOCAL_SYMLINK_GUARDS_PENDING_CI",
+    "status": "VERIFIED_ISOLATED_MAIN_CI_16_LOCAL_BACKUP_TESTS",
     "implementation": "src/Backups.php",
     "tests": "tests/backup_tests.php",
     "guide": "docs/M11_LOCAL_BACKUP_SYMLINK_DEFENSE_V0914.md",
     "real_host_original_site_backed_up": false,
     "real_host_mysql_restore_verified": false,
     "real_host_backup_encrypted_offsite": false,
-    "public_cutover_authorized": false
+    "public_cutover_authorized": false,
+    "verified_run_url": "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45202746909",
+    "local_backup_tests_passed": 16
+  },
+  "hostinger_handoff_contract": {
+    "status": "SAME_HOST_FOUNDER_GUIDE_CI_PENDING",
+    "documentation": "deploy/shared_host/DEPLOY_STAGING_README.md",
+    "test": "tests/hostinger_handoff_contract_tests.py",
+    "same_host_testing_preference_recorded": true,
+    "separate_paid_staging_required": false,
+    "real_host_path_verified": false,
+    "public_html_original_backup_received": false,
+    "original_site_restored": false,
+    "production_cutover_approved": false
   }
 }

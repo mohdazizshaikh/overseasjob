@@ -1,6 +1,8 @@
-# OverseasJob.in v0.9.14 — Founder handoff (23 November 2026)
+# OverseasJob.in v0.9.15 — Founder handoff (23 November 2026)
 
 **Current position: code development ongoing; PUBLIC DEPLOYMENT IS NOT APPROVED.**
+
+**Hostinger instructions corrected:** The operator guide now explicitly supports testing on your **existing production hosting account** without buying separate staging, but keeps the original website, theme, backups, rollback and SEO gates mandatory. No candidate ZIP can be blindly unpacked into current `public_html`. Live Jobicy/Himalayas sync requires new default-OFF runtime + private operator rights evidence; no actual source permission has been approved. See `deploy/shared_host/DEPLOY_STAGING_README.md`.
 
 **Backup safety:** v0.9.14 makes the project's local private-file copy and isolated restore rehearsal refuse unsafe filesystem links and checksum metadata. This is extra code protection—not Hostinger's complete backup of your original website. Before any production-as-test deployment, download and independently restore-check original `public_html` and any database. See `docs/M11_LOCAL_BACKUP_SYMLINK_DEFENSE_V0914.md`.
 
@@ -37,4 +39,4 @@ The current website's original static HTML/CSS and visual screenshots, Hostinger
 
 GitHub repository: https://github.com/mohdazizshaikh/overseasjob
 
-**Test evidence:** 652/652 deterministic local checks; separate 49/49 disposable MySQL CI assertions; canonical specification 71/71 documentation checks. 38 real Chromium preview checks passed on GitHub, but no live-domain theme comparison or Hostinger staging evidence.
+**Historical tests:** earlier 652 local checks, 49 disposable MySQL assertions and 71 canonical spec checks were prior baselines, NOT latest exhaustive totals. **Latest verified main reference:** [v0.9.14 CI run 45202746909](https://github.com/mohdazizshaikh/overseasjob/actions/runs/45202746909) 6/6 jobs, including 158 tracked SHA-256 files, 16 local backup/restore checks, 38 original Chromium journeys and 107 additional targeted browser checks. None of these are live Hostinger theme or backup evidence.
