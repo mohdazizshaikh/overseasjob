@@ -436,8 +436,8 @@
     },
     {
       "path": "scripts/reissue_canonical_pack_v134.py",
-      "bytes": 11312,
-      "sha256": "295eb3aa1185df4d2dcd62e41aa54587e0ac4e9b48558c41ee51ad1e21a5da51"
+      "bytes": 11331,
+      "sha256": "f5ab07d72291dd3842b58b7e1ca60f6a161b497baf372a015b6a3c267fb86992"
     },
     {
       "path": "scripts/restore_drill.php",
