@@ -1,6 +1,8 @@
-# OverseasJob.in v0.9.13 — Founder handoff (23 November 2026)
+# OverseasJob.in v0.9.14 — Founder handoff (23 November 2026)
 
 **Current position: code development ongoing; PUBLIC DEPLOYMENT IS NOT APPROVED.**
+
+**Backup safety:** v0.9.14 makes the project's local private-file copy and isolated restore rehearsal refuse unsafe filesystem links and checksum metadata. This is extra code protection—not Hostinger's complete backup of your original website. Before any production-as-test deployment, download and independently restore-check original `public_html` and any database. See `docs/M11_LOCAL_BACKUP_SYMLINK_DEFENSE_V0914.md`.
 
 **No-developer backup comparison preparation:** You can download an original-site ZIP of the existing Hostinger `public_html` and keep it private. `scripts/audit_hostinger_cutover.py` now accepts the ZIP directly, compares it with the candidate public ZIP, warns if screenshot's `assets/` or `images/` files are missing, and will never upload/extract/change anything or approve deployment. Keep original site, backups and DB untouched. This does not verify recoverability or the actual host. See `docs/HOSTINGER_ORIGINAL_HOMEPAGE_SWITCH_GUARD_V097.md`.
 
