@@ -71,8 +71,8 @@ final class SourcePermissionGate
           ||($approval['scope']??null)!=='source_linked_listing_only'
           ||($approval['approved_for_single_source_display']??null)!==true
           ||!is_string($approval['review_notes']??null)
-          ||mb_strlen(trim($approval['review_notes']), 'UTF-8')<40
-          ||mb_strlen(trim($approval['review_notes']), 'UTF-8')>1200)
+          ||strlen(trim($approval['review_notes']))<40
+          ||strlen(trim($approval['review_notes']))>1200)
             $blockers[]='private_operator_attestation_missing_or_invalid';
 
         return ['ready'=>!$blockers,'blockers'=>$blockers,
