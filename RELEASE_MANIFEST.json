@@ -1,13 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.30-t03-literal-ip-evidence-url-hardening",
+  "release": "0.9.31-failclosed-provider-job-utc-and-url",
   "source_of_truth": "v1.4.1",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
     "status": "PENDING_PR_CI",
-    "tests": "T03 private/loopback IPv4 IPv6 and obfuscated URL denials plus existing complete suites"
+    "tests": "Six additional public provider URL and UTC verification/expiry negative/positive cases; full founder v1.4.1 GitHub CI"
   },
   "canonical_documentation": {
     "status": "EXACT_FOUNDER_V141_ZIP_IMPORTED__CI_VALIDATION_PENDING",
@@ -35,8 +35,8 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "T03 evidence link now refuses literal numeric IP and reserved local hostname forms before standalone HTML export, but offline syntax cannot prove DNS trust. Provider, ads, recruiter and launch gates unchanged and OFF.",
-  "file_count_excluding_manifest": 181,
+  "developer_notes": "Imported job visibility now refuses relative/malformed/empty supplied source expiry, invalid source verification UTC and numerically encoded private/loopback hosts. Browser/link format checks do not validate upstream provider licensing, employer legitimacy or live Hostinger. RELEASE_READY and other live switches remain OFF.",
+  "file_count_excluding_manifest": 182,
   "files": [
     {
       "path": ".env.example",
@@ -239,6 +239,11 @@
       "sha256": "b4fddd4e4e9c5204a14da8a412c5db802239a7a736031f80dc5ab2c33aa6b8f6"
     },
     {
+      "path": "docs/M02_PUBLIC_JOB_BOUNDARY_V141.md",
+      "bytes": 2206,
+      "sha256": "c51c89bd86a680359c804fb7c164a2a19b7ab82a28e82db4833dc32df8a70131"
+    },
+    {
       "path": "docs/M08_CANONICAL_ARENA_ROUTE_V141.md",
       "bytes": 1281,
       "sha256": "e477c345c641d9543d153c9789f8fc69674abd561457ce26205a6b19da9a5daf"
@@ -355,8 +360,8 @@
     },
     {
       "path": "module_status.json",
-      "bytes": 34512,
-      "sha256": "1960786c8ee4d25b5326f05fee0ef343adae730de9433f78353d9bd763898197"
+      "bytes": 34672,
+      "sha256": "805d31b393be8074c691f6d31819f698debeb47006ec52a7b5446cf88441148b"
     },
     {
       "path": "public/.htaccess",
@@ -640,8 +645,8 @@
     },
     {
       "path": "src/Jobs.php",
-      "bytes": 18963,
-      "sha256": "df66ee3c4eb7294d90292d6ce254869a8782fb6ee5c37ac126e43a079de7dfad"
+      "bytes": 19939,
+      "sha256": "bb04514a1f9583c8f14b633fb6832fdc1d1a33a128a706d59d205a3927ecc68c"
     },
     {
       "path": "src/Launch.php",
@@ -895,8 +900,8 @@
     },
     {
       "path": "tests/php_tests.php",
-      "bytes": 20504,
-      "sha256": "47f6e1c08c22a410c7e7d71156fe0b8f1f6c87bafee4318cadb856b567851ca0"
+      "bytes": 21947,
+      "sha256": "909f7a66fb1c093e92a60a96124871233d81bd22a05e49886e4d68d6d6ce8673"
     },
     {
       "path": "tests/predeployment_report_tests.php",
