@@ -35,6 +35,8 @@ try{
     $state=Launch::status($tmp,$now);
     releaseCheck('Flag cannot bypass historical canonical version',!$state['ready']&&blockedBy($state,'v1.4.1'));
     releaseCheck('Exact canonical ZIP hash required',blockedBy($state,'Exact founder'));
+    releaseCheck('Unverified module and Hostinger status blocks release',
+        blockedBy($state,'Module ledger public-launch'));
     releaseCheck('Fourteen real-dated sample rows are required',blockedBy($state,'Fourteen distinct'));
     releaseCheck('No default owner approval',blockedBy($state,'Private owner'));
 
