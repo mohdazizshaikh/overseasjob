@@ -1,6 +1,6 @@
 {
   "spec_version": "v1.3.4",
-  "release": "gate1+gate2+gate3-local-v0.9.13-hostinger-original-backup-zip-audit-pending-ci",
+  "release": "gate1+gate2+gate3-local-v0.9.14-m11-backup-path-safety-pending-ci",
   "development_state": "LOCAL_CODE_WITH_VERIFIED_DISPOSABLE_CI_NOT_DEPLOYED",
   "evidence": [
     "tests/php_tests.php",
@@ -379,7 +379,7 @@
     {
       "module_id": "M11",
       "implementation_status": "implemented",
-      "blocker_reason": "Local operational scripts tested; production Hostinger cron, encrypted backups, database restoration and incident alerts unverified",
+      "blocker_reason": "Local backup/restore already hash-verifies private file copies. New symlinked storage/backup-dir/source/metadata fail-closed tests pending CI. But real original Hostinger website and DB backup, encrypted off-site copy, full restore/rollback and scheduler/incident monitoring remain UNVERIFIED. Source code security alone does not prove disaster recovery.",
       "implemented_subset": [
         "CLI health",
         "source coverage report",
@@ -396,7 +396,9 @@
       ],
       "evidence_paths": [
         "tests/backup_tests.php",
-        "tests/ops_snapshot_tests.php"
+        "tests/ops_snapshot_tests.php",
+        "src/Backups.php",
+        "docs/M11_LOCAL_BACKUP_SYMLINK_DEFENSE_V0914.md"
       ],
       "tests": [],
       "last_verified_at": null
@@ -768,5 +770,15 @@
     "real_current_theme_parity_verified": false,
     "real_host_modified": false,
     "public_cutover_approved": false
+  },
+  "m11_backup_path_safety": {
+    "status": "LOCAL_SYMLINK_GUARDS_PENDING_CI",
+    "implementation": "src/Backups.php",
+    "tests": "tests/backup_tests.php",
+    "guide": "docs/M11_LOCAL_BACKUP_SYMLINK_DEFENSE_V0914.md",
+    "real_host_original_site_backed_up": false,
+    "real_host_mysql_restore_verified": false,
+    "real_host_backup_encrypted_offsite": false,
+    "public_cutover_authorized": false
   }
 }
