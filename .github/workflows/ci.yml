@@ -123,6 +123,15 @@ jobs:
           done
           curl --silent --fail -o /dev/null "$OJ_E2E_BASE/"
           python3 tests/browser_e2e.py
+          python3 tests/browser_a11y_print.py
+      - name: Attach isolated new-site screenshots for later theme comparison
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: overseasjob-isolated-desktop-mobile-visual-baseline
+          path: artifacts/isolated-visual-baseline/
+          if-no-files-found: error
+          retention-days: 14
       - name: Upload local-only browser failure evidence
         if: failure()
         uses: actions/upload-artifact@v4
