@@ -1,6 +1,6 @@
 # v0.9.12 — Live provider activation: explicit, default-OFF, evidence-recorded operator boundary
 
-**State:** local engineering safety gate; NO real source permission, live HTTP, source inventory, Hostinger deployment, or launch approval has been independently verified.
+**State (verified 23 November 2026):** [Main GitHub Actions run 45195745006](https://github.com/mohdazizshaikh/overseasjob/actions/runs/45195745006) passed 6/6 isolated jobs, including 21 source-gate negative checks and an actual default-denied cron invocation without real provider HTTP. NO real source permission, live upstream responses, actual inventory, Hostinger deployment, or launch approval has been independently verified.
 
 ## The gap
 
