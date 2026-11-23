@@ -1,12 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.4-official-himalayas-openapi-contract",
+  "release": "0.9.5-hostinger-split-preview-bundle",
   "source_of_truth": "v1.3.3",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
-    "status": "PENDING_GITHUB_PR_CI"
+    "status": "PENDING_PR_CI",
+    "notes": "Build packages only if verified manifest and isolated UI are both valid"
   },
   "canonical_documentation": {
     "passed": 71,
@@ -29,8 +30,8 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "Official 2026-11-23 Himalayas OpenAPI supersedes previous nextCursor/updateDate claim. Source disabled; live 200/410 not documented. Code & new fixtures require CI. Hostinger, real provider rights/14d inventory, canonical binary pack reissue and original theme remain unverified.",
-  "file_count_excluding_manifest": 134,
+  "developer_notes": "The preview artifact packaging deliberately never installs into existing Hostinger public_html; real permission/private directory, theme backup and release evidence still required.",
+  "file_count_excluding_manifest": 137,
   "files": [
     {
       "path": ".env.example",
@@ -39,8 +40,8 @@
     },
     {
       "path": ".github/workflows/ci.yml",
-      "bytes": 4399,
-      "sha256": "4a4197fbc6c7742188ce2e5ebe911c2ee94fb950dda1ffb748fa3f2ab0299cf9"
+      "bytes": 5332,
+      "sha256": "65665bc992745b325aa581544be39cc7942d5812a2a2580c094ac8dbd0c37b11"
     },
     {
       "path": ".gitignore",
@@ -143,6 +144,11 @@
       "sha256": "6d34db7069256db43457810b92a2be18b2d7587e7f04e70605f01f6392f45e1a"
     },
     {
+      "path": "docs/HOSTINGER_DIRECT_HOST_BUNDLE_V095.md",
+      "bytes": 4911,
+      "sha256": "95e5ee4e6a8231557cbcf2b70beb31e1852295a47f65b4079e52eefaa5457809"
+    },
+    {
       "path": "docs/LOCAL_TEST_OUTPUT_2026-11-23_v050.txt",
       "bytes": 9599,
       "sha256": "9e646c8d5c770e71a38ee446d1829c213ab92e741fc46b40170e369db71d3bc4"
@@ -234,8 +240,8 @@
     },
     {
       "path": "module_status.json",
-      "bytes": 23848,
-      "sha256": "989d4de53cad5c2e301967cad0174d84f78d1aa04fdf24c0253b7e63a3127b60"
+      "bytes": 24309,
+      "sha256": "fc94614cd6ce6f5e8b96baa5b9d838f8d1e23fd1f907f555990c9d9701de919b"
     },
     {
       "path": "public/.htaccess",
@@ -344,8 +350,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 10750,
-      "sha256": "f509a4075f61b99d5b392e0cd8df78ff15a3ac844c25a98e37a48990977abcfa"
+      "bytes": 11253,
+      "sha256": "b506d89b82a0e08b296432e48dac06686e56dc56d4b1a5cb0877eb9bf2c2f503"
     },
     {
       "path": "scripts/analytics_report.php",
@@ -356,6 +362,11 @@
       "path": "scripts/backup.php",
       "bytes": 483,
       "sha256": "b6a8b7937a427d4e867e9758ab291426083deef3aa9bebf4792c54fd80eb71b1"
+    },
+    {
+      "path": "scripts/build_hostinger_bundle.py",
+      "bytes": 5746,
+      "sha256": "1a4ccbdc2bb36de68278909240364ad86671dff49fd549b3fff29b0827651880"
     },
     {
       "path": "scripts/check_himalayas_status.php",
@@ -611,6 +622,11 @@
       "path": "tests/fixtures/jobicy.json",
       "bytes": 608,
       "sha256": "7928b2c8102ca1c421968a8b7ddd4a7df0125a06bf9bcbee31003df714f584eb"
+    },
+    {
+      "path": "tests/hostinger_bundle_tests.py",
+      "bytes": 2998,
+      "sha256": "5a25a22e42266b8c43b9afa8dedf5c0feae0ce02abebf83e001ea6b0c5d87c5b"
     },
     {
       "path": "tests/http_employer_review_smoke.sh",
