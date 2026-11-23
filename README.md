@@ -1,6 +1,8 @@
-# OverseasJob.in — Code Development v0.9.8 (Apache private-webroot defense in depth)
+# OverseasJob.in — Code Development v0.9.9 (M17 source observation evidence hardening)
 
 **State: working local application and future-gated contract foundation; NOT deployed, NOT public-launch ready.**
+
+**v0.9.9 M17 data integrity:** The old 14-day counter accepted incomplete `{date,provider}` rows. New `src/SourceCoverage.php` uses versioned, consistent live non-fixture observation records, verified UTC days, source-review dates, and India-eligibility sum checks. `scripts/coverage_report.php` and owner health share the strict validator; legacy/fabricated fixture rows don't count. **Even 14 local valid rows cannot independently prove actual licensed provider responses or Hostinger operations.** The 14-day *real* source/2–3 role and business evidence gate remains blocked. See `docs/M17_SOURCE_OBSERVATION_EVIDENCE_V099.md`.
 
 **v0.9.8 real Apache security regression:** The public `.htaccess` now also denies commonly exposed ZIP/backup/key/CSV formats and mistaken private-source directories even if files were accidentally placed in `public_html`. GitHub tests real isolated Apache responses (403/200), `DirectoryIndex` priority, route rewriting and security headers. **This is not evidence of Hostinger's actual LiteSpeed/Apache or PHP-FPM configuration. Private code must still remain OUTSIDE public_html.** See `docs/APACHE_WEBROOT_DEFENSE_IN_DEPTH_V098.md`.
 
@@ -17,7 +19,7 @@
 **v0.9.2 browser QA:** Real Chromium + Playwright runs on isolated GitHub CI with feature gates OFF. [Browser job, 38/38 passed](https://github.com/mohdazizshaikh/overseasjob/actions/runs/45075331503): desktop tracker, downloads, T07–T10, Daily Mission, privacy, plus seven 390px mobile routes and uncaught-JavaScript checks. Fixed a real interview checkbox / country form-change reset issue in `public/assets/advanced_tools_ui.mjs`. This is **not** production, Hostinger, original-theme parity or formal accessibility certification.
 
 **Historical v0.9.1 provider patch — SUPERSEDED by v0.9.4 and canonical v1.3.4 (DO NOT DEPLOY nextCursor):** Himalayas browse now uses official opaque `nextCursor` instead of deprecated offset; a capped or incomplete traversal preserves last healthy cache; JSON `pubDate` maps to source-updated time, never an invented original publication date. See `docs/PROVIDER_CURSOR_AND_DATE_CORRECTION_v091.md`. Himalayas remains disabled by default; no actual live listing is claimed.  
-**Canonical product Source of Truth:** `SOURCE_OF_TRUTH_REFERENCE/OverseasJob_v1.3.3_Source_of_Truth_Project_Pack.zip` (unchanged business requirements).
+**Canonical product Source of Truth:** The validated v1.3.4 versioned ZIP is reproducibly generated from the immutable v1.3.3 original (with corrected API-status owner contract); see `docs/CANONICAL_SOURCE_PACK_REISSUE_V134.md` and the latest Actions artifact.
 
 **Verified CI evidence (23 Nov 2026):** [GitHub Actions run 45069896338](https://github.com/mohdazizshaikh/overseasjob/actions/runs/45069896338) passed both the deterministic regression job (610 local checks) and an isolated **MySQL 8** integration job (37 assertions). The MySQL run used a disposable `oj_test` container and injected test-only email delivery; real Hostinger, real inbox delivery and public launch have NOT been verified.
 
