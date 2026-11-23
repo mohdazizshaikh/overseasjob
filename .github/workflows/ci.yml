@@ -21,6 +21,10 @@ jobs:
           node -v
           php -r 'if (PHP_VERSION_ID < 80200) exit(1);'
           sh tests/run.sh
+      - name: Enforce complete Git inventory in SHA-256 release manifest
+        run: |
+          python3 tests/manifest_inventory_tests.py
+          python3 scripts/refresh_release_manifest.py --check
       - name: Verify isolated split Hostinger preview archives
         run: python3 tests/hostinger_bundle_tests.py
       - name: Test read-only current-homepage switch and asset-collision cutover guard
