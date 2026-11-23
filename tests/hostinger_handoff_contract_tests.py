@@ -8,7 +8,7 @@ from pathlib import Path
 root=Path(__file__).resolve().parents[1]
 doc=(root/'deploy/shared_host/DEPLOY_STAGING_README.md').read_text(encoding='utf-8')
 tests={
-    'same-account testing without paid staging': ('existing production Hostinger account' in doc and 'no separate paid staging site' in doc),
+    'same-account testing without paid staging': ('existing production Hostinger account' in doc and 'without a separate paid staging site' in doc),
     'existing static homepage preserved until approved cutover': ('index.html' in doc and 'assets/' in doc and 'images/' in doc),
     'PHP DirectoryIndex homepage-switch risk explicit': ('DirectoryIndex index.php' in doc and 'replace the visible homepage' in doc),
     'no blind ZIP extraction into live root': ('blind extraction' in doc and 'public_html' in doc),
