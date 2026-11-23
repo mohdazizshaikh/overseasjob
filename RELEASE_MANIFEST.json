@@ -720,8 +720,8 @@
     },
     {
       "path": "tests/hostinger_handoff_contract_tests.py",
-      "bytes": 2176,
-      "sha256": "16e3177ff55eee8d15d3a89cf80fb1b174d75b6a789829eae4f789a71a3d489b"
+      "bytes": 2183,
+      "sha256": "551cc7abc56a98c52609e1111bbda5629b1780b43aba1b98739569df644c64d5"
     },
     {
       "path": "tests/http_employer_review_smoke.sh",
