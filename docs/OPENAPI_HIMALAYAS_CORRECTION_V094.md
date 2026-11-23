@@ -31,3 +31,9 @@ These public docs **contradict the previous 2026-11-23 implementation note** `do
 This code correction is not permission to deploy over the current Hostinger `public_html`, change SEO/noindex gates, alter the existing theme, enable employer/partner pathways or claim real India job supply. Use read-only host inspection and full backup/restore evidence first.
 
 **Sources reviewed:** 2026-11-23; provider docs may change without notice. GitHub issue #4 documents the previous claim and this correction.
+
+## 23 November 2026: strict current-schema eligibility addendum
+
+The exact [Himalayas OpenAPI JSON](https://himalayas.app/docs/openapi.json) `Job` properties specify `locationRestrictions` as `Location[]` objects, each containing `alpha2`, `name`, and `slug`; `timezoneRestrictions` as `string[]` UTC offsets such as `UTC+5:30`; and `pubDate`/`expiryDate` as Unix **milliseconds**. Browse remains `offset`/`limit`/`totalCount` (max 20). The readable API-reference webpage gives illustrative ISO date strings, but the machine-readable OpenAPI `Job` schema takes precedence for JSON decoding. Provider `applicationLink` may be an external employer site; preserve the exact safe HTTPS URL.
+
+New `Jobs::fromHimalayas()` records now invoke a strict upstream-shape option. Invalid or old numeric timezone / raw string country shapes must not result in `allowed` for new ingestion. The non-strict `Jobs::himalayasIndia()` mode is retained only for interpreting earlier cached fixtures without deleting historical evidence. The offline fixture and tests have been updated; **no real API request, provider licence approval, or live feed activation is implied**. Keep existing OFF gates and avoid the undocumented per-job status endpoint.

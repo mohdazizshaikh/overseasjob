@@ -1,13 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.15-hostinger-same-account-founder-handoff-verified-guard",
+  "release": "0.9.16-himalayas-openapi-shape-guard-pr",
   "source_of_truth": "v1.3.3",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
     "status": "PENDING_PR_CI",
-    "tests": "14 Hostinger handoff safety assertions plus original automated suites"
+    "tests": "Strict official Location[] / UTC-offset string fixtures; legacy-cache-only parser regression; existing full workflow"
   },
   "canonical_documentation": {
     "passed": 71,
@@ -30,7 +30,7 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "Handoff doc now aligns with founder same-production-account testing preference and default-OFF source rights; this is not evidence of real Hostinger permissions, backup restore, original site theme or live provider approval.",
+  "developer_notes": "Proposed PR: strict official Himalayas input shapes for new records; provider flags remain OFF; canonical v1.4.1 pack is separate, not deployed. No Hostinger cutover or live API approval.",
   "file_count_excluding_manifest": 159,
   "files": [
     {
@@ -215,8 +215,8 @@
     },
     {
       "path": "docs/OPENAPI_HIMALAYAS_CORRECTION_V094.md",
-      "bytes": 4296,
-      "sha256": "ed32c458b71c1f283fff7820685afed033a77182b23fd245f8cfb56a0a61444e"
+      "bytes": 5526,
+      "sha256": "b0b182ef24f2f3641f8eccb08fec897384fd86f83c66da821f35145d068139c8"
     },
     {
       "path": "docs/PARTNER_PILOT_STAGING_v070.md",
@@ -565,8 +565,8 @@
     },
     {
       "path": "src/Jobs.php",
-      "bytes": 18177,
-      "sha256": "1546f1c4aeb1ef417ec64ae54e999e9aa32732cebda0eeef3b4ed55553e2d21f"
+      "bytes": 18963,
+      "sha256": "df66ee3c4eb7294d90292d6ce254869a8782fb6ee5c37ac126e43a079de7dfad"
     },
     {
       "path": "src/Launch.php",
@@ -700,8 +700,8 @@
     },
     {
       "path": "tests/fixtures/himalayas.json",
-      "bytes": 1267,
-      "sha256": "73d2684fa0475583a53dbb4eaa888a1fab7d1dc306f43fbd7ea559eadae431ee"
+      "bytes": 1688,
+      "sha256": "495f71eafd7224a319eaeec6e4d84d1318b18079f98e86643a40d0e9c3434c81"
     },
     {
       "path": "tests/fixtures/jobicy.json",
@@ -790,8 +790,8 @@
     },
     {
       "path": "tests/php_tests.php",
-      "bytes": 17283,
-      "sha256": "82878e724ffe52bbf5086a547e9d2060bee483755374f5a6c148e67fb8103df7"
+      "bytes": 20363,
+      "sha256": "511c383e9e41ccadb1569fb40d60d6615f98f539f4833d6959c15912ae190bdf"
     },
     {
       "path": "tests/provider_http_tests.php",
