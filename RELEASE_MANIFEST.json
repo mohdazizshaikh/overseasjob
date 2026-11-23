@@ -715,8 +715,8 @@
     },
     {
       "path": "tests/hostinger_cutover_audit_tests.py",
-      "bytes": 10497,
-      "sha256": "f0d901d34eb8cb7036ab141d1d5effce12a1b9b575f263a6c5f6de4a7049fe1f"
+      "bytes": 10495,
+      "sha256": "275078f0cf491b37e580537648bdd76a80532d95f8764a8432754eacf40b42b1"
     },
     {
       "path": "tests/hostinger_handoff_contract_tests.py",

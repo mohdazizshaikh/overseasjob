@@ -91,7 +91,7 @@ with tempfile.TemporaryDirectory(prefix='oj-real-site-copy-test-') as tmp:
     # decompression; no Hostinger/network access is necessary for these cases.
     from audit_hostinger_cutover import MAX_BUNDLE_BYTES
     candidate_base=[('public_html/index.php',b'<?php echo "preview";'),
-                    ('public_html/.htaccess',b'DirectoryIndex index.php\\nRequire all denied\\n')]
+                    ('public_html/.htaccess',b'DirectoryIndex index.php\nRequire all denied\n')]
     def rejects_candidate(extra, reason, compression=zipfile.ZIP_STORED):
         path=base/(reason.replace(' ','-')+'.zip')
         with zipfile.ZipFile(path,'w',compression=compression) as z:
