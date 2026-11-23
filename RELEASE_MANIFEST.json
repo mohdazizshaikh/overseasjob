@@ -6,8 +6,8 @@
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
-    "status": "PENDING_PR_CI",
-    "tests": "30 M17 role-supply negative/positive assertions + existing GitHub CI, SHA-256 inventory, authoritative v1.4.1 149 checks"
+    "status": "PENDING_RETEST_PR_CI",
+    "tests": "31+ role source positive/negative checks and isolated fixture cron (no role observation log) plus full GitHub CI"
   },
   "canonical_documentation": {
     "status": "EXACT_FOUNDER_V141_ZIP_IMPORTED__CI_VALIDATION_PENDING",
@@ -835,8 +835,8 @@
     },
     {
       "path": "tests/php_tests.php",
-      "bytes": 20363,
-      "sha256": "511c383e9e41ccadb1569fb40d60d6615f98f539f4833d6959c15912ae190bdf"
+      "bytes": 20504,
+      "sha256": "47f6e1c08c22a410c7e7d71156fe0b8f1f6c87bafee4318cadb856b567851ca0"
     },
     {
       "path": "tests/provider_http_tests.php",
