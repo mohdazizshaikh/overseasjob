@@ -72,7 +72,7 @@ try{
         $verified['live_upstream_source_independently_verified']===false
         &&$verified['hostinger_14_day_run_verified']===false);
     $duplicate=json_decode($lines[0],true);
-    $duplicate['at']='2026-11-23T13:00:00Z';
+    $duplicate['at']='2026-11-23T11:59:00Z';
     file_put_contents($path,json_encode($duplicate)."\n",FILE_APPEND);
     $same=SourceCoverage::summarize($path,$today);
     coverageCheck('Repeated identical run ID never inflates daily sample',
