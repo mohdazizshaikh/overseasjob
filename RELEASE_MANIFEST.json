@@ -1,13 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.27-canonical-m08-arena-route",
+  "release": "0.9.28-v141-module-tool-traceability",
   "source_of_truth": "v1.4.1",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
     "status": "PENDING_PR_CI",
-    "tests": "M08 canonical /arena route, /daily 301 Location, headless browser redirected journey and all existing suites"
+    "tests": "Exact v1.4.1 owner ZIP module/tool mapping 18+10, GitHub dispatched paths, M08 canonical route, no release approval"
   },
   "canonical_documentation": {
     "status": "EXACT_FOUNDER_V141_ZIP_IMPORTED__CI_VALIDATION_PENDING",
@@ -35,8 +35,8 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "Corrected founder v1.4.1 M08 route implementation, navigation, tests and ledger; documentation stale counts fixed. No source or hosting flags changed; production remains NO-GO.",
-  "file_count_excluding_manifest": 176,
+  "developer_notes": "Owner-to-implementation and test traceability for all 18 modules and 10 tools, with residual external/conformance gaps. This is an inventory and source-of-truth drift guard only. It does not claim complete runtime equivalence, real source supply, hosting access, legal approval or deployment.",
+  "file_count_excluding_manifest": 179,
   "files": [
     {
       "path": ".env.example",
@@ -55,8 +55,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 20274,
-      "sha256": "a36d66213b24ec8ad425b0ed25c2bac375a90ac0558972cec23bfc685c69d8b3"
+      "bytes": 20738,
+      "sha256": "f9e2ec94ce124e217ba251e348f426e850167f45b9b00d798b8a36ae3356c123"
     },
     {
       "path": "SOURCE_OF_TRUTH_REFERENCE/OverseasJob_v1.3.3_Source_of_Truth_Project_Pack.zip",
@@ -164,6 +164,11 @@
       "sha256": "5802e07e78c1160b4d4e9ba6d110bfe89bf23bf028f1dda4916bc1268a276a4c"
     },
     {
+      "path": "docs/CANONICAL_V141_IMPLEMENTATION_TRACEABILITY.json",
+      "bytes": 19156,
+      "sha256": "fdef3a5d7608ddf72bcea1add80cd47d721c3f337bb0a9698e118e6cf9991029"
+    },
+    {
       "path": "docs/COMPLETE_RELEASE_MANIFEST_INVENTORY_V0911.md",
       "bytes": 2740,
       "sha256": "2802419884b2d75d939e9695a96cfff8619611dcfdd74d607d54d89249fd2b58"
@@ -197,6 +202,11 @@
       "path": "docs/HOSTINGER_ORIGINAL_HOMEPAGE_SWITCH_GUARD_V097.md",
       "bytes": 7558,
       "sha256": "79bae8d536d86f449d1f7055e3e4cd6b7cd3a024dc79b2f172fb6c623cda1f30"
+    },
+    {
+      "path": "docs/IMPLEMENTATION_TRACEABILITY_V141.md",
+      "bytes": 3484,
+      "sha256": "33db5a09376d8eefe997a67538376bef65a09937bc4a6ae59d4d3ef7190693f1"
     },
     {
       "path": "docs/LIVE_PROVIDER_SOURCE_PERMISSION_GATE_V0912.md",
@@ -754,6 +764,11 @@
       "sha256": "032ecf6eca3c43ad05dc8be1f65f8109f6a3d7032816f5adb4692acf9777c72b"
     },
     {
+      "path": "tests/canonical_traceability_tests.py",
+      "bytes": 8797,
+      "sha256": "6c06607f3fb6a14059a9c4dc028b29c4c27ab1d4a91335b1147c010552b8be17"
+    },
+    {
       "path": "tests/daily_radar_privacy_tests.mjs",
       "bytes": 9174,
       "sha256": "f90472b54860c4b4a84a693ee49470d3c286966b91a87d9cd4bbaf9c6e158d1b"
@@ -895,8 +910,8 @@
     },
     {
       "path": "tests/run.sh",
-      "bytes": 2413,
-      "sha256": "fa2b649f05a7f83daaac72400b41a75ce5df03f6487a03294a2652e081bb80d9"
+      "bytes": 2467,
+      "sha256": "aba9624303f872e9b8164c4c3bb8cf660d5ed7379e09052686584f23827afe86"
     },
     {
       "path": "tests/shared_host_layout_tests.php",

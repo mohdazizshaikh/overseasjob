@@ -1,0 +1,570 @@
+{
+  "schema_version": 1,
+  "canonical_version": "v1.4.1",
+  "canonical_zip": "SOURCE_OF_TRUTH_REFERENCE/OverseasJob_v1.4.1_Corrected_Canonical_Pack.zip",
+  "canonical_zip_sha256": "3802d1e3b9090feeaaa5eed3fa780f9858299eaa96f1be4980edb9569983ecb9",
+  "canonical_module_owner": "15_CANONICAL_MODULE_REQUIREMENTS.md",
+  "canonical_tool_owner": "17_TOOL_ALGORITHMS_AND_FIXTURES.md",
+  "classification": "repository local implementation and selected tests; NOT live/external verification",
+  "source_note": "Crosswalk created from the exact founder canonical ZIP, GitHub main tree, module_status.json and sampled implementation/tests on 2026-11-24. Code association is not full behavioural conformance; remaining owner contracts require review.",
+  "global_external_blockers": [
+    "Actual Hostinger account PHP/SSL/cron/open_basedir, current theme and database backup + independent restore",
+    "Provider rights/conditions, permitted fourteen real UTC source days, two to three role cohorts",
+    "Owner/legal/editorial/privacy/consent approval and production screen-reader/performance review",
+    "Source-to-code contract reconciliation beyond golden T01/T02/T04/T05 + Himalayas 18 cases"
+  ],
+  "modules": [
+    {
+      "id": "M00",
+      "canonical_title": "Hosting/deployment/config & backup",
+      "status_recorded_in_module_ledger": "blocked_with_reason",
+      "implementation_paths": [
+        "scripts/gate0_preflight.php",
+        "scripts/build_hostinger_bundle.py",
+        "scripts/audit_hostinger_cutover.py",
+        "src/ThemeSafety.php"
+      ],
+      "test_paths": [
+        "tests/hostinger_bundle_tests.py",
+        "tests/hostinger_cutover_audit_tests.py",
+        "tests/apache_webroot_security.sh"
+      ],
+      "external_evidence_missing": [
+        "real Hostinger plan/PHP/SSL/cron/open_basedir examination",
+        "original public_html and MySQL independent restore",
+        "original site SEO/theme cutover and rollback approval"
+      ],
+      "code_reconciliation_residuals": [
+        "local bundle checks cannot establish existing host compatibility"
+      ]
+    },
+    {
+      "id": "M01",
+      "canonical_title": "Provider licences, adapters & ingestion",
+      "status_recorded_in_module_ledger": "implemented",
+      "implementation_paths": [
+        "src/ProviderHttp.php",
+        "src/SourcePermissionGate.php",
+        "src/Jobs.php",
+        "scripts/sync_jobs.php"
+      ],
+      "test_paths": [
+        "tests/provider_http_tests.php",
+        "tests/source_permission_gate_tests.php",
+        "tests/php_tests.php",
+        "tests/canonical_runtime_contract.py"
+      ],
+      "external_evidence_missing": [
+        "current legal provider permissions",
+        "real permitted outbound 14-day sample",
+        "production cron/network quality"
+      ],
+      "code_reconciliation_residuals": [
+        "no verified live licence or first-party source history"
+      ]
+    },
+    {
+      "id": "M02",
+      "canonical_title": "Normalised job catalogue",
+      "status_recorded_in_module_ledger": "implemented",
+      "implementation_paths": [
+        "src/Jobs.php",
+        "public/index.php"
+      ],
+      "test_paths": [
+        "tests/php_tests.php",
+        "tests/http_smoke.sh"
+      ],
+      "external_evidence_missing": [
+        "licensed real job data supply",
+        "actual production database/schema trial"
+      ],
+      "code_reconciliation_residuals": [
+        "local cache tests do not prove diverse current listings"
+      ]
+    },
+    {
+      "id": "M03",
+      "canonical_title": "Search + eligibility engine",
+      "status_recorded_in_module_ledger": "implemented",
+      "implementation_paths": [
+        "src/Jobs.php",
+        "src/Countries.php",
+        "public/index.php"
+      ],
+      "test_paths": [
+        "tests/php_tests.php",
+        "tests/canonical_provider_fixtures.php",
+        "tests/canonical_runtime_contract.py"
+      ],
+      "external_evidence_missing": [
+        "real upstream eligibility field coverage"
+      ],
+      "code_reconciliation_residuals": [
+        "Himalayas 18 official-shape fixtures pass but live provider content is unverified"
+      ]
+    },
+    {
+      "id": "M04",
+      "canonical_title": "Job Decision Cards",
+      "status_recorded_in_module_ledger": "implemented",
+      "implementation_paths": [
+        "src/Jobs.php",
+        "public/index.php"
+      ],
+      "test_paths": [
+        "tests/php_tests.php",
+        "tests/browser_e2e.py"
+      ],
+      "external_evidence_missing": [
+        "real observed source evidence and apply URL safety"
+      ],
+      "code_reconciliation_residuals": [
+        "fixture fields cannot certify real employer, sponsorship or on-site relocation"
+      ]
+    },
+    {
+      "id": "M05",
+      "canonical_title": "10 free utilities T01..T10",
+      "status_recorded_in_module_ledger": "implemented",
+      "implementation_paths": [
+        "public/assets/calculators.mjs",
+        "public/assets/resume.mjs",
+        "public/assets/relocation.mjs",
+        "public/assets/tracker.mjs",
+        "public/assets/advanced_tools.mjs",
+        "public/index.php"
+      ],
+      "test_paths": [
+        "tests/js_tests.mjs",
+        "tests/new_tools_tests.mjs",
+        "tests/advanced_tools_tests.mjs",
+        "tests/tracker_tests.mjs",
+        "tests/canonical_runtime_contract.py"
+      ],
+      "external_evidence_missing": [
+        "real mobile/assistive-tech evaluation",
+        "original content/course links editorial checking"
+      ],
+      "code_reconciliation_residuals": [
+        "only T01/T02/T04/T05 have direct owner expected-output golden bridge"
+      ]
+    },
+    {
+      "id": "M06",
+      "canonical_title": "Original guidance, SEO and source safety",
+      "status_recorded_in_module_ledger": "blocked_with_reason",
+      "implementation_paths": [
+        "src/Guides.php",
+        "content/guides.json",
+        "public/index.php"
+      ],
+      "test_paths": [
+        "tests/operational_tests.php",
+        "tests/browser_e2e.py"
+      ],
+      "external_evidence_missing": [
+        "human legal/editorial review of all five guides",
+        "live content indexing and original-domain SEO/canonical parity"
+      ],
+      "code_reconciliation_residuals": [
+        "five draft guides do not establish reviewed editorial content"
+      ]
+    },
+    {
+      "id": "M07",
+      "canonical_title": "Opportunity Radar, local profile, save/track",
+      "status_recorded_in_module_ledger": "implemented",
+      "implementation_paths": [
+        "public/assets/radar.mjs",
+        "public/assets/radar_ui.mjs",
+        "public/index.php"
+      ],
+      "test_paths": [
+        "tests/daily_radar_privacy_tests.mjs",
+        "tests/browser_e2e.py"
+      ],
+      "external_evidence_missing": [
+        "genuine provider updates for change detection",
+        "multiple device and storage-disabled experience evaluation"
+      ],
+      "code_reconciliation_residuals": [
+        "manual browser-local radar cannot deliver background notifications"
+      ]
+    },
+    {
+      "id": "M08",
+      "canonical_title": "Daily Career Mission / Arena",
+      "status_recorded_in_module_ledger": "implemented",
+      "implementation_paths": [
+        "public/assets/daily.mjs",
+        "public/assets/daily_ui.mjs",
+        "content/daily_missions.json",
+        "public/index.php"
+      ],
+      "test_paths": [
+        "tests/daily_radar_privacy_tests.mjs",
+        "tests/http_v060_smoke.sh",
+        "tests/browser_e2e.py"
+      ],
+      "external_evidence_missing": [
+        "original question-bank human editorial review",
+        "real mobile/keyboard/screen reader testing"
+      ],
+      "code_reconciliation_residuals": [
+        "canonical /arena route repaired in PR #33; browser tests do not prove live deployment"
+      ]
+    },
+    {
+      "id": "M09",
+      "canonical_title": "Analytics and monetisation",
+      "status_recorded_in_module_ledger": "implemented",
+      "implementation_paths": [
+        "src/Analytics.php",
+        "public/assets/privacy.mjs",
+        "public/assets/privacy_ui.mjs",
+        "public/index.php"
+      ],
+      "test_paths": [
+        "tests/analytics_tests.php",
+        "tests/daily_radar_privacy_tests.mjs"
+      ],
+      "external_evidence_missing": [
+        "privacy notice/consent legal approval",
+        "actual analytics data or advertising programme approval"
+      ],
+      "code_reconciliation_residuals": [
+        "ANALYTICS_ENABLED and ads default OFF; no revenue claim"
+      ]
+    },
+    {
+      "id": "M10",
+      "canonical_title": "Trust reporting, incident and takedown",
+      "status_recorded_in_module_ledger": "implemented",
+      "implementation_paths": [
+        "src/Reports.php",
+        "src/OwnerAuth.php",
+        "public/index.php"
+      ],
+      "test_paths": [
+        "tests/operational_tests.php",
+        "tests/owner_auth_tests.php"
+      ],
+      "external_evidence_missing": [
+        "actual moderator authority and takedown workflow staffed",
+        "real retention/incident policy and anti-abuse evidence"
+      ],
+      "code_reconciliation_residuals": [
+        "owner panel intentionally OFF outside local CI"
+      ]
+    },
+    {
+      "id": "M11",
+      "canonical_title": "Monitoring, backups, operations",
+      "status_recorded_in_module_ledger": "implemented",
+      "implementation_paths": [
+        "src/Backups.php",
+        "src/OpsSnapshot.php",
+        "scripts/backup.php",
+        "scripts/restore_drill.php",
+        "scripts/health.php"
+      ],
+      "test_paths": [
+        "tests/backup_tests.php",
+        "tests/ops_snapshot_tests.php"
+      ],
+      "external_evidence_missing": [
+        "real Hostinger original-site and database recoverable snapshots",
+        "independent on-host restore and off-site retention",
+        "actual production monitoring/incident alerting"
+      ],
+      "code_reconciliation_residuals": [
+        "offline backup drill alone does not protect existing live property"
+      ]
+    },
+    {
+      "id": "M12",
+      "canonical_title": "Recruiter identity and company accounts",
+      "status_recorded_in_module_ledger": "blocked_with_reason",
+      "implementation_paths": [
+        "src/RecruiterPortal.php",
+        "src/RecruiterMailer.php",
+        "src/EmployerDomainProof.php",
+        "src/EmployerDomainMysql.php"
+      ],
+      "test_paths": [
+        "tests/recruiter_recovery_tests.php",
+        "tests/mysql_integration_tests.php"
+      ],
+      "external_evidence_missing": [
+        "real email deliverability, DNS proof and employer representative authority",
+        "legal verified-company identity and reviewer capacity"
+      ],
+      "code_reconciliation_residuals": [
+        "recruiter flag stays OFF; no externally verified employers"
+      ]
+    },
+    {
+      "id": "M13",
+      "canonical_title": "Direct job posting + org dashboard",
+      "status_recorded_in_module_ledger": "blocked_with_reason",
+      "implementation_paths": [
+        "src/EmployerReview.php",
+        "src/EmployerContracts.php",
+        "src/RecruiterPortal.php",
+        "public/index.php"
+      ],
+      "test_paths": [
+        "tests/employer_review_portal_tests.php",
+        "tests/employer_contract_tests.php",
+        "tests/mysql_integration_tests.php"
+      ],
+      "external_evidence_missing": [
+        "actual employer consent, domain ownership and moderation staffing",
+        "real Hostinger SQL migration, rollback and security tests"
+      ],
+      "code_reconciliation_residuals": [
+        "no real reviewed employer jobs may be published"
+      ]
+    },
+    {
+      "id": "M14",
+      "canonical_title": "Inbound partner/ATS Job Posting API",
+      "status_recorded_in_module_ledger": "blocked_with_reason",
+      "implementation_paths": [
+        "src/PartnerApi.php",
+        "src/PartnerMysqlStore.php",
+        "src/PartnerTokenAdmin.php"
+      ],
+      "test_paths": [
+        "tests/partner_api_tests.php",
+        "tests/mysql_integration_tests.php"
+      ],
+      "external_evidence_missing": [
+        "real ATS partner contracts and company identity",
+        "production token management and migration rehearsal"
+      ],
+      "code_reconciliation_residuals": [
+        "API remains off; contract tests do not authorise tokens"
+      ]
+    },
+    {
+      "id": "M15",
+      "canonical_title": "Privacy/consent/export/deletion",
+      "status_recorded_in_module_ledger": "implemented",
+      "implementation_paths": [
+        "public/assets/privacy.mjs",
+        "public/assets/privacy_ui.mjs",
+        "public/assets/tracker.mjs",
+        "public/index.php"
+      ],
+      "test_paths": [
+        "tests/daily_radar_privacy_tests.mjs",
+        "tests/browser_e2e.py"
+      ],
+      "external_evidence_missing": [
+        "real privacy policy/consent and deletion retention signoff",
+        "actual Hostinger logs/email/partner data retention audit"
+      ],
+      "code_reconciliation_residuals": [
+        "on-device deletion tests do not delete unmanaged hosting logs"
+      ]
+    },
+    {
+      "id": "M16",
+      "canonical_title": "Accessibility/performance/test harness",
+      "status_recorded_in_module_ledger": "blocked_with_reason",
+      "implementation_paths": [
+        ".github/workflows/ci.yml",
+        "public/assets/style.css",
+        "public/index.php"
+      ],
+      "test_paths": [
+        "tests/browser_e2e.py",
+        "tests/browser_a11y_print.py",
+        "tests/apache_webroot_security.sh"
+      ],
+      "external_evidence_missing": [
+        "human screen-reader WCAG assessment and 320px phone validation",
+        "measured production performance and original-site theme parity"
+      ],
+      "code_reconciliation_residuals": [
+        "isolated Chromium screenshots do not establish live mobile or SEO equivalence"
+      ]
+    },
+    {
+      "id": "M17",
+      "canonical_title": "Source/traffic/business feasibility",
+      "status_recorded_in_module_ledger": "blocked_with_reason",
+      "implementation_paths": [
+        "src/SourceCoverage.php",
+        "src/RoleCoverage.php",
+        "scripts/coverage_report.php",
+        "scripts/role_coverage_report.php",
+        "scripts/predeployment_report.php"
+      ],
+      "test_paths": [
+        "tests/source_coverage_tests.php",
+        "tests/role_coverage_tests.php",
+        "tests/predeployment_report_tests.php"
+      ],
+      "external_evidence_missing": [
+        "14 real distinct UTC days of permitted source observations across 2–3 roles",
+        "reliable permitted provider/job supply",
+        "real traffic, conversions and source viability"
+      ],
+      "code_reconciliation_residuals": [
+        "format-valid observations are not independent licence/HTTP evidence"
+      ]
+    }
+  ],
+  "tools": [
+    {
+      "id": "T01",
+      "canonical_title": "Salary, Living Cost & Savings",
+      "implementation_paths": [
+        "public/assets/calculators.mjs"
+      ],
+      "test_paths": [
+        "tests/js_tests.mjs",
+        "tests/canonical_tool_fixtures.mjs"
+      ],
+      "test_evidence_grade": "direct_canonical_expected_outputs",
+      "residuals": [
+        "tax, salary and FX assumptions user-provided; no external salary validation"
+      ]
+    },
+    {
+      "id": "T02",
+      "canonical_title": "Offer Comparison",
+      "implementation_paths": [
+        "public/assets/calculators.mjs"
+      ],
+      "test_paths": [
+        "tests/js_tests.mjs",
+        "tests/canonical_tool_fixtures.mjs"
+      ],
+      "test_evidence_grade": "direct_canonical_expected_outputs",
+      "residuals": [
+        "foreign FX and compensation clauses user-supplied; no certified offers"
+      ]
+    },
+    {
+      "id": "T03",
+      "canonical_title": "Resume & Cover Letter",
+      "implementation_paths": [
+        "public/assets/resume.mjs"
+      ],
+      "test_paths": [
+        "tests/new_tools_tests.mjs"
+      ],
+      "test_evidence_grade": "independent_local_tests_only",
+      "residuals": [
+        "three template variants and factual user entries need editorial review; no explicit owner golden outputs executed"
+      ]
+    },
+    {
+      "id": "T04",
+      "canonical_title": "Relocation Budget",
+      "implementation_paths": [
+        "public/assets/relocation.mjs"
+      ],
+      "test_paths": [
+        "tests/new_tools_tests.mjs",
+        "tests/canonical_tool_fixtures.mjs"
+      ],
+      "test_evidence_grade": "direct_canonical_expected_outputs",
+      "residuals": [
+        "visa, one-time and contingency costs are planning estimates only"
+      ]
+    },
+    {
+      "id": "T05",
+      "canonical_title": "Time Zone Work Overlap",
+      "implementation_paths": [
+        "public/assets/calculators.mjs"
+      ],
+      "test_paths": [
+        "tests/js_tests.mjs",
+        "tests/canonical_tool_fixtures.mjs"
+      ],
+      "test_evidence_grade": "direct_canonical_expected_outputs",
+      "residuals": [
+        "real shift policies and atypical DST/device zones unverified"
+      ]
+    },
+    {
+      "id": "T06",
+      "canonical_title": "Application Tracker",
+      "implementation_paths": [
+        "public/assets/tracker.mjs"
+      ],
+      "test_paths": [
+        "tests/tracker_tests.mjs"
+      ],
+      "test_evidence_grade": "independent_local_tests_only",
+      "residuals": [
+        "browser storage loss and real-user CSV usability unverified; no automatic apply detection"
+      ]
+    },
+    {
+      "id": "T07",
+      "canonical_title": "Interview Practice",
+      "implementation_paths": [
+        "public/assets/advanced_tools.mjs",
+        "content/interview_questions.json"
+      ],
+      "test_paths": [
+        "tests/advanced_tools_tests.mjs"
+      ],
+      "test_evidence_grade": "independent_local_tests_only",
+      "residuals": [
+        "question rubrics require human original-content editorial review"
+      ]
+    },
+    {
+      "id": "T08",
+      "canonical_title": "Country Readiness Checklist",
+      "implementation_paths": [
+        "public/assets/advanced_tools.mjs",
+        "content/country_checklists.json"
+      ],
+      "test_paths": [
+        "tests/advanced_tools_tests.mjs"
+      ],
+      "test_evidence_grade": "independent_local_tests_only",
+      "residuals": [
+        "official migration/visa sources and review dates require human current verification"
+      ]
+    },
+    {
+      "id": "T09",
+      "canonical_title": "WorkProof Portfolio Generator",
+      "implementation_paths": [
+        "public/assets/advanced_tools.mjs"
+      ],
+      "test_paths": [
+        "tests/advanced_tools_tests.mjs"
+      ],
+      "test_evidence_grade": "independent_local_tests_only",
+      "residuals": [
+        "static generated HTML not hosted and cannot authenticate user work"
+      ]
+    },
+    {
+      "id": "T10",
+      "canonical_title": "Career Roadmap Builder",
+      "implementation_paths": [
+        "public/assets/advanced_tools.mjs",
+        "content/roadmap_tracks.json"
+      ],
+      "test_paths": [
+        "tests/advanced_tools_tests.mjs"
+      ],
+      "test_evidence_grade": "independent_local_tests_only",
+      "residuals": [
+        "course links/prerequisites require periodic human checking"
+      ]
+    }
+  ]
+}
