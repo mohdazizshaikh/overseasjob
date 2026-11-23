@@ -21,6 +21,8 @@ jobs:
           node -v
           php -r 'if (PHP_VERSION_ID < 80200) exit(1);'
           sh tests/run.sh
+      - name: Verify isolated split Hostinger preview archives
+        run: python3 tests/hostinger_bundle_tests.py
       - name: Canonical Source of Truth contract validation
         shell: bash
         run: |
@@ -116,3 +118,24 @@ jobs:
             artifacts/browser-e2e/
           if-no-files-found: ignore
           retention-days: 3
+
+  hostinger-preview-artifacts:
+    needs: [deterministic-tests, mysql-pilot-integration, real-browser-e2e]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify release and safely create separate upload archives
+        run: |
+          python3 tests/hostinger_bundle_tests.py
+          python3 scripts/build_hostinger_bundle.py --output artifacts/hostinger-preview
+      - name: Attach downloadable archives for manual review only
+        uses: actions/upload-artifact@v4
+        with:
+          name: hostinger-preview-verified-bundle
+          path: artifacts/hostinger-preview/
+          if-no-files-found: error
+          retention-days: 14

@@ -1,6 +1,8 @@
-# OverseasJob.in — Code Development v0.9.4 (official provider contract correction)
+# OverseasJob.in — Code Development v0.9.5 (verified Hostinger split preview packaging)
 
 **State: working local application and future-gated contract foundation; NOT deployed, NOT public-launch ready.**
+
+**v0.9.5 packaging:** `scripts/build_hostinger_bundle.py` creates separate SHA-256-verified private and public preview ZIPs, tested by `tests/hostinger_bundle_tests.py`. After all main-branch test jobs pass, GitHub Actions attaches them as downloadable `hostinger-preview-verified-bundle`. **This does not touch the real Hostinger hosting, does not preserve unknown existing theme automatically, and is not permission to overwrite `public_html`.** See `docs/HOSTINGER_DIRECT_HOST_BUNDLE_V095.md`.
 
 **Critical v0.9.4 source contract correction:** The official Himalayas OpenAPI was rechecked on 23 Nov 2026 and documents offset+limit, job-publication `pubDate`, opaque GUID and external employer application URLs, with no public per-job 410 API. `docs/OPENAPI_HIMALAYAS_CORRECTION_V094.md` supersedes prior v0.9.1 cursor/date claims; Himalayas remains disabled until source re-approval, live samples and the canonical v1.3.4 pack revision.
 
