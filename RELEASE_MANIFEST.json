@@ -1,13 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.25-founder-readonly-predeployment-report",
+  "release": "0.9.26-founder-v141-golden-code-bridge",
   "source_of_truth": "v1.4.1",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
-    "status": "PENDING_FULL_PR_CI",
-    "tests": "12 founder NO-GO truth/report assertions plus complete existing six-job GitHub CI and SHA-256 manifest inventory"
+    "status": "PENDING_PR_CI",
+    "tests": "Direct 4 tool golden output groups + 18 strict Himalayas eligibility expected outputs from exact founder v1.4.1 ZIP against real JS/PHP; all existing CI"
   },
   "canonical_documentation": {
     "status": "EXACT_FOUNDER_V141_ZIP_IMPORTED__CI_VALIDATION_PENDING",
@@ -35,8 +35,8 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "Added read-only founder-friendly predeployment report; fixed outdated docs that incorrectly called v1.4.1 ZIP import pending. Exits 2 when local blockers remain and never auto-authorises deployment, logs in to Hostinger, activates providers or exports private approvals. Real Hostinger backups, permissions, 14 genuine UTC days, legal/editorial signoff and rollback remain pending.",
-  "file_count_excluding_manifest": 171,
+  "developer_notes": "New offline immutable canonical fixture runtime bridge catches drift between founder spec and implementation for T01/T02/T04/T05 and Himalayas India-eligibility truth table. Other modules and live external proof remain unverified. Current founder ZIP unchanged; release and provider rights gates remain OFF.",
+  "file_count_excluding_manifest": 175,
   "files": [
     {
       "path": ".env.example",
@@ -55,8 +55,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 19706,
-      "sha256": "77f4d4f078b1de71192a8eb04f787a5e2a3e714f83c8d2addf3c682175de95bc"
+      "bytes": 20200,
+      "sha256": "09d76c6a6b218dba7e44bbc579edd134e213ba0b41e65cbcf4246adfaff96ba5"
     },
     {
       "path": "SOURCE_OF_TRUTH_REFERENCE/OverseasJob_v1.3.3_Source_of_Truth_Project_Pack.zip",
@@ -152,6 +152,11 @@
       "path": "docs/BETA_IMPLEMENTATION_CHANGELOG.md",
       "bytes": 1739,
       "sha256": "1d00bec269c19b10a0cc6af44a7a50ff5c3d18f0e3bc0e8c030c344b8b3c4906"
+    },
+    {
+      "path": "docs/CANONICAL_RUNTIME_GOLDEN_BRIDGE.md",
+      "bytes": 1715,
+      "sha256": "a0a1cb87a89bf6fdf2cb3d5d92a850c3a4c43cc02833b612cfd3172655903fbb"
     },
     {
       "path": "docs/CANONICAL_SOURCE_PACK_REISSUE_V134.md",
@@ -729,6 +734,21 @@
       "sha256": "7573c79048ac9663fd0ef7aeb6dd96cd273acdd35da74a560f362679ab9c976e"
     },
     {
+      "path": "tests/canonical_provider_fixtures.php",
+      "bytes": 1479,
+      "sha256": "60af89882c51947f469489495e650c4fd517d94afa6d99de2c95d43659782b0d"
+    },
+    {
+      "path": "tests/canonical_runtime_contract.py",
+      "bytes": 3052,
+      "sha256": "1ae097093bc3440be5574ad9064706becafdb6bd598015c923e97a839863677d"
+    },
+    {
+      "path": "tests/canonical_tool_fixtures.mjs",
+      "bytes": 2139,
+      "sha256": "032ecf6eca3c43ad05dc8be1f65f8109f6a3d7032816f5adb4692acf9777c72b"
+    },
+    {
       "path": "tests/daily_radar_privacy_tests.mjs",
       "bytes": 9174,
       "sha256": "f90472b54860c4b4a84a693ee49470d3c286966b91a87d9cd4bbaf9c6e158d1b"
@@ -870,8 +890,8 @@
     },
     {
       "path": "tests/run.sh",
-      "bytes": 2361,
-      "sha256": "3957146823cef1dc5ec0f45d96d477f90325d32f6cf6540b0109998d7918e795"
+      "bytes": 2413,
+      "sha256": "fa2b649f05a7f83daaac72400b41a75ce5df03f6487a03294a2652e081bb80d9"
     },
     {
       "path": "tests/shared_host_layout_tests.php",
