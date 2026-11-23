@@ -2,6 +2,7 @@
 declare(strict_types=1);
 require_once __DIR__.'/Guides.php';
 require_once __DIR__.'/SourceCoverage.php';
+require_once __DIR__.'/RoleCoverage.php';
 require_once __DIR__.'/SourcePermissionGate.php';
 
 /** Public release is fail-closed: local documents are never external proof by themselves. */
@@ -77,6 +78,9 @@ final class Launch
         $coverage=SourceCoverage::summarize($root.'/storage/coverage.ndjson',$now);
         if(!$coverage['log_valid']||!$coverage['14_distinct_calendar_days_measured'])
             $blockers[]='Fourteen distinct UTC days of source samples are missing';
+        $roleCoverage=RoleCoverage::summarize($root.'/storage/role_coverage.ndjson',$now);
+        if(!$roleCoverage['log_valid']||!$roleCoverage['14_days_for_2_to_3_role_cohorts_shape_valid'])
+            $blockers[]='Fourteen UTC days of two to three role-cohort sampling metadata are missing';
         $policies=self::jsonFile($root.'/config/provider_policy.json',30_000);
         $providerReady=false;
         if(is_array($policies)){

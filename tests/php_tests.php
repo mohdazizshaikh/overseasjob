@@ -147,7 +147,7 @@ test('Onsite abroad not faked by remote jobs', Jobs::search([$a,$b],'','onsite_a
 // Atomic CLI ingestion tested in an isolated copy: never public-facing fake jobs.
 $testRoot=sys_get_temp_dir().'/oj-sync-'.bin2hex(random_bytes(4));
 mkdir($testRoot);foreach(['src','scripts','config','storage'] as $d)mkdir($testRoot.'/'.$d);
-foreach(['src/Jobs.php','src/Countries.php','src/country_aliases.json','src/ProviderHttp.php','src/SourceCoverage.php','src/SourcePermissionGate.php','scripts/sync_jobs.php','scripts/check_himalayas_status.php','config/provider_policy.json'] as $f)copy(dirname(__DIR__).'/'.$f,$testRoot.'/'.$f);
+foreach(['src/Jobs.php','src/Countries.php','src/country_aliases.json','src/ProviderHttp.php','src/SourceCoverage.php','src/RoleCoverage.php','src/SourcePermissionGate.php','scripts/sync_jobs.php','scripts/check_himalayas_status.php','config/provider_policy.json'] as $f)copy(dirname(__DIR__).'/'.$f,$testRoot.'/'.$f);
 // A simulated cron invocation with no operator permission must fail before HTTP.
 $ungatedCommand='SOURCE_LIVE_SYNC_ENABLED=0 SOURCE_JOBICY_RIGHTS_REVIEWED=0 '
     .escapeshellarg(PHP_BINARY).' '.escapeshellarg($testRoot.'/scripts/sync_jobs.php')
@@ -172,6 +172,7 @@ $out=[];exec($fail,$out,$code);$preserved=json_decode((string)file_get_contents(
 test('Zero-job sync fails safely', $code!==0);
 test('Last healthy fixture cache preserved on bad sync', count($preserved['jobs'])===2);
 test('Fixture import never populates public job cache', count(json_decode((string)file_get_contents($testRoot.'/storage/jobs.json'),true)['jobs'])===0);
+test('Fixture sync never writes live 14-day role observations', !is_file($testRoot.'/storage/role_coverage.ndjson'));
 $cmdH=escapeshellarg(PHP_BINARY).' '.escapeshellarg($testRoot.'/scripts/sync_jobs.php').' himalayas --fixture='.escapeshellarg(__DIR__.'/fixtures/himalayas.json').' 2>&1';
 $out=[];exec($cmdH,$out,$code);
 $hFixture=json_decode((string)file_get_contents($testRoot.'/storage/fixture_jobs.json'),true);

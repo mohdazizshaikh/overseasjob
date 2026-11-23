@@ -1,6 +1,6 @@
 {
   "spec_version": "v1.4.1",
-  "release": "v0.9.22-code-v141-canonical-sync-not-deployed",
+  "release": "v0.9.23-M17-role-cohort-schema-local-not-deployed",
   "development_state": "LOCAL_CODE_CI_TESTED_V141_DOCUMENTATION_ADOPTED_IMPLEMENTATION_RECONCILIATION_PENDING",
   "evidence": [
     "tests/php_tests.php",
@@ -568,7 +568,7 @@
     {
       "module_id": "M17",
       "implementation_status": "blocked_with_reason",
-      "blocker_reason": "Strict v2 live-sync coverage record validation implemented; no fixtures, legacy dates or invalid records count toward the 14-day local observation shape. Actual 14 distinct authorised on-host source days, 2–3 job-role cohorts, reliable external provider rights and dated business/traffic evidence remain unavailable. Do not equate log record shape with verified live source provenance.",
+      "blocker_reason": "Strict v2 live-sync coverage record validation implemented; no fixtures, legacy dates or invalid records count toward the 14-day local observation shape. Actual 14 distinct authorised on-host source days, 2–3 job-role cohorts, reliable external provider rights and dated business/traffic evidence remain unavailable. Do not equate log record shape with verified live source provenance. Added three pilot role-cohort observation counters and local integrity tests; no fourteen actual authorised UTC days, no host evidence, and no independent provider licences.",
       "spec_version": "v1.4.1",
       "routes": [],
       "dependencies": [
@@ -580,7 +580,11 @@
         "scripts/coverage_report.php",
         "src/SourceCoverage.php",
         "tests/source_coverage_tests.php",
-        "docs/M17_SOURCE_OBSERVATION_EVIDENCE_V099.md"
+        "docs/M17_SOURCE_OBSERVATION_EVIDENCE_V099.md",
+        "src/RoleCoverage.php",
+        "tests/role_coverage_tests.php",
+        "scripts/role_coverage_report.php",
+        "docs/M17_ROLE_COHORT_EVIDENCE_V1.md"
       ],
       "tests": [],
       "last_verified_at": null
@@ -806,5 +810,18 @@
     "real_source_permissions_verified": false,
     "production_launch_approved": false,
     "historical_code_status_note": "Preserve M00–M17 per-module implementation/testing statuses and blockers; changing spec target does not attest to conformance or deployment"
+  },
+  "m17_role_cohort_contract": {
+    "schema": 1,
+    "report": "scripts/role_coverage_report.php",
+    "private_log": "storage/role_coverage.ndjson",
+    "pilot_cohorts": [
+      "it_support",
+      "customer_support",
+      "junior_web_developer"
+    ],
+    "first_live_observation_verified": false,
+    "real_14_day_role_evidence_verified": false,
+    "release_gate_enabled": true
   }
 }
