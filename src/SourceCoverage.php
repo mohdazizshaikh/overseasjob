@@ -65,7 +65,7 @@ final class SourceCoverage
           || !is_string($raw['date']??null)
           || !preg_match('/^\d{4}-\d{2}-\d{2}$/D',$raw['date'])
           || !is_string($raw['at']??null)
-          || !preg_match('/^\d{4}-\d{2}T\d{2}:\d{2}:\d{2}Z$/D',$raw['at'])
+          || !preg_match('/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/D',$raw['at'])
           || !is_bool($raw['partial_provider_sample']??null))
             return false;
         $time=strtotime($raw['at']);
