@@ -186,7 +186,7 @@
     {
       "path": "docs/LIVE_PROVIDER_SOURCE_PERMISSION_GATE_V0912.md",
       "bytes": 5069,
-      "sha256": "00000000000000000000000000000000286602024fc4305a4853f6ad84a8eae5"
+      "sha256": "2b35750f77c2051bcf04dd803acf594286fbf5eac468a9e0ae02c57886355c56"
     },
     {
       "path": "docs/LOCAL_TEST_OUTPUT_2026-11-23_v050.txt",
@@ -631,7 +631,7 @@
     {
       "path": "src/SourcePermissionGate.php",
       "bytes": 4838,
-      "sha256": "0000000000000000000000000000000075bef89d986504cbe6066a1a3a95c0bf"
+      "sha256": "0192f3ec3e275c4b3c57e69c9694b02203b54cfd9f7040ff2f9b457366e8419c"
     },
     {
       "path": "src/ThemeSafety.php",
@@ -831,7 +831,7 @@
     {
       "path": "tests/source_permission_gate_tests.php",
       "bytes": 6296,
-      "sha256": "00000000000000000000000000000000d022d408f9b6689158838c7a0681204b"
+      "sha256": "a9812b2667a3ea4df4c482a1f06e75ee4277a82a84c846759efc5e4c345f1f8d"
     },
     {
       "path": "tests/tracker_tests.mjs",
