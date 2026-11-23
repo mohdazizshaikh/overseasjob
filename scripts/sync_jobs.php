@@ -3,6 +3,7 @@ declare(strict_types=1);
 require dirname(__DIR__).'/src/Jobs.php';
 require dirname(__DIR__).'/src/ProviderHttp.php';
 require dirname(__DIR__).'/src/SourceCoverage.php';
+require dirname(__DIR__).'/src/RoleCoverage.php';
 require dirname(__DIR__).'/src/SourcePermissionGate.php';
 
 /** Server-side scheduled ingestion. Run only by PHP CLI or cron, never from a web route. */
@@ -56,13 +57,19 @@ try {
         }
         if(!$finished)throw new RuntimeException('Himalayas offset page cap exceeded; old cache preserved');
     }
-    $new=[];$invalid=0;
+    $new=[];$invalid=0;$duplicates=0;$rawFetched=0;$rawApplyFailures=0;
     foreach ($payloads as $data){
         if(!is_array($data['jobs']??null))throw new RuntimeException('Provider response lacks jobs');
         foreach($data['jobs'] as $job){
+            $rawFetched++;
             if(!is_array($job)){$invalid++;continue;}
+            $safeRawApply=$provider==='jobicy'
+                ?Jobs::safeUrl($job['url']??null,'jobicy.com')
+                :Jobs::safeUrl($job['applicationLink']??null);
+            if($safeRawApply===null)$rawApplyFailures++;
             $normal=$provider==='jobicy'?Jobs::fromJobicy($job):Jobs::fromHimalayas($job);
             if(!$normal){$invalid++;continue;}
+            if(isset($new[$normal['id']]))$duplicates++;
             $new[$normal['id']]=$normal;
         }
     }
@@ -86,7 +93,12 @@ try {
     $existing=array_filter($existing,static function($j)use($now){
         return (strtotime($j['last_seen_at']??'')?:0)>$now-30*86400;
     });
-    $summary=['provider'=>$provider,'success_at'=>gmdate('c'),'seen'=>count($new),'invalid'=>$invalid,'updated'=>$updated,'from_fixture'=>$fixture!==null,'partial_provider_sample'=>$partial,'pagination_mode'=>$provider==='himalayas'?'offset_limit_totalCount':'bounded_recent_feed'];
+    $summary=['provider'=>$provider,'success_at'=>gmdate('c'),'seen'=>count($new),
+        'raw_fetched'=>$rawFetched,'invalid'=>$invalid,'duplicates'=>$duplicates,
+        'raw_apply_link_failures'=>$rawApplyFailures,
+        'updated'=>$updated,'from_fixture'=>$fixture!==null,
+        'partial_provider_sample'=>$partial,
+        'pagination_mode'=>$provider==='himalayas'?'offset_limit_totalCount':'bounded_recent_feed'];
     $oldStats=is_array($old['providers']??null)?$old['providers']:[];
     $oldStats[$provider]=$summary;
     $output=['synced_at'=>gmdate('c'),'providers'=>$oldStats,'jobs'=>array_values($existing)];
@@ -105,6 +117,16 @@ try {
             FILE_APPEND|LOCK_EX);
         if($written===false)throw new RuntimeException('Published cache, but audit coverage log could not be written; source evidence incomplete');
         $summary['coverage_logged_v2']=true;
+        // Role evidence is recorded ONLY after an authorised live source sync.
+        // Offline fixtures can never add any retrospective observation dates.
+        $roles=RoleCoverage::newLiveObservation($provider,array_values($new),
+            $rawFetched,$invalid,$duplicates,$rawApplyFailures,$partial,!$partial,
+            (string)($policy['checked_at']??''),time());
+        $roleWritten=file_put_contents($base.'/storage/role_coverage.ndjson',
+            json_encode($roles,JSON_THROW_ON_ERROR|JSON_UNESCAPED_SLASHES)."\n",
+            FILE_APPEND|LOCK_EX);
+        if($roleWritten===false)throw new RuntimeException('Published cache, but role-cohort log unavailable; release evidence incomplete');
+        $summary['role_coverage_logged_v1']=true;
     }
     echo json_encode($summary,JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES)."\n";
 } catch(Throwable $e){fwrite(STDERR,"Sync failed safely: ".$e->getMessage()."\n");exit(1);}finally{flock($lock,LOCK_UN);fclose($lock);}
