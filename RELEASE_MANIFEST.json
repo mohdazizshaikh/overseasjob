@@ -1,13 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.19-provider-attestation-owner-only-modes",
+  "release": "0.9.20-predeployment-module-ledger-release-veto",
   "source_of_truth": "v1.3.3",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
     "status": "PENDING_PR_CI",
-    "tests": "Two new negative source-rights file/dir permission regressions plus full existing suites"
+    "tests": "Mandatory public launch and actual Hostinger flags in module status; full release regression suites"
   },
   "canonical_documentation": {
     "passed": 71,
@@ -30,7 +30,7 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "SourcePermissionGate rejects provider rights files readable to group/world and provider_rights directories traversable by group/world. No hosting access or source provider licence permission claimed; all live source flags remain OFF.",
+  "developer_notes": "Launch requires module ledger public_launch_ready=true and hostinger_verified=true alongside owner evidence, exact v1.4.1 canonical ZIP and source/legal/restore checks. This does not claim that live Hostinger has been inspected.",
   "file_count_excluding_manifest": 161,
   "files": [
     {
@@ -265,8 +265,8 @@
     },
     {
       "path": "docs/RELEASE_GATE_V2_SECURITY.md",
-      "bytes": 3091,
-      "sha256": "97c71c007789aa9ab5026b5646214b682067e61e249248cd88c25e5ce49a7b82"
+      "bytes": 3572,
+      "sha256": "a8a2d3038b42e3a0e1a539c1e509c47d24d30e229dbc57032003fe083dd9e93a"
     },
     {
       "path": "docs/RELEASE_V090_SECURITY_AND_THEME_HANDOFF.md",
@@ -575,8 +575,8 @@
     },
     {
       "path": "src/Launch.php",
-      "bytes": 6691,
-      "sha256": "e208b0c7794ef60b45aab5107d60a462d5a06ab7198a180a2989995903430849"
+      "bytes": 6927,
+      "sha256": "ae578d67c638fdcfc0c4fa7f55bb706140c147ff4c812cee2760f9bb5a0cb113"
     },
     {
       "path": "src/OpsSnapshot.php",
@@ -755,8 +755,8 @@
     },
     {
       "path": "tests/launch_release_gate_tests.php",
-      "bytes": 6062,
-      "sha256": "6510e41d1ecb29db7cbee1b6662493c84b693fa08ff8ff308826f1232198245b"
+      "bytes": 6194,
+      "sha256": "b87a7122d803c2cfbd220a35e1b08d4346c7d5899fd415bfeb748730fc91134e"
     },
     {
       "path": "tests/manifest_inventory_tests.py",
