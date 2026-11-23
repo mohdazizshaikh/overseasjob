@@ -173,7 +173,7 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
-  canonical-v134-artifact:
+  founder-canonical-v141-artifact:
     needs: [deterministic-tests, mysql-pilot-integration, real-browser-e2e, apache-webroot-security]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
@@ -182,14 +182,12 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
-      - name: Validate exact canonical source and generate reissued v1.3.4 ZIP
-        run: |
-          python3 tests/canonical_pack_reissue_tests.py
-          python3 scripts/reissue_canonical_pack_v134.py --output artifacts/canonical-v134
-      - name: Downloadable versioned canonical source pack (not deployment)
+      - name: Validate exact founder v1.4.1 Source of Truth bytes and 149 checks
+        run: python3 scripts/validate_founder_canonical_v141.py
+      - name: Download original verified founder canonical ZIP (not deployment)
         uses: actions/upload-artifact@v4
         with:
-          name: overseasjob-canonical-v134-validated
-          path: artifacts/canonical-v134/
+          name: overseasjob-founder-canonical-v141-validated
+          path: SOURCE_OF_TRUTH_REFERENCE/OverseasJob_v1.4.1_Corrected_Canonical_Pack.zip
           retention-days: 14
           if-no-files-found: error

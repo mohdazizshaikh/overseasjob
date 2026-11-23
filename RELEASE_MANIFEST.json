@@ -1,13 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.23-M17-pilot-role-cohort-evidence-contract",
+  "release": "0.9.24-current-founder-v141-canonical-actions-artifact",
   "source_of_truth": "v1.4.1",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
-    "status": "PENDING_FULL_PR_CI",
-    "tests": "31 role-cohort assertions including distinct UTC date disambiguation across providers, fixture-only cron safety and original full pipeline"
+    "status": "PENDING_PR_CI",
+    "tests": "Main GitHub Actions source pack job now uploads exact founder v1.4.1 ZIP instead of historical v1.3.4 artifact; existing deterministic historic validation preserved"
   },
   "canonical_documentation": {
     "status": "EXACT_FOUNDER_V141_ZIP_IMPORTED__CI_VALIDATION_PENDING",
@@ -35,7 +35,7 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "Role cohorts account only for an authorised completed source sync, not historical backfill/fixture data. Three seed role title heuristics are not a positive-supply claim; actual 14-day report and independent permissions/Hostinger evidence are missing. Public launch gate remains blocked.",
+  "developer_notes": "Latest founder v1.4.1 artifact is versioned, SHA-256 guarded and free to download from CI. Historical packs remain tracked and checked, but no stale version is distributed as current. Real hosting/provider/legal/14d source evidence gates remain blocked.",
   "file_count_excluding_manifest": 168,
   "files": [
     {
@@ -45,8 +45,8 @@
     },
     {
       "path": ".github/workflows/ci.yml",
-      "bytes": 7775,
-      "sha256": "8b19c2a0fe37eb9277dc1dd4706205176a7ffef8941b877acec8525ed725ee69"
+      "bytes": 7747,
+      "sha256": "84627d1084f9a7ff00c54988edb85bb93a125e4010a428b43bc2d15783847b93"
     },
     {
       "path": ".gitignore",
@@ -55,8 +55,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 18854,
-      "sha256": "ad906cc5fac42e1e269860cd79ce3d623ef2024623d0ebae1f6b9efcd29e7970"
+      "bytes": 19285,
+      "sha256": "7bfdfc81859a2b36cf2012183b4e2914fb72c2411e05580469a26def9f64b83c"
     },
     {
       "path": "SOURCE_OF_TRUTH_REFERENCE/OverseasJob_v1.3.3_Source_of_Truth_Project_Pack.zip",
