@@ -21,7 +21,7 @@ with tempfile.TemporaryDirectory(prefix='oj-canonical-reissue-test-') as temp:
     archive=root/'first'/'OverseasJob_v1.3.4_Source_of_Truth_Project_Pack.zip'
     with zipfile.ZipFile(archive) as z:
         check('Output canonical ZIP has no corrupt members',z.testzip() is None)
-        items={x.filename.rsplit('/',1)[-1]:z.read(x) for x in z.namelist() if not x.endswith('/')}
+        items={x.rsplit('/',1)[-1]:z.read(x) for x in z.namelist() if not x.endswith('/')}
         manifest=json.loads(items['13_RELEASE_MANIFEST.json'])
         check('Manifest version bumped exactly to v1.3.4',manifest['version']=='1.3.4')
         check('Manifest tracks all files except itself',len(manifest['files'])==len(items)-1)
