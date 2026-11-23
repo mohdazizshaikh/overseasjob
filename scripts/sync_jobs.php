@@ -2,6 +2,7 @@
 declare(strict_types=1);
 require dirname(__DIR__).'/src/Jobs.php';
 require dirname(__DIR__).'/src/ProviderHttp.php';
+require dirname(__DIR__).'/src/SourceCoverage.php';
 
 /** Server-side scheduled ingestion. Run only by PHP CLI or cron, never from a web route. */
 if (PHP_SAPI !== 'cli') { http_response_code(403); exit; }
@@ -83,12 +84,15 @@ try {
     chmod($temp,0600);
     if(!rename($temp,$file))throw new RuntimeException('Atomic cache publish failed');
     if(!$fixture){
-        // Longitudinal observations only; NEVER generate retrospective fake day counts.
-        $coverage=['date'=>gmdate('Y-m-d'),'at'=>gmdate('c'),'provider'=>$provider,'valid'=>count($new),'invalid'=>$invalid,
-            'india_allowed'=>count(array_filter($new,fn($j)=>$j['eligible_from_in']==='allowed')),
-            'india_unknown'=>count(array_filter($new,fn($j)=>$j['eligible_from_in']==='unknown')),
-            'india_not_allowed'=>count(array_filter($new,fn($j)=>$j['eligible_from_in']==='not_allowed')),'partial_provider_sample'=>$partial];
-        file_put_contents($base.'/storage/coverage.ndjson',json_encode($coverage)."\n",FILE_APPEND|LOCK_EX);
+        // Record only an actually completed *live* sync, never fixture data or retroactive days.
+        // The schema makes local log shape auditable; it is not external source authentication.
+        $coverage=SourceCoverage::newLiveObservation($provider,$new,$invalid,$partial,
+            (string)($policy['checked_at']??''),time());
+        $written=file_put_contents($base.'/storage/coverage.ndjson',
+            json_encode($coverage,JSON_THROW_ON_ERROR|JSON_UNESCAPED_SLASHES)."\n",
+            FILE_APPEND|LOCK_EX);
+        if($written===false)throw new RuntimeException('Published cache, but audit coverage log could not be written; source evidence incomplete');
+        $summary['coverage_logged_v2']=true;
     }
     echo json_encode($summary,JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES)."\n";
 } catch(Throwable $e){fwrite(STDERR,"Sync failed safely: ".$e->getMessage()."\n");exit(1);}finally{flock($lock,LOCK_UN);fclose($lock);}

@@ -23,8 +23,19 @@ try{
     opCheck(!str_contains(json_encode($reported),'secret_candidate@example.org')&&!str_contains(json_encode($reported),'PRIVATE'),
        'Private report content not included in health snapshot');
     file_put_contents($base.'/storage/coverage.ndjson',json_encode(['date'=>gmdate('Y-m-d',$now),'provider'=>'jobicy'])."\n");
+    $legacy=OpsSnapshot::collect($base,$now);
+    opCheck($legacy['actual_sample_days']===0&&!$legacy['14_day_sample_complete'],
+        'Bare legacy provider/day rows cannot count as fourteen-day evidence');
+    opCheck($legacy['unverified_coverage_rows']===1,
+        'Owner health reveals legacy unverified coverage without accepting it');
+    $event=SourceCoverage::newLiveObservation('jobicy',
+        [['eligible_from_in'=>'unknown']],0,true,gmdate('Y-m-d',$now),$now);
+    file_put_contents($base.'/storage/coverage.ndjson',json_encode($event)."\n",FILE_APPEND);
     $covered=OpsSnapshot::collect($base,$now);
-    opCheck($covered['actual_sample_days']===1&&!$covered['14_day_sample_complete'],'Only recorded actual UTC days counted');
+    opCheck($covered['actual_sample_days']===1&&!$covered['14_day_sample_complete'],
+        'Strict successful live sync record accepted for one UTC date');
+    opCheck($covered['live_provider_samples_independently_verified']===false,
+        'Locally recorded observations do not falsely certify external source truth');
     opCheck($covered['real_inbox_delivery_verified']===false&&$covered['external_hosting_verified']===false,'No invented hosting or email delivery evidence');
     opCheck(count($covered['warnings'])>0,'Operational gaps generate explicit warnings');
 }finally{

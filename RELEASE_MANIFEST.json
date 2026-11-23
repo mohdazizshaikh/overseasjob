@@ -1,13 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.8-apache-webroot-security-defense",
+  "release": "0.9.9-m17-live-source-observation-integrity",
   "source_of_truth": "v1.3.3",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
     "status": "PENDING_GITHUB_PR_CI",
-    "tests": "deterministic, disposable MySQL, Chromium, real isolated Apache HTTP, archive QA"
+    "test_focus": "Strict M17 live-sync shape, 14 UTC-day real log, legacy exclusion, zero fabricated external evidence"
   },
   "canonical_documentation": {
     "passed": 71,
@@ -30,8 +30,8 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "Enhanced .htaccess prevents accidental private source/archive exposure in Apache-compatible environments. Release still unverified on Hostinger's actual webserver, original theme, PHP, backup, provider rights and legal gates.",
-  "file_count_excluding_manifest": 146,
+  "developer_notes": "New M17 evidence validation prevents 14-day completion claims from date-only or fixture records. Even 14 valid on-host log entries cannot independently prove source rights or upstream truth; actual Hostinger/provider/2-3 roles/traffic remain blocked.",
+  "file_count_excluding_manifest": 149,
   "files": [
     {
       "path": ".env.example",
@@ -189,6 +189,11 @@
       "sha256": "b4fddd4e4e9c5204a14da8a412c5db802239a7a736031f80dc5ab2c33aa6b8f6"
     },
     {
+      "path": "docs/M17_SOURCE_OBSERVATION_EVIDENCE_V099.md",
+      "bytes": 3934,
+      "sha256": "428a687a4796363190b4aa34cd5c80866e87c1dca2ccca146b4926563f1ff8a1"
+    },
+    {
       "path": "docs/OPENAPI_HIMALAYAS_CORRECTION_V094.md",
       "bytes": 4016,
       "sha256": "ff60185b2fec66bc5a0a59a32c943e35337d8a975cee31b5d03773905d70ef8c"
@@ -255,8 +260,8 @@
     },
     {
       "path": "module_status.json",
-      "bytes": 26790,
-      "sha256": "296a773e3c3869061a4c60143fefa67b3bc440c172e3a0182bc4cb75f9692e7d"
+      "bytes": 27669,
+      "sha256": "9c49af6f65cc711a64c9d3c91ab7b42c516ed5a927589f70f4dccecad80ad77d"
     },
     {
       "path": "public/.htaccess",
@@ -365,8 +370,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 13405,
-      "sha256": "182e5c986a22b1d8cd7949ec0d6a7e1f34f2989d5483efb2c76cab115890168c"
+      "bytes": 14148,
+      "sha256": "ab165693bf8858a29fa48b34298e3f15d6aea011b567f0de529908ab1b0e9343"
     },
     {
       "path": "scripts/analytics_report.php",
@@ -395,8 +400,8 @@
     },
     {
       "path": "scripts/coverage_report.php",
-      "bytes": 1501,
-      "sha256": "6e85a23e69731ffe65d6d2a74278fcc5c302c3f0cc37469e1e855fa1fafba482"
+      "bytes": 529,
+      "sha256": "2585674743153408685dfb8af10247bf6512041eb3f89d94f40e38d7c92da415"
     },
     {
       "path": "scripts/employer_domain.php",
@@ -470,8 +475,8 @@
     },
     {
       "path": "scripts/sync_jobs.php",
-      "bytes": 6048,
-      "sha256": "f3d4a7fc04a2b1526ce08f1e3ae6bb7c57957a4c16064082b4adce0e09139237"
+      "bytes": 6154,
+      "sha256": "81046ff865a922d4ba769733e044f0340056132e5a803c5468fe72844c10e2e6"
     },
     {
       "path": "scripts/theme_collision_audit.php",
@@ -545,8 +550,8 @@
     },
     {
       "path": "src/OpsSnapshot.php",
-      "bytes": 3678,
-      "sha256": "4922d457b7b4b915f27986862abe90401571b5c2e6ec76e4af9fb799eb937591"
+      "bytes": 3632,
+      "sha256": "46da143e69703215544caf66943d6adcbca97caef972141a9f8f88c8ba0354fe"
     },
     {
       "path": "src/OwnerAuth.php",
@@ -589,14 +594,19 @@
       "sha256": "e4a841652674a06c66f799e4f14a7c5fedea19b5a42a4ef775640afe82fa0667"
     },
     {
+      "path": "src/SourceCoverage.php",
+      "bytes": 7341,
+      "sha256": "457a49d22cbf0112e0869097d96c91dbcc700e859a05c28bd3585e82e2ed139e"
+    },
+    {
       "path": "src/ThemeSafety.php",
       "bytes": 3456,
       "sha256": "084b1f10b1dd2e88be454885d787b525602d407d2d85cf2942bd0066990de895"
     },
     {
       "path": "START_HERE_FOUNDER.md",
-      "bytes": 4307,
-      "sha256": "049fa18105c6141d48e763da9f5bcdc02aa59b02f575959af776c280fef3e33f"
+      "bytes": 4877,
+      "sha256": "5d2e787a86c256576d59c1e09a3b3671932849a154513f69f0e342496523e083"
     },
     {
       "path": "storage/.gitkeep",
@@ -720,8 +730,8 @@
     },
     {
       "path": "tests/ops_snapshot_tests.php",
-      "bytes": 2421,
-      "sha256": "18d814d758636bab3d3b908c7ce03819042cb8a8252f06609530f1dfdb1d9568"
+      "bytes": 3188,
+      "sha256": "4aef5c6d2d8526c6df6ec5f9706311acd948f97fb423b65285de51a6dbb60ad6"
     },
     {
       "path": "tests/owner_auth_tests.php",
@@ -735,8 +745,8 @@
     },
     {
       "path": "tests/php_tests.php",
-      "bytes": 16647,
-      "sha256": "f41e6a2d20db8534b2327904b444eb9150c54884460f7b22217bbba9737d0511"
+      "bytes": 16672,
+      "sha256": "96e2cbb6d12b8bc7f6ab023ac5604c763b8fd3b9d0e79a5cf17b74d4e9f87836"
     },
     {
       "path": "tests/provider_http_tests.php",
@@ -750,13 +760,18 @@
     },
     {
       "path": "tests/run.sh",
-      "bytes": 1806,
-      "sha256": "bd15b8c8c15dd2a035e199fa998e534e60a5b6e4a59f551977cbeb783c0dd965"
+      "bytes": 1850,
+      "sha256": "aaf294e6ce6a880936fa728005adcdb7f0880bd65357ca366270cf878a637923"
     },
     {
       "path": "tests/shared_host_layout_tests.php",
       "bytes": 1587,
       "sha256": "e48b30b59eb3ed28599cd2adad396f3f646f7e162297858086d449f065c3d71b"
+    },
+    {
+      "path": "tests/source_coverage_tests.php",
+      "bytes": 6548,
+      "sha256": "e2021742ced0cd97d8765179a9b2d0791895b84cb084adf529fbd9142b8b9a88"
     },
     {
       "path": "tests/tracker_tests.mjs",
