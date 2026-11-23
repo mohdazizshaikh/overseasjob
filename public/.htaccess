@@ -1,11 +1,14 @@
 Options -Indexes
 DirectoryIndex index.php
 # Do not expose version control, data, backup or configuration artifacts.
-<FilesMatch "(^\.|\.(env|ini|log|bak|sql|json|md|yml|yaml)$)">
+<FilesMatch "(^\.|\.(env|ini|log|bak|sql|json|md|yml|yaml|zip|tar|tgz|gz|7z|rar|sqlite|db|ndjson|csv|pem|key|p12|pfx|phar)$)">
 Require all denied
 </FilesMatch>
 <IfModule mod_rewrite.c>
 RewriteEngine On
+# Defense in depth only. Private source must NEVER be uploaded to public_html.
+# Deny even physical files in accidentally copied internal directories.
+RewriteRule ^(src|storage|scripts|tests|config|database|content|deploy|docs|SOURCE_OF_TRUTH_REFERENCE|vendor|\.git|\.github)(/|$) - [F,L,NC]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.php [L]
