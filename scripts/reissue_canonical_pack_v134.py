@@ -50,7 +50,7 @@ def correct(original):
         stale='For provider, 410 (Himalayas) means closed; 404 means unknown/pending investigation (not automatically closed); 429/5xx retain cache while respecting freshness.'
         correct=('For provider, HTTP 410 proves closure only when received from an independently documented and authorised per-job status endpoint. '
                  'As of 2026-11-23, Himalayas public OpenAPI documents ONLY browse and search and NO per-job status API; '
-                 'do not call invented job-status URLs or claim a 404, a vanished browse entry or an unreachable job link proves closure. '
+                 'do not call invented job-status URLs; a 404, a vanished browse entry or an unreachable job link means the job is not automatically closed. '
                  'Use expiry and source freshness, an honest unknown/hidden state and retain the healthy snapshot on 429/5xx.')
         s=exactly(s,stale,correct,'16 status owner')
         heading='### Himalayas JSON API\n'
