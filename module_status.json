@@ -1,6 +1,6 @@
 {
   "spec_version": "v1.3.4",
-  "release": "gate1+gate2+gate3-local-v0.9.12-provider-default-off-activation-pending-ci",
+  "release": "gate1+gate2+gate3-local-v0.9.12-default-off-source-main-ci-verified",
   "development_state": "LOCAL_CODE_WITH_VERIFIED_DISPOSABLE_CI_NOT_DEPLOYED",
   "evidence": [
     "tests/php_tests.php",
@@ -745,7 +745,7 @@
     "verified_file_count": 154
   },
   "source_provider_activation": {
-    "status": "DEFAULT_OFF_LOCAL_GATE_PENDING_CI",
+    "status": "VERIFIED_ISOLATED_MAIN_CI_21_GATE_CHECKS_AND_NO_NETWORK_CRON",
     "source_gate": "src/SourcePermissionGate.php",
     "tests": "tests/source_permission_gate_tests.php",
     "guide": "docs/LIVE_PROVIDER_SOURCE_PERMISSION_GATE_V0912.md",
@@ -754,6 +754,8 @@
     "himalayas_operator_review_verified": false,
     "private_operator_attestations_received": false,
     "real_source_legal_rights_verified": false,
-    "live_host_provider_calls_authorized": false
+    "live_host_provider_calls_authorized": false,
+    "verified_run_url": "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45195745006",
+    "activation_tests_passed": 21
   }
 }
