@@ -1,13 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.12-source-safety-main-ci-evidence-reconciled",
+  "release": "0.9.13-hostinger-original-public-html-backup-zip-audit",
   "source_of_truth": "v1.3.3",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
-    "status": "REQUIRES_NEW_METADATA_ONLY_PR_CI",
-    "previous_successful_source_run": "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45195745006"
+    "status": "PENDING_PR_CI",
+    "tests": "Original Hostinger ZIP safe read-only parity and host-cutover negative archive checks"
   },
   "canonical_documentation": {
     "passed": 71,
@@ -30,7 +30,7 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "Historical v0.9.1 cursor/date narrative retrospectively disproved by real v1.3.3 owner inspection; official v0.9.4 + versioned v1.3.4 canonical are correct. Main 6-job CI proved provider activation fail-closed locally. Actual Hostinger and source-rights/14-day inventory remain unverified.",
+  "developer_notes": "ZIP backup comparison is safe and no-extract but cannot verify actual live Hostinger files, full backup restoration or original theme preservation. All cutover gates remain blocked.",
   "file_count_excluding_manifest": 157,
   "files": [
     {
@@ -160,13 +160,13 @@
     },
     {
       "path": "docs/HOSTINGER_DIRECT_HOST_BUNDLE_V095.md",
-      "bytes": 5436,
-      "sha256": "ad610ca8dca6bed9d1a11dac32f6279e32eb336dc4c486626aadf972c8d24430"
+      "bytes": 5763,
+      "sha256": "1dda2305ab2721344810139bbaf87aa71e1338fcb8cf83524374dd14ecfa6733"
     },
     {
       "path": "docs/HOSTINGER_ORIGINAL_HOMEPAGE_SWITCH_GUARD_V097.md",
-      "bytes": 4349,
-      "sha256": "40d66c79355ddf114cfdc7ba7a2d3efc63fc5c5eafb266b6136d3b9217e28e9f"
+      "bytes": 6274,
+      "sha256": "30c21f2ac061428dd68a6e32fc47723ef4d2c79ae95d94eabe88248e58646dc1"
     },
     {
       "path": "docs/LIVE_PROVIDER_SOURCE_PERMISSION_GATE_V0912.md",
@@ -275,8 +275,8 @@
     },
     {
       "path": "module_status.json",
-      "bytes": 30213,
-      "sha256": "ab044bdcd16f6e2671dcbf219543d38a19809f8b6966640f1514152981f6da06"
+      "bytes": 30797,
+      "sha256": "3da0d7e41f726000aef83784638d83b97c29f0137b9c0ab3bc200ae386f59a4d"
     },
     {
       "path": "public/.htaccess",
@@ -385,8 +385,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 15881,
-      "sha256": "df0b55165acba19f59cf1730c4a2f8f6bd6db7c69f8f9ef16af52be356a59237"
+      "bytes": 16457,
+      "sha256": "8a04a3ad385a1148708b52a6fd630f1517862183e101f2fb7dd2f926ac535167"
     },
     {
       "path": "scripts/analytics_report.php",
@@ -395,8 +395,8 @@
     },
     {
       "path": "scripts/audit_hostinger_cutover.py",
-      "bytes": 7295,
-      "sha256": "19fbb96c8fc8a522f89e576588fa3790fae2d7f72b39eb4bc95eec48512a013f"
+      "bytes": 12812,
+      "sha256": "410c985c5401798b11b95375fa24205b767e723b0390b5fc921a0354794a624f"
     },
     {
       "path": "scripts/backup.php",
@@ -630,8 +630,8 @@
     },
     {
       "path": "START_HERE_FOUNDER.md",
-      "bytes": 6219,
-      "sha256": "b13f78b040e8203751d173f2a0d731c8f5d8749c885937ad905cca888dc60404"
+      "bytes": 6773,
+      "sha256": "a8736af9c6687dacd705b0fe5e2a87c3a4b682fb61296ac2357b7f74cea51536"
     },
     {
       "path": "storage/.gitkeep",
@@ -710,8 +710,8 @@
     },
     {
       "path": "tests/hostinger_cutover_audit_tests.py",
-      "bytes": 4702,
-      "sha256": "d9cc2820fef40ca102ee1e33363f48bbc7b171ce404f1a4fb7b7790b42807094"
+      "bytes": 8667,
+      "sha256": "ad2c22916187757bc0c6da727090d6582372f7ffd2071c376cf745752ccf69a8"
     },
     {
       "path": "tests/http_employer_review_smoke.sh",
