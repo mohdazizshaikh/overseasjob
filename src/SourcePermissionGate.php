@@ -86,6 +86,19 @@ final class SourcePermissionGate
             'operator_attestation_not_external_verification'=>true];
     }
 
+    /** Public cached listings obey exactly the same current source-rights veto as
+     * outbound LIVE synchronization. Revocation hides old cache immediately.
+     * This local guard is not independent legal/provider permission evidence.
+     */
+    public static function publicDisplayAllowed(string $root,string $provider,
+        array $policies,array $flags,int $now):bool
+    {
+        if(!in_array($provider,self::PROVIDERS,true))return false;
+        $policy=$policies[$provider]??null;
+        if(!is_array($policy))return false;
+        return self::readiness($root,$provider,$policy,$flags,$now)['ready'];
+    }
+
     public static function runtimeFlags():array
     {
         return [
