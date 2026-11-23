@@ -113,7 +113,7 @@ test('Onsite abroad not faked by remote jobs', Jobs::search([$a,$b],'','onsite_a
 // Atomic CLI ingestion tested in an isolated copy: never public-facing fake jobs.
 $testRoot=sys_get_temp_dir().'/oj-sync-'.bin2hex(random_bytes(4));
 mkdir($testRoot);foreach(['src','scripts','config','storage'] as $d)mkdir($testRoot.'/'.$d);
-foreach(['src/Jobs.php','src/Countries.php','src/country_aliases.json','src/ProviderHttp.php','src/SourceCoverage.php','scripts/sync_jobs.php','scripts/check_himalayas_status.php','config/provider_policy.json'] as $f)copy(dirname(__DIR__).'/'.$f,$testRoot.'/'.$f);
+foreach(['src/Jobs.php','src/Countries.php','src/country_aliases.json','src/ProviderHttp.php','src/SourceCoverage.php','src/SourcePermissionGate.php','scripts/sync_jobs.php','scripts/check_himalayas_status.php','config/provider_policy.json'] as $f)copy(dirname(__DIR__).'/'.$f,$testRoot.'/'.$f);
 // Runtime cache is intentionally gitignored. Seed the fixture sandbox itself, never a tracked/public job cache.
 file_put_contents($testRoot.'/storage/jobs.json',json_encode(['jobs'=>[]], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
 $cmd=escapeshellarg(PHP_BINARY).' '.escapeshellarg($testRoot.'/scripts/sync_jobs.php').' jobicy --fixture='.escapeshellarg(__DIR__.'/fixtures/jobicy.json').' 2>&1';
