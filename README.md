@@ -1,7 +1,9 @@
-# OverseasJob.in — Code Development v0.9.22 (canonical v1.4.1 adoption)
+# OverseasJob.in — Code Development v0.9.25 (founder predeployment evidence report)
 
 > **Current founder Source of Truth: v1.4.1 (canonical ZIP imported in GitHub; NOT a deployed product).** Exact binary SHA-256 `3802d1e3b9090feeaaa5eed3fa780f9858299eaa96f1be4980edb9569983ecb9`. Start with `docs/SOURCE_OF_TRUTH_V141_ADOPTION.md` and `SOURCE_OF_TRUTH_REFERENCE/OverseasJob_v1.4.1_Corrected_Canonical_Pack.zip`; `python3 scripts/validate_founder_canonical_v141.py` must pass 149/149 documentation checks. v1.3.3/v1.3.4 are *historical archives*. GitHub PHP code is still a **local/CI-tested, implementation-reconciliation-pending v0.9.x application**, not Hostinger-verified, provider-authorized or release-approved. All source/recruiter/ads switches remain OFF.
 
+
+**Founder-friendly NO-GO snapshot (new):** `php scripts/predeployment_report.php` prints a single read-only, redacted release-gate report covering M00–M17, actual local source-day shapes and independent external evidence still required. It cannot log into Hostinger, activate sources, authorise deployment or export private approvals. See `docs/PREDEPLOYMENT_REPORT_GUIDE.md`. Default release remains OFF.
 
 **Current canonical artifact delivery:** successful main-branch GitHub Actions now publishes the byte-for-byte `overseasjob-founder-canonical-v141-validated` artifact after its 149/149 validator passes. The historical v1.3.3/v1.3.4 packs remain archived and local reissue tests still run; do not hand off the old v1.3.4 package as current authority. Downloading an artifact is **not** Hostinger deployment or production approval.
 
