@@ -1,13 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.12-provider-default-off-private-evidence-activation",
+  "release": "0.9.12-source-safety-main-ci-evidence-reconciled",
   "source_of_truth": "v1.3.3",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
-    "status": "PENDING_4_JOB_PR_CI",
-    "new_tests": "Provider actual cron no-network refusal and private operator attestation negative cases"
+    "status": "REQUIRES_NEW_METADATA_ONLY_PR_CI",
+    "previous_successful_source_run": "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45195745006"
   },
   "canonical_documentation": {
     "passed": 71,
@@ -30,7 +30,7 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "Jobicy may be policy enabled but all actual live source HTTP is blocked by default without host global and provider-specific opt-in plus private operator attestation. A private operator note does not independently prove copyright/licence or production launch; no real Hostinger or source calls made.",
+  "developer_notes": "Historical v0.9.1 cursor/date narrative retrospectively disproved by real v1.3.3 owner inspection; official v0.9.4 + versioned v1.3.4 canonical are correct. Main 6-job CI proved provider activation fail-closed locally. Actual Hostinger and source-rights/14-day inventory remain unverified.",
   "file_count_excluding_manifest": 157,
   "files": [
     {
@@ -55,8 +55,8 @@
     },
     {
       "path": "config/release_evidence.json",
-      "bytes": 627,
-      "sha256": "82ba893d8a62166f775f5732e78f6682382990d6c4b94d56c43d2cc14f32e954"
+      "bytes": 668,
+      "sha256": "9495fcfe3eb63c4e23b376e14b2b30823b798f2901a8555d0544c5e6f1386d89"
     },
     {
       "path": "content/country_checklists.json",
@@ -170,8 +170,8 @@
     },
     {
       "path": "docs/LIVE_PROVIDER_SOURCE_PERMISSION_GATE_V0912.md",
-      "bytes": 4137,
-      "sha256": "afa3cc42021c0dfc9bc4ced5f1309cea58c7a7d6425b12494918141dfac65c23"
+      "bytes": 4398,
+      "sha256": "d2d3bcdfb6b30766e7b0045d7fdec3e5ea347950a3f05e98880937065659027b"
     },
     {
       "path": "docs/LOCAL_TEST_OUTPUT_2026-11-23_v050.txt",
@@ -210,8 +210,8 @@
     },
     {
       "path": "docs/OPENAPI_HIMALAYAS_CORRECTION_V094.md",
-      "bytes": 4016,
-      "sha256": "ff60185b2fec66bc5a0a59a32c943e35337d8a975cee31b5d03773905d70ef8c"
+      "bytes": 4296,
+      "sha256": "ed32c458b71c1f283fff7820685afed033a77182b23fd245f8cfb56a0a61444e"
     },
     {
       "path": "docs/PARTNER_PILOT_STAGING_v070.md",
@@ -225,8 +225,8 @@
     },
     {
       "path": "docs/PROVIDER_CURSOR_AND_DATE_CORRECTION_v091.md",
-      "bytes": 3003,
-      "sha256": "21bd4e898a2d7ecaa3432cae5b8b03e8e1463c71aabf9e4271b846bf4e9ddbd7"
+      "bytes": 3170,
+      "sha256": "f9807e09c90561cae0b3d532872c175042a5cb6126f2c36ef7cafdde8f4bce86"
     },
     {
       "path": "docs/RC_IMPLEMENTATION_CHANGELOG.md",
@@ -275,8 +275,8 @@
     },
     {
       "path": "module_status.json",
-      "bytes": 30060,
-      "sha256": "79afac2f6fde839a0db70a4216bc7dda1344d4c54a7a687b2ccc651c17cd1c75"
+      "bytes": 30213,
+      "sha256": "ab044bdcd16f6e2671dcbf219543d38a19809f8b6966640f1514152981f6da06"
     },
     {
       "path": "public/.htaccess",
@@ -385,8 +385,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 15730,
-      "sha256": "c57eb853a391709c90219fc30441125039fef7f78b6654e14209722b9da2483b"
+      "bytes": 15881,
+      "sha256": "df0b55165acba19f59cf1730c4a2f8f6bd6db7c69f8f9ef16af52be356a59237"
     },
     {
       "path": "scripts/analytics_report.php",
