@@ -1,13 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.28-v141-module-tool-traceability",
+  "release": "0.9.29-m11-m17-private-role-coverage-backup",
   "source_of_truth": "v1.4.1",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
     "status": "PENDING_PR_CI",
-    "tests": "Exact v1.4.1 owner ZIP module/tool mapping 18+10, GitHub dispatched paths, M08 canonical route, no release approval"
+    "tests": "M11 role-coverage backup SHA, isolated restore, symlink denial plus complete existing CI"
   },
   "canonical_documentation": {
     "status": "EXACT_FOUNDER_V141_ZIP_IMPORTED__CI_VALIDATION_PENDING",
@@ -35,8 +35,8 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "Owner-to-implementation and test traceability for all 18 modules and 10 tools, with residual external/conformance gaps. This is an inventory and source-of-truth drift guard only. It does not claim complete runtime equivalence, real source supply, hosting access, legal approval or deployment.",
-  "file_count_excluding_manifest": 179,
+  "developer_notes": "Local file snapshot now preserves M17 role_coverage.ndjson, never synthetic evidence of actual source HTTP days. Provider rights and owner release authorization deliberately excluded, and actual Hostinger original public_html/MySQL recovery remains blocked.",
+  "file_count_excluding_manifest": 180,
   "files": [
     {
       "path": ".env.example",
@@ -249,6 +249,11 @@
       "sha256": "56a8476679fb90b6c26a0136063569babb36f791f4703fa9fb4b1484333f5c7f"
     },
     {
+      "path": "docs/M11_M17_PRIVATE_ROLE_LOG_BACKUP_V141.md",
+      "bytes": 1672,
+      "sha256": "8e496f5900076973c72d4cc5ce8e351a43a39936a0920c2d9d099e22d1db7cff"
+    },
+    {
       "path": "docs/M16_BROWSER_A11Y_REFLOW_PRINT_V0910.md",
       "bytes": 2592,
       "sha256": "85496fea4989d88a2b952c5744e8557f25ede79831914bc42c4a59b5750f25ac"
@@ -345,8 +350,8 @@
     },
     {
       "path": "module_status.json",
-      "bytes": 33982,
-      "sha256": "8b9b57b1da626e3e8594c3f5e2333ea5c164c2e09e09d7f54342af5d6625a5e2"
+      "bytes": 34512,
+      "sha256": "1960786c8ee4d25b5326f05fee0ef343adae730de9433f78353d9bd763898197"
     },
     {
       "path": "public/.htaccess",
@@ -595,8 +600,8 @@
     },
     {
       "path": "src/Backups.php",
-      "bytes": 5640,
-      "sha256": "f9d6006f457d2772cc8bdc2bf6da6a97d3866f30d7be00fe3587f4fd391b4c05"
+      "bytes": 5663,
+      "sha256": "eaaa9758bf000c30381a29dfee24e607f2bc7e511f5e31916462ae7a657794e3"
     },
     {
       "path": "src/Countries.php",
@@ -730,8 +735,8 @@
     },
     {
       "path": "tests/backup_tests.php",
-      "bytes": 4514,
-      "sha256": "1f42d33b47ab96b21a5b37ca5f5de10d2d4a78d64e3316d52f5419c4e9b6f717"
+      "bytes": 5649,
+      "sha256": "e703e5d19b2920f27bbefdb89d1f84bbfc01f76846772d7de037f5a0f8ba21de"
     },
     {
       "path": "tests/browser_a11y_print.py",

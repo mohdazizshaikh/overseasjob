@@ -5,7 +5,7 @@ declare(strict_types=1);
  */
 final class Backups
 {
-    private const SOURCES=['jobs.json','coverage.ndjson','reports.json','quarantine.json','moderation_audit.ndjson','report_rate.json','analytics_daily.json','owner_rate.json'];
+    private const SOURCES=['jobs.json','coverage.ndjson','role_coverage.ndjson','reports.json','quarantine.json','moderation_audit.ndjson','report_rate.json','analytics_daily.json','owner_rate.json'];
     public static function create(string $storage):array
     {
         if (is_link($storage) || !is_dir($storage) || !is_writable($storage))throw new RuntimeException('Writable non-symlink private storage required');
