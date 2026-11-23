@@ -275,8 +275,8 @@
     },
     {
       "path": "module_status.json",
-      "bytes": 29941,
-      "sha256": "fdf3751101dcad209b040a470206614d30927864c44c650a983fbad6d92f5080"
+      "bytes": 30060,
+      "sha256": "79afac2f6fde839a0db70a4216bc7dda1344d4c54a7a687b2ccc651c17cd1c75"
     },
     {
       "path": "public/.htaccess",
