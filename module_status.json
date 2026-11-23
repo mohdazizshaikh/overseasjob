@@ -1,6 +1,6 @@
 {
-  "spec_version": "v1.3.3",
-  "release": "gate1+gate2+gate3-local-v0.9.8-apache-security-qa-pending-ci",
+  "spec_version": "v1.3.4",
+  "release": "gate1+gate2+gate3-local-v0.9.9-m17-source-observation-integrity-pending-ci",
   "development_state": "LOCAL_CODE_WITH_VERIFIED_DISPOSABLE_CI_NOT_DEPLOYED",
   "evidence": [
     "tests/php_tests.php",
@@ -80,7 +80,7 @@
       "module_id": "M00",
       "implementation_status": "blocked_with_reason",
       "blocker_reason": "Read-only original-site backup vs candidate ZIP guard added, but real current Hostinger public_html backup/restore, PHP/open_basedir and original visual theme are unverified. Apache DirectoryIndex index.php can replace the visible index.html homepage even without deleting it; safe root cutover NOT approved.",
-      "spec_version": "v1.3.3",
+      "spec_version": "v1.3.4",
       "routes": [],
       "dependencies": [],
       "evidence_paths": [
@@ -107,8 +107,8 @@
         "atomic fixture cache isolation",
         "Himalayas offset/limit and repeated-page signatures"
       ],
-      "blocker_reason": "Himalayas official OpenAPI reconfirmed as offset+limit+totalCount, published-date pubDate, opaque GUID and possibly external ATS apply URL. Source stays disabled until current provider permission and real responses; canonical pack must be reissued; actual 14-day inventory and hosting cron unverified.",
-      "spec_version": "v1.3.3",
+      "blocker_reason": "Provider ingestion code uses current documented Himalayas offset/limit/totalCount and published-date pubDate, but live Himalayas remains disabled. Canonical v1.3.4 contract reissued and CI validated; actual current source permission, real HTTP responses/quotas and 14-day live supply are still unverified.",
+      "spec_version": "v1.3.4",
       "routes": [
         "/sources"
       ],
@@ -130,7 +130,7 @@
         "source URLs, expiry and no-redist fixtures"
       ],
       "blocker_reason": "Source cache and persistent quarantine fixture-tested; production SQL migration not executed",
-      "spec_version": "v1.3.3",
+      "spec_version": "v1.3.4",
       "routes": [
         "/jobs",
         "/jobs/{provider}/{id}"
@@ -153,7 +153,7 @@
         "Himalayas numeric timezone fixtures"
       ],
       "blocker_reason": "Deterministic eligibility including full-name/country code/conflict tested; real source coverage unverified",
-      "spec_version": "v1.3.3",
+      "spec_version": "v1.3.4",
       "routes": [
         "/jobs"
       ],
@@ -173,7 +173,7 @@
         "salary source value+period formatting"
       ],
       "blocker_reason": "Raw source restriction evidence preserved and source-host apply URL tested; live source data unverified",
-      "spec_version": "v1.3.3",
+      "spec_version": "v1.3.4",
       "routes": [
         "/jobs",
         "/jobs/{provider}/{id}"
@@ -214,7 +214,7 @@
         "T09",
         "T10"
       ],
-      "spec_version": "v1.3.3",
+      "spec_version": "v1.3.4",
       "routes": [
         "/tools",
         "/tools/{tool}"
@@ -237,7 +237,7 @@
         "dated source citations",
         "visible editorial review status"
       ],
-      "spec_version": "v1.3.3",
+      "spec_version": "v1.3.4",
       "routes": [
         "/guides",
         "/guides/{slug}",
@@ -269,7 +269,7 @@
         "version-aware Radar: first seen/unchanged/details changed",
         "v1 to v2 JSON backup migration, strict import and deletion"
       ],
-      "spec_version": "v1.3.3",
+      "spec_version": "v1.3.4",
       "routes": [
         "/my-career"
       ],
@@ -297,7 +297,7 @@
         "61 combined deterministic M07/M08/M09/M15 JavaScript checks",
         "30 v0.6 HTTP/safety checks"
       ],
-      "spec_version": "v1.3.3",
+      "spec_version": "v1.3.4",
       "routes": [
         "/daily"
       ],
@@ -325,7 +325,7 @@
         "JS consent/clear-local-data tests",
         "HTTP analytics default disabled"
       ],
-      "spec_version": "v1.3.3",
+      "spec_version": "v1.3.4",
       "routes": [
         "/privacy",
         "/api/privacy-event"
@@ -355,7 +355,7 @@
         "existing moderation isolation/queue tests",
         "default disabled owner route HTTP"
       ],
-      "spec_version": "v1.3.3",
+      "spec_version": "v1.3.4",
       "routes": [
         "/report-job",
         "/owner"
@@ -383,7 +383,7 @@
         "CLI read-only anonymous daily usage report",
         "Privacy-safe read-only owner operational snapshot; no invented host monitoring"
       ],
-      "spec_version": "v1.3.3",
+      "spec_version": "v1.3.4",
       "routes": [],
       "dependencies": [
         "M00"
@@ -413,7 +413,7 @@
         "24 employer safe-default HTTP checks",
         "Disposable MySQL CI test authored: remote success must be verified"
       ],
-      "spec_version": "v1.3.3",
+      "spec_version": "v1.3.4",
       "routes": [
         "/employers/login",
         "/employers/reset"
@@ -446,7 +446,7 @@
         "24 employer safe-default HTTP checks",
         "Disposable MySQL CI test authored; no Hostinger staging proof"
       ],
-      "spec_version": "v1.3.3",
+      "spec_version": "v1.3.4",
       "routes": [
         "/employers/dashboard",
         "/employers/jobs/new"
@@ -475,7 +475,7 @@
         "53 partner API deterministic checks",
         "Disposable MySQL CI job authored"
       ],
-      "spec_version": "v1.3.3",
+      "spec_version": "v1.3.4",
       "routes": [
         "/api/v1/partner/{resource}"
       ],
@@ -499,7 +499,7 @@
         "site-local data deletion across project prefixes",
         "Employer password-reset tokens never stored in plaintext"
       ],
-      "spec_version": "v1.3.3",
+      "spec_version": "v1.3.4",
       "routes": [
         "/privacy",
         "/terms"
@@ -534,7 +534,7 @@
         "126 source files verified by SHA-256 manifest",
         "Chromium/Playwright UI: 38/38 isolated browser assertions passed at run 45075331503"
       ],
-      "spec_version": "v1.3.3",
+      "spec_version": "v1.3.4",
       "routes": [],
       "dependencies": [
         "M00"
@@ -554,8 +554,8 @@
     {
       "module_id": "M17",
       "implementation_status": "blocked_with_reason",
-      "blocker_reason": "Real 14-day job inventory, source coverage, business/revenue metrics unavailable",
-      "spec_version": "v1.3.3",
+      "blocker_reason": "Strict v2 live-sync coverage record validation implemented; no fixtures, legacy dates or invalid records count toward the 14-day local observation shape. Actual 14 distinct authorised on-host source days, 2–3 job-role cohorts, reliable external provider rights and dated business/traffic evidence remain unavailable. Do not equate log record shape with verified live source provenance.",
+      "spec_version": "v1.3.4",
       "routes": [],
       "dependencies": [
         "M01",
@@ -563,14 +563,17 @@
         "M11"
       ],
       "evidence_paths": [
-        "scripts/coverage_report.php"
+        "scripts/coverage_report.php",
+        "src/SourceCoverage.php",
+        "tests/source_coverage_tests.php",
+        "docs/M17_SOURCE_OBSERVATION_EVIDENCE_V099.md"
       ],
       "tests": [],
       "last_verified_at": null
     }
   ],
   "last_tested_on": "2026-11-23",
-  "source_of_truth_version": "v1.3.3 (normative product scope unchanged)",
+  "source_of_truth_version": "v1.3.4",
   "local_check_count": 663,
   "browser_e2e_status": "VERIFIED_ISOLATED_CHROMIUM_CI_38_CHECKS_NOT_LIVE_HOSTING",
   "live_feed_verified": false,
@@ -674,7 +677,7 @@
     "actual_host_installed": false
   },
   "hostinger_cutover_guard": {
-    "status": "READ_ONLY_LOCAL_COPY_TESTS_PENDING_CI",
+    "status": "ISOLATED_CI_VERIFIED_REAL_HOST_UNVERIFIED",
     "audit_script": "scripts/audit_hostinger_cutover.py",
     "test_script": "tests/hostinger_cutover_audit_tests.py",
     "safety_doc": "docs/HOSTINGER_ORIGINAL_HOMEPAGE_SWITCH_GUARD_V097.md",
@@ -686,11 +689,22 @@
     "public_cutover_approved": false
   },
   "apache_webroot_defense": {
-    "status": "ISOLATED_APACHE_CI_PENDING",
+    "status": "ISOLATED_APACHE_CI_VERIFIED_REAL_HOST_UNVERIFIED",
     "test": "tests/apache_webroot_security.sh",
     "config": "public/.htaccess",
     "docs": "docs/APACHE_WEBROOT_DEFENSE_IN_DEPTH_V098.md",
     "real_host_tested": false,
     "private_source_outside_public_webroot_still_required": true
+  },
+  "m17_source_coverage": {
+    "status": "V2_SCHEMA_IMPLEMENTED_CI_PENDING",
+    "schema": "src/SourceCoverage.php",
+    "cli": "scripts/coverage_report.php",
+    "tests": "tests/source_coverage_tests.php",
+    "docs": "docs/M17_SOURCE_OBSERVATION_EVIDENCE_V099.md",
+    "real_provider_days_verified": 0,
+    "real_host_sampling_verified": false,
+    "real_inventory_metrics_verified": false,
+    "public_launch_ready": false
   }
 }
