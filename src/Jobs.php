@@ -153,16 +153,21 @@ final class Jobs
     }
     public static function fromHimalayas(array $j): ?array
     {
-        $guid=self::safeUrl($j['guid']??null,'himalayas.app');
-        $apply=self::safeUrl($j['applicationLink']??null,'himalayas.app');
+        // Official OpenAPI Job.guid is an opaque identifier, not necessarily a URL.
+        $guid=$j['guid']??null;
+        $apply=self::safeUrl($j['applicationLink']??null);
         $title=self::text($j['title']??null,140);
-        if (!$guid || !$apply || !$title) return null;
+        if (!is_string($guid)||strlen($guid)<3||strlen($guid)>350
+            ||preg_match('/[\\x00-\\x20\\x7f]/',$guid) || !$apply || !$title) return null;
+        // Do not fabricate a job detail URL when a provider supplies only an opaque GUID.
+        $source=self::safeUrl($guid,'himalayas.app')??'https://himalayas.app/jobs';
         $elig=self::himalayasIndia($j);
         $period=strtolower((string)($j['salaryPeriod']??''));
         $periodMap=['hourly'=>'hour','daily'=>'day','weekly'=>'week','fortnightly'=>'fortnight','monthly'=>'month','annual'=>'year','yearly'=>'year'];
-        return self::base('himalayas',hash('sha256',$guid),$guid,$apply,$title,[
+        return self::base('himalayas',hash('sha256',$guid),$source,$apply,$title,[
             'company_name'=>self::text($j['companyName']??'',100)?:null,
-            'source_guid'=>$guid, // Retain canonical provider GUID without altering legacy stable internal ID.
+            'source_guid'=>$guid, // Exact canonical identifier, which may be opaque.
+            'source_url_is_job_specific'=>$source!=='https://himalayas.app/jobs',
             'provider_job_id'=>$guid, // Canonical external ID per source contract.
             'provider_route_key'=>hash('sha256',$guid), // Stable URL-safe backward-compatible route key.
             'eligible_from_in'=>$elig['eligibility'],'location_eligibility'=>$elig['geo'],'time_zone_eligibility'=>$elig['timezone'],
@@ -173,7 +178,7 @@ final class Jobs
             'salary_min'=>self::salary($j['minSalary']??null),'salary_max'=>self::salary($j['maxSalary']??null),
             'salary_currency'=>self::isoCurrency($j['currency']??null),
             'salary_period'=>$periodMap[$period]??null,
-            'source_updated_at'=>self::utc($j['pubDate']??null), // JSON browse pubDate means last updated, not first published
+            'source_published_at'=>self::utc($j['pubDate']??null), // OpenAPI: pubDate is original publication time; updatedAt is feed-level
             'valid_through'=>self::utc($j['expiryDate']??null),
             'description'=>self::text($j['excerpt']??'',300),
         ]);
@@ -190,24 +195,9 @@ final class Jobs
         foreach($response['jobs'] as $j)$ids[]=is_array($j)&&is_string($j['guid']??null)?$j['guid']:null;
         return hash('sha256',json_encode($ids,JSON_THROW_ON_ERROR));
     }
-    /** Current provider pagination: nextCursor is opaque and must be echoed unchanged. */
-    public static function himalayasNextCursor(array $response, int $limit=20): ?string
-    {
-        if ($limit<1 || $limit>20 || !is_array($response['jobs']??null)
-            || count($response['jobs'])>$limit)
-            throw new InvalidArgumentException('Malformed Himalayas cursor page');
-        if (!array_key_exists('nextCursor',$response) || $response['nextCursor']===null)
-            return null;
-        $cursor=$response['nextCursor'];
-        if (!is_string($cursor) || $cursor==='' || strlen($cursor)>2048
-            || preg_match('/[\x00-\x20\x7f]/',$cursor))
-            throw new InvalidArgumentException('Invalid Himalayas cursor');
-        if (count($response['jobs'])===0)
-            throw new InvalidArgumentException('Next cursor supplied without jobs');
-        return $cursor;
-    }
-    /** Build ONLY the documented read-only per-job status endpoint from its canonical guid.
-     * Never dereference candidate-provided URLs; the resulting endpoint is confined to the API host.
+    /** NO public per-job status endpoint is defined in the 2026-11 OpenAPI.
+     * This legacy URL builder is retained for OFFLINE status fixtures only.
+     * Do not call its output over the network or claim authoritative 410 checks.
      */
     public static function himalayasStatusUrl(string $guid): string
     {
@@ -216,40 +206,38 @@ final class Jobs
         if(!is_array($parts) || strtolower((string)($parts['host']??''))!=='himalayas.app'
             || isset($parts['query']) || isset($parts['fragment'])
             || !preg_match('#^/companies/[a-z0-9-]+/jobs/[a-z0-9-]+/?$#D',(string)($parts['path']??'')))
-            throw new InvalidArgumentException('Himalayas job path is not supported');
+            throw new InvalidArgumentException('Unsupported legacy fixture path');
         return 'https://himalayas.app/jobs/api'.rtrim((string)$parts['path'],'/');
     }
-    /** Only authoritative HTTP 410 is closure. 404/errors mean unknown, not closed. */
+    /** Hypothetical per-job response semantics used ONLY by fixture tests. */
     public static function himalayasStatusDecision(int $status): string
     {
         return match($status){200=>'active',410=>'closed',default=>'unknown'};
     }
-    public static function himalayasBrowseUrl(?string $cursor=null): string
+    /** Official OpenAPI 3.1: offset+limit pagination, no nextCursor. */
+    public static function himalayasBrowseUrl(int $offset=0): string
     {
-        $base='https://himalayas.app/jobs/api?limit=20';
-        if ($cursor===null) return $base;
-        if ($cursor==='' || strlen($cursor)>2048
-            || preg_match('/[\x00-\x20\x7f]/',$cursor))
-            throw new InvalidArgumentException('Invalid Himalayas cursor');
-        return $base.'&cursor='.rawurlencode($cursor);
+        if ($offset<0 || $offset>2_000_000)throw new InvalidArgumentException('Invalid Himalayas offset');
+        return 'https://himalayas.app/jobs/api?limit=20&offset='.$offset;
     }
-    /** Legacy offset helper retained only for older fixture compatibility. */
+    /** Official offset+totalCount response; strict to prevent partial feed publication. */
     public static function himalayasNextOffset(array $response, int $requestedOffset, int $limit=20): ?int
     {
         if($requestedOffset<0||$limit<1||$limit>20 || !is_array($response['jobs']??null))
             throw new InvalidArgumentException('Malformed Himalayas page');
-        if(isset($response['offset']) && (!is_int($response['offset']) || $response['offset']!==$requestedOffset))
+        if(!isset($response['offset']) || !is_int($response['offset']) || $response['offset']!==$requestedOffset)
             throw new InvalidArgumentException('Himalayas offset mismatch');
         if(count($response['jobs'])>$limit)throw new InvalidArgumentException('Page larger than requested');
         $count=count($response['jobs']);
         $total=$response['totalCount']??null;
-        if($total!==null && (!is_int($total)||$total<0))
+        if(!is_int($total)||$total<0)
             throw new InvalidArgumentException('Malformed Himalayas totalCount');
         $next=$requestedOffset+$count;
         if($total!==null && $next>$total)
             throw new InvalidArgumentException('Page exceeds advertised Himalayas total');
         if($count<$limit && $total!==null && $next<$total)
             throw new InvalidArgumentException('Short Himalayas page before end of advertised total');
+        if($count===0 && $requestedOffset<$total)throw new InvalidArgumentException('Empty page before advertised Himalayas total');
         if($count===0 || $count<$limit)return null;
         if($total!==null && $next>=$total)return null;
         return $next;
