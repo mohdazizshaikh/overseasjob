@@ -106,8 +106,37 @@ def build(output: Path) -> dict:
         'public_sha256': archive(pub, public),
         'live_host_modified': False,
         'production_cutover_approved': False,
-        'hostinger_path_and_original_theme_backup_required': True
+        'hostinger_path_and_original_theme_backup_required': True,
+        'safe_to_extract_over_current_public_html': False,
+        'existing_index_html_does_not_prevent_php_homepage_switch': True,
+        'original_site_cutover_audit_required': True
     }
+    stop_note = """STOP — THIS IS NOT AN APPROVED LIVE-HOST DEPLOYMENT
+
+These two ZIP archives are SHA-256-verified PACKAGE PREVIEWS only.
+Your existing Hostinger public_html has index.html, assets/ and images/.
+
+CRITICAL: Even though index.html is NOT deleted or included, the public ZIP
+adds index.php plus .htaccess containing 'DirectoryIndex index.php'.
+On an Apache-compatible Hostinger site, this can SWITCH THE LIVE HOMEPAGE
+to the new PHP app immediately. Existing CSS/assets paths may also be overwritten.
+
+Do not extract EITHER ZIP into the existing public_html by guessing.
+Do not upload the private ZIP inside any public webroot.
+Do not extract the outer GitHub Actions artifact ZIP as a website release.
+Do not assume the DO_NOT_UPLOAD_HERE marker permits a sibling folder.
+
+First obtain a recoverable full original-site AND database backup, verify the
+real PHP private-directory/open_basedir location, and compare actual file
+collisions with a local copy using:
+python3 scripts/audit_hostinger_cutover.py --current-site-copy PATH_TO_SAVED_PUBLIC_HTML --candidate-public-zip PATH_TO_PUBLIC_ZIP
+
+The audit ALWAYS exits 2 and cannot authorise cutover by itself.
+Preview pages are deliberately noindex and can affect existing site SEO.
+The original theme, on-host browser behavior, legal rights, real jobs,
+off-site restore, HTTPS/cron and public release must be verified separately.
+"""
+    (output / 'STOP_READ_FIRST_NO_LIVE_CUTOVER.txt').write_text(stop_note)
     (output / 'bundle_integrity_report.json').write_text(json.dumps(report, indent=2) + '\n')
     return report
 
