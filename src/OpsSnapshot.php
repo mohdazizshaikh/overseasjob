@@ -2,6 +2,7 @@
 declare(strict_types=1);
 require_once __DIR__.'/Jobs.php';
 require_once __DIR__.'/Reports.php';
+require_once __DIR__.'/SourceCoverage.php';
 /** Private, read-only operational snapshot. Never contains report bodies or applicant data. */
 final class OpsSnapshot
 {
@@ -37,22 +38,17 @@ final class OpsSnapshot
         foreach($backupFiles as $f){if(is_link($f))continue;$mtime=filemtime($f);if($mtime!==false&&($latestBackup===null||$mtime>$latestBackup))$latestBackup=$mtime;}
         if($latestBackup!==null && $latestBackup < $now-72*3600)
             $warnings[]='Last local file backup is older than 72 hours';
-        $coverage=$storage.'/coverage.ndjson';$days=[];
-        if(is_file($coverage)&&!is_link($coverage)&&filesize($coverage)<2_000_000){
-            $handle=fopen($coverage,'rb');
-            if($handle){
-                $start=gmdate('Y-m-d',$now-13*86400);$end=gmdate('Y-m-d',$now);
-                while(($line=fgets($handle))!==false){
-                    if(strlen($line)>30_000)continue;$row=json_decode($line,true);
-                    $day=$row['date']??null;
-                    if(is_string($day)&&preg_match('/^\d{4}-\d{2}-\d{2}$/D',$day)
-                      &&$day>=$start&&$day<=$end&&in_array($row['provider']??null,['jobicy','himalayas'],true))$days[$day]=true;
-                }fclose($handle);
-            }
-        }
+        $coverage=SourceCoverage::summarize($storage.'/coverage.ndjson',$now);
+        if(!$coverage['log_valid'])$warnings[]='Private source coverage audit log invalid; no days accepted';
+        elseif($coverage['unverified_legacy_or_invalid_records']>0)
+            $warnings[]='Source coverage contains legacy or invalid rows not counted as evidence';
         $result=['at'=>gmdate('c',$now),'cache_state'=>$state,'cache_total'=>count($jobs),
             'visible'=>$visible,'last_sync'=>$last,'pending_reports'=>$pending,'quarantined_jobs'=>$held,
-            'actual_sample_days'=>count($days),'14_day_sample_complete'=>count($days)===14,
+            'actual_sample_days'=>$coverage['distinct_actual_days'],
+            '14_day_sample_complete'=>$coverage['14_distinct_calendar_days_measured'],
+            'source_sample_log_contract_valid'=>$coverage['log_valid'],
+            'unverified_coverage_rows'=>$coverage['unverified_legacy_or_invalid_records'],
+            'live_provider_samples_independently_verified'=>false,
             'local_backup_files'=>count($backupFiles),'last_local_backup_at'=>$latestBackup?gmdate('c',$latestBackup):null,
             'external_hosting_verified'=>false,'real_inbox_delivery_verified'=>false,'host_backup_restore_verified'=>false,
             'warnings'=>$warnings];
