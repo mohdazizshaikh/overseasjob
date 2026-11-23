@@ -34,6 +34,7 @@ with tempfile.TemporaryDirectory(prefix='oj-manifest-proof-') as temp:
         'release':'fixture','files':initial,'file_count_excluding_manifest':2
     })+'\n')
     git('add','-A')
+    git('-c','user.name=Fixture Tester','-c','user.email=fixture@example.test','commit','-m','initial fixture')
     current=(repo/MANIFEST).read_bytes()
     check('Complete Git index initially passes',perform(repo)[0])
     check('Read-only check never alters release manifest',(repo/MANIFEST).read_bytes()==current)
