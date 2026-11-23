@@ -34,7 +34,8 @@ def tracked(root:Path)->list[str]:
         if ('\\' in name or '\0' in name or not parts or '..' in parts
             or PurePosixPath(name).is_absolute() or name.startswith('../')):
             raise ValueError('Unsafe tracked path')
-        if name in ('.env','.env.local') or name.endswith(('.pem','.key','.p12','.pfx')):
+        if (name=='.env' or (name.startswith('.env.') and name!='.env.example')
+            or name.endswith(('.pem','.key','.p12','.pfx'))):
             raise ValueError('Refuse secret-like file in release: '+name)
         path=root.joinpath(*parts)
         if path.is_symlink() or not path.is_file():
