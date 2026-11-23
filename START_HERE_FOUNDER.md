@@ -1,6 +1,8 @@
-# OverseasJob.in v0.9.8 — Founder handoff (23 November 2026)
+# OverseasJob.in v0.9.9 — Founder handoff (23 November 2026)
 
 **Current position: code development ongoing; PUBLIC DEPLOYMENT IS NOT APPROVED.**
+
+**14-day source evidence guard:** The old metric could count rows containing only a date and provider name. Version 0.9.9 accepts only complete non-fixture live-sync records with matching UTC timestamp, source review, nonzero valid jobs, and India-allowed/unknown/restricted totals. The report cannot produce real 14 days without actual permitted daily source fetching on an authorised host. Use `php scripts/coverage_report.php` after real configured syncs, and read `docs/M17_SOURCE_OBSERVATION_EVIDENCE_V099.md`. Local tests never create genuine production history.
 
 **Extra public webroot protection in v0.9.8:** Apache-compatible denial rules now also reject accidental uploads of backup ZIPs, database dumps, secret key files, and internal PHP source paths. They are tested only on a disposable GitHub Apache service. Real Hostinger settings, complete original-site backup/restore, `DO_NOT_UPLOAD_HERE` semantics and theme compatibility remain unverified. Never place the whole source ZIP into `public_html`.
 
