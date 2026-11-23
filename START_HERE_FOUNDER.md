@@ -1,6 +1,8 @@
-# OverseasJob.in v0.9.7 — Founder handoff (23 November 2026)
+# OverseasJob.in v0.9.8 — Founder handoff (23 November 2026)
 
 **Current position: code development ongoing; PUBLIC DEPLOYMENT IS NOT APPROVED.**
+
+**Extra public webroot protection in v0.9.8:** Apache-compatible denial rules now also reject accidental uploads of backup ZIPs, database dumps, secret key files, and internal PHP source paths. They are tested only on a disposable GitHub Apache service. Real Hostinger settings, complete original-site backup/restore, `DO_NOT_UPLOAD_HERE` semantics and theme compatibility remain unverified. Never place the whole source ZIP into `public_html`.
 
 **Production file safety:** Existing Hostinger `public_html/index.html` remaining intact does not preserve the homepage when the new `.htaccess` sets `DirectoryIndex index.php`. The candidate public ZIP can switch the homepage and replace same-path theme assets. v0.9.7 ships a read-only original-backup-versus-candidate audit and a `STOP_READ_FIRST_NO_LIVE_CUTOVER.txt` warning; this is NOT proof of actual host backup or permission. See `docs/HOSTINGER_ORIGINAL_HOMEPAGE_SWITCH_GUARD_V097.md`. The existing overseasjob.in theme and website are untouched. User prefers that current theme; it will be preserved and separately compared, not overwritten by this project's newer CSS.
 
