@@ -465,8 +465,8 @@
     },
     {
       "path": "scripts/refresh_release_manifest.py",
-      "bytes": 5743,
-      "sha256": "6d523253162a2844f0740d6c2cdeaeb66c324ed1fe5d2e2498bb7b7e08a4e565"
+      "bytes": 5955,
+      "sha256": "b5072d195fa24a22cd23c79e960b30d44f06296faee1b4ddc0ae09fd05551bc1"
     },
     {
       "path": "scripts/reissue_canonical_pack_v134.py",
@@ -730,8 +730,8 @@
     },
     {
       "path": "tests/manifest_inventory_tests.py",
-      "bytes": 3266,
-      "sha256": "0d3b56405e2ef2b5fb118d18031c2bb3cc49ed78652b6c56655359991dca4b4d"
+      "bytes": 3875,
+      "sha256": "c34af7efc329a8227cea4d09e54bb8e1bc0eb2ee3fadf4d615f77f925eda1a8f"
     },
     {
       "path": "tests/module_register_tests.php",
