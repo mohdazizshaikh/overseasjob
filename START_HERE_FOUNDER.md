@@ -1,6 +1,8 @@
-# OverseasJob.in v0.9.12 — Founder handoff (23 November 2026)
+# OverseasJob.in v0.9.13 — Founder handoff (23 November 2026)
 
 **Current position: code development ongoing; PUBLIC DEPLOYMENT IS NOT APPROVED.**
+
+**No-developer backup comparison preparation:** You can download an original-site ZIP of the existing Hostinger `public_html` and keep it private. `scripts/audit_hostinger_cutover.py` now accepts the ZIP directly, compares it with the candidate public ZIP, warns if screenshot's `assets/` or `images/` files are missing, and will never upload/extract/change anything or approve deployment. Keep original site, backups and DB untouched. This does not verify recoverability or the actual host. See `docs/HOSTINGER_ORIGINAL_HOMEPAGE_SWITCH_GUARD_V097.md`.
 
 **Important live job-feed safety:** v0.9.12 blocks real Jobicy/Himalayas fetches by default, even if the configuration says the provider is enabled. An authorised operator must separately review the provider's current terms, record private evidence and explicitly activate both host and provider flags. This protects against an accidentally scheduled live cron before legal review; no real provider approval has been received. Do not enable the flags just to make tests pass. See `docs/LIVE_PROVIDER_SOURCE_PERMISSION_GATE_V0912.md`.
 

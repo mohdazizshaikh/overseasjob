@@ -8,6 +8,18 @@ The founder's file manager screenshots showed `public_html/assets/`, `public_htm
 
 The public ZIP preserves `index.html` as a *file*. **However, `public/.htaccess` explicitly sets `DirectoryIndex index.php`**. If the public ZIP's `index.php` and `.htaccess` are uploaded to the real Apache-compatible `public_html`, requesting the root `/` can immediately run the new PHP homepage instead of the old `index.html`. Unchanged file bytes are not unchanged website behavior. Existing same-path `assets/*` files can also be replaced by unpacking the ZIP; this changes live CSS/JS/images. The PHP preview also returns `noindex,nofollow` while release evidence remains missing, causing potential SEO disruption on the current indexed domain.
 
+## v0.9.13 — read downloaded public_html ZIP directly (no extraction)
+
+The founder can now use a saved **Hostinger File Manager ZIP of only the original public_html** as an offline audit input. The new command does NOT extract or upload the ZIP:
+
+`python3 scripts/audit_hostinger_cutover.py --current-site-zip PATH_TO_ORIGINAL_PUBLIC_HTML_BACKUP.zip --candidate-public-zip PATH_TO_GITHUB_PUBLIC_PREVIEW.zip`
+
+Alternatively the existing extracted-folder mode `--current-site-copy PATH_TO_LOCAL_PUBLIC_HTML` still works unchanged. The ZIP reader accepts either a root `index.html` or one literal `public_html/` wrapper. It rejects mixed roots, traversal entries, nonregular files/symlinks, duplicate member paths (case-insensitive), oversized archives, unexpectedly compressed zip bombs, missing homepages, invalid CRC and encrypted archives. It streams members **in memory only**, hashes each file and compares their filenames/content hashes with the candidate public ZIP; it never writes original files to disk. ZIP mode also emits an `original_zip_sha256` identifier without leaking original site content.
+
+**This is only an integrity/collision check for a copy you already downloaded.** A ZIP that passes validation is NOT proof that Hostinger created a complete, up-to-date backup or that a live restore works. Compare the original screenshot's `assets/`, `images/`, and `index.html` against the ZIP report. If the original site changed since the screenshot, do not proceed based on this older visual evidence. Actual Hostinger file permissions, hidden files, DB backup and original theme parity remain unverified.
+
+Do not paste or upload real production backup ZIPs containing secrets or personal data into a public GitHub repository or issue. Keep a private offline copy; share only sanitized audit summary and screenshots. ZIP mode exits **2 even when validation succeeds**, and never gives a cutover authorisation.
+
 ## New independent cutover audit
 
 `python3 scripts/audit_hostinger_cutover.py --current-site-copy PATH_TO_LOCAL_COPY_OF_OLD_PUBLIC_HTML --candidate-public-zip PATH_TO_PUBLIC_ZIP`

@@ -1,6 +1,8 @@
-# OverseasJob.in — Code Development v0.9.12 (provider live source default-OFF activation)
+# OverseasJob.in — Code Development v0.9.13 (Hostinger original ZIP cutover audit)
 
 **State: working local application and future-gated contract foundation; NOT deployed, NOT public-launch ready.**
+
+**v0.9.13 M00 direct Hostinger backup ZIP audit:** `scripts/audit_hostinger_cutover.py --current-site-zip BACKUP.zip --candidate-public-zip PUBLIC.zip` now compares the downloaded original-site ZIP **without extraction**, detects root/index.html, original asset collision and missing screenshot folders, and rejects path traversal, symlinks, mixed roots or oversized/unsafe ZIPs. It is read-only and always refuses to approve production cutover. A ZIP's SHA/CRC is not proof of a complete or restorable Hostinger backup. See `docs/HOSTINGER_ORIGINAL_HOMEPAGE_SWITCH_GUARD_V097.md`.
 
 **v0.9.12 provider safety ([main CI 6/6 green](https://github.com/mohdazizshaikh/overseasjob/actions/runs/45195745006)):** A configured `enabled=true` and recent `checked_at` no longer initiate live source requests by themselves. `SOURCE_LIVE_SYNC_ENABLED` and provider-specific operator flags default OFF, and a matching PRIVATE `storage/provider_rights/<provider>.json` attestation is required for *any live provider HTTP fetch*. The attestation is not legal verification; source rights, provider permissions and real inventory remain unverified. Fixtures do not contact real APIs. See `docs/LIVE_PROVIDER_SOURCE_PERMISSION_GATE_V0912.md`.
 
