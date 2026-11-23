@@ -62,8 +62,12 @@ with tempfile.TemporaryDirectory(prefix='oj-real-site-copy-test-') as tmp:
                        capture_output=True,text=True,timeout=20)
     check('Founder-facing CLI exits 2 on cutover even when audit succeeds',
           cli.returncode==2 and json.loads(cli.stdout)['cutover_status'].startswith('BLOCKED'))
-    check('Existing-site directory missing entrypoint fails closed',
-          _reject_missing_entrypoint(base,current,archive) if False else True)
+    empty=base/'empty_site_copy'
+    empty.mkdir()
+    rejected=False
+    try:audit(empty,archive)
+    except ValueError:rejected=True
+    check('Existing-site directory missing entrypoint fails closed',rejected)
     # Inputs with unsupported structures must fail without ever opening/altering the host.
     weird=current/'assets'/'link'
     try:
