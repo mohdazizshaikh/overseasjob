@@ -6,8 +6,8 @@
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
-    "status": "PENDING_RETEST_PR_CI",
-    "tests": "31+ role source positive/negative checks and isolated fixture cron (no role observation log) plus full GitHub CI"
+    "status": "PENDING_FULL_PR_CI",
+    "tests": "31 role-cohort assertions including distinct UTC date disambiguation across providers, fixture-only cron safety and original full pipeline"
   },
   "canonical_documentation": {
     "status": "EXACT_FOUNDER_V141_ZIP_IMPORTED__CI_VALIDATION_PENDING",
@@ -655,8 +655,8 @@
     },
     {
       "path": "src/RoleCoverage.php",
-      "bytes": 10716,
-      "sha256": "2c0f6577ebffd02abf30867f205d3471ea0846e06557248beee0dcb59dfd5774"
+      "bytes": 10843,
+      "sha256": "c66c1d07f3529924718df10c519d8cc6c5ba5141f4c38830762802f29c83df3c"
     },
     {
       "path": "src/SourceCoverage.php",
@@ -850,8 +850,8 @@
     },
     {
       "path": "tests/role_coverage_tests.php",
-      "bytes": 7948,
-      "sha256": "403ffbe9c3e8fef027dd665dfa69a43df74586b711a03850b6d4503c1ca70c77"
+      "bytes": 8372,
+      "sha256": "b946be34cee17ff9db4e030ebaf386512fe35402fa32645857e96a4f61c7cdd0"
     },
     {
       "path": "tests/run.sh",
