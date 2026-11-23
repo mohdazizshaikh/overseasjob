@@ -1,6 +1,6 @@
 {
   "spec_version": "v1.3.4",
-  "release": "gate1+gate2+gate3-local-v0.9.9-m17-source-observation-integrity-pending-ci",
+  "release": "gate1+gate2+gate3-local-v0.9.10-browser-accessibility-qa-pending-ci",
   "development_state": "LOCAL_CODE_WITH_VERIFIED_DISPOSABLE_CI_NOT_DEPLOYED",
   "evidence": [
     "tests/php_tests.php",
@@ -517,7 +517,7 @@
     {
       "module_id": "M16",
       "implementation_status": "blocked_with_reason",
-      "blocker_reason": "Actual local-preview Chromium E2E passed (38 checks) at run 45075331503; legacy deterministic and isolated MySQL checks passed previously. Real Hostinger staging, live domain theme parity, independent accessibility/performance review, provider rights and production backup restore remain unverified.",
+      "blocker_reason": "M16 has 38/38 real Chromium journey checks, plus added targeted 320px/keyboard/forms/print and screenshot-baseline suite awaiting CI. Existing site's original static theme, real Hostinger PHP/SEO/backup, screen-reader WCAG assessment, performance budget and actual production E2E remain unverified.",
       "implemented_subset": [
         "PHP/JS/HTTP deterministic regression",
         "One GitHub Actions local contract job",
@@ -547,7 +547,9 @@
         "docs/CANONICAL_SOURCE_PACK_REISSUE_V134.md",
         "tests/hostinger_cutover_audit_tests.py",
         "tests/apache_webroot_security.sh",
-        "docs/APACHE_WEBROOT_DEFENSE_IN_DEPTH_V098.md"
+        "docs/APACHE_WEBROOT_DEFENSE_IN_DEPTH_V098.md",
+        "tests/browser_a11y_print.py",
+        "docs/M16_BROWSER_A11Y_REFLOW_PRINT_V0910.md"
       ],
       "last_verified_at": null
     },
@@ -697,7 +699,7 @@
     "private_source_outside_public_webroot_still_required": true
   },
   "m17_source_coverage": {
-    "status": "V2_SCHEMA_IMPLEMENTED_CI_PENDING",
+    "status": "V2_SCHEMA_VERIFIED_ISOLATED_GITHUB_CI_26_CHECKS",
     "schema": "src/SourceCoverage.php",
     "cli": "scripts/coverage_report.php",
     "tests": "tests/source_coverage_tests.php",
@@ -705,6 +707,21 @@
     "real_provider_days_verified": 0,
     "real_host_sampling_verified": false,
     "real_inventory_metrics_verified": false,
-    "public_launch_ready": false
+    "public_launch_ready": false,
+    "ci_url": "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45161956670"
+  },
+  "browser_accessibility_qa": {
+    "status": "ISOLATED_CHROMIUM_M16_PENDING_CI",
+    "test": "tests/browser_a11y_print.py",
+    "guide": "docs/M16_BROWSER_A11Y_REFLOW_PRINT_V0910.md",
+    "routes_covered": 16,
+    "min_reflow_width_px": 320,
+    "keyboard_skip_link_test": true,
+    "print_media_test": true,
+    "form_accessible_name_check": true,
+    "visual_baseline_screenshots": 8,
+    "original_site_theme_parity_verified": false,
+    "real_host_browser_tested": false,
+    "screen_reader_and_wcag_certification": false
   }
 }
