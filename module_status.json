@@ -1,6 +1,6 @@
 {
   "spec_version": "v1.3.3",
-  "release": "gate1+gate2+gate3-local-v0.9.6-canonical-reissue-pending-ci",
+  "release": "gate1+gate2+gate3-local-v0.9.6-canonical-reissue-isolated-ci-verified",
   "development_state": "LOCAL_CODE_WITH_VERIFIED_DISPOSABLE_CI_NOT_DEPLOYED",
   "evidence": [
     "tests/php_tests.php",
@@ -650,13 +650,19 @@
   "canonical_pack_reissue": {
     "source_version": "1.3.3",
     "target_version": "1.3.4",
-    "status": "PENDING_CI",
+    "status": "VERIFIED_ISOLATED_CI_76_OF_76",
     "source_manifest_verified": true,
     "creator": "scripts/reissue_canonical_pack_v134.py",
     "tests": "tests/canonical_pack_reissue_tests.py",
     "source_contradiction": "Undocumented Himalayas per-job HTTP 410/404 route, despite v1.3.3 pagination/date correctness",
     "provider_permission_verified": false,
     "production_deployed": false,
-    "reviewed_docs": "https://himalayas.app/docs/openapi.json"
+    "reviewed_docs": "https://himalayas.app/docs/openapi.json",
+    "verified_run_url": "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45138735761",
+    "artifact_name": "overseasjob-canonical-v134-validated",
+    "canonical_validator_checks": 76,
+    "reissue_acceptance_tests": 16,
+    "original_pack_preserved": true,
+    "actual_host_installed": false
   }
 }

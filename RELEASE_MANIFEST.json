@@ -6,9 +6,8 @@
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
-    "status": "PENDING_3_JOB_PR_CI",
-    "original_canonical_source": "v1.3.3 ZIP",
-    "target_canonical_source": "v1.3.4 ZIP"
+    "status": "PREVIOUS_MAIN_RUN_VERIFIED_AND_THIS_METADATA_PATCH_REQUIRES_FRESH_CI",
+    "previous_success": "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45138735761"
   },
   "canonical_documentation": {
     "passed": 71,
@@ -246,8 +245,8 @@
     },
     {
       "path": "module_status.json",
-      "bytes": 24994,
-      "sha256": "04f7dfeb26158406e965db842d1ceb3048d80b685db3b922b27caa81cd5a5bec"
+      "bytes": 25329,
+      "sha256": "8c4a7b9d434775fce6d1251237859e4d3527f1001e9188776d4eb91a5ac0b10f"
     },
     {
       "path": "public/.htaccess",
@@ -356,8 +355,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 11716,
-      "sha256": "340481d293bba4255e0eea93680a2a9823a1023bb6eaa0ae7e3b8fa8cc734ffa"
+      "bytes": 12159,
+      "sha256": "a4714a3eb08f4877b75454eb4e663e60d566231203a3ae901330b87ba6e7df01"
     },
     {
       "path": "scripts/analytics_report.php",
