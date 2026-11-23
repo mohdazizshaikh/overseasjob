@@ -1,13 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.6-exact-canonical-v134-reissue",
+  "release": "0.9.7-direct-host-cutover-guard",
   "source_of_truth": "v1.3.3",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
-    "status": "PREVIOUS_MAIN_RUN_VERIFIED_AND_THIS_METADATA_PATCH_REQUIRES_FRESH_CI",
-    "previous_success": "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45138735761"
+    "status": "PENDING_3_JOB_GITHUB_PR_CI",
+    "tests": "PHP/JS/MySQL/Chromium, 141+ manifest and separate archive-vs-current-backup cutover guard"
   },
   "canonical_documentation": {
     "passed": 71,
@@ -30,8 +30,8 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "Narrow reissue targets ONLY independently confirmed stale per-job 410 statement. Original v1.3.3 pagination/date semantics already correct. Reissued ZIP is generated from exact original, not host deployment; real provider rights/hosting/backup still unverified.",
-  "file_count_excluding_manifest": 141,
+  "developer_notes": "The public bundle preserves index.html as a filename but Apache DirectoryIndex index.php can switch the visible homepage immediately; guard tests and warning reject uncontrolled cutover. Real Hostinger/theme, backup restore and production provider approvals remain unverified.",
+  "file_count_excluding_manifest": 144,
   "files": [
     {
       "path": ".env.example",
@@ -40,8 +40,8 @@
     },
     {
       "path": ".github/workflows/ci.yml",
-      "bytes": 6314,
-      "sha256": "caaa46a0d7d789297c981cebf4dc2f0aae73a81ec641fc6e8a7d2162220f8f14"
+      "bytes": 6518,
+      "sha256": "ca5e34fb146a24e9ec23fe33eb977ac9c4d514e19938b1a4546cfcf430222886"
     },
     {
       "path": ".gitignore",
@@ -150,8 +150,13 @@
     },
     {
       "path": "docs/HOSTINGER_DIRECT_HOST_BUNDLE_V095.md",
-      "bytes": 4911,
-      "sha256": "95e5ee4e6a8231557cbcf2b70beb31e1852295a47f65b4079e52eefaa5457809"
+      "bytes": 5436,
+      "sha256": "ad610ca8dca6bed9d1a11dac32f6279e32eb336dc4c486626aadf972c8d24430"
+    },
+    {
+      "path": "docs/HOSTINGER_ORIGINAL_HOMEPAGE_SWITCH_GUARD_V097.md",
+      "bytes": 4349,
+      "sha256": "40d66c79355ddf114cfdc7ba7a2d3efc63fc5c5eafb266b6136d3b9217e28e9f"
     },
     {
       "path": "docs/LOCAL_TEST_OUTPUT_2026-11-23_v050.txt",
@@ -245,8 +250,8 @@
     },
     {
       "path": "module_status.json",
-      "bytes": 25329,
-      "sha256": "8c4a7b9d434775fce6d1251237859e4d3527f1001e9188776d4eb91a5ac0b10f"
+      "bytes": 26279,
+      "sha256": "fd0d7e0462772671621aada236813525b3d3f7a3d32563bfb7ec2845d4fe13e7"
     },
     {
       "path": "public/.htaccess",
@@ -355,13 +360,18 @@
     },
     {
       "path": "README.md",
-      "bytes": 12159,
-      "sha256": "a4714a3eb08f4877b75454eb4e663e60d566231203a3ae901330b87ba6e7df01"
+      "bytes": 12864,
+      "sha256": "cafd24635d93e78c97e68c2f6d5db4389c4dc5038dcaa3f82a4fc3f6886d6845"
     },
     {
       "path": "scripts/analytics_report.php",
       "bytes": 524,
       "sha256": "e4a04cd321bfbd1201a555972743134840bacae56ff18a36e7acca62dafbedd2"
+    },
+    {
+      "path": "scripts/audit_hostinger_cutover.py",
+      "bytes": 7295,
+      "sha256": "19fbb96c8fc8a522f89e576588fa3790fae2d7f72b39eb4bc95eec48512a013f"
     },
     {
       "path": "scripts/backup.php",
@@ -370,8 +380,8 @@
     },
     {
       "path": "scripts/build_hostinger_bundle.py",
-      "bytes": 5746,
-      "sha256": "1a4ccbdc2bb36de68278909240364ad86671dff49fd549b3fff29b0827651880"
+      "bytes": 7408,
+      "sha256": "6d2a6438fd071537897f842959156e9bb02a82b84b423deb4691fac71fd4f4c5"
     },
     {
       "path": "scripts/check_himalayas_status.php",
@@ -580,8 +590,8 @@
     },
     {
       "path": "START_HERE_FOUNDER.md",
-      "bytes": 3163,
-      "sha256": "2a14e1e3aa3162d231b04e24f14067725b5ef6253d3e5199d2861b7481d0b276"
+      "bytes": 3861,
+      "sha256": "b9d749ed0c5629ea742e0bc55b5c693c5bafd8a4e536948b217e994b9a857f0b"
     },
     {
       "path": "storage/.gitkeep",
@@ -645,8 +655,13 @@
     },
     {
       "path": "tests/hostinger_bundle_tests.py",
-      "bytes": 2998,
-      "sha256": "5a25a22e42266b8c43b9afa8dedf5c0feae0ce02abebf83e001ea6b0c5d87c5b"
+      "bytes": 3450,
+      "sha256": "f5d2fba177dfe73a5c718add50fa5121cfac425b3ad38ff142c7d4bcf3a23c67"
+    },
+    {
+      "path": "tests/hostinger_cutover_audit_tests.py",
+      "bytes": 4702,
+      "sha256": "d9cc2820fef40ca102ee1e33363f48bbc7b171ce404f1a4fb7b7790b42807094"
     },
     {
       "path": "tests/http_employer_review_smoke.sh",
