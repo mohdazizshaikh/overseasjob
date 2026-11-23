@@ -17,3 +17,6 @@ RELEASE_READY=1 together with six verified=true entries pointing to 150-byte Mar
 This file and the six reviewed evidence notes may ONLY be recorded after real Hostinger filesystem/database backup+restore, current theme and noindex/SEO safety, actual provider rights and permitted sample history, human editorial/immigration/legal review, security tests and rollback have independently passed. They are not passwords or magic proofs; an operator who fabricates them bypasses the intention of this gate. Never upload original Hostinger ZIP, databases or applicant data into public GitHub.
 
 By default .env.example still keeps RELEASE_READY=0 and every source/recruiter/ads gate OFF. The scripts/launch_preflight.php process must exit 2 until all necessary evidence is real; CI synthetic tests only prove negative cases, not business readiness.
+
+## Module ledger consistency
+The launch gate also requires module_status.json public_launch_ready=true AND hostinger_verified=true. Merely updating spec_version from historical v1.3.x to v1.4.1 may never make a site publicly ready while the actual hosting/module ledger still says unverified. Current repository flags remain false; no one should flip them before independent Hostinger proof and owner release approval. A new synthetic negative test verifies this additional veto.

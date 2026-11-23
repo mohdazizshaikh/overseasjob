@@ -42,6 +42,9 @@ final class Launch
         if(($manifest['source_of_truth']??null)!==self::CANONICAL_VERSION
             ||($modules['spec_version']??null)!==self::CANONICAL_VERSION)
             $blockers[]='Latest v1.4.1 source-of-truth and module ledger not reconciled';
+        if(($modules['public_launch_ready']??null)!==true
+            ||($modules['hostinger_verified']??null)!==true)
+            $blockers[]='Module ledger public-launch and actual-Hostinger verification flags are not both approved';
         $zip=$root.'/SOURCE_OF_TRUTH_REFERENCE/OverseasJob_v1.4.1_Corrected_Canonical_Pack.zip';
         $zipSize=!is_link($zip)&&is_file($zip)?@filesize($zip):false;
         if($zipSize===false||$zipSize>2_000_000
