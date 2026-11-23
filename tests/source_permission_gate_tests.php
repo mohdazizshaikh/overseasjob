@@ -40,7 +40,14 @@ try {
     $d=$decision($policy,$flags);
     proofCheck('Both operator flags without private attestation still blocked',!$d['ready']);
     file_put_contents($path,json_encode($makeProof(),JSON_THROW_ON_ERROR));
+    chmod($path,0644);
+    proofCheck('Group/world-readable rights approval refuses live source',
+        !$decision($policy,$flags)['ready']);
     chmod($path,0600);
+    chmod($root.'/storage/provider_rights',0755);
+    proofCheck('Group/world-traversable source rights directory refuses live sync',
+        !$decision($policy,$flags)['ready']);
+    chmod($root.'/storage/provider_rights',0700);
     $d=$decision($policy,$flags);
     proofCheck('Explicit flags and matching private simulated approval pass local gate',
         $d['ready']&&$d['blockers']===[]);

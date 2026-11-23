@@ -41,3 +41,7 @@ Do **not** set these variables to 1 or create an "approved" JSON file merely to 
 **The complete original site and theme are still not available** and must not be overwritten. The `public_html/index.html` vs `DirectoryIndex index.php` risk remains; the preview bundle is NOT approved for root extraction.
 
 No paid services, credentials or public website files were modified during this code work.
+
+## 24 November 2026 — private file permission guard
+
+The private rights directory must be an actual non-symlink directory with owner-only Unix mode 0700 (or stricter), and the provider JSON file must be an actual non-symlink owner-only 0600 file (or stricter). Group/world readable source-rights approvals now **fail closed before HTTP**, even when the JSON approval, operator flags and source policy match. Two synthetic negative tests explicitly reject mode 0644 on the attestation and mode 0755 on the containing folder. Shared Hostinger ownership/permissions still require real on-host verification; CI does not validate the provider licence or enable the source.
