@@ -31,7 +31,9 @@ jobs:
         run: python3 tests/hostinger_bundle_tests.py
       - name: Test read-only current-homepage switch and asset-collision cutover guard
         run: python3 tests/hostinger_cutover_audit_tests.py
-      - name: Canonical Source of Truth contract validation
+      - name: Validate authoritative founder v1.4.1 ZIP (hash, owner and 149 spec checks)
+        run: python3 scripts/validate_founder_canonical_v141.py
+      - name: Historical archived v1.3.3 Source of Truth validation (non-authoritative)
         shell: bash
         run: |
           python3 - <<'PY'

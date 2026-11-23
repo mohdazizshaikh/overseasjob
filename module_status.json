@@ -1,7 +1,7 @@
 {
-  "spec_version": "v1.3.4",
-  "release": "gate1+gate2+gate3-local-v0.9.15-hostinger-founder-handoff-qa-pending-ci",
-  "development_state": "LOCAL_CODE_WITH_VERIFIED_DISPOSABLE_CI_NOT_DEPLOYED",
+  "spec_version": "v1.4.1",
+  "release": "v0.9.22-code-v141-canonical-sync-not-deployed",
+  "development_state": "LOCAL_CODE_CI_TESTED_V141_DOCUMENTATION_ADOPTED_IMPLEMENTATION_RECONCILIATION_PENDING",
   "evidence": [
     "tests/php_tests.php",
     "tests/operational_tests.php",
@@ -80,7 +80,7 @@
       "module_id": "M00",
       "implementation_status": "blocked_with_reason",
       "blocker_reason": "Founder elects existing production Hostinger hosting as test environment without mandatory separate paid staging. Source/docs and ZIP offline comparison code are verified, but actual private root/open_basedir, full current public_html and DB backup restoration, original theme parity, SEO and owner-approved cutover are UNVERIFIED. Existing index.html may be displaced by candidate DirectoryIndex index.php.",
-      "spec_version": "v1.3.4",
+      "spec_version": "v1.4.1",
       "routes": [],
       "dependencies": [],
       "evidence_paths": [
@@ -112,7 +112,7 @@
         "Himalayas offset/limit and repeated-page signatures"
       ],
       "blocker_reason": "Official source contract and adapters implemented, but live outbound requests now require globally OFF runtime opt-in, provider-specific operator review, and private non-Git evidence. Real permission/terms approval, host cron, live requests, 14 distinct actual days and inventory remain unverified. Jobicy policy enabled is not sufficient for live access; Himalayas remains policy-disabled.",
-      "spec_version": "v1.3.4",
+      "spec_version": "v1.4.1",
       "routes": [
         "/sources"
       ],
@@ -137,7 +137,7 @@
         "source URLs, expiry and no-redist fixtures"
       ],
       "blocker_reason": "Source cache and persistent quarantine fixture-tested; production SQL migration not executed",
-      "spec_version": "v1.3.4",
+      "spec_version": "v1.4.1",
       "routes": [
         "/jobs",
         "/jobs/{provider}/{id}"
@@ -160,7 +160,7 @@
         "Himalayas numeric timezone fixtures"
       ],
       "blocker_reason": "Deterministic eligibility including full-name/country code/conflict tested; real source coverage unverified",
-      "spec_version": "v1.3.4",
+      "spec_version": "v1.4.1",
       "routes": [
         "/jobs"
       ],
@@ -180,7 +180,7 @@
         "salary source value+period formatting"
       ],
       "blocker_reason": "Raw source restriction evidence preserved and source-host apply URL tested; live source data unverified",
-      "spec_version": "v1.3.4",
+      "spec_version": "v1.4.1",
       "routes": [
         "/jobs",
         "/jobs/{provider}/{id}"
@@ -221,7 +221,7 @@
         "T09",
         "T10"
       ],
-      "spec_version": "v1.3.4",
+      "spec_version": "v1.4.1",
       "routes": [
         "/tools",
         "/tools/{tool}"
@@ -244,7 +244,7 @@
         "dated source citations",
         "visible editorial review status"
       ],
-      "spec_version": "v1.3.4",
+      "spec_version": "v1.4.1",
       "routes": [
         "/guides",
         "/guides/{slug}",
@@ -276,7 +276,7 @@
         "version-aware Radar: first seen/unchanged/details changed",
         "v1 to v2 JSON backup migration, strict import and deletion"
       ],
-      "spec_version": "v1.3.4",
+      "spec_version": "v1.4.1",
       "routes": [
         "/my-career"
       ],
@@ -304,7 +304,7 @@
         "61 combined deterministic M07/M08/M09/M15 JavaScript checks",
         "30 v0.6 HTTP/safety checks"
       ],
-      "spec_version": "v1.3.4",
+      "spec_version": "v1.4.1",
       "routes": [
         "/daily"
       ],
@@ -332,7 +332,7 @@
         "JS consent/clear-local-data tests",
         "HTTP analytics default disabled"
       ],
-      "spec_version": "v1.3.4",
+      "spec_version": "v1.4.1",
       "routes": [
         "/privacy",
         "/api/privacy-event"
@@ -362,7 +362,7 @@
         "existing moderation isolation/queue tests",
         "default disabled owner route HTTP"
       ],
-      "spec_version": "v1.3.4",
+      "spec_version": "v1.4.1",
       "routes": [
         "/report-job",
         "/owner"
@@ -390,7 +390,7 @@
         "CLI read-only anonymous daily usage report",
         "Privacy-safe read-only owner operational snapshot; no invented host monitoring"
       ],
-      "spec_version": "v1.3.4",
+      "spec_version": "v1.4.1",
       "routes": [],
       "dependencies": [
         "M00"
@@ -422,7 +422,7 @@
         "24 employer safe-default HTTP checks",
         "Disposable MySQL CI test authored: remote success must be verified"
       ],
-      "spec_version": "v1.3.4",
+      "spec_version": "v1.4.1",
       "routes": [
         "/employers/login",
         "/employers/reset"
@@ -455,7 +455,7 @@
         "24 employer safe-default HTTP checks",
         "Disposable MySQL CI test authored; no Hostinger staging proof"
       ],
-      "spec_version": "v1.3.4",
+      "spec_version": "v1.4.1",
       "routes": [
         "/employers/dashboard",
         "/employers/jobs/new"
@@ -484,7 +484,7 @@
         "53 partner API deterministic checks",
         "Disposable MySQL CI job authored"
       ],
-      "spec_version": "v1.3.4",
+      "spec_version": "v1.4.1",
       "routes": [
         "/api/v1/partner/{resource}"
       ],
@@ -508,7 +508,7 @@
         "site-local data deletion across project prefixes",
         "Employer password-reset tokens never stored in plaintext"
       ],
-      "spec_version": "v1.3.4",
+      "spec_version": "v1.4.1",
       "routes": [
         "/privacy",
         "/terms"
@@ -543,7 +543,7 @@
         "126 source files verified by SHA-256 manifest",
         "Chromium/Playwright UI: 38/38 isolated browser assertions passed at run 45075331503"
       ],
-      "spec_version": "v1.3.4",
+      "spec_version": "v1.4.1",
       "routes": [],
       "dependencies": [
         "M00"
@@ -569,7 +569,7 @@
       "module_id": "M17",
       "implementation_status": "blocked_with_reason",
       "blocker_reason": "Strict v2 live-sync coverage record validation implemented; no fixtures, legacy dates or invalid records count toward the 14-day local observation shape. Actual 14 distinct authorised on-host source days, 2–3 job-role cohorts, reliable external provider rights and dated business/traffic evidence remain unavailable. Do not equate log record shape with verified live source provenance.",
-      "spec_version": "v1.3.4",
+      "spec_version": "v1.4.1",
       "routes": [],
       "dependencies": [
         "M01",
@@ -587,7 +587,7 @@
     }
   ],
   "last_tested_on": "2026-11-23",
-  "source_of_truth_version": "v1.3.4",
+  "source_of_truth_version": "v1.4.1",
   "local_check_count": 663,
   "browser_e2e_status": "VERIFIED_ISOLATED_CHROMIUM_CI_38_CHECKS_NOT_LIVE_HOSTING",
   "live_feed_verified": false,
@@ -795,5 +795,16 @@
     "public_html_original_backup_received": false,
     "original_site_restored": false,
     "production_cutover_approved": false
+  },
+  "canonical_v141_adoption": {
+    "package": "SOURCE_OF_TRUTH_REFERENCE/OverseasJob_v1.4.1_Corrected_Canonical_Pack.zip",
+    "sha256": "3802d1e3b9090feeaaa5eed3fa780f9858299eaa96f1be4980edb9569983ecb9",
+    "documentation_checks_passed": 149,
+    "validation_scope": "DOCUMENTS_AND_FIXTURES_ONLY",
+    "application_implementation_reconciled_with_new_spec": false,
+    "live_hostinger_evidence_reviewed": false,
+    "real_source_permissions_verified": false,
+    "production_launch_approved": false,
+    "historical_code_status_note": "Preserve M00–M17 per-module implementation/testing statuses and blockers; changing spec target does not attest to conformance or deployment"
   }
 }
