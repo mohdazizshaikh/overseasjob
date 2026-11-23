@@ -8,7 +8,7 @@ Require all denied
 RewriteEngine On
 # Defense in depth only. Private source must NEVER be uploaded to public_html.
 # Deny even physical files in accidentally copied internal directories.
-RewriteRule ^(src|storage|scripts|tests|config|database|content|deploy|docs|SOURCE_OF_TRUTH_REFERENCE|vendor|\.git|\.github)(/|$) - [F,L,NC]
+RewriteRule ^(src|storage|scripts|tests|config|database|content|deploy|docs|backups|SOURCE_OF_TRUTH_REFERENCE|vendor|\.git|\.github)(/|$) - [F,L,NC]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.php [L]
