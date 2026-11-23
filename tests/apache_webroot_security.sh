@@ -13,7 +13,7 @@ sudo a2enmod rewrite headers >/dev/null
 sudo sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 
 WEB=/var/www/html
-sudo mkdir -p "$WEB"/{assets,src,storage,config,scripts,tests,docs,admin,internal,.git}
+sudo mkdir -p "$WEB"/{assets,src,storage,config,scripts,tests,docs,admin,internal,backups,.git}
 sudo cp public/.htaccess "$WEB/.htaccess"
 printf 'NEW_PHP_HOME\n' | sudo tee "$WEB/index.php" >/dev/null
 printf 'OLD_STATIC_HOME\n' | sudo tee "$WEB/index.html" >/dev/null
@@ -22,7 +22,7 @@ printf 'User-agent: *\nDisallow: /\n' | sudo tee "$WEB/robots.txt" >/dev/null
 printf 'PRIVATE\n' | sudo tee "$WEB/.env" "$WEB/.git/config" "$WEB/src/Jobs.php" \
     "$WEB/storage/jobs.json" "$WEB/config/provider_policy.json" "$WEB/scripts/sync_jobs.php" \
     "$WEB/tests/php_tests.php" "$WEB/docs/private.md" "$WEB/backup.zip" \
-    "$WEB/old.tar.gz" "$WEB/admin/export.csv" "$WEB/internal/key.pem" >/dev/null
+    "$WEB/old.tar.gz" "$WEB/admin/export.csv" "$WEB/internal/key.pem" "$WEB/backups/data.php" >/dev/null
 sudo apache2ctl configtest
 sudo service apache2 restart >/dev/null
 
@@ -60,6 +60,7 @@ probe /tests/php_tests.php 403
 probe /docs/private.md 403
 probe /backup.zip 403
 probe /old.tar.gz 403
+probe /backups/data.php 403
 probe /admin/export.csv 403
 probe /internal/key.pem 403
 probe /assets/ 403
