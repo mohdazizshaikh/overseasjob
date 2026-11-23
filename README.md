@@ -1,6 +1,8 @@
-# OverseasJob.in — Code Development v0.9.5 (verified Hostinger split preview packaging)
+# OverseasJob.in — Code Development v0.9.6 (canonical v1.3.4 reissue builder)
 
 **State: working local application and future-gated contract foundation; NOT deployed, NOT public-launch ready.**
+
+**v0.9.6 canonical reissue:** `scripts/reissue_canonical_pack_v134.py` reads the EXACT checksum-verified v1.3.3 canonical ZIP, patches only the provably stale undocumented Himalayas per-job 410/404 status assumption, extends the validator, preserves M00–M17/T01–T10 and every other owner unchanged, and produces a new versioned v1.3.4 ZIP and integrity report after CI. No Hostinger deployment or provider activation. See `docs/CANONICAL_SOURCE_PACK_REISSUE_V134.md`.
 
 **v0.9.5 packaging:** `scripts/build_hostinger_bundle.py` creates separate SHA-256-verified private and public preview ZIPs, tested by `tests/hostinger_bundle_tests.py`. After all main-branch test jobs pass, GitHub Actions attaches them as downloadable `hostinger-preview-verified-bundle`. **This does not touch the real Hostinger hosting, does not preserve unknown existing theme automatically, and is not permission to overwrite `public_html`.** See `docs/HOSTINGER_DIRECT_HOST_BUNDLE_V095.md`.
 
