@@ -1,6 +1,6 @@
 {
   "spec_version": "v1.3.3",
-  "release": "gate1+gate2+gate3-local-v0.9.4-official-provider-correction-pending-ci",
+  "release": "gate1+gate2+gate3-local-v0.9.5-hostinger-preview-bundle-pending-ci",
   "development_state": "LOCAL_CODE_WITH_VERIFIED_DISPOSABLE_CI_NOT_DEPLOYED",
   "evidence": [
     "tests/php_tests.php",
@@ -85,7 +85,10 @@
       "dependencies": [],
       "evidence_paths": [
         "tests/shared_host_layout_tests.php",
-        "deploy/shared_host/DEPLOY_STAGING_README.md"
+        "deploy/shared_host/DEPLOY_STAGING_README.md",
+        "scripts/build_hostinger_bundle.py",
+        "tests/hostinger_bundle_tests.py",
+        "docs/HOSTINGER_DIRECT_HOST_BUNDLE_V095.md"
       ],
       "tests": [],
       "last_verified_at": null
@@ -632,5 +635,13 @@
     "himalayas_status_endpoint_documented": false,
     "live_provider_enabled": false,
     "canonical_binary_pack_reissued": false
+  },
+  "hostinger_bundle": {
+    "status": "BUILDER_AND_ISOLATED_TESTS_PENDING_CI",
+    "builder": "scripts/build_hostinger_bundle.py",
+    "test": "tests/hostinger_bundle_tests.py",
+    "guide": "docs/HOSTINGER_DIRECT_HOST_BUNDLE_V095.md",
+    "actual_host_installed": false,
+    "original_theme_preserved_verified": false
   }
 }
