@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-/** Bounded authoritative Himalayas job status reconciliation. Disabled until source policy review. */
+/** OFFLINE fixture-only status simulation; provider has no documented live per-job endpoint. */
 if(PHP_SAPI!=='cli'){http_response_code(403);exit(2);}
 $root=dirname(__DIR__);
 require $root.'/src/Jobs.php';
@@ -11,11 +11,10 @@ foreach(array_slice($argv,1) as $arg){
     else {fwrite(STDERR,"Usage: php scripts/check_himalayas_status.php [--fixture=path]\n");exit(2);}
 }
 if($fixture===null){
-    $policies=json_decode((string)@file_get_contents($root.'/config/provider_policy.json'),true);
-    $policy=$policies['himalayas']??[];
-    if(($policy['enabled']??false)!==true || (strtotime((string)($policy['checked_at']??''))?:0)<time()-30*86400){
-        fwrite(STDERR,"Himalayas source disabled or needs current rights review\n");exit(3);
-    }
+    // OFFICIAL PUBLIC OPENAPI EXPOSES ONLY /jobs/api AND /jobs/api/search.
+    // No documented per-job 200/410 status API. Never request invented routes.
+    fwrite(STDERR,"Per-job Himalayas status endpoint not documented; live probe disabled. Use authorised browse and expiry/freshness only.\n");
+    exit(3);
 }
 $cache=$root.'/storage/'.($fixture===null?'jobs.json':'fixture_jobs.json');
 $lock=fopen($root.'/storage/sync.lock','c');
