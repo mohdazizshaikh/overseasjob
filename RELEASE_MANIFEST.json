@@ -1,13 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.7-direct-host-cutover-guard",
+  "release": "0.9.8-apache-webroot-security-defense",
   "source_of_truth": "v1.3.3",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
-    "status": "PENDING_3_JOB_GITHUB_PR_CI",
-    "tests": "PHP/JS/MySQL/Chromium, 141+ manifest and separate archive-vs-current-backup cutover guard"
+    "status": "PENDING_GITHUB_PR_CI",
+    "tests": "deterministic, disposable MySQL, Chromium, real isolated Apache HTTP, archive QA"
   },
   "canonical_documentation": {
     "passed": 71,
@@ -30,8 +30,8 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "The public bundle preserves index.html as a filename but Apache DirectoryIndex index.php can switch the visible homepage immediately; guard tests and warning reject uncontrolled cutover. Real Hostinger/theme, backup restore and production provider approvals remain unverified.",
-  "file_count_excluding_manifest": 144,
+  "developer_notes": "Enhanced .htaccess prevents accidental private source/archive exposure in Apache-compatible environments. Release still unverified on Hostinger's actual webserver, original theme, PHP, backup, provider rights and legal gates.",
+  "file_count_excluding_manifest": 146,
   "files": [
     {
       "path": ".env.example",
@@ -40,8 +40,8 @@
     },
     {
       "path": ".github/workflows/ci.yml",
-      "bytes": 6518,
-      "sha256": "ca5e34fb146a24e9ec23fe33eb977ac9c4d514e19938b1a4546cfcf430222886"
+      "bytes": 6869,
+      "sha256": "b7588bb20745db5293a7d61a45ed16deae13c94b308c39a4ca04f6a2cab783fa"
     },
     {
       "path": ".gitignore",
@@ -117,6 +117,11 @@
       "path": "deploy/shared_host/index.php.template",
       "bytes": 592,
       "sha256": "03e2f7eeb22a5a3078999697e3cceebc9da67240025390cb77e008c9878c19c1"
+    },
+    {
+      "path": "docs/APACHE_WEBROOT_DEFENSE_IN_DEPTH_V098.md",
+      "bytes": 2783,
+      "sha256": "c2d40cba5a603fc9928c3bb29c7d6da3a9651593438302daa98f2057d1a9b21c"
     },
     {
       "path": "docs/BETA_IMPLEMENTATION_CHANGELOG.md",
@@ -250,13 +255,13 @@
     },
     {
       "path": "module_status.json",
-      "bytes": 26279,
-      "sha256": "fd0d7e0462772671621aada236813525b3d3f7a3d32563bfb7ec2845d4fe13e7"
+      "bytes": 26790,
+      "sha256": "296a773e3c3869061a4c60143fefa67b3bc440c172e3a0182bc4cb75f9692e7d"
     },
     {
       "path": "public/.htaccess",
-      "bytes": 563,
-      "sha256": "4baa30a6041779103089857d6221df7f55155f9d527042c1a0ebdd844a3bbfc6"
+      "bytes": 927,
+      "sha256": "b67e300d4c79d17a657a6382b6a06f5b7a771d02a22ba199d05e85016edae4f7"
     },
     {
       "path": "public/assets/advanced_tools_ui.mjs",
@@ -360,8 +365,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 12864,
-      "sha256": "cafd24635d93e78c97e68c2f6d5db4389c4dc5038dcaa3f82a4fc3f6886d6845"
+      "bytes": 13405,
+      "sha256": "182e5c986a22b1d8cd7949ec0d6a7e1f34f2989d5483efb2c76cab115890168c"
     },
     {
       "path": "scripts/analytics_report.php",
@@ -590,8 +595,8 @@
     },
     {
       "path": "START_HERE_FOUNDER.md",
-      "bytes": 3861,
-      "sha256": "b9d749ed0c5629ea742e0bc55b5c693c5bafd8a4e536948b217e994b9a857f0b"
+      "bytes": 4307,
+      "sha256": "049fa18105c6141d48e763da9f5bcdc02aa59b02f575959af776c280fef3e33f"
     },
     {
       "path": "storage/.gitkeep",
@@ -607,6 +612,11 @@
       "path": "tests/analytics_tests.php",
       "bytes": 2584,
       "sha256": "dffe3bc6473c8026ceb924ee13c51b040794fa1ed1ecefcb5f426d185924d26a"
+    },
+    {
+      "path": "tests/apache_webroot_security.sh",
+      "bytes": 3305,
+      "sha256": "b58f3be2fcc2fceac7f06021e2d835b3ba99822b71c35c58616122a962400092"
     },
     {
       "path": "tests/backup_tests.php",
