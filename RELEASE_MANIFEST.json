@@ -595,8 +595,8 @@
     },
     {
       "path": "src/SourceCoverage.php",
-      "bytes": 7335,
-      "sha256": "b80f3b47ed1a3efff9fc46485a91e499e24ae3741b9830aaf76c579c934945fa"
+      "bytes": 7341,
+      "sha256": "457a49d22cbf0112e0869097d96c91dbcc700e859a05c28bd3585e82e2ed139e"
     },
     {
       "path": "src/ThemeSafety.php",
