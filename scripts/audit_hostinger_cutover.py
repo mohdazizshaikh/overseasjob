@@ -168,12 +168,18 @@ def compare_fingerprints(current: dict[str, str], candidate: Path, mode: str) ->
     html_stays = 'index.html' in current and 'index.html' not in new
     homepage_switch = html_stays and 'index.php' in new
     style_collisions = [p for p in changes if p.startswith('assets/')]
+    has_original_assets = any(p.startswith('assets/') for p in current)
+    has_original_images = any(p.startswith('images/') for p in current)
     risks = [
         'NO_HOSTINGER_PATH_OR_PHP_FPM_PERMISSION_EVIDENCE',
         'NO_VERIFIED_FULL_HOST_BACKUP_AND_RESTORE',
         'NO_ORIGINAL_THEME_PARITY_OR_OWNER_CUTOVER_APPROVAL',
         'PREVIEW_IS_NOINDEX_AND_MAY_AFFECT_EXISTING_SEO'
     ]
+    if not has_original_assets:
+        risks.insert(0, 'ORIGINAL_ASSETS_FROM_SCREENSHOT_NOT_PRESENT_IN_SUPPLIED_COPY')
+    if not has_original_images:
+        risks.insert(0, 'ORIGINAL_IMAGES_FROM_SCREENSHOT_NOT_PRESENT_IN_SUPPLIED_COPY')
     if homepage_switch:
         risks.insert(0, 'ROOT_HOME_PAGE_WILL_SWITCH_TO_PHP_DESPITE_INDEX_HTML_BEING_PRESERVED')
     if 'index.php' in changes:
@@ -185,6 +191,8 @@ def compare_fingerprints(current: dict[str, str], candidate: Path, mode: str) ->
     return {
         'mode': mode,
         'existing_files_scanned': len(current),
+        'original_screenshot_assets_present': has_original_assets,
+        'original_screenshot_images_present': has_original_images,
         'candidate_public_files': len(new),
         'existing_html_homepage_preserved_as_file': html_stays,
         'apache_directory_index_would_change_homepage': homepage_switch,
@@ -214,7 +222,11 @@ def audit_zip(source_zip: Path, candidate: Path) -> dict:
                                   'READ_ONLY_LOCAL_BACKUP_ZIP_AUDIT')
     # Cryptographic identifier is useful to match the exact snapshot later;
     # it is NOT proof a Hostinger backup is complete or restorable.
-    report['original_zip_sha256'] = hashlib.sha256(source_zip.read_bytes()).hexdigest()
+    digest = hashlib.sha256()
+    with source_zip.open('rb') as stream:
+        while chunk := stream.read(1024*1024):
+            digest.update(chunk)
+    report['original_zip_sha256'] = digest.hexdigest()
     report['source_archive_does_not_prove_restore'] = True
     return report
 
