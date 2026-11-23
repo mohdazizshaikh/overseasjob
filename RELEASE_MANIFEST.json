@@ -1,13 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.20-predeployment-module-ledger-release-veto",
+  "release": "0.9.21-public-source-cached-rights-revocation",
   "source_of_truth": "v1.3.3",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
     "status": "PENDING_PR_CI",
-    "tests": "Mandatory public launch and actual Hostinger flags in module status; full release regression suites"
+    "tests": "6 new public cached-source rights revocation regression cases plus full CI"
   },
   "canonical_documentation": {
     "passed": 71,
@@ -30,7 +30,7 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "Launch requires module ledger public_launch_ready=true and hostinger_verified=true alongside owner evidence, exact v1.4.1 canonical ZIP and source/legal/restore checks. This does not claim that live Hostinger has been inspected.",
+  "developer_notes": "Cached provider listings hidden immediately when a source's global/provider live flag, private rights file, source policy, or current review expires. No live provider enabled, no hosting change, no actual licence evidence claimed.",
   "file_count_excluding_manifest": 161,
   "files": [
     {
@@ -185,8 +185,8 @@
     },
     {
       "path": "docs/LIVE_PROVIDER_SOURCE_PERMISSION_GATE_V0912.md",
-      "bytes": 5069,
-      "sha256": "2b35750f77c2051bcf04dd803acf594286fbf5eac468a9e0ae02c57886355c56"
+      "bytes": 6365,
+      "sha256": "dad53a3b68c3c4a30b7e53d413d0d2a2269d940f07f74ca92a9617057f4e1b9b"
     },
     {
       "path": "docs/LOCAL_TEST_OUTPUT_2026-11-23_v050.txt",
@@ -400,8 +400,8 @@
     },
     {
       "path": "public/index.php",
-      "bytes": 94920,
-      "sha256": "b34a88b49a136b8c2bfdab9411f6ea6e1bf91207133094d5e47f98afa81414e7"
+      "bytes": 95424,
+      "sha256": "29f01ccfe655d14be59bac9cb15d4af4310b7089e99e197462268f4ac32ede6e"
     },
     {
       "path": "public/router.php",
@@ -630,8 +630,8 @@
     },
     {
       "path": "src/SourcePermissionGate.php",
-      "bytes": 4838,
-      "sha256": "0192f3ec3e275c4b3c57e69c9694b02203b54cfd9f7040ff2f9b457366e8419c"
+      "bytes": 5463,
+      "sha256": "d1c7488697c8b041f3a069d7808ee65cedbfa7cf5e1c935f0e266ef6c71fb067"
     },
     {
       "path": "src/ThemeSafety.php",
@@ -830,8 +830,8 @@
     },
     {
       "path": "tests/source_permission_gate_tests.php",
-      "bytes": 6296,
-      "sha256": "a9812b2667a3ea4df4c482a1f06e75ee4277a82a84c846759efc5e4c345f1f8d"
+      "bytes": 7961,
+      "sha256": "93f3622c2784ccbd13232a651f35eb72aa62dd8f6e69ed0e11d63ae15298e605"
     },
     {
       "path": "tests/tracker_tests.mjs",
