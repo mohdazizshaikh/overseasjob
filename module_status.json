@@ -385,7 +385,7 @@
     {
       "module_id": "M11",
       "implementation_status": "implemented",
-      "blocker_reason": "Local backup/restore path safeguards verified in 6/6 isolated main CI: 16/16 tests, symlinked private roots/sources/metadata denied and 0700/0600 protection. Real Hostinger original-site+DB backup/restore, encrypted offsite snapshots and monitoring/alerts remain UNVERIFIED.",
+      "blocker_reason": "Local backup/restore path safeguards verified in 6/6 isolated main CI: 16/16 tests, symlinked private roots/sources/metadata denied and 0700/0600 protection. Real Hostinger original-site+DB backup/restore, encrypted offsite snapshots and monitoring/alerts remain UNVERIFIED. M17 role_coverage.ndjson local evidence is now included in private SHA-256 snapshots and isolated restore testing; original live Hostinger website and database restoration remains unverified.",
       "implemented_subset": [
         "CLI health",
         "source coverage report",
@@ -404,7 +404,8 @@
         "tests/backup_tests.php",
         "tests/ops_snapshot_tests.php",
         "src/Backups.php",
-        "docs/M11_LOCAL_BACKUP_SYMLINK_DEFENSE_V0914.md"
+        "docs/M11_LOCAL_BACKUP_SYMLINK_DEFENSE_V0914.md",
+        "docs/M11_M17_PRIVATE_ROLE_LOG_BACKUP_V141.md"
       ],
       "tests": [],
       "last_verified_at": null
@@ -573,7 +574,7 @@
     {
       "module_id": "M17",
       "implementation_status": "blocked_with_reason",
-      "blocker_reason": "Strict v2 live-sync coverage record validation implemented; no fixtures, legacy dates or invalid records count toward the 14-day local observation shape. Actual 14 distinct authorised on-host source days, 2–3 job-role cohorts, reliable external provider rights and dated business/traffic evidence remain unavailable. Do not equate log record shape with verified live source provenance. Added three pilot role-cohort observation counters and local integrity tests; no fourteen actual authorised UTC days, no host evidence, and no independent provider licences.",
+      "blocker_reason": "Strict v2 live-sync coverage record validation implemented; no fixtures, legacy dates or invalid records count toward the 14-day local observation shape. Actual 14 distinct authorised on-host source days, 2–3 job-role cohorts, reliable external provider rights and dated business/traffic evidence remain unavailable. Do not equate log record shape with verified live source provenance. Added three pilot role-cohort observation counters and local integrity tests; no fourteen actual authorised UTC days, no host evidence, and no independent provider licences. M17 role_coverage.ndjson local evidence is now included in private SHA-256 snapshots and isolated restore testing; original live Hostinger website and database restoration remains unverified.",
       "spec_version": "v1.4.1",
       "routes": [],
       "dependencies": [
@@ -589,7 +590,9 @@
         "src/RoleCoverage.php",
         "tests/role_coverage_tests.php",
         "scripts/role_coverage_report.php",
-        "docs/M17_ROLE_COHORT_EVIDENCE_V1.md"
+        "docs/M17_ROLE_COHORT_EVIDENCE_V1.md",
+        "tests/backup_tests.php",
+        "docs/M11_M17_PRIVATE_ROLE_LOG_BACKUP_V141.md"
       ],
       "tests": [],
       "last_verified_at": null
