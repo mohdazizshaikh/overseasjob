@@ -1,13 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.16-himalayas-openapi-shape-guard-pr",
+  "release": "0.9.17-hostinger-candidate-zip-bounded-preflight",
   "source_of_truth": "v1.3.3",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
     "status": "PENDING_PR_CI",
-    "tests": "Strict official Location[] / UTC-offset string fixtures; legacy-cache-only parser regression; existing full workflow"
+    "tests": "Hostinger read-only candidate ZIP preflight hardening; 4 added unsafe archive checks; existing regression suite"
   },
   "canonical_documentation": {
     "passed": 71,
@@ -30,7 +30,7 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "Proposed PR: strict official Himalayas input shapes for new records; provider flags remain OFF; canonical v1.4.1 pack is separate, not deployed. No Hostinger cutover or live API approval.",
+  "developer_notes": "Read-only candidate ZIP preflight security improvement. No real Hostinger account inspection, original site backup restoration or production cutover performed. Provider and advertiser flags remain OFF.",
   "file_count_excluding_manifest": 159,
   "files": [
     {
@@ -165,8 +165,8 @@
     },
     {
       "path": "docs/HOSTINGER_ORIGINAL_HOMEPAGE_SWITCH_GUARD_V097.md",
-      "bytes": 6274,
-      "sha256": "30c21f2ac061428dd68a6e32fc47723ef4d2c79ae95d94eabe88248e58646dc1"
+      "bytes": 7558,
+      "sha256": "79bae8d536d86f449d1f7055e3e4cd6b7cd3a024dc79b2f172fb6c623cda1f30"
     },
     {
       "path": "docs/LIVE_PROVIDER_SOURCE_PERMISSION_GATE_V0912.md",
@@ -400,8 +400,8 @@
     },
     {
       "path": "scripts/audit_hostinger_cutover.py",
-      "bytes": 12812,
-      "sha256": "410c985c5401798b11b95375fa24205b767e723b0390b5fc921a0354794a624f"
+      "bytes": 14960,
+      "sha256": "d179eb583a80f397dc5cd5269987fd15fbf55aa7ff02296e6646a4cd35781bfa"
     },
     {
       "path": "scripts/backup.php",
@@ -715,8 +715,8 @@
     },
     {
       "path": "tests/hostinger_cutover_audit_tests.py",
-      "bytes": 8667,
-      "sha256": "ad2c22916187757bc0c6da727090d6582372f7ffd2071c376cf745752ccf69a8"
+      "bytes": 10495,
+      "sha256": "275078f0cf491b37e580537648bdd76a80532d95f8764a8432754eacf40b42b1"
     },
     {
       "path": "tests/hostinger_handoff_contract_tests.py",

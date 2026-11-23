@@ -87,6 +87,40 @@ with tempfile.TemporaryDirectory(prefix='oj-real-site-copy-test-') as tmp:
     try:audit(current,badzip)
     except ValueError:rejected=True
     check('Path traversal in candidate ZIP rejected',rejected)
+    # The local candidate audit must reject hostile ZIP metadata before any unbounded
+    # decompression; no Hostinger/network access is necessary for these cases.
+    from audit_hostinger_cutover import MAX_BUNDLE_BYTES
+    candidate_base=[('public_html/index.php',b'<?php echo "preview";'),
+                    ('public_html/.htaccess',b'DirectoryIndex index.php\nRequire all denied\n')]
+    def rejects_candidate(extra, reason, compression=zipfile.ZIP_STORED):
+        path=base/(reason.replace(' ','-')+'.zip')
+        with zipfile.ZipFile(path,'w',compression=compression) as z:
+            for name,payload in candidate_base+extra:
+                z.writestr(name,payload)
+        refused=False
+        try:candidate_fingerprints(path)
+        except (ValueError,zipfile.BadZipFile,RuntimeError):refused=True
+        check(reason,refused)
+    rejects_candidate([
+        ('public_html/assets/theme.css',b'old'),
+        ('public_html/assets/THEME.css',b'new')],
+        'Candidate case-insensitive asset collision rejected')
+    rejects_candidate([
+        ('public_html/assets/oversized.css',b'x'*(MAX_BUNDLE_BYTES+1))],
+        'Candidate declared expanded 25MB limit enforced before reading',
+        zipfile.ZIP_DEFLATED)
+    rejects_candidate([
+        ('public_html/assets/compression-bomb.css',b'a'*(1024*1024+200000))],
+        'Candidate abnormal compression ratio refused before streaming',
+        zipfile.ZIP_DEFLATED)
+    candidate_oversized=base/'candidate_archive_over_25MB.zip'
+    with candidate_oversized.open('wb') as stream:
+        stream.truncate(MAX_BUNDLE_BYTES+1)
+    refused=False
+    try:candidate_fingerprints(candidate_oversized)
+    except (ValueError,zipfile.BadZipFile,RuntimeError):refused=True
+    check('Candidate compressed container over size bound refused before ZIP open',refused)
+
     check('Original index.html remains byte-for-byte intact',
           (current/'index.html').read_bytes()==original_html)
     check('Report contains mandatory noindex SEO blocker',
