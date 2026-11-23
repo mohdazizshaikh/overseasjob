@@ -53,8 +53,15 @@ final class SourcePermissionGate
             $blockers[]='provider_operator_approval_disabled';
 
         $file=rtrim($root,'/').'/storage/provider_rights/'.$provider.'.json';
-        $safe=is_file($file)&&!is_link($file)&&filesize($file)!==false
-            &&filesize($file)>30&&filesize($file)<=self::MAX_ATTESTATION_BYTES;
+        // A shared-host private approval must be private by filesystem permissions too.
+        // Refuse symlinked/exposed rights folders and group/world-readable records.
+        $rightsDir=dirname($file);
+        $directoryMode=is_dir($rightsDir)&&!is_link($rightsDir)?@fileperms($rightsDir):false;
+        $fileMode=is_file($file)&&!is_link($file)?@fileperms($file):false;
+        $safe=$directoryMode!==false&&($directoryMode&0077)===0
+            &&$fileMode!==false&&($fileMode&0077)===0
+            &&filesize($file)!==false&&filesize($file)>30
+            &&filesize($file)<=self::MAX_ATTESTATION_BYTES;
         // The attestations are PRIVATE runtime files, deliberately absent from Git and
         // never placed in public_html or included in distributable source archives.
         $approval=null;
