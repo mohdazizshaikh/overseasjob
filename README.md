@@ -1,6 +1,8 @@
-# OverseasJob.in — Code Development v0.9.7 (direct Hostinger cutover safety guard)
+# OverseasJob.in — Code Development v0.9.8 (Apache private-webroot defense in depth)
 
 **State: working local application and future-gated contract foundation; NOT deployed, NOT public-launch ready.**
+
+**v0.9.8 real Apache security regression:** The public `.htaccess` now also denies commonly exposed ZIP/backup/key/CSV formats and mistaken private-source directories even if files were accidentally placed in `public_html`. GitHub tests real isolated Apache responses (403/200), `DirectoryIndex` priority, route rewriting and security headers. **This is not evidence of Hostinger's actual LiteSpeed/Apache or PHP-FPM configuration. Private code must still remain OUTSIDE public_html.** See `docs/APACHE_WEBROOT_DEFENSE_IN_DEPTH_V098.md`.
 
 **v0.9.7 cutover protection:** `scripts/audit_hostinger_cutover.py` compares a local copy of existing `public_html` against the exact public deployment ZIP without writing anything. It detects the **critical `DirectoryIndex index.php` homepage switch** even when `index.html` remains, plus `.htaccess` and theme asset collisions. Negative-fixture tests enforce the safety boundary; Hostinger bundle includes `STOP_READ_FIRST_NO_LIVE_CUTOVER.txt`. **Do not extract the public ZIP over live `public_html` without actual backup/restore, private-root permissions, original theme and SEO approvals.** See `docs/HOSTINGER_ORIGINAL_HOMEPAGE_SWITCH_GUARD_V097.md`.
 

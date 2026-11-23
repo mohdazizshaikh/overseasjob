@@ -80,6 +80,16 @@ jobs:
           RECRUITER_AUTH_HMAC_SECRET: ci-only-recruiter-auth-hmac-key-no-live-secrets-123
         run: php tests/mysql_integration_tests.php
 
+  apache-webroot-security:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install isolated Apache and verify DirectoryIndex and private file denials
+        run: bash tests/apache_webroot_security.sh
+
   real-browser-e2e:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
@@ -125,7 +135,7 @@ jobs:
           retention-days: 3
 
   hostinger-preview-artifacts:
-    needs: [deterministic-tests, mysql-pilot-integration, real-browser-e2e]
+    needs: [deterministic-tests, mysql-pilot-integration, real-browser-e2e, apache-webroot-security]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     timeout-minutes: 8
@@ -147,7 +157,7 @@ jobs:
           retention-days: 14
 
   canonical-v134-artifact:
-    needs: [deterministic-tests, mysql-pilot-integration, real-browser-e2e]
+    needs: [deterministic-tests, mysql-pilot-integration, real-browser-e2e, apache-webroot-security]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     timeout-minutes: 12
