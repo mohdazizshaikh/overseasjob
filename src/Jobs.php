@@ -26,7 +26,12 @@ final class Jobs
         $parts = parse_url($url);
         if (!is_array($parts) || strtolower($parts['scheme'] ?? '') !== 'https') return null;
         $host = strtolower((string)($parts['host'] ?? ''));
-        if (!$host || $host === 'localhost' || str_ends_with($host, '.local') || filter_var($host, FILTER_VALIDATE_IP)) return null;
+        // Accept conventional HTTPS DNS names, not literal IPs, hexadecimal/octal
+        // browser IP aliases, dotless private hosts or reserved internal zones.
+        // This is only syntactic hygiene; it cannot prove DNS or employment legitimacy.
+        if (!$host || filter_var($host, FILTER_VALIDATE_IP)
+            || !preg_match('/^(?=.{4,253}$)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\\.)+[a-z](?:[a-z0-9-]{0,61}[a-z0-9])?$/D',$host)
+            || preg_match('/\\.(?:local|internal|localhost)$/D',$host)) return null;
         if (isset($parts['user']) || isset($parts['pass']) || isset($parts['port'])) return null;
         if ($expectedHost && $host !== $expectedHost && !str_ends_with($host, '.'.$expectedHost)) return null;
         return $url;
@@ -278,10 +283,19 @@ final class Jobs
     {
         $now??=time();
         if (($j['display_status']??'hidden')!=='visible'||($j['availability']??'unknown')!=='active') return false;
-        $t=strtotime((string)($j['last_verified_at']??''));
-        if (!$t || ($now-$t)>self::MAX_AGE_SECONDS || $t>$now+300) return false;
+        // A malformed or relative timestamp is not evidence of a current job.
+        // An invalid supplied expiry is UNKNOWN and must hide, not become unlimited.
+        $verified=$j['last_verified_at']??null;
+        if(!is_string($verified)||!preg_match('/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$/D',$verified))return false;
+        $t=strtotime($verified);
+        if($t===false||gmdate('Y-m-d\\TH:i:s\\Z',$t)!==$verified
+            ||($now-$t)>self::MAX_AGE_SECONDS||$t>$now+300)return false;
         $expiration=$j['valid_through']??null;
-        if ($expiration && ($x=strtotime((string)$expiration)) && $x<=$now) return false;
+        if($expiration!==null){
+            if(!is_string($expiration)||!preg_match('/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$/D',$expiration))return false;
+            $x=strtotime($expiration);
+            if($x===false||gmdate('Y-m-d\\TH:i:s\\Z',$x)!==$expiration||$x<=$now)return false;
+        }
         return self::safeUrl($j['apply_url']??null)!==null && self::safeUrl($j['source_url']??null)!==null;
     }
     public static function listPublic(string $path, ?int $now=null): array

@@ -137,11 +137,28 @@ test('Himalayas suspicious premature short page fails closed', $shortPage);
 test('Unsafe JS URL rejected', Jobs::safeUrl('javascript:alert(1)')===null);
 test('HTTP URL rejected', Jobs::safeUrl('http://example.com/jobs')===null);
 test('IP target URL rejected', Jobs::safeUrl('https://127.0.0.1/job')===null);
+test('URL standard decimal, hex and octal localhost aliases denied', Jobs::safeUrl('https://2130706433/')===null
+    && Jobs::safeUrl('https://0x7f000001/')===null
+    && Jobs::safeUrl('https://0177.0.0.1/')===null);
+test('Internal and localhost subdomains refused even over HTTPS', Jobs::safeUrl('https://jobs.internal/apply')===null
+    && Jobs::safeUrl('https://foo.local/')===null
+    && Jobs::safeUrl('https://demo.localhost/')===null);
+test('Normal HTTPS public domain and subdomain preserved', Jobs::safeUrl('https://careers.example.org/apply')==='https://careers.example.org/apply'
+    && Jobs::safeUrl('https://jobs.example.co.uk/apply')==='https://jobs.example.co.uk/apply');
 test('Wrong Jobicy source host rejected', Jobs::fromJobicy(['id'=>2,'url'=>'https://evil.example/jobs/test','jobTitle'=>'A'])===null);
 test('Fresh active visible', Jobs::visible($a));
 test('Closed hidden', !Jobs::visible(array_merge($a,['availability'=>'closed'])));
 test('Stale after 72h hidden', !Jobs::visible(array_merge($a,['last_verified_at'=>'2025-01-01T00:00:00Z'])));
 test('Expired job hidden', !Jobs::visible(array_merge($a,['valid_through'=>'2020-01-01T00:00:00Z'])));
+test('Invalid provided expiry is never treated as unlimited', !Jobs::visible(array_merge($a,['valid_through'=>'not-a-real-date']))
+    && !Jobs::visible(array_merge($a,['valid_through'=>'2030-02-30T00:00:00Z']))
+    && !Jobs::visible(array_merge($a,['valid_through'=>''])));
+test('Relative or malformed verification time is not valid source evidence',
+    !Jobs::visible(array_merge($a,['last_verified_at'=>'tomorrow']))
+    && !Jobs::visible(array_merge($a,['last_verified_at'=>'2026-02-30T14:00:00Z']))
+    && !Jobs::visible(array_merge($a,['last_verified_at'=>'2026-11-24 14:00:00'])));
+test('Explicit future expiry remains valid for normally verified job',
+    Jobs::visible(array_merge($a,['valid_through'=>gmdate('Y-m-d\\TH:i:s\\Z',time()+86400)])));
 test('IN confirmed filter excludes unknown and US-only', Jobs::search([$a,$b],'','remote_from_india')===[]);
 test('Onsite abroad not faked by remote jobs', Jobs::search([$a,$b],'','onsite_abroad')===[]);
 // Atomic CLI ingestion tested in an isolated copy: never public-facing fake jobs.
