@@ -37,6 +37,14 @@ with tempfile.TemporaryDirectory(prefix='oj-manifest-proof-') as temp:
     git('-c','user.name=Fixture Tester','-c','user.email=fixture@example.test','commit','-m','initial fixture')
     current=(repo/MANIFEST).read_bytes()
     check('Complete Git index initially passes',perform(repo)[0])
+    cli=subprocess.run([sys.executable,str(ROOT/'scripts/refresh_release_manifest.py'),
+                        '--check','--root',str(repo)],capture_output=True,text=True,timeout=20)
+    check('Documented --check CLI passes valid Git source fixture',
+          cli.returncode==0 and 'PASS complete' in cli.stdout)
+    both=subprocess.run([sys.executable,str(ROOT/'scripts/refresh_release_manifest.py'),
+                         '--check','--write','--root',str(repo)],capture_output=True,text=True,timeout=20)
+    check('Cannot accidentally combine read-only check with write',
+          both.returncode==2)
     check('Read-only check never alters release manifest',(repo/MANIFEST).read_bytes()==current)
     (repo/'beta.txt').write_text('new source not yet in manifest')
     git('add','beta.txt')
