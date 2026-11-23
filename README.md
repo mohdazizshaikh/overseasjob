@@ -1,8 +1,10 @@
-# OverseasJob.in — Code Development v0.9.10 (M16 browser accessibility and print evidence)
+# OverseasJob.in — Code Development v0.9.11 (complete Git-tracked release manifest)
 
 **State: working local application and future-gated contract foundation; NOT deployed, NOT public-launch ready.**
 
-**v0.9.10 M16 visual and keyboard regression candidate:** 16 real Chromium routes now receive targeted landmark/heading/form name/image alt checks, keyboard skip link, 320 CSS px reflow, print-media output, and no-JS server rendering. CI uploads eight candidate-site desktop/mobile screenshots for the founder to compare with their original static theme when its backup becomes available. **This is NOT WCAG certification or actual Hostinger theme parity.** See `docs/M16_BROWSER_A11Y_REFLOW_PRINT_V0910.md`.
+**v0.9.11 manifest completeness:** `scripts/refresh_release_manifest.py --check` enforces every Git-tracked file is included in the release manifest, not only that existing listed SHA hashes match. Agent-safe `--write` regenerates all tracked paths and byte digests atomically. CI negative tests prove omissions, stale hashes, tracked secret-like filenames and symlinks are refused. This improves release accounting; not production readiness. See `docs/COMPLETE_RELEASE_MANIFEST_INVENTORY_V0911.md`.
+
+**v0.9.10 M16 visual and keyboard regression (107/107 isolated CI passed):** 16 real Chromium routes now receive targeted landmark/heading/form name/image alt checks, keyboard skip link, 320 CSS px reflow, print-media output, and no-JS server rendering. CI uploads eight candidate-site desktop/mobile screenshots for the founder to compare with their original static theme when its backup becomes available. **This is NOT WCAG certification or actual Hostinger theme parity.** See `docs/M16_BROWSER_A11Y_REFLOW_PRINT_V0910.md`.
 
 **v0.9.9 M17 data integrity:** The old 14-day counter accepted incomplete `{date,provider}` rows. New `src/SourceCoverage.php` uses versioned, consistent live non-fixture observation records, verified UTC days, source-review dates, and India-eligibility sum checks. `scripts/coverage_report.php` and owner health share the strict validator; legacy/fabricated fixture rows don't count. **Even 14 local valid rows cannot independently prove actual licensed provider responses or Hostinger operations.** The 14-day *real* source/2–3 role and business evidence gate remains blocked. See `docs/M17_SOURCE_OBSERVATION_EVIDENCE_V099.md`.
 
