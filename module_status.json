@@ -134,7 +134,8 @@
       "module_id": "M02",
       "implementation_status": "implemented",
       "tests": [
-        "source URLs, expiry and no-redist fixtures"
+        "source URLs, expiry and no-redist fixtures",
+        "Malformed/relative cached UTC source timestamps and numeric/private destination URL aliases rejected"
       ],
       "blocker_reason": "Source cache and persistent quarantine fixture-tested; production SQL migration not executed",
       "spec_version": "v1.4.1",
@@ -147,7 +148,8 @@
       ],
       "evidence_paths": [
         "tests/php_tests.php",
-        "src/Jobs.php"
+        "src/Jobs.php",
+        "docs/M02_PUBLIC_JOB_BOUNDARY_V141.md"
       ],
       "last_verified_at": null
     },
