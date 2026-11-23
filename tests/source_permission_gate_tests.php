@@ -53,6 +53,28 @@ try {
         $d['ready']&&$d['blockers']===[]);
     proofCheck('Even passing local attestation NEVER claims independent licence proof',
         $d['operator_attestation_not_external_verification']);
+    $policies=['jobicy'=>$policy];
+    proofCheck('Attested source may pass the cached-listing visibility guard',
+        SourcePermissionGate::publicDisplayAllowed($root,'jobicy',$policies,$flags,$today));
+    $revoked=$flags;
+    $revoked['SOURCE_LIVE_SYNC_ENABLED']='0';
+    proofCheck('Global runtime permission OFF immediately hides previously cached jobs',
+        !SourcePermissionGate::publicDisplayAllowed($root,'jobicy',$policies,$revoked,$today));
+    $revoked=$flags;
+    $revoked['SOURCE_JOBICY_RIGHTS_REVIEWED']='0';
+    proofCheck('Provider rights switch OFF immediately hides previously cached jobs',
+        !SourcePermissionGate::publicDisplayAllowed($root,'jobicy',$policies,$revoked,$today));
+    $revokedPolicy=$policy;$revokedPolicy['enabled']=false;
+    proofCheck('Revoked provider policy immediately hides previously cached jobs',
+        !SourcePermissionGate::publicDisplayAllowed($root,'jobicy',['jobicy'=>$revokedPolicy],$flags,$today));
+    proofCheck('Unknown provider or absent rights policy never shows imported jobs',
+        !SourcePermissionGate::publicDisplayAllowed($root,'unknown_provider',$policies,$flags,$today)
+        &&!SourcePermissionGate::publicDisplayAllowed($root,'himalayas',$policies,$flags,$today));
+    $publicController=(string)file_get_contents(dirname(__DIR__).'/public/index.php');
+    proofCheck('Public job/radar controller enforces source-rights gate before reading cache',
+        str_contains($publicController,'SourcePermissionGate::publicDisplayAllowed')
+        &&strpos($publicController,'SourcePermissionGate::publicDisplayAllowed')
+          <strpos($publicController,'Jobs::listPublic($root'));
     $old=$policy;$old['checked_at']='2026-09-01';
     proofCheck('Expired source-policy review date blocks requests',!$decision($old,$flags)['ready']);
     $future=$policy;$future['checked_at']='2026-11-24';
