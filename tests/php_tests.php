@@ -136,6 +136,15 @@ test('Himalayas suspicious premature short page fails closed', $shortPage);
 
 test('Unsafe JS URL rejected', Jobs::safeUrl('javascript:alert(1)')===null);
 test('HTTP URL rejected', Jobs::safeUrl('http://example.com/jobs')===null);
+test('Relative publication time never becomes a guessed provider post date',
+    Jobs::utc('tomorrow')===null && Jobs::utc('yesterday')===null && Jobs::utc('next Friday')===null);
+test('Malformed or impossible source dates are unknown, not silently normalized',
+    Jobs::utc('2026-02-30T12:00:00Z')===null && Jobs::utc('2026-11-24 12:00:00')===null
+    && Jobs::utc('2026-11-24')===null);
+test('RFC3339 offset maps genuine provider publication time to UTC',
+    Jobs::utc('2026-11-21T12:00:00+05:30')==='2026-11-21T06:30:00Z');
+test('Numeric source Unix milliseconds continue to convert correctly',
+    Jobs::utc(1795258800000)===gmdate('Y-m-d\TH:i:s\Z',1795258800));
 test('IP target URL rejected', Jobs::safeUrl('https://127.0.0.1/job')===null);
 test('URL standard decimal, hex and octal localhost aliases denied', Jobs::safeUrl('https://2130706433/')===null
     && Jobs::safeUrl('https://0x7f000001/')===null

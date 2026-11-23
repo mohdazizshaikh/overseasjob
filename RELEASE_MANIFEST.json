@@ -1,13 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.31-failclosed-provider-job-utc-and-url",
+  "release": "0.9.32-source-pubdate-no-relative-inference",
   "source_of_truth": "v1.4.1",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
     "status": "PENDING_PR_CI",
-    "tests": "Six additional public provider URL and UTC verification/expiry negative/positive cases; full founder v1.4.1 GitHub CI"
+    "tests": "Four new strict upstream original publication date regression cases + all existing CI including actual browser"
   },
   "canonical_documentation": {
     "status": "EXACT_FOUNDER_V141_ZIP_IMPORTED__CI_VALIDATION_PENDING",
@@ -35,7 +35,7 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "Imported job visibility now refuses relative/malformed/empty supplied source expiry, invalid source verification UTC and numerically encoded private/loopback hosts. Browser/link format checks do not validate upstream provider licensing, employer legitimacy or live Hostinger. RELEASE_READY and other live switches remain OFF.",
+  "developer_notes": "Reject PHP natural-language/relative/impossible source publication times, preserving genuine RFC3339 and numeric Unix ms; unknown remains null. No provider activated or Hostinger touched; full owner contract, real 14-day data, rights and disaster recovery gates remain open.",
   "file_count_excluding_manifest": 182,
   "files": [
     {
@@ -240,8 +240,8 @@
     },
     {
       "path": "docs/M02_PUBLIC_JOB_BOUNDARY_V141.md",
-      "bytes": 2206,
-      "sha256": "c51c89bd86a680359c804fb7c164a2a19b7ab82a28e82db4833dc32df8a70131"
+      "bytes": 3133,
+      "sha256": "5abcab655843870778bdfb7067e465eb56f44570affb2d06e4e10b3befa9701d"
     },
     {
       "path": "docs/M08_CANONICAL_ARENA_ROUTE_V141.md",
@@ -360,8 +360,8 @@
     },
     {
       "path": "module_status.json",
-      "bytes": 34672,
-      "sha256": "805d31b393be8074c691f6d31819f698debeb47006ec52a7b5446cf88441148b"
+      "bytes": 34808,
+      "sha256": "bacb0b9254226fde836fd57b516a21fc8f3aa191981cbb7859ddbd2159bb6b5b"
     },
     {
       "path": "public/.htaccess",
@@ -645,8 +645,8 @@
     },
     {
       "path": "src/Jobs.php",
-      "bytes": 19939,
-      "sha256": "bb04514a1f9583c8f14b633fb6832fdc1d1a33a128a706d59d205a3927ecc68c"
+      "bytes": 20332,
+      "sha256": "4a29b5e5f5eb6817bfa09c4047f923b9e8b7c3e0b7e69f0553943ae63b5e2e34"
     },
     {
       "path": "src/Launch.php",
@@ -900,8 +900,8 @@
     },
     {
       "path": "tests/php_tests.php",
-      "bytes": 21947,
-      "sha256": "909f7a66fb1c093e92a60a96124871233d81bd22a05e49886e4d68d6d6ce8673"
+      "bytes": 22616,
+      "sha256": "1f71b95cc5d2b97b24b5dcc6234fa3c9c8f18c7f7e69b17f97a1905e07b6b06d"
     },
     {
       "path": "tests/predeployment_report_tests.php",

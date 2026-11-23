@@ -10,15 +10,21 @@ final class Jobs
     {
         if ($input === null || $input === '') return null;
         try {
-            if (is_numeric($input)) {
-                $n = (float)$input;
-                if ($n <= 0 || !is_finite($n)) return null;
-                if ($n > 100000000000) $n /= 1000; // ms to seconds
-                return gmdate('Y-m-d\TH:i:s\Z', (int)$n);
+            if(is_int($input)||is_float($input)){
+                $n=(float)$input;
+                if($n<=0||!is_finite($n))return null;
+                if($n>100000000000)$n/=1000; // Official Himalayas milliseconds.
+                return gmdate('Y-m-d\TH:i:s\Z',(int)$n);
             }
-            $date = new DateTimeImmutable((string)$input);
+            if(!is_string($input))return null;
+            // Never infer original source dates from natural-language/relative input.
+            $value=trim($input);
+            if(!preg_match('/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,6})?(?:Z|[+-]\d{2}:\d{2})$/D',$value))
+                return null;
+            $date=new DateTimeImmutable($value);
+            if($date->format('Y-m-d\TH:i:s')!==substr($value,0,19))return null;
             return $date->setTimezone(new DateTimeZone('UTC'))->format('Y-m-d\TH:i:s\Z');
-        } catch (Throwable) {return null;}
+        }catch(Throwable){return null;}
     }
     public static function safeUrl(mixed $url, ?string $expectedHost = null): ?string
     {
