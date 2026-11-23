@@ -62,8 +62,42 @@ test('Himalayas US-only not eligible', Jobs::fromHimalayas($h[1])['eligible_from
 test('Himalayas timezone mismatch not eligible', Jobs::fromHimalayas($h[2])['eligible_from_in']==='not_allowed');
 test('Himalayas missing restrictions unknown', Jobs::fromHimalayas($h[3])['eligible_from_in']==='unknown');
 test('Invalid timezone offset stays unknown', Jobs::himalayasIndia(['locationRestrictions'=>[],'timezoneRestrictions'=>['INVALID']])['eligibility']==='unknown');
-test('Current upstream string[] location restrictions support India', Jobs::himalayasIndia(['locationRestrictions'=>['IN'],'timezoneRestrictions'=>[5.5]])['eligibility']==='allowed');
-test('Current upstream numeric timezone excludes India', Jobs::himalayasIndia(['locationRestrictions'=>[],'timezoneRestrictions'=>[-5]])['eligibility']==='not_allowed');
+test('Legacy helper still reads string-country numeric-zone cache', Jobs::himalayasIndia(['locationRestrictions'=>['IN'],'timezoneRestrictions'=>[5.5]])['eligibility']==='allowed');
+test('Legacy helper numeric-zone exclusion stays intact', Jobs::himalayasIndia(['locationRestrictions'=>[],'timezoneRestrictions'=>[-5]])['eligibility']==='not_allowed');
+
+// Official OpenAPI input examples (no real provider HTTP requests).
+$officialIn=['alpha2'=>'IN','name'=>'India','slug'=>'india'];
+$officialUs=['alpha2'=>'US','name'=>'United States','slug'=>'united-states'];
+test('Strict Himalayas official Location and UTC string permit India',
+    Jobs::himalayasIndia(['locationRestrictions'=>[$officialIn],'timezoneRestrictions'=>['UTC+5:30']],true)['eligibility']==='allowed');
+test('Strict Himalayas zero-padded UTC string permit India',
+    Jobs::himalayasIndia(['locationRestrictions'=>[],'timezoneRestrictions'=>['UTC+05:30']],true)['eligibility']==='allowed');
+test('Strict Himalayas allowed location but US timezone excludes India',
+    Jobs::himalayasIndia(['locationRestrictions'=>[$officialIn],'timezoneRestrictions'=>['UTC-5']],true)['eligibility']==='not_allowed');
+test('Strict Himalayas US location excludes India',
+    Jobs::himalayasIndia(['locationRestrictions'=>[$officialUs],'timezoneRestrictions'=>[]],true)['eligibility']==='not_allowed');
+test('Strict Himalayas string country is NOT current upstream format',
+    Jobs::himalayasIndia(['locationRestrictions'=>['IN'],'timezoneRestrictions'=>[]],true)['eligibility']==='unknown');
+test('Strict Himalayas numeric timezone is NOT current upstream format',
+    Jobs::himalayasIndia(['locationRestrictions'=>[],'timezoneRestrictions'=>[5.5]],true)['eligibility']==='unknown');
+test('Strict Himalayas country object must include alpha2, name and slug',
+    Jobs::himalayasIndia(['locationRestrictions'=>[['name'=>'India']],'timezoneRestrictions'=>[]],true)['eligibility']==='unknown');
+test('Strict Himalayas contradictory location object is unknown',
+    Jobs::himalayasIndia(['locationRestrictions'=>[['alpha2'=>'US','name'=>'India','slug'=>'india']],'timezoneRestrictions'=>[]],true)['eligibility']==='unknown');
+test('Strict Himalayas mixed valid and malformed location objects unknown',
+    Jobs::himalayasIndia(['locationRestrictions'=>[$officialIn,'IN'],'timezoneRestrictions'=>[]],true)['eligibility']==='unknown');
+test('Strict Himalayas missing timezone unknown',
+    Jobs::himalayasIndia(['locationRestrictions'=>[$officialIn]],true)['eligibility']==='unknown');
+test('Strict Himalayas missing geographic field unknown',
+    Jobs::himalayasIndia(['timezoneRestrictions'=>['UTC+5:30']],true)['eligibility']==='unknown');
+test('New provider normalization rejects legacy field types as proven eligible',
+    Jobs::fromHimalayas(array_merge($h[0],['locationRestrictions'=>['IN'],'timezoneRestrictions'=>[5.5]]))['eligible_from_in']==='unknown');
+test('New provider normalization accepts actual OpenAPI shape',
+    Jobs::fromHimalayas(array_merge($h[0],['locationRestrictions'=>[$officialIn],'timezoneRestrictions'=>['UTC+5:30']]))['eligible_from_in']==='allowed');
+test('Official publication and expiry integer ms normalize to UTC',
+    is_int($h[0]['pubDate']) && $h[0]['pubDate']>1000000000000
+    && Jobs::fromHimalayas($h[0])['source_published_at']===Jobs::utc($h[0]['pubDate'])
+    && Jobs::fromHimalayas($h[0])['valid_through']===Jobs::utc($h[0]['expiryDate']));
 
 test('Himalayas country full name India recognized', Jobs::himalayasIndia(['locationRestrictions'=>['India'],'timezoneRestrictions'=>[5.5]])['eligibility']==='allowed');
 test('Himalayas full name US excluded', Jobs::himalayasIndia(['locationRestrictions'=>['United States'],'timezoneRestrictions'=>[]])['eligibility']==='not_allowed');

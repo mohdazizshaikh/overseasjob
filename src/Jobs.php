@@ -57,30 +57,40 @@ final class Jobs
         if (preg_match('/^[+-]?\d+(?:\.\d+)?$/',$s) && abs((float)$s)<=14) return (int)round((float)$s*60);
         return null;
     }
-    /** Current upstream schema: locationRestrictions is string[] (ISO alpha2),
-     * timezoneRestrictions is number[] of UTC hour offsets. Legacy object values
-     * are accepted only to avoid dropping older cached records during migration.
-     * Missing restrictions remain UNKNOWN; empty arrays explicitly allow all.
+    /** Current upstream OpenAPI: locationRestrictions is Location[] objects with
+     * alpha2/name/slug; timezoneRestrictions is string[] of UTC offsets.
+     * The strict path applies to NEW external records. Old cache/test callers
+     * may still read historical strings/numbers without granting live eligibility.
+     * Missing/invalid restrictions remain UNKNOWN, [] explicitly unrestricted.
      */
-    public static function himalayasIndia(array $raw): array
+    public static function himalayasIndia(array $raw, bool $strictUpstream=false): array
     {
         $locations = $raw['locationRestrictions'] ?? null;
         $zones = $raw['timezoneRestrictions'] ?? null;
         $geo='unknown'; $time='unknown';
-        if (is_array($locations)) {
-            // Real provider responses can contain ISO2 codes, country names or
-            // legacy {alpha2,name} objects. Validate ALL entries, not just India.
+        if (is_array($locations) && (!$strictUpstream || array_is_list($locations))) {
+            // Official external records require complete, internally consistent
+            // Location objects. Legacy cached values use the non-strict helper.
             $valid=true; $codes=[];
             foreach ($locations as $value) {
+                if ($strictUpstream && (!is_array($value)
+                    || !isset($value['alpha2'],$value['name'],$value['slug'])
+                    || !is_string($value['slug']) || trim($value['slug'])==='')) {
+                    $valid=false; break;
+                }
                 $code=Countries::fromProviderValue($value);
                 if ($code===null) {$valid=false;break;}
                 $codes[]=$code;
             }
             if ($valid) $geo=(!$codes || in_array('IN',$codes,true))?'allowed':'not_allowed';
         }
-        if (is_array($zones)) {
+        if (is_array($zones) && (!$strictUpstream || array_is_list($zones))) {
             $valid=true; $minutes=[];
             foreach ($zones as $zone) {
+                if ($strictUpstream && (!is_string($zone)
+                    || preg_match('/^UTC[+-]\\d{1,2}(?::[0-5]\\d)?$/i',trim($zone))!==1)) {
+                    $valid=false; break;
+                }
                 $offset=self::timezoneOffset($zone);
                 if ($offset===null) { $valid=false;break; }
                 $minutes[]=$offset;
@@ -161,7 +171,8 @@ final class Jobs
             ||preg_match('/[\\x00-\\x20\\x7f]/',$guid) || !$apply || !$title) return null;
         // Do not fabricate a job detail URL when a provider supplies only an opaque GUID.
         $source=self::safeUrl($guid,'himalayas.app')??'https://himalayas.app/jobs';
-        $elig=self::himalayasIndia($j);
+        // Provider ingestion must not upgrade old numeric/string fixture shapes to allowed.
+        $elig=self::himalayasIndia($j,true);
         $period=strtolower((string)($j['salaryPeriod']??''));
         $periodMap=['hourly'=>'hour','daily'=>'day','weekly'=>'week','fortnightly'=>'fortnight','monthly'=>'month','annual'=>'year','yearly'=>'year'];
         return self::base('himalayas',hash('sha256',$guid),$source,$apply,$title,[
