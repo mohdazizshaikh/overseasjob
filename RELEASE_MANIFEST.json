@@ -1,13 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.32-source-pubdate-no-relative-inference",
+  "release": "0.9.33-T09-workproof-public-https-evidence-policy",
   "source_of_truth": "v1.4.1",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
     "status": "PENDING_PR_CI",
-    "tests": "Four new strict upstream original publication date regression cases + all existing CI including actual browser"
+    "tests": "Four new T09 WorkProof reserved/numeric/private HTTPS host denials plus full canonical, MySQL, Apache and real Chromium CI"
   },
   "canonical_documentation": {
     "status": "EXACT_FOUNDER_V141_ZIP_IMPORTED__CI_VALIDATION_PENDING",
@@ -35,8 +35,8 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "Reject PHP natural-language/relative/impossible source publication times, preserving genuine RFC3339 and numeric Unix ms; unknown remains null. No provider activated or Hostinger touched; full owner contract, real 14-day data, rights and disaster recovery gates remain open.",
-  "file_count_excluding_manifest": 182,
+  "developer_notes": "T09 WorkProof export now rejects reserved internal IP-like hosts, numeric aliases, userinfo/custom ports, consistent with T03. Syntactic host policy does not verify DNS or evidence legitimacy, and source/Hostinger/legal/14-day/deployment gates remain OFF.",
+  "file_count_excluding_manifest": 183,
   "files": [
     {
       "path": ".env.example",
@@ -334,6 +334,11 @@
       "sha256": "331c36a839392263ee4487e8200e065ec9fa9af6d0b6a6915fce87ce66c405f7"
     },
     {
+      "path": "docs/T09_WORKPROOF_HTTPS_LINK_POLICY_V141.md",
+      "bytes": 1676,
+      "sha256": "2ab21db36f31a80ab771c3b1baee9c1be9ebf0e2a98a04af2063713374a297c6"
+    },
+    {
       "path": "docs/TEST_OUTPUT_2026-11-22.txt",
       "bytes": 1871,
       "sha256": "80360608d59a5e1fc442e20d3976cc4f3cbc9c5da92ae80c0314eab53c49d543"
@@ -370,8 +375,8 @@
     },
     {
       "path": "public/assets/advanced_tools.mjs",
-      "bytes": 8429,
-      "sha256": "f0035e542db81f2a8de9244f5c84eacf1f1ac7377c65e4e1263220e1e1bed812"
+      "bytes": 8731,
+      "sha256": "944ae75f71ae7cab8b1fc6615630902e8cfd103f24d5ac6b9eb014a43130a5a7"
     },
     {
       "path": "public/assets/advanced_tools_ui.mjs",
@@ -730,8 +735,8 @@
     },
     {
       "path": "tests/advanced_tools_tests.mjs",
-      "bytes": 7989,
-      "sha256": "2a9969b0dab7e17ddb3632c38fb7a9997d16a94797e28a358941f1542da93315"
+      "bytes": 8956,
+      "sha256": "0a7d596e85b2e55e2c5ceeb4c8c105f6106023ca16ce1efb1be57b71ae026b0e"
     },
     {
       "path": "tests/analytics_tests.php",

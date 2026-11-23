@@ -38,6 +38,26 @@ check('T09 javascript URL rejected',()=>{let x=sample();x.projects[0].url='javas
 check('T09 HTTP URL rejected',()=>{let x=sample();x.projects[0].url='http://example.com';rejects(()=>portfolioDocument(x));});
 check('T09 embedded credentials rejected',()=>{let x=sample();x.projects[0].url='https://user:pass@example.org';rejects(()=>portfolioDocument(x));});
 check('T09 localhost URL rejected',()=>{let x=sample();x.projects[0].url='https://127.0.0.1/private';rejects(()=>portfolioDocument(x));});
+check('T09 refuses private and obfuscated loopback IPv4 project URLs',()=>{
+  for(const url of ['https://192.168.1.42/project','https://2130706433/x','https://0x7f000001/x']){
+    const x=sample();x.projects[0].url=url;rejects(()=>portfolioDocument(x));
+  }
+});
+check('T09 rejects internal and reserved DNS names',()=>{
+  for(const url of ['https://jobs.internal/','https://something.local/','https://foo.localhost/']){
+    const x=sample();x.projects[0].url=url;rejects(()=>portfolioDocument(x));
+  }
+});
+check('T09 rejects IPv6 literal, userinfo and custom port',()=>{
+  for(const url of ['https://[::1]/','https://user@example.org/a','https://example.org:8443/a']){
+    const x=sample();x.projects[0].url=url;rejects(()=>portfolioDocument(x));
+  }
+});
+check('T09 normal public HTTPS evidence host still supported',()=>{
+  const x=sample();x.projects[0].url='https://portfolio.example.org/work';
+  assert.match(portfolioDocument(x),/portfolio\.example\.org/);
+});
+
 check('T09 empty project rejected',()=>{let x=sample();x.projects[0].description='';rejects(()=>portfolioDocument(x));});
 check('T09 more than 10 projects rejected',()=>{let x=sample();x.projects=Array(MAX_PROJECTS+1).fill(x.projects[0]);rejects(()=>portfolioDocument(x));});
 check('T09 exactly 10 projects accepted',()=>{let x=sample();x.projects=Array(MAX_PROJECTS).fill(x.projects[0]);assert.equal((portfolioDocument(x).match(/class="project"/g)||[]).length,10);});
