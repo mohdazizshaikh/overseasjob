@@ -1,6 +1,8 @@
-# OverseasJob.in v0.9.10 — Founder handoff (23 November 2026)
+# OverseasJob.in v0.9.11 — Founder handoff (23 November 2026)
 
 **Current position: code development ongoing; PUBLIC DEPLOYMENT IS NOT APPROVED.**
+
+**Code-release accuracy improvement:** Earlier SHA-256 checks could miss an entirely unlisted new file. v0.9.11 adds automatic Git-tracked inventory comparison and safe manifest regeneration, with negative tests. It does not change your existing Hostinger files, create subscriptions or enable job feeds. See `docs/COMPLETE_RELEASE_MANIFEST_INVENTORY_V0911.md`.
 
 **New screenshot comparison preparation:** Code now generates desktop/mobile pictures of the **new candidate site only** on GitHub CI, alongside keyboard, form label, 320px screen, print and no-JS tests. Your original live static theme has NOT been copied into the repository and remains untouched. These screenshots are for comparison later, not a recommendation to overwrite the homepage. See `docs/M16_BROWSER_A11Y_REFLOW_PRINT_V0910.md`.
 

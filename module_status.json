@@ -1,6 +1,6 @@
 {
   "spec_version": "v1.3.4",
-  "release": "gate1+gate2+gate3-local-v0.9.10-browser-accessibility-qa-pending-ci",
+  "release": "gate1+gate2+gate3-local-v0.9.11-complete-release-inventory-under-ci",
   "development_state": "LOCAL_CODE_WITH_VERIFIED_DISPOSABLE_CI_NOT_DEPLOYED",
   "evidence": [
     "tests/php_tests.php",
@@ -93,7 +93,10 @@
         "tests/hostinger_cutover_audit_tests.py",
         "docs/HOSTINGER_ORIGINAL_HOMEPAGE_SWITCH_GUARD_V097.md",
         "tests/apache_webroot_security.sh",
-        "docs/APACHE_WEBROOT_DEFENSE_IN_DEPTH_V098.md"
+        "docs/APACHE_WEBROOT_DEFENSE_IN_DEPTH_V098.md",
+        "scripts/refresh_release_manifest.py",
+        "tests/manifest_inventory_tests.py",
+        "docs/COMPLETE_RELEASE_MANIFEST_INVENTORY_V0911.md"
       ],
       "tests": [],
       "last_verified_at": null
@@ -549,7 +552,10 @@
         "tests/apache_webroot_security.sh",
         "docs/APACHE_WEBROOT_DEFENSE_IN_DEPTH_V098.md",
         "tests/browser_a11y_print.py",
-        "docs/M16_BROWSER_A11Y_REFLOW_PRINT_V0910.md"
+        "docs/M16_BROWSER_A11Y_REFLOW_PRINT_V0910.md",
+        "scripts/refresh_release_manifest.py",
+        "tests/manifest_inventory_tests.py",
+        "docs/COMPLETE_RELEASE_MANIFEST_INVENTORY_V0911.md"
       ],
       "last_verified_at": null
     },
@@ -711,7 +717,7 @@
     "ci_url": "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45161956670"
   },
   "browser_accessibility_qa": {
-    "status": "ISOLATED_CHROMIUM_M16_PENDING_CI",
+    "status": "VERIFIED_ISOLATED_CHROMIUM_107_CHECKS",
     "test": "tests/browser_a11y_print.py",
     "guide": "docs/M16_BROWSER_A11Y_REFLOW_PRINT_V0910.md",
     "routes_covered": 16,
@@ -722,6 +728,15 @@
     "visual_baseline_screenshots": 8,
     "original_site_theme_parity_verified": false,
     "real_host_browser_tested": false,
-    "screen_reader_and_wcag_certification": false
+    "screen_reader_and_wcag_certification": false,
+    "verified_run_url": "https://github.com/mohdazizshaikh/overseasjob/actions/runs/45163104776"
+  },
+  "complete_release_manifest": {
+    "status": "GIT_TRACKED_INVENTORY_CHECK_PENDING_CI",
+    "script": "scripts/refresh_release_manifest.py",
+    "tests": "tests/manifest_inventory_tests.py",
+    "docs": "docs/COMPLETE_RELEASE_MANIFEST_INVENTORY_V0911.md",
+    "exhaustive_tracked_files_claim_after_ci": true,
+    "production_host_verified": false
   }
 }
