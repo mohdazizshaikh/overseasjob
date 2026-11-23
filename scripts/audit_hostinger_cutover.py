@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Read-only cutover audit against a LOCAL copy of the current Hostinger public_html.
 
-Checks likely effects of the SHA-256-verified candidate public ZIP. Does not deploy,
+Checks likely effects of a verified candidate ZIP vs a local folder or downloaded original ZIP. Does not deploy,
 change hosting, back up the actual host, or approve production cutover.
 """
 from __future__ import annotations
@@ -57,6 +57,73 @@ def local_fingerprints(site: Path) -> dict[str, str]:
     return dict(sorted(files.items()))
 
 
+def backup_zip_fingerprints(source_zip: Path) -> dict[str, str]:
+    """Audit a downloaded public_html ZIP without extracting or writing files.
+
+    Accept either files rooted directly in the ZIP or one literal public_html/
+    wrapper. Refuse additional/nested roots rather than guessing Hostinger paths.
+    CRC is verified while streaming every member; never trust ZIP filenames.
+    """
+    if source_zip.is_symlink() or not source_zip.is_file():
+        raise ValueError('Original-site ZIP must be a regular local file, not a symlink')
+    if source_zip.stat().st_size > MAX_SITE_BYTES:
+        raise ValueError('Original-site compressed ZIP exceeds 200 MB safety bound')
+    files: dict[str, str] = {}
+    seen: set[str] = set()
+    byte_total = 0
+    with zipfile.ZipFile(source_zip) as z:
+        items = z.infolist()
+        if len(items) > MAX_SITE_FILES + 400:
+            raise ValueError('Original-site ZIP has too many entries')
+        # A single optional public_html/ folder wrapper is recognised.
+        wrapped = any(x.filename == 'public_html/' for x in items) or (
+            not any(x.filename in ('index.html', 'index.php') for x in items)
+            and any(x.filename in ('public_html/index.html', 'public_html/index.php') for x in items)
+        )
+        prefix = 'public_html/' if wrapped else ''
+        for entry in items:
+            original = entry.filename
+            # ZIP dir names end in /; validate underlying path without the slash.
+            rawname = original[:-1] if entry.is_dir() else original
+            if not safe_entry(rawname) or (prefix and not original.startswith(prefix)):
+                raise ValueError('Unsafe, unexpected-root or mixed-root original ZIP path')
+            if entry.flag_bits & 0x1:
+                raise ValueError('Encrypted original-site archive cannot be audited')
+            mode = (entry.external_attr >> 16) & 0o170000
+            if entry.is_dir():
+                if mode not in (0, 0o040000):
+                    raise ValueError('Non-directory filesystem object in original-site ZIP')
+                continue
+            if mode not in (0, 0o100000):
+                raise ValueError('Nonregular file/symlink in original-site ZIP')
+            if entry.file_size < 0:
+                raise ValueError('Invalid ZIP entry size')
+            name = original[len(prefix):] if prefix else original
+            if not safe_entry(name) or name.casefold() in seen:
+                raise ValueError('Duplicate/unsafe original-site ZIP file')
+            seen.add(name.casefold())
+            byte_total += entry.file_size
+            if byte_total > MAX_SITE_BYTES or len(files) >= MAX_SITE_FILES:
+                raise ValueError('Original-site ZIP exceeds 2500 files/200 MB bounds')
+            if entry.file_size > 1024*1024 and (
+                    entry.compress_size == 0 or entry.file_size > 400*entry.compress_size):
+                raise ValueError('Original ZIP compression ratio unsafe')
+            hashvalue = hashlib.sha256()
+            actual = 0
+            with z.open(entry, 'r') as stream:
+                while chunk := stream.read(1024*1024):
+                    actual += len(chunk)
+                    if actual > entry.file_size or actual > MAX_SITE_BYTES:
+                        raise ValueError('Original ZIP expands beyond declared safety bounds')
+                    hashvalue.update(chunk)
+            if actual != entry.file_size:
+                raise ValueError('Original ZIP size mismatch')
+            files[name] = hashvalue.hexdigest()
+    if not ('index.html' in files or 'index.php' in files):
+        raise ValueError('ZIP is not a public_html backup: missing index.html/index.php at root')
+    return dict(sorted(files.items()))
+
+
 def candidate_fingerprints(public_zip: Path) -> tuple[dict[str, str], bytes]:
     if public_zip.is_symlink() or not public_zip.is_file():
         raise ValueError('Candidate public ZIP must be a regular local file')
@@ -93,8 +160,7 @@ def candidate_fingerprints(public_zip: Path) -> tuple[dict[str, str], bytes]:
     return dict(sorted(proposed.items())), htaccess
 
 
-def audit(site: Path, candidate: Path) -> dict:
-    current = local_fingerprints(site)
+def compare_fingerprints(current: dict[str, str], candidate: Path, mode: str) -> dict:
     new, _ = candidate_fingerprints(candidate)
     same = sorted(p for p in new if p in current and new[p] == current[p])
     changes = sorted(p for p in new if p in current and new[p] != current[p])
@@ -117,7 +183,7 @@ def audit(site: Path, candidate: Path) -> dict:
     if style_collisions:
         risks.insert(0, 'EXISTING_THEME_ASSETS_WOULD_BE_REPLACED')
     return {
-        'mode': 'READ_ONLY_LOCAL_COPY_AUDIT',
+        'mode': mode,
         'existing_files_scanned': len(current),
         'candidate_public_files': len(new),
         'existing_html_homepage_preserved_as_file': html_stays,
@@ -138,13 +204,34 @@ def audit(site: Path, candidate: Path) -> dict:
     }
 
 
+def audit(site: Path, candidate: Path) -> dict:
+    return compare_fingerprints(local_fingerprints(site), candidate,
+                                'READ_ONLY_LOCAL_COPY_AUDIT')
+
+
+def audit_zip(source_zip: Path, candidate: Path) -> dict:
+    report = compare_fingerprints(backup_zip_fingerprints(source_zip), candidate,
+                                  'READ_ONLY_LOCAL_BACKUP_ZIP_AUDIT')
+    # Cryptographic identifier is useful to match the exact snapshot later;
+    # it is NOT proof a Hostinger backup is complete or restorable.
+    report['original_zip_sha256'] = hashlib.sha256(source_zip.read_bytes()).hexdigest()
+    report['source_archive_does_not_prove_restore'] = True
+    return report
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--current-site-copy', required=True, type=Path)
+    source = parser.add_mutually_exclusive_group(required=True)
+    source.add_argument('--current-site-copy', type=Path,
+                        help='already extracted local public_html directory')
+    source.add_argument('--current-site-zip', type=Path,
+                        help='downloaded, original public_html ZIP; never extracted by tool')
     parser.add_argument('--candidate-public-zip', required=True, type=Path)
     args = parser.parse_args()
     try:
-        result = audit(args.current_site_copy, args.candidate_public_zip)
+        result = (audit_zip(args.current_site_zip, args.candidate_public_zip)
+                  if args.current_site_zip is not None
+                  else audit(args.current_site_copy, args.candidate_public_zip))
         print(json.dumps(result, indent=2, sort_keys=True))
         return 2  # Comparing two directories is NEVER authorisation for a live cutover.
     except (OSError, ValueError, KeyError, zipfile.BadZipFile, RuntimeError) as exc:
