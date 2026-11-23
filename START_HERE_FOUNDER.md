@@ -1,6 +1,8 @@
-# OverseasJob.in v0.9.9 — Founder handoff (23 November 2026)
+# OverseasJob.in v0.9.10 — Founder handoff (23 November 2026)
 
 **Current position: code development ongoing; PUBLIC DEPLOYMENT IS NOT APPROVED.**
+
+**New screenshot comparison preparation:** Code now generates desktop/mobile pictures of the **new candidate site only** on GitHub CI, alongside keyboard, form label, 320px screen, print and no-JS tests. Your original live static theme has NOT been copied into the repository and remains untouched. These screenshots are for comparison later, not a recommendation to overwrite the homepage. See `docs/M16_BROWSER_A11Y_REFLOW_PRINT_V0910.md`.
 
 **14-day source evidence guard:** The old metric could count rows containing only a date and provider name. Version 0.9.9 accepts only complete non-fixture live-sync records with matching UTC timestamp, source review, nonzero valid jobs, and India-allowed/unknown/restricted totals. The report cannot produce real 14 days without actual permitted daily source fetching on an authorised host. Use `php scripts/coverage_report.php` after real configured syncs, and read `docs/M17_SOURCE_OBSERVATION_EVIDENCE_V099.md`. Local tests never create genuine production history.
 
