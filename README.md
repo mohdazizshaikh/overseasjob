@@ -1,6 +1,8 @@
-# OverseasJob.in — Code Development v0.9.13 (Hostinger original ZIP cutover audit)
+# OverseasJob.in — Code Development v0.9.14 (M11 backup/restore symlink safety)
 
 **State: working local application and future-gated contract foundation; NOT deployed, NOT public-launch ready.**
+
+**v0.9.14 M11 backup safety:** Local private-storage backup/restore now fail closed for symlinked original data, storage root, backup directory and backup checksum metadata, and require 0700 backup directories/0600 backup files. Malicious-path and positive local restore tests are CI-gated. **This does not back up your actual original Hostinger `public_html` or MySQL, prove restore, or authorise a public cutover.** See `docs/M11_LOCAL_BACKUP_SYMLINK_DEFENSE_V0914.md`.
 
 **v0.9.13 M00 direct Hostinger backup ZIP audit:** `scripts/audit_hostinger_cutover.py --current-site-zip BACKUP.zip --candidate-public-zip PUBLIC.zip` now compares the downloaded original-site ZIP **without extraction**, detects root/index.html, original asset collision and missing screenshot folders, and rejects path traversal, symlinks, mixed roots or oversized/unsafe ZIPs. It is read-only and always refuses to approve production cutover. A ZIP's SHA/CRC is not proof of a complete or restorable Hostinger backup. See `docs/HOSTINGER_ORIGINAL_HOMEPAGE_SWITCH_GUARD_V097.md`.
 
