@@ -23,6 +23,8 @@ jobs:
           sh tests/run.sh
       - name: Verify isolated split Hostinger preview archives
         run: python3 tests/hostinger_bundle_tests.py
+      - name: Test read-only current-homepage switch and asset-collision cutover guard
+        run: python3 tests/hostinger_cutover_audit_tests.py
       - name: Canonical Source of Truth contract validation
         shell: bash
         run: |
@@ -134,6 +136,7 @@ jobs:
       - name: Verify release and safely create separate upload archives
         run: |
           python3 tests/hostinger_bundle_tests.py
+          python3 tests/hostinger_cutover_audit_tests.py
           python3 scripts/build_hostinger_bundle.py --output artifacts/hostinger-preview
       - name: Attach downloadable archives for manual review only
         uses: actions/upload-artifact@v4
