@@ -506,7 +506,7 @@
     {
       "module_id": "M14",
       "implementation_status": "blocked_with_reason",
-      "blocker_reason": "v0.7.0 inbound API code preserved and now further constrained by representative verification/evidence fields. Default API disabled; disposable MySQL integration tested only if CI job succeeds, not on real Hostinger. Employer pilot identity and public approval gates still unmet.",
+      "blocker_reason": "v0.7.0 inbound API code preserved and now further constrained by representative verification/evidence fields. Default API disabled; disposable MySQL integration tested only if CI job succeeds, not on real Hostinger. Employer pilot identity and public approval gates still unmet. Canonical JobPatch redistribution-consent change and independent actor/time/version audit still unimplemented; no legal/public approval inferred.",
       "implemented_subset": [
         "Inbound tenant-scoped create/read/edit/close/usage API",
         "Strict bearer fingerprints and rate limits",
@@ -518,7 +518,8 @@
         "53 partner API deterministic checks",
         "Disposable MySQL CI job authored",
         "Owner-derived invalid RFC3339 calendar and stored PATCH consent evidence fail-closed checks",
-        "Manual publication and public projection fail closed on invalid stored consent/expiry, beyond initial create/PATCH validation"
+        "Manual publication and public projection fail closed on invalid stored consent/expiry, beyond initial create/PATCH validation",
+        "Authenticated JobResponse reports explicit stored redistribution decision; missing means false"
       ],
       "spec_version": "v1.4.1",
       "routes": [
@@ -535,7 +536,8 @@
         "docs/M12_M14_EMPLOYER_CONSENT_AND_EXPIRY_V141.md",
         "src/EmployerReview.php",
         "tests/employer_review_portal_tests.php",
-        "docs/M13_REVIEW_PUBLIC_CONSENT_EXPIRY_V141.md"
+        "docs/M13_REVIEW_PUBLIC_CONSENT_EXPIRY_V141.md",
+        "docs/M14_PARTNER_JOBRESPONSE_DISTRIBUTION_CONSENT_V141.md"
       ],
       "last_verified_at": null
     },

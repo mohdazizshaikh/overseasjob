@@ -1,13 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.36-human-reviewed-public-consent-expiry-guards",
+  "release": "0.9.37-M14-partner-jobresponse-distribution-consent",
   "source_of_truth": "v1.4.1",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
     "status": "PENDING_PR_CI",
-    "tests": "Seven new M13 human publish and public projection shape checks; existing multi-module employer/partner/disposable MySQL security and browser tests"
+    "tests": "Three authenticated Partner JobResponse distribution-consent true/false/missing tests and existing 18/10 owner traceability, MySQL, Apache, Chromium"
   },
   "canonical_documentation": {
     "status": "EXACT_FOUNDER_V141_ZIP_IMPORTED__CI_VALIDATION_PENDING",
@@ -35,8 +35,8 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "Human-reviewed direct employer jobs need recorded prior consent terms and UTC time plus true unexpired UTC expiry before publish or public projection. Shape checks do not prove actor/legal permission; standalone real Hostinger, source rights, 14 genuine calendar days and rollback remain blocked.",
-  "file_count_excluding_manifest": 186,
+  "developer_notes": "Only return explicitly persisted owner redistribution consent in authenticated API, false on absent/malformed. Does not implement granting new JobPatch rights or canonical actor/time audit. Hostinger, source legal rights, 14 genuine observation days and deployment NO-GO.",
+  "file_count_excluding_manifest": 187,
   "files": [
     {
       "path": ".env.example",
@@ -269,6 +269,11 @@
       "sha256": "4db239a33b350e5d68ea19daa463c3d81f95a1a528865a4aedb8cbdc12e73949"
     },
     {
+      "path": "docs/M14_PARTNER_JOBRESPONSE_DISTRIBUTION_CONSENT_V141.md",
+      "bytes": 2001,
+      "sha256": "608940bfa7e5e2e81c74a9924013f9ef6229481b9b6c9b75d5b3c7ea731ddda6"
+    },
+    {
       "path": "docs/M16_BROWSER_A11Y_REFLOW_PRINT_V0910.md",
       "bytes": 2592,
       "sha256": "85496fea4989d88a2b952c5744e8557f25ede79831914bc42c4a59b5750f25ac"
@@ -380,8 +385,8 @@
     },
     {
       "path": "module_status.json",
-      "bytes": 37037,
-      "sha256": "209762c48394e37a63fd79e296af70c36da12d4131df08fead77b115db9b11c1"
+      "bytes": 37358,
+      "sha256": "a5550a9c045625dfa7b6c3c1ff4515f2b8d1570ba6aa8a7617441aeca9294a83"
     },
     {
       "path": "public/.htaccess",
@@ -685,8 +690,8 @@
     },
     {
       "path": "src/PartnerApi.php",
-      "bytes": 10597,
-      "sha256": "1ff60d31055161dbc015d00ea0befd5039b576598de8bb9d190f6328c11d8b93"
+      "bytes": 10854,
+      "sha256": "681acd226987bd2f788d0658a13e8ff286ffa9035e65b4bff9e0b503a46e9be9"
     },
     {
       "path": "src/PartnerMysqlStore.php",
@@ -915,8 +920,8 @@
     },
     {
       "path": "tests/partner_api_tests.php",
-      "bytes": 13033,
-      "sha256": "8199d6d2caee9a59e6883a652b8edf539c93935f5dfb90f60a17712e4d879b31"
+      "bytes": 13592,
+      "sha256": "2fd55931d47a63ebcb09928b26751268f7f8294ce48b7ddbec4f292b19db9cb2"
     },
     {
       "path": "tests/php_tests.php",

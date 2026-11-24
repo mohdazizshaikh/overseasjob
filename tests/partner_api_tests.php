@@ -73,6 +73,12 @@ testP('Reject mass-assigned publish status',$req('POST','/api/v1/partner/jobs',[
 $created=$req('POST','/api/v1/partner/jobs',[],$json);
 testP('Create returns 201 pending_review',$created['status']===201&&$created['body']['status']==='pending_review');
 testP('No public URL on unreviewed job',array_key_exists('public_url',$created['body'])&&$created['body']['public_url']===null);
+testP('Partner JobResponse exposes an actual false default redistribution consent',
+    array_key_exists('distribution_consent',$created['body'])&&$created['body']['distribution_consent']===false);
+testP('Partner JobResponse exposes true only if explicitly persisted for owned job',
+    PartnerApi::publicJob(['status'=>'pending_review','distribution_consent'=>true])['distribution_consent']===true);
+testP('Legacy missing distribution consent never implies approval',
+    PartnerApi::publicJob(['status'=>'pending_review'])['distribution_consent']===false);
 testP('Unreviewed job lacks fake certification',!array_key_exists('approved',$created['body'])&&!array_key_exists('owner_org_id',$created['body']));
 testP('Job revision ETag',$created['headers']['ETag']==='"1"');
 $id=$created['body']['id'];
