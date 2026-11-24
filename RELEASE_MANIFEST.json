@@ -1,13 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.35-provider-canonical-endpoint-trust-boundary",
+  "release": "0.9.35b-provider-no-fictional-status-or-cli",
   "source_of_truth": "v1.4.1",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
-    "status": "PENDING_PR_CI",
-    "tests": "Strict Jobicy and Himalayas browse endpoint path+query allowlist; fictitious per-job status 200/410 must never be treated as source authority; full existing CI"
+    "status": "PENDING_RETEST_PR_CI",
+    "tests": "Full canonical exact API endpoint allowlist + legacy simulated 410/200 CLI hard disabled, cache unchanged, source/SQL/browser suites"
   },
   "canonical_documentation": {
     "status": "EXACT_FOUNDER_V141_ZIP_IMPORTED__CI_VALIDATION_PENDING",
@@ -35,7 +35,7 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "Backend source client blocks undocumented per-job Himalayas 410 endpoint paths and arbitrary Jobicy approved-host paths. Legacy synthetic status helpers fail closed and admit unknown. Current live source/provider/partner/recruiter/ads/release OFF. Original Hostinger backup/restore, real 14-day allowed jobs and legal source rights remain unverified.",
+  "developer_notes": "Official provider HTTP routes only; no imaginary Himalayas per-job 410 status probe accepted, even in fixture CLI. Historical simulator permanently fail closed. Default OFF rights, recruiter, partner, ads and launch preserved. No Hostinger, legal provider or 14 genuine days of jobs evidence.",
   "file_count_excluding_manifest": 185,
   "files": [
     {
@@ -305,8 +305,8 @@
     },
     {
       "path": "docs/PROVIDER_HTTP_CANONICAL_ENDPOINTS_V141.md",
-      "bytes": 2017,
-      "sha256": "9864d341a9f41f185cc96411acf7c7a8d78c39475643981c06650b3792dcbb27"
+      "bytes": 2582,
+      "sha256": "277447a11ed5d13539c348cfebba72f1f88678010a3b200c73534fef5d7ae209"
     },
     {
       "path": "docs/RC_IMPLEMENTATION_CHANGELOG.md",
@@ -375,8 +375,8 @@
     },
     {
       "path": "module_status.json",
-      "bytes": 35901,
-      "sha256": "68e848ba79e8b73f4c28fa9fb220a5c173de5c68cb415aa926bb41642b6ca4ac"
+      "bytes": 36203,
+      "sha256": "b7e81371c2c577c13dd131f22831450b9e3a212317bca45fd8428148d0871a5f"
     },
     {
       "path": "public/.htaccess",
@@ -505,8 +505,8 @@
     },
     {
       "path": "scripts/check_himalayas_status.php",
-      "bytes": 5308,
-      "sha256": "cda75696123077ea1efbf38799b23a8143b6954ea9a3edff3f63a8e27baeba83"
+      "bytes": 554,
+      "sha256": "950828f57f4e7e0b20801b45259dbe9b13b1e2a82dd8c45b6b05eb6bd7399b4a"
     },
     {
       "path": "scripts/coverage_report.php",
@@ -915,8 +915,8 @@
     },
     {
       "path": "tests/php_tests.php",
-      "bytes": 22197,
-      "sha256": "39aaa1687214bf48fccef50a307b6b8f9747b95117e4cfb10153f464c6171049"
+      "bytes": 21596,
+      "sha256": "06e17544ef3edd02c287ce2613e9e118c41d68b7d353f7e6b8fd3c2c61cc6634"
     },
     {
       "path": "tests/predeployment_report_tests.php",
