@@ -14,3 +14,6 @@
 
 ## External evidence still required
 This change makes no live provider call and cannot establish source licences (including Himalayas API-vs-terms ambiguity), fourteen genuine role-day observations, Hostinger backup/restore, original site preservation or production authority. **Provider activation and public launch remain NO-GO.**
+
+## Historical fixture command safety
+The former `scripts/check_himalayas_status.php --fixture=...` also edited local job-cache lifecycle state from hypothetical 200/404/410 fixtures. It now exits with code 3 for **both** live and fixture modes, never reads, changes or falsely "verifies" any stored job. This protects against old scripts/AI agents treating fabricated 410 responses as authentic expiry evidence. HTTP tests confirm the fictional per-job route is denied before contacting a transport; PHP integration tests confirm no fixture/public cache mutation.
