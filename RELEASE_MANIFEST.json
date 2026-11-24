@@ -1,13 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.33-T09-workproof-public-https-evidence-policy",
+  "release": "0.9.34-employer-expiry-and-inherited-consent-boundary",
   "source_of_truth": "v1.4.1",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
     "status": "PENDING_PR_CI",
-    "tests": "Four new T09 WorkProof reserved/numeric/private HTTPS host denials plus full canonical, MySQL, Apache and real Chromium CI"
+    "tests": "Nine employer contract owner-derived invalid calendar/consent preservation asserts, all existing deterministic PHP/JS, disposable MySQL and browser tests"
   },
   "canonical_documentation": {
     "status": "EXACT_FOUNDER_V141_ZIP_IMPORTED__CI_VALIDATION_PENDING",
@@ -35,8 +35,8 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "T09 WorkProof export now rejects reserved internal IP-like hosts, numeric aliases, userinfo/custom ports, consistent with T03. Syntactic host policy does not verify DNS or evidence legitimacy, and source/Hostinger/legal/14-day/deployment gates remain OFF.",
-  "file_count_excluding_manifest": 183,
+  "developer_notes": "P0 employer job expiry now refuses PHP normalization of impossible calendar dates. PATCH requires already stored true server-side publication consent, valid UTC consent timestamp and legal terms version before carrying any forward. Provider/recruiter/partner/ads/release default-off; actual Hostinger/licensing/identity/independent backup evidence remain blocked.",
+  "file_count_excluding_manifest": 184,
   "files": [
     {
       "path": ".env.example",
@@ -259,6 +259,11 @@
       "sha256": "8e496f5900076973c72d4cc5ce8e351a43a39936a0920c2d9d099e22d1db7cff"
     },
     {
+      "path": "docs/M12_M14_EMPLOYER_CONSENT_AND_EXPIRY_V141.md",
+      "bytes": 2689,
+      "sha256": "c25dbc184e6a610e67df9b57791428a0518ab2140b840569da79842b5758d506"
+    },
+    {
       "path": "docs/M16_BROWSER_A11Y_REFLOW_PRINT_V0910.md",
       "bytes": 2592,
       "sha256": "85496fea4989d88a2b952c5744e8557f25ede79831914bc42c4a59b5750f25ac"
@@ -365,8 +370,8 @@
     },
     {
       "path": "module_status.json",
-      "bytes": 34808,
-      "sha256": "bacb0b9254226fde836fd57b516a21fc8f3aa191981cbb7859ddbd2159bb6b5b"
+      "bytes": 35432,
+      "sha256": "d5748984d62d1236780953a7d1eabc405fa1672cd5a16902eae0176310a62d68"
     },
     {
       "path": "public/.htaccess",
@@ -625,8 +630,8 @@
     },
     {
       "path": "src/EmployerContracts.php",
-      "bytes": 11894,
-      "sha256": "e3f613937221ce46b8a7ce35745843c39a896586192755c80b76c38d7b88ac55"
+      "bytes": 12962,
+      "sha256": "c4ba004d610a84b3ff4863a01152d874c6eddcc00fad2febd0c7422770be630d"
     },
     {
       "path": "src/EmployerDomainMysql.php",
@@ -795,8 +800,8 @@
     },
     {
       "path": "tests/employer_contract_tests.php",
-      "bytes": 7975,
-      "sha256": "869b0f51be203bf4efdc1cc2a9e45d3d0cc9a72c646f3027fb0ac95251d1e41e"
+      "bytes": 9972,
+      "sha256": "99626e898b1426cf494fe1148af1bba6763510847a4f4ce98c49768a691ad07d"
     },
     {
       "path": "tests/employer_review_portal_tests.php",

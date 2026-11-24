@@ -40,6 +40,10 @@ final class EmployerContracts
     {
         if(!is_string($value)||strlen($value)>40||!preg_match('/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$/',$value))throw new InvalidArgumentException('valid_through requires an RFC3339 date-time');
         try{$date=new DateTimeImmutable($value);}catch(Throwable){throw new InvalidArgumentException('Invalid expiry date');}
+        // PHP DateTime silently normalises impossible calendar days (e.g. Nov 31 -> Dec 1).
+        // A supplied expiry is employer-signed evidence: never rewrite its calendar.
+        if($date->format('Y-m-d\TH:i:s')!==substr($value,0,19))
+            throw new InvalidArgumentException('Invalid expiry calendar date');
         $ts=$date->getTimestamp();
         if($ts<=$now+86400||$ts>$now+60*86400)throw new InvalidArgumentException('Expiry must be more than one day and at most 60 days ahead');
         return gmdate('Y-m-d\TH:i:s\Z',$ts);
@@ -108,6 +112,17 @@ final class EmployerContracts
     public static function validatePatch(array $existing,array $patch,array $verifiedOrg,int $now,string $termsVersion,int $ifMatch):array
     {
         self::assertOwner($existing,$verifiedOrg);
+        // A PATCH cannot manufacture or revive publication consent from a
+        // corrupted/restored legacy record: preserve only proven server state.
+        $consentAt=$existing['consent_at']??null;
+        $consentVersion=$existing['consent_terms_version']??null;
+        if(($existing['publish_consent']??null)!==true
+          ||!is_string($consentVersion)||strlen(trim($consentVersion))<3
+          ||!is_string($consentAt)
+          ||!preg_match('/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/D',$consentAt)
+          ||strtotime($consentAt)===false
+          ||gmdate('Y-m-d\TH:i:s\Z',(int)strtotime($consentAt))!==$consentAt)
+            throw new DomainException('Original employer publication consent evidence is missing or invalid');
         if(!in_array($existing['status']??null,['draft','pending_review','published','rejected'],true))throw new DomainException('Job is not editable');
         if($ifMatch!==(int)($existing['revision']??0))throw new RuntimeException('Revision mismatch: 409');
         if($patch===[])throw new InvalidArgumentException('Empty patch');
