@@ -13,7 +13,7 @@ $org=['id'=>'org_example1','company_name'=>'Example Company','status'=>'approved
 'approved_at'=>'2026-11-22 01:00:00','approved_by'=>'human_owner','evidence_reference'=>'private/case-001',
 'verified_domains_json'=>'["example.org"]'];
 $job=['id'=>'job_'.str_repeat('a',24),'external_id'=>'req-001','origin_type'=>'direct_employer','owner_org_id'=>'org_example1',
-'source_policy_id'=>'first_party_employer_pending_review','publish_consent'=>true,'status'=>'pending_review','revision'=>1,
+'source_policy_id'=>'first_party_employer_pending_review','publish_consent'=>true,'consent_at'=>gmdate('Y-m-d\\TH:i:s\\Z',$now),'consent_terms_version'=>'terms-v1','status'=>'pending_review','revision'=>1,
 'apply_url'=>'https://careers.example.org/apply/001','title'=>'Technical Support Specialist',
 'description'=>'Provide customer troubleshooting and support services with quality standards.',
 'work_mode'=>'remote','work_country'=>null,'location_text'=>'Remote: India eligible location claim',
@@ -32,10 +32,14 @@ proof('Human review rejects stale revision',denies(fn()=>EmployerReview::decisio
 proof('Job with provider origin blocked',denies(fn()=>EmployerReview::decision([...$job,'origin_type'=>'provider'],$org,'publish',1,'Independent manual check',$now)));
 proof('Cross-company job blocked',denies(fn()=>EmployerReview::decision([...$job,'owner_org_id'=>'org_other2'],$org,'publish',1,'Independent manual check',$now)));
 proof('Missing publication consent blocked',denies(fn()=>EmployerReview::decision([...$job,'publish_consent'=>false],$org,'publish',1,'Independent manual check',$now)));
+proof('Review rejects absent consent UTC evidence',denies(fn()=>EmployerReview::decision(array_diff_key($job,['consent_at'=>true]),$org,'publish',1,'Independent manual check',$now)));
+proof('Review rejects false legal terms evidence',denies(fn()=>EmployerReview::decision([...$job,'consent_terms_version'=>''],$org,'publish',1,'Independent manual check',$now)));
+proof('Review rejects future unrecorded consent timestamp',denies(fn()=>EmployerReview::decision([...$job,'consent_at'=>gmdate('Y-m-d\\TH:i:s\\Z',$now+86400)],$org,'publish',1,'Independent manual check',$now)));
 proof('Unverified org cannot publish',denies(fn()=>EmployerReview::decision($job,[...$org,'representative_verified_at'=>null],'publish',1,'Independent manual check',$now)));
 proof('Unverified org can be rejected safely',EmployerReview::decision($job,[...$org,'status'=>'suspended'],'reject',1,'Independent manual check',$now)['status']==='rejected');
 proof('Unverified org can be suspended safely',EmployerReview::decision($job,[...$org,'status'=>'unverified'],'suspend',1,'Independent manual check',$now)['status']==='suspended');
 proof('Expired job cannot be published',denies(fn()=>EmployerReview::decision([...$job,'valid_through'=>gmdate('Y-m-d\TH:i:s\Z',$now-1)],$org,'publish',1,'Independent manual check',$now)));
+proof('Human reviewer cannot normalize impossible calendar expiry',denies(fn()=>EmployerReview::decision([...$job,'valid_through'=>'2026-11-31T12:00:00Z'],$org,'publish',1,'Independent manual check',$now)));
 proof('Expired job may be rejected',EmployerReview::decision([...$job,'valid_through'=>gmdate('Y-m-d\TH:i:s\Z',$now-1)],$org,'reject',1,'Independent manual check',$now)['status']==='rejected');
 proof('Unverified apply hostname blocks publication',denies(fn()=>EmployerReview::decision([...$job,'apply_url'=>'https://evil.example.com/form'],$org,'publish',1,'Independent manual check',$now)));
 proof('Insecure apply link blocks publication',denies(fn()=>EmployerReview::decision([...$job,'apply_url'=>'http://careers.example.org/apply'],$org,'publish',1,'Independent manual check',$now)));
@@ -47,6 +51,9 @@ $published['review_audit_confirmed']=true;
 $projected=EmployerReview::publicProjection($published,$org,$now);
 proof('Unreviewed published status alone never grants public visibility',EmployerReview::publicProjection([...$published,'review_audit_confirmed'=>false],$org,$now)===null);
 proof('Published first-party job gets safe projection',is_array($projected)&&$projected['origin_type']==='direct_employer'&&$projected['public_url']==='/jobs/direct/'.$job['id']);
+proof('Public projection denies missing original consent terms',EmployerReview::publicProjection([...$published,'consent_terms_version'=>null],$org,$now)===null);
+proof('Public projection denies malformed original consent timestamp',EmployerReview::publicProjection([...$published,'consent_at'=>'yesterday'],$org,$now)===null);
+proof('Public projection denies impossible calendar expiry',EmployerReview::publicProjection([...$published,'valid_through'=>'2026-11-31T12:00:00Z'],$org,$now)===null);
 proof('No private organisation evidence leaks into public projection',!isset($projected['evidence_reference'])&&!isset($projected['approved_by']));
 foreach([['not published',[...$job]],['closed',[...$published,'status'=>'closed']],['expired',[...$published,'valid_through'=>gmdate('Y-m-d\TH:i:s\Z',$now-1)]],['held',[...$published,'display_status'=>'held']],['provider',[...$published,'origin_type'=>'provider']],['untrusted rights',[...$published,'source_policy_id'=>'feed_jobicy']],['host moved',[...$published,'apply_url'=>'https://steal.example.net/collect']],['no consent',[...$published,'publish_consent'=>false]]] as [$label,$candidate]){
   proof('Public projection denies '.$label,EmployerReview::publicProjection($candidate,$org,$now)===null);

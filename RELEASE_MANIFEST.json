@@ -1,13 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.35b-provider-no-fictional-status-or-cli",
+  "release": "0.9.36-human-reviewed-public-consent-expiry-guards",
   "source_of_truth": "v1.4.1",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
-    "status": "PENDING_RETEST_PR_CI",
-    "tests": "Full canonical exact API endpoint allowlist + legacy simulated 410/200 CLI hard disabled, cache unchanged, source/SQL/browser suites"
+    "status": "PENDING_PR_CI",
+    "tests": "Seven new M13 human publish and public projection shape checks; existing multi-module employer/partner/disposable MySQL security and browser tests"
   },
   "canonical_documentation": {
     "status": "EXACT_FOUNDER_V141_ZIP_IMPORTED__CI_VALIDATION_PENDING",
@@ -35,8 +35,8 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "Official provider HTTP routes only; no imaginary Himalayas per-job 410 status probe accepted, even in fixture CLI. Historical simulator permanently fail closed. Default OFF rights, recruiter, partner, ads and launch preserved. No Hostinger, legal provider or 14 genuine days of jobs evidence.",
-  "file_count_excluding_manifest": 185,
+  "developer_notes": "Human-reviewed direct employer jobs need recorded prior consent terms and UTC time plus true unexpired UTC expiry before publish or public projection. Shape checks do not prove actor/legal permission; standalone real Hostinger, source rights, 14 genuine calendar days and rollback remain blocked.",
+  "file_count_excluding_manifest": 186,
   "files": [
     {
       "path": ".env.example",
@@ -264,6 +264,11 @@
       "sha256": "c25dbc184e6a610e67df9b57791428a0518ab2140b840569da79842b5758d506"
     },
     {
+      "path": "docs/M13_REVIEW_PUBLIC_CONSENT_EXPIRY_V141.md",
+      "bytes": 2141,
+      "sha256": "4db239a33b350e5d68ea19daa463c3d81f95a1a528865a4aedb8cbdc12e73949"
+    },
+    {
       "path": "docs/M16_BROWSER_A11Y_REFLOW_PRINT_V0910.md",
       "bytes": 2592,
       "sha256": "85496fea4989d88a2b952c5744e8557f25ede79831914bc42c4a59b5750f25ac"
@@ -375,8 +380,8 @@
     },
     {
       "path": "module_status.json",
-      "bytes": 36203,
-      "sha256": "b7e81371c2c577c13dd131f22831450b9e3a212317bca45fd8428148d0871a5f"
+      "bytes": 37037,
+      "sha256": "209762c48394e37a63fd79e296af70c36da12d4131df08fead77b115db9b11c1"
     },
     {
       "path": "public/.htaccess",
@@ -650,8 +655,8 @@
     },
     {
       "path": "src/EmployerReview.php",
-      "bytes": 13082,
-      "sha256": "9fcbeb48a367d23ed1164f7ff7e947375f8be6e33e46be603b9ca1dfb77e487b"
+      "bytes": 14003,
+      "sha256": "c1f778f0600ad629e439ff5a6d6e305903a7213f2430eb212883b6a6f68ec55b"
     },
     {
       "path": "src/Guides.php",
@@ -810,8 +815,8 @@
     },
     {
       "path": "tests/employer_review_portal_tests.php",
-      "bytes": 10881,
-      "sha256": "5f82455a2713040cf9cfd735e086c5681bda47726f503a9b4ceaa72d5a4ed5c1"
+      "bytes": 12243,
+      "sha256": "07fd5415c4673d3f8f7a51be6b89a48ce45d0d405b061d1db3750489743b8045"
     },
     {
       "path": "tests/fixtures/empty.json",
