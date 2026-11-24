@@ -441,7 +441,8 @@
         "77 combined employer/domain/review policy local checks",
         "24 employer safe-default HTTP checks",
         "Disposable MySQL CI test authored: remote success must be verified",
-        "Owner-derived invalid RFC3339 calendar and stored PATCH consent evidence fail-closed checks"
+        "Owner-derived invalid RFC3339 calendar and stored PATCH consent evidence fail-closed checks",
+        "Manual publication and public projection fail closed on invalid stored consent/expiry, beyond initial create/PATCH validation"
       ],
       "spec_version": "v1.4.1",
       "routes": [
@@ -457,7 +458,10 @@
         "tests/mysql_integration_tests.php",
         "tests/recruiter_recovery_tests.php",
         "tests/employer_contract_tests.php",
-        "docs/M12_M14_EMPLOYER_CONSENT_AND_EXPIRY_V141.md"
+        "docs/M12_M14_EMPLOYER_CONSENT_AND_EXPIRY_V141.md",
+        "src/EmployerReview.php",
+        "tests/employer_review_portal_tests.php",
+        "docs/M13_REVIEW_PUBLIC_CONSENT_EXPIRY_V141.md"
       ],
       "last_verified_at": null
     },
@@ -477,7 +481,8 @@
         "77 combined employer/domain/review policy local checks",
         "24 employer safe-default HTTP checks",
         "Disposable MySQL CI test authored; no Hostinger staging proof",
-        "Owner-derived invalid RFC3339 calendar and stored PATCH consent evidence fail-closed checks"
+        "Owner-derived invalid RFC3339 calendar and stored PATCH consent evidence fail-closed checks",
+        "Manual publication and public projection fail closed on invalid stored consent/expiry, beyond initial create/PATCH validation"
       ],
       "spec_version": "v1.4.1",
       "routes": [
@@ -491,7 +496,10 @@
       "evidence_paths": [
         "tests/mysql_integration_tests.php",
         "tests/employer_contract_tests.php",
-        "docs/M12_M14_EMPLOYER_CONSENT_AND_EXPIRY_V141.md"
+        "docs/M12_M14_EMPLOYER_CONSENT_AND_EXPIRY_V141.md",
+        "src/EmployerReview.php",
+        "tests/employer_review_portal_tests.php",
+        "docs/M13_REVIEW_PUBLIC_CONSENT_EXPIRY_V141.md"
       ],
       "last_verified_at": null
     },
@@ -509,7 +517,8 @@
       "tests": [
         "53 partner API deterministic checks",
         "Disposable MySQL CI job authored",
-        "Owner-derived invalid RFC3339 calendar and stored PATCH consent evidence fail-closed checks"
+        "Owner-derived invalid RFC3339 calendar and stored PATCH consent evidence fail-closed checks",
+        "Manual publication and public projection fail closed on invalid stored consent/expiry, beyond initial create/PATCH validation"
       ],
       "spec_version": "v1.4.1",
       "routes": [
@@ -523,7 +532,10 @@
         "tests/partner_api_tests.php",
         "tests/mysql_integration_tests.php",
         "tests/employer_contract_tests.php",
-        "docs/M12_M14_EMPLOYER_CONSENT_AND_EXPIRY_V141.md"
+        "docs/M12_M14_EMPLOYER_CONSENT_AND_EXPIRY_V141.md",
+        "src/EmployerReview.php",
+        "tests/employer_review_portal_tests.php",
+        "docs/M13_REVIEW_PUBLIC_CONSENT_EXPIRY_V141.md"
       ],
       "last_verified_at": null
     },
