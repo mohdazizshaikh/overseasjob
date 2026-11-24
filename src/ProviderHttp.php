@@ -9,10 +9,20 @@ final class ProviderHttp
     private static function allowed(string $url):bool
     {
         $parts=parse_url($url);
-        return is_array($parts) && ($parts['scheme']??'')==='https'
-            && in_array($parts['host']??null,['jobicy.com','himalayas.app'],true)
-            && !isset($parts['user']) && !isset($parts['pass']) && !isset($parts['port'])
-            && !isset($parts['fragment']) && strlen($url)<=4096;
+        if(!is_array($parts)||($parts['scheme']??'')!=='https'
+           ||!in_array($parts['host']??null,['jobicy.com','himalayas.app'],true)
+           ||isset($parts['user'])||isset($parts['pass'])||isset($parts['port'])
+           ||isset($parts['fragment'])||strlen($url)>4096)return false;
+        // The source allowlist is a documented endpoint allowlist, not merely a
+        // broad host allowlist. Never query invented per-job status / 410 routes.
+        $path=$parts['path']??'';
+        $query=$parts['query']??null;
+        if($parts['host']==='jobicy.com')
+            return $path==='/api/v2/remote-jobs'&&$query==='count=100';
+        if($path!=='/jobs/api')return false;
+        if($query===null)return true; // documented browse endpoint, default page
+        if(!preg_match('/^limit=20&offset=(0|[1-9][0-9]{0,6})$/D',$query,$m))return false;
+        return (int)$m[1]<=2_000_000;
     }
 
     /** Parse Retry-After seconds or RFC-compliant HTTP date; never retry too early. */

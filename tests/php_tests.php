@@ -29,12 +29,14 @@ test('Canonical provider JobView includes employer country unknown and empty rea
 test('Himalayas provenance retains the immutable provider guid', $c['source_guid']===$h[0]['guid']&&$c['source_policy_id']==='provider_himalayas_source_link_only');
 test('Himalayas provider id is original GUID', $c['provider_job_id']===$h[0]['guid']);
 test('Himalayas display route keeps stable hash', $c['provider_route_key']===hash('sha256',$h[0]['guid']));
-test('Offline-only legacy status fixture URL construction', Jobs::himalayasStatusUrl('https://himalayas.app/companies/linear/jobs/senior-engineer')==='https://himalayas.app/jobs/api/companies/linear/jobs/senior-engineer');
-test('Simulated 410 fixture maps closed, 404 unconfirmed', Jobs::himalayasStatusDecision(410)==='closed'&&Jobs::himalayasStatusDecision(200)==='active'&&Jobs::himalayasStatusDecision(404)==='unknown'&&Jobs::himalayasStatusDecision(429)==='unknown');
-$badStatusUrl=false;try{Jobs::himalayasStatusUrl('https://himalayas.app.evil.example/companies/a/jobs/b');}catch(InvalidArgumentException){$badStatusUrl=true;}
-test('Himalayas job checker rejects foreign hosts',$badStatusUrl);
-$badStatusUrl=false;try{Jobs::himalayasStatusUrl('https://himalayas.app/companies/a/jobs/b?unexpected=1');}catch(InvalidArgumentException){$badStatusUrl=true;}
-test('Himalayas status checker rejects extra query',$badStatusUrl);
+$undocumentedStatus=false;
+try{Jobs::himalayasStatusUrl('https://himalayas.app/companies/linear/jobs/senior-engineer');}
+catch(BadMethodCallException){$undocumentedStatus=true;}
+test('No undocumented Himalayas single-job status URL is constructed',$undocumentedStatus);
+test('No synthetic 410 or 200 implies authoritative Himalayas lifecycle state',
+    Jobs::himalayasStatusDecision(410)==='unknown'
+    &&Jobs::himalayasStatusDecision(200)==='unknown'
+    &&Jobs::himalayasStatusDecision(404)==='unknown');
 test('Retry-After numeric 429 is respected', ProviderHttp::retryDelay(429,['Retry-After: 6'],0,0,0)===6);
 test('Retry-After longer than retry budget safely stops', ProviderHttp::retryDelay(429,['Retry-After: 120'],0)===null);
 test('Temporary 503 uses bounded exponential backoff', ProviderHttp::retryDelay(503,[],1)===2);

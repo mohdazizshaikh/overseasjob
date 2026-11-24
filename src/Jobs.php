@@ -221,20 +221,15 @@ final class Jobs
      * This legacy URL builder is retained for OFFLINE status fixtures only.
      * Do not call its output over the network or claim authoritative 410 checks.
      */
+    /** Retained only to fail closed when old code attempts an imaginary status endpoint. */
     public static function himalayasStatusUrl(string $guid): string
     {
-        if (self::safeUrl($guid,'himalayas.app')===null)throw new InvalidArgumentException('Invalid Himalayas job guid');
-        $parts=parse_url($guid);
-        if(!is_array($parts) || strtolower((string)($parts['host']??''))!=='himalayas.app'
-            || isset($parts['query']) || isset($parts['fragment'])
-            || !preg_match('#^/companies/[a-z0-9-]+/jobs/[a-z0-9-]+/?$#D',(string)($parts['path']??'')))
-            throw new InvalidArgumentException('Unsupported legacy fixture path');
-        return 'https://himalayas.app/jobs/api'.rtrim((string)$parts['path'],'/');
+        throw new BadMethodCallException('Himalayas documents no public per-job status endpoint');
     }
-    /** Hypothetical per-job response semantics used ONLY by fixture tests. */
+    /** No simulated 200/410 response is authoritative evidence of live status. */
     public static function himalayasStatusDecision(int $status): string
     {
-        return match($status){200=>'active',410=>'closed',default=>'unknown'};
+        return 'unknown';
     }
     /** Official OpenAPI 3.1: offset+limit pagination, no nextCursor. */
     public static function himalayasBrowseUrl(int $offset=0): string
