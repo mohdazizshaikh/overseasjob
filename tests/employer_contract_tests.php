@@ -33,6 +33,9 @@ checkE('Unknown applicant countries not treated as worldwide',EmployerContracts:
 checkE('Duplicate country codes rejected',rejectsE(fn()=>EmployerContracts::validateCreate([...$create,'candidate_eligible_countries'=>['IN','IN']],$org,$now,'terms-v1')));
 checkE('Invalid eligibility country rejected',rejectsE(fn()=>EmployerContracts::validateCreate([...$create,'candidate_eligible_countries'=>['ZZ']],$org,$now,'terms-v1')));
 checkE('Premature expiry rejected',rejectsE(fn()=>EmployerContracts::validateCreate([...$create,'valid_through'=>'2026-11-23T12:00:00Z'],$org,$now,'terms-v1')));
+checkE('Impossible 31 November cannot become December expiry',rejectsE(fn()=>EmployerContracts::validateCreate([...$create,'valid_through'=>'2026-11-31T12:00:00Z'],$org,$now,'terms-v1')));
+checkE('Impossible February leap day rejected',rejectsE(fn()=>EmployerContracts::validateCreate([...$create,'valid_through'=>'2026-02-30T00:00:00Z'],$org,$now,'terms-v1')));
+checkE('Explicit real RFC3339 offset expiry retained as UTC',EmployerContracts::validateCreate([...$create,'valid_through'=>'2026-12-15T23:00:00+05:30'],$org,$now,'terms-v1')['valid_through']==='2026-12-15T17:30:00Z');
 checkE('Long-lived vacancy renewal blocked',rejectsE(fn()=>EmployerContracts::validateCreate([...$create,'valid_through'=>'2027-06-20T00:00:00Z'],$org,$now,'terms-v1')));
 checkE('Salary minimum greater than maximum rejected',rejectsE(fn()=>EmployerContracts::validateCreate([...$create,'salary_min'=>200,'salary_max'=>100,'salary_currency'=>'USD','salary_period'=>'year'],$org,$now,'terms-v1')));
 checkE('Salary requires disclosed currency/period',rejectsE(fn()=>EmployerContracts::validateCreate([...$create,'salary_min'=>50000],$org,$now,'terms-v1')));
@@ -44,6 +47,12 @@ checkE('Provider imports cannot be queried as owned jobs',EmployerContracts::vis
 checkE('Read-side rejects unapproved org',rejectsE(fn()=>EmployerContracts::visibleForPartner([$validated],[...$org,'approved'=>false])));
 checkE('Material editing returns to review',(EmployerContracts::validatePatch($validated,['title'=>'Senior Technical Support Specialist'],$org,$now,'terms-v1',1)['status']==='pending_review'));
 checkE('Material editing increments revision',EmployerContracts::validatePatch($validated,['title'=>'Senior Technical Support Specialist'],$org,$now,'terms-v1',1)['revision']===2);
+checkE('PATCH refuses an absent stored publication consent',rejectsE(fn()=>EmployerContracts::validatePatch(array_diff_key($validated,['publish_consent'=>true]),['title'=>'Senior Technical Support Specialist'],$org,$now,'terms-v1',1)));
+checkE('PATCH refuses stored consent explicitly false',rejectsE(fn()=>EmployerContracts::validatePatch([...$validated,'publish_consent'=>false],['title'=>'Senior Technical Support Specialist'],$org,$now,'terms-v1',1)));
+checkE('PATCH refuses missing consent terms evidence',rejectsE(fn()=>EmployerContracts::validatePatch(array_diff_key($validated,['consent_terms_version'=>true]),['title'=>'Senior Technical Support Specialist'],$org,$now,'terms-v1',1)));
+checkE('PATCH refuses invalid or missing consent time evidence',rejectsE(fn()=>EmployerContracts::validatePatch([...$validated,'consent_at'=>'tomorrow'],['title'=>'Senior Technical Support Specialist'],$org,$now,'terms-v1',1)));
+checkE('PATCH retains true recorded server-side consent timestamp',EmployerContracts::validatePatch($validated,['title'=>'Senior Technical Support Specialist'],$org,$now,'terms-v2',1)['consent_at']===$validated['consent_at']);
+checkE('PATCH preserves original legal terms version, not new unconsented version',EmployerContracts::validatePatch($validated,['title'=>'Senior Technical Support Specialist'],$org,$now,'terms-v2',1)['consent_terms_version']===$validated['consent_terms_version']);
 checkE('Stale If-Match rejected',rejectsE(fn()=>EmployerContracts::validatePatch($validated,['title'=>'New Technical Support Specialist'],$org,$now,'terms-v1',2)));
 checkE('Patch cannot edit publication status',rejectsE(fn()=>EmployerContracts::validatePatch($validated,['status'=>'published'],$org,$now,'terms-v1',1)));
 checkE('Patch cannot edit external_id',rejectsE(fn()=>EmployerContracts::validatePatch($validated,['external_id'=>'changed'],$org,$now,'terms-v1',1)));
