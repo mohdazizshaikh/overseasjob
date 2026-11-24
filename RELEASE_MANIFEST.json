@@ -1,13 +1,13 @@
 {
   "project": "OverseasJob.in",
-  "release": "0.9.34-employer-expiry-and-inherited-consent-boundary",
+  "release": "0.9.35-provider-canonical-endpoint-trust-boundary",
   "source_of_truth": "v1.4.1",
   "release_date": "2026-11-23",
   "state": "NOT_DEPLOYED_NOT_PRODUCTION_READY",
   "public_launch_ready": false,
   "local_regression": {
     "status": "PENDING_PR_CI",
-    "tests": "Nine employer contract owner-derived invalid calendar/consent preservation asserts, all existing deterministic PHP/JS, disposable MySQL and browser tests"
+    "tests": "Strict Jobicy and Himalayas browse endpoint path+query allowlist; fictitious per-job status 200/410 must never be treated as source authority; full existing CI"
   },
   "canonical_documentation": {
     "status": "EXACT_FOUNDER_V141_ZIP_IMPORTED__CI_VALIDATION_PENDING",
@@ -35,8 +35,8 @@
   "hostinger_staging_verified": false,
   "browser_e2e_verified": false,
   "real_job_feed_verified": false,
-  "developer_notes": "P0 employer job expiry now refuses PHP normalization of impossible calendar dates. PATCH requires already stored true server-side publication consent, valid UTC consent timestamp and legal terms version before carrying any forward. Provider/recruiter/partner/ads/release default-off; actual Hostinger/licensing/identity/independent backup evidence remain blocked.",
-  "file_count_excluding_manifest": 184,
+  "developer_notes": "Backend source client blocks undocumented per-job Himalayas 410 endpoint paths and arbitrary Jobicy approved-host paths. Legacy synthetic status helpers fail closed and admit unknown. Current live source/provider/partner/recruiter/ads/release OFF. Original Hostinger backup/restore, real 14-day allowed jobs and legal source rights remain unverified.",
+  "file_count_excluding_manifest": 185,
   "files": [
     {
       "path": ".env.example",
@@ -304,6 +304,11 @@
       "sha256": "f9807e09c90561cae0b3d532872c175042a5cb6126f2c36ef7cafdde8f4bce86"
     },
     {
+      "path": "docs/PROVIDER_HTTP_CANONICAL_ENDPOINTS_V141.md",
+      "bytes": 2017,
+      "sha256": "9864d341a9f41f185cc96411acf7c7a8d78c39475643981c06650b3792dcbb27"
+    },
+    {
       "path": "docs/RC_IMPLEMENTATION_CHANGELOG.md",
       "bytes": 2262,
       "sha256": "b6045f56d844efa49d8b01c54fc949a2a829d2a96b50b62803af63e678911af5"
@@ -370,8 +375,8 @@
     },
     {
       "path": "module_status.json",
-      "bytes": 35432,
-      "sha256": "d5748984d62d1236780953a7d1eabc405fa1672cd5a16902eae0176310a62d68"
+      "bytes": 35901,
+      "sha256": "68e848ba79e8b73f4c28fa9fb220a5c173de5c68cb415aa926bb41642b6ca4ac"
     },
     {
       "path": "public/.htaccess",
@@ -655,8 +660,8 @@
     },
     {
       "path": "src/Jobs.php",
-      "bytes": 20332,
-      "sha256": "4a29b5e5f5eb6817bfa09c4047f923b9e8b7c3e0b7e69f0553943ae63b5e2e34"
+      "bytes": 19891,
+      "sha256": "e0d8c46652899a06be2d21b71d777059fd659c408d5211de6253db4add47c71f"
     },
     {
       "path": "src/Launch.php",
@@ -690,8 +695,8 @@
     },
     {
       "path": "src/ProviderHttp.php",
-      "bytes": 5025,
-      "sha256": "3e11bedda6b4b5d29b66a9ce2434cebb4862774307533940cd7b697c491bc781"
+      "bytes": 5623,
+      "sha256": "cdce1939b590801e45bc04235fa480709751d76216cf095c35f99f6fbfc2940d"
     },
     {
       "path": "src/RecruiterMailer.php",
@@ -910,8 +915,8 @@
     },
     {
       "path": "tests/php_tests.php",
-      "bytes": 22616,
-      "sha256": "1f71b95cc5d2b97b24b5dcc6234fa3c9c8f18c7f7e69b17f97a1905e07b6b06d"
+      "bytes": 22197,
+      "sha256": "39aaa1687214bf48fccef50a307b6b8f9747b95117e4cfb10153f464c6171049"
     },
     {
       "path": "tests/predeployment_report_tests.php",
@@ -920,8 +925,8 @@
     },
     {
       "path": "tests/provider_http_tests.php",
-      "bytes": 3443,
-      "sha256": "888acfceeacadb53dd5b18eab85a8d214da6333befe52c00f8570bab9a10567e"
+      "bytes": 4567,
+      "sha256": "a0083ae5f04189869ec15ffa81f5f9531de7bb0ceb79dfdf1e67adb925b7ae2b"
     },
     {
       "path": "tests/recruiter_recovery_tests.php",
