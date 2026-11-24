@@ -31,6 +31,23 @@ final class EmployerReview
             &&($org['approved_at']??null)!==null && trim((string)($org['approved_by']??''))!==''
             &&trim((string)($org['evidence_reference']??''))!=='';
     }
+    private static function storedConsentShapeValid(array $record,int $now):bool
+    {
+        // Stored legal terms/time is necessary but NOT independent actor proof.
+        $at=$record['consent_at']??null;$terms=$record['consent_terms_version']??null;
+        if(($record['publish_consent']??null)!==true||!is_string($terms)
+          ||strlen(trim($terms))<3||strlen($terms)>64||!is_string($at)
+          ||!preg_match('/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$/D',$at))return false;
+        $t=strtotime($at);
+        return $t!==false&&$t<=$now&&gmdate('Y-m-d\\TH:i:s\\Z',$t)===$at;
+    }
+    private static function currentUtcExpiry(array $record,int $now):bool
+    {
+        $expiry=$record['valid_through']??null;
+        if(!is_string($expiry)||!preg_match('/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$/D',$expiry))return false;
+        $t=strtotime($expiry);
+        return $t!==false&&$t>$now&&gmdate('Y-m-d\\TH:i:s\\Z',$t)===$expiry;
+    }
     public static function decision(array $record,array $org,string $action,int $revision,string $reason,int $now):array
     {
         if(!in_array($action,['publish','reject','suspend'],true))throw new InvalidArgumentException('Unsupported review decision');
@@ -43,8 +60,8 @@ final class EmployerReview
         // Owner may reject or suspend an unsafe listing even if the organisation has lost verification.
         if($action==='publish'){
             if(!self::validOrg($org))throw new DomainException('Independent employer verification evidence missing');
-            if(($record['publish_consent']??false)!==true)throw new DomainException('Employer has not consented');
-            if(!is_string($record['valid_through']??null)||strtotime((string)$record['valid_through'])<=$now)throw new DomainException('Job has expired');
+            if(!self::storedConsentShapeValid($record,$now))throw new DomainException('Recorded employer publication consent evidence is missing or invalid');
+            if(!self::currentUtcExpiry($record,$now))throw new DomainException('Job expiry is invalid or in the past');
             if(Jobs::safeUrl($record['apply_url']??null)===null)throw new DomainException('Unsafe apply URL');
             $host=strtolower((string)parse_url($record['apply_url'],PHP_URL_HOST));
             $domains=$org['verified_domains_json'];$domains=is_string($domains)?json_decode($domains,true):$domains;
@@ -63,8 +80,8 @@ final class EmployerReview
           ||!in_array(($record['source_policy_id']??''),['first_party_employer_pending_review','first_party_employer_owned'],true)
           ||($record['origin_type']??'')!=='direct_employer'
           ||($record['owner_org_id']??'')!==$org['id']||($record['status']??'')!=='published'
-          ||($record['publish_consent']??false)!==true||($record['display_status']??'visible')!=='visible'
-          ||!is_string($record['valid_through']??null)||strtotime($record['valid_through'])<=$now)return null;
+          ||!self::storedConsentShapeValid($record,$now)||($record['display_status']??'visible')!=='visible'
+          ||!self::currentUtcExpiry($record,$now))return null;
         $id=(string)($record['id']??'');
         if(!preg_match('/^job_[a-f0-9]{24}$/D',$id)||Jobs::safeUrl($record['apply_url']??null)===null)return null;
         $domains=$org['verified_domains_json'];$domains=is_string($domains)?json_decode($domains,true):$domains;
