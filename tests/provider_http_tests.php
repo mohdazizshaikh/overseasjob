@@ -35,9 +35,26 @@ $notFound=static fn(string $url,int $bytes):array=>['status'=>404,'headers'=>[],
 $fail=false;try{ProviderHttp::fetchJson('https://himalayas.app/jobs/api',1000,$notFound,$sleep);}
 catch(RuntimeException){$fail=true;}
 checkTransport('Main job feed 404 fails without claiming closure',$fail);
-checkTransport('Single-job status path may return authoritative 410',
- ProviderHttp::request('https://himalayas.app/jobs/api/companies/sample/jobs/test',1000,
- static fn(string $url,int $bytes):array=>['status'=>410,'headers'=>[],'body'=>''])['status']===410);
+$legacyCalled=false;$legacyDenied=false;
+try{ProviderHttp::request('https://himalayas.app/jobs/api/companies/sample/jobs/test',1000,
+ static function(string $url,int $bytes)use(&$legacyCalled):array{
+     $legacyCalled=true;return ['status'=>410,'headers'=>[],'body'=>''];
+ });}catch(InvalidArgumentException){$legacyDenied=true;}
+checkTransport('Undocumented Himalayas per-job 410 endpoint blocked before network',
+    $legacyDenied&&!$legacyCalled);
+$listed=ProviderHttp::request('https://himalayas.app/jobs/api?limit=20&offset=40',1000,
+ static fn(string $url,int $bytes):array=>['status'=>200,'headers'=>[],'body'=>'{"jobs":[]}']);
+checkTransport('Documented Himalayas browse pagination remains permitted',$listed['status']===200);
+$wrongQuery=false;
+try{ProviderHttp::request('https://himalayas.app/jobs/api?limit=20&offset=0&unsafe=1',1000,
+ static fn(string $url,int $bytes):array=>['status'=>200,'headers'=>[],'body'=>'{}']);}
+catch(InvalidArgumentException){$wrongQuery=true;}
+checkTransport('Provider browse rejects unapproved extra query parameters',$wrongQuery);
+$nonFeed=false;
+try{ProviderHttp::request('https://jobicy.com/private/secret',1000,
+ static fn(string $url,int $bytes):array=>['status'=>200,'headers'=>[],'body'=>'{}']);}
+catch(InvalidArgumentException){$nonFeed=true;}
+checkTransport('Approved Jobicy host cannot be reused for arbitrary endpoints',$nonFeed);
 $bad=static fn(string $url,int $bytes):array=>['status'=>200,'headers'=>[],'body'=>str_repeat('X',1001)];
 $fail=false;try{ProviderHttp::fetchJson('https://himalayas.app/jobs/api',1000,$bad,$sleep);}
 catch(RuntimeException){$fail=true;}

@@ -29,12 +29,14 @@ test('Canonical provider JobView includes employer country unknown and empty rea
 test('Himalayas provenance retains the immutable provider guid', $c['source_guid']===$h[0]['guid']&&$c['source_policy_id']==='provider_himalayas_source_link_only');
 test('Himalayas provider id is original GUID', $c['provider_job_id']===$h[0]['guid']);
 test('Himalayas display route keeps stable hash', $c['provider_route_key']===hash('sha256',$h[0]['guid']));
-test('Offline-only legacy status fixture URL construction', Jobs::himalayasStatusUrl('https://himalayas.app/companies/linear/jobs/senior-engineer')==='https://himalayas.app/jobs/api/companies/linear/jobs/senior-engineer');
-test('Simulated 410 fixture maps closed, 404 unconfirmed', Jobs::himalayasStatusDecision(410)==='closed'&&Jobs::himalayasStatusDecision(200)==='active'&&Jobs::himalayasStatusDecision(404)==='unknown'&&Jobs::himalayasStatusDecision(429)==='unknown');
-$badStatusUrl=false;try{Jobs::himalayasStatusUrl('https://himalayas.app.evil.example/companies/a/jobs/b');}catch(InvalidArgumentException){$badStatusUrl=true;}
-test('Himalayas job checker rejects foreign hosts',$badStatusUrl);
-$badStatusUrl=false;try{Jobs::himalayasStatusUrl('https://himalayas.app/companies/a/jobs/b?unexpected=1');}catch(InvalidArgumentException){$badStatusUrl=true;}
-test('Himalayas status checker rejects extra query',$badStatusUrl);
+$undocumentedStatus=false;
+try{Jobs::himalayasStatusUrl('https://himalayas.app/companies/linear/jobs/senior-engineer');}
+catch(BadMethodCallException){$undocumentedStatus=true;}
+test('No undocumented Himalayas single-job status URL is constructed',$undocumentedStatus);
+test('No synthetic 410 or 200 implies authoritative Himalayas lifecycle state',
+    Jobs::himalayasStatusDecision(410)==='unknown'
+    &&Jobs::himalayasStatusDecision(200)==='unknown'
+    &&Jobs::himalayasStatusDecision(404)==='unknown');
 test('Retry-After numeric 429 is respected', ProviderHttp::retryDelay(429,['Retry-After: 6'],0,0,0)===6);
 test('Retry-After longer than retry budget safely stops', ProviderHttp::retryDelay(429,['Retry-After: 120'],0)===null);
 test('Temporary 503 uses bounded exponential backoff', ProviderHttp::retryDelay(503,[],1)===2);
@@ -206,25 +208,21 @@ $hRows=array_values(array_filter($hFixture['jobs']??[], static fn($j)=>($j['prov
 $hRow=$hRows[0]??[];
 test('Himalayas isolated fixture sync retains four Himalayas jobs plus two Jobicy jobs', $code===0 && count($hRows)===4 && count($hFixture['jobs']??[])===6);
 test('Himalayas fixture cache retains published date without fictitious update', isset($hRow['source_published_at']) && ($hRow['source_updated_at']??null)===null);
-// Authoritative status probe fixture: 410 closes, 404 remains unconfirmed, 200 re-verifies.
-$statuses=[];
-foreach($h as $i=>$item){
- $code=[410,404,200,200][$i];
- $statuses[$item['guid']]=['status'=>$code,'body'=>$code===200?json_encode(['job'=>['guid'=>$item['guid']]]):''];
-}
+// V1.4.1: No documented Himalayas per-job 200/410/404 status API exists.
+$beforeStatus=(string)file_get_contents($testRoot.'/storage/fixture_jobs.json');
 $statusFixture=$testRoot.'/status_fixture.json';
-file_put_contents($statusFixture,json_encode(['statuses'=>$statuses],JSON_THROW_ON_ERROR));
+file_put_contents($statusFixture,json_encode(['statuses'=>[
+    $h[0]['guid']=>['status'=>410,'body'=>''],
+    $h[1]['guid']=>['status'=>200,'body'=>'{}']
+]],JSON_THROW_ON_ERROR));
 $statusCommand=escapeshellarg(PHP_BINARY).' '.escapeshellarg($testRoot.'/scripts/check_himalayas_status.php').' --fixture='.escapeshellarg($statusFixture).' 2>&1';
 $out=[];exec($statusCommand,$out,$statusCode);
-$statusCache=json_decode((string)file_get_contents($testRoot.'/storage/fixture_jobs.json'),true);
-$hAfter=array_values(array_filter($statusCache['jobs'],static fn($j)=>($j['provider']??'')==='himalayas'));
-$statusByGuid=[];foreach($hAfter as $row)$statusByGuid[$row['source_guid']]=$row;
-test('Offline-only status fixture command succeeds without network',$statusCode===0);
-test('HTTP 410 closes and hides listing',($statusByGuid[$h[0]['guid']]['availability']??null)==='closed'&&($statusByGuid[$h[0]['guid']]['display_status']??null)==='hidden');
-test('HTTP 404 is unconfirmed rather than closed',($statusByGuid[$h[1]['guid']]['availability']??null)==='unknown'&&($statusByGuid[$h[1]['guid']]['display_status']??null)==='hidden');
-test('HTTP 200 verifies exact original provider GUID',($statusByGuid[$h[2]['guid']]['availability']??null)==='active');
-test('Status fixture does not alter public jobs cache',count(json_decode((string)file_get_contents($testRoot.'/storage/jobs.json'),true)['jobs'])===0);
+test('Undocumented per-job status fixture is refused, not treated as real evidence',$statusCode===3);
+test('Simulated per-job 410/200 cannot mutate any fixture job lifecycle state',
+    (string)file_get_contents($testRoot.'/storage/fixture_jobs.json')===$beforeStatus);
+test('Blocked status simulator never alters the public jobs cache',
+    count(json_decode((string)file_get_contents($testRoot.'/storage/jobs.json'),true)['jobs'])===0);
 $out=[];exec(escapeshellarg(PHP_BINARY).' '.escapeshellarg($testRoot.'/scripts/check_himalayas_status.php').' 2>&1',$out,$code);
-test('Undocumented live status endpoint cannot be called',$code===3);
+test('Undocumented live status endpoint remains blocked',$code===3);
 function rmrf(string $path):void{foreach(glob($path.'/*')?:[] as $p){if(is_dir($p))rmrf($p);else unlink($p);}rmdir($path);}rmrf($testRoot);
 echo "\n$pass PHP checks passed.\n";

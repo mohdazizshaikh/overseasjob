@@ -109,7 +109,9 @@
         "official-source field mapping + string ISO country tests",
         "numeric timezone+offset pagination fixtures",
         "atomic fixture cache isolation",
-        "Himalayas offset/limit and repeated-page signatures"
+        "Himalayas offset/limit and repeated-page signatures",
+        "Canonical v1.4.1 endpoint path/query whitelist and fail-closed denial of fictitious Himalayas 410 per-job status",
+        "Legacy fake 200/410 status CLI refuses all executions and never mutates fixture/public caches"
       ],
       "blocker_reason": "Official source contract and adapters implemented, but live outbound requests now require globally OFF runtime opt-in, provider-specific operator review, and private non-Git evidence. Real permission/terms approval, host cron, live requests, 14 distinct actual days and inventory remain unverified. Jobicy policy enabled is not sufficient for live access; Himalayas remains policy-disabled.",
       "spec_version": "v1.4.1",
@@ -126,7 +128,10 @@
         "docs/OPENAPI_HIMALAYAS_CORRECTION_V094.md",
         "src/SourcePermissionGate.php",
         "tests/source_permission_gate_tests.php",
-        "docs/LIVE_PROVIDER_SOURCE_PERMISSION_GATE_V0912.md"
+        "docs/LIVE_PROVIDER_SOURCE_PERMISSION_GATE_V0912.md",
+        "src/ProviderHttp.php",
+        "docs/PROVIDER_HTTP_CANONICAL_ENDPOINTS_V141.md",
+        "scripts/check_himalayas_status.php"
       ],
       "last_verified_at": null
     },
@@ -136,7 +141,9 @@
       "tests": [
         "source URLs, expiry and no-redist fixtures",
         "Malformed/relative cached UTC source timestamps and numeric/private destination URL aliases rejected",
-        "Strict documented upstream RFC3339/Unix-milliseconds source date parsing; no relative/impossible fabricated publication time"
+        "Strict documented upstream RFC3339/Unix-milliseconds source date parsing; no relative/impossible fabricated publication time",
+        "Canonical v1.4.1 endpoint path/query whitelist and fail-closed denial of fictitious Himalayas 410 per-job status",
+        "Legacy fake 200/410 status CLI refuses all executions and never mutates fixture/public caches"
       ],
       "blocker_reason": "Source cache and persistent quarantine fixture-tested; production SQL migration not executed",
       "spec_version": "v1.4.1",
@@ -150,7 +157,11 @@
       "evidence_paths": [
         "tests/php_tests.php",
         "src/Jobs.php",
-        "docs/M02_PUBLIC_JOB_BOUNDARY_V141.md"
+        "docs/M02_PUBLIC_JOB_BOUNDARY_V141.md",
+        "src/ProviderHttp.php",
+        "tests/provider_http_tests.php",
+        "docs/PROVIDER_HTTP_CANONICAL_ENDPOINTS_V141.md",
+        "scripts/check_himalayas_status.php"
       ],
       "last_verified_at": null
     },
