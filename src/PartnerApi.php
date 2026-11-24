@@ -127,6 +127,9 @@ final class PartnerApi
         // Never reveal token data, evidence pointers, actor identifiers, or another tenant's data.
         $keys=['id','external_id','title','description','employment_type','work_mode','work_country','employer_country','city','location_text','candidate_eligible_countries','eligibility_statement','apply_url','valid_through','salary_min','salary_max','salary_currency','salary_period','visa_sponsorship','relocation_support','status','revision','created_at','updated_at'];
         $result=array_intersect_key($record,array_flip($keys));
+        // Owner-authenticated API must report the *stored* redistribution decision.
+        // Missing/legacy data defaults to NO; never infer or grant redistribution.
+        $result['distribution_consent']=($record['distribution_consent']??null)===true;
         $result['public_url']=($record['status']??null)==='published'&&($record['public_approved']??false)===true?($record['public_url']??null):null;
         return $result;
     }
